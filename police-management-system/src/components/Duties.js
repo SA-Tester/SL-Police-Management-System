@@ -1,12 +1,13 @@
 import React from "react"
+import { Link } from "react-router-dom";
 
 const Duties = () => {
     return (
         <div>
             <table>
                 <tr>
-                    <td><a href="">General Duties</a></td>
-                    <td><a href="">Special Duties</a></td>
+                    <td><Link to="/GeneralDuties">General Duties</Link></td>
+                    <td><Link to="/SpecialDuties">Special Duties</Link></td>
                 </tr>
             </table>
         </div>

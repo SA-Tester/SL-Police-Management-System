@@ -1,22 +1,21 @@
 import React from "react"
-import {Link} from "react-router-dom"
+import {Link} from "react-router-dom";
 
 const Complaints = () => {
     return (
-        <div>
-            <table>
-                <tr>
-                    <td><Link to="complaints/RecordComplaints">Record Complaints</Link></td>
-                    <td><a href="">View People</a></td>
-                </tr>
-                <tr>
-                    <td><a href="">View Complaint Status</a></td>
-                    <td><a href="">Complaint Study</a></td>
-                </tr>
-            </table>
-        </div>
+            <div>
+                <table>
+                    <tr>
+                        <td><Link to="/RecordComplaints">Record Complaints</Link></td>
+                        <td><Link to="/ViewPeople">View People</Link></td>
+                    </tr>
+                    <tr>
+                        <td><Link to="/ComplaintStatus">Complaint Stauts</Link></td>
+                        <td><Link to="/ComplaintStudies">Complaint Studies</Link></td>
+                    </tr>
+                </table>
+            </div>
     );
 };
 
 export default Complaints;
-

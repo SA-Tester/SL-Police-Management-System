@@ -1,5 +1,3 @@
-import react from "react";
-
 const Employees = () => {
     return (
         <div>

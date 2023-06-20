@@ -1,12 +1,13 @@
 import React from "react"
+import { Link } from "react-router-dom";
 
 const Leaves = () => {
     return (
         <div>
             <table>
                 <tr>
-                    <td><a href="">Request a Leave</a></td>
-                    <td><a href="">Submit a Medical</a></td>
+                    <td><Link to="/RequestLeave">Request Leaves</Link></td>
+                    <td><Link to="/SubmitMedicals">Submit Medicals</Link></td>
                 </tr>
             </table>
         </div>

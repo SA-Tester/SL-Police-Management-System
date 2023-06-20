@@ -1,14 +1,15 @@
 import React from "react"
+import { Link } from "react-router-dom";
 
 const Payroll = () => {
     return (
         <div>
             <table>
                 <tr>
-                    <td><a href="">Calculate Salaries/ Pensions</a></td>
+                    <td><Link to="/CalculateSalaries">Calculate Salaries</Link></td>
                 </tr>
                 <tr>
-                    <td><a href="">Send Salaries/ Pensions</a></td>
+                    <td><Link to="/SendSalaries">Send Salaries</Link></td>
                 </tr>
             </table>
         </div>
