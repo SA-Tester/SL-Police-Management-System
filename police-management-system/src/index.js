@@ -20,7 +20,7 @@ reportWebVitals();
 import ReactDOM from "react-dom/client";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 
-import Home from "./components/Home";
+import Home from "./Home";
 import Complaints from "./components/Complaints";
 import Duties from "./components/Duties";
 import Leaves from "./components/Leaves";
