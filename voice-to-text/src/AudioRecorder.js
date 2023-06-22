@@ -1,11 +1,22 @@
 // Reference 1: https://blog.logrocket.com/how-to-create-video-audio-recorder-react/
 // Reference 2: React Speech Recognition Library
 
+import React from "react";
 import { useState, useRef } from "react";
+import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
 
 const mimeType = "audio/webm";
 
+// short function syntax
 const AudioRecorder = () => {
+    const{
+        transcript,
+        browserSupportsSpeechRecognition
+    } = useSpeechRecognition();
+
+    // Overriding the defualt method
+    const startListening = () => SpeechRecognition.startListening({continuous: true});
+
     const [permission, setPermission] = useState(false);
     const mediaRecorder = useRef(null);
     const [recordingStatus, setRecordingStatus] = useState("inactive"); //recording status: recording, inactive, paused
@@ -26,6 +37,13 @@ const AudioRecorder = () => {
             localAudiochunks.push(event.data);
         };
         setAudioChunks(localAudiochunks);
+
+        if(!browserSupportsSpeechRecognition){
+            return <span>Browser does not support speech recognition</span>
+        }
+        else{
+            startListening();
+        }
     }
 
     const stopRecording = async () => {
@@ -37,6 +55,7 @@ const AudioRecorder = () => {
             setAudio(audioURL);
             setAudioChunks();
         }
+        SpeechRecognition.stopListening();
     }
 
     const getMicrophonePermission = async () => {
@@ -66,15 +85,34 @@ const AudioRecorder = () => {
                     {!permission ? (
                         <button onClick={getMicrophonePermission} type="button">
                             Get Microphone
-                        </button>
+                        </button> 
                     ): null}
 
-                    {permission ? (
-                        <button type="button">
-                            Record
+                    {permission && recordingStatus === "inactive" ? (
+                        <div>
+                            <button onClick={startRecording} type="button">
+                                Start Recording
+                            </button>
+                        </div>
+                    ) : null}
+
+                    {recordingStatus === "recording" ? (
+                        <button onClick={stopRecording} type="button">
+                            Stop Recording
                         </button>
-                    ): null}
+                    ) : null}
+
+                    {audio ? (
+                        <div>
+                            <audio src={audio} controls></audio>
+                            <br></br>
+                            <a download href={audio}>
+                                Download Recording
+                            </a>
+                        </div>
+                    ) : null}
                 </div>
+                <p>{transcript}</p>
             </main>
         </div>
     )

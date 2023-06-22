@@ -1,10 +1,8 @@
 import React from "react";
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-// import { useState, useRef } from "react";
+// import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import AudioRecorder from "../src/AudioRecorder";
 
 const Recorder = () => {
-  //let [recordOption, setRecordOption] = useState("audio");
   return (
     <div>
       {<AudioRecorder/>}
@@ -13,7 +11,7 @@ const Recorder = () => {
 }
 
 // short function syntax
-const Dictaphone = () => {
+/*const Dictaphone = () => {
   const{
     transcript,
     listening,
@@ -30,7 +28,6 @@ const Dictaphone = () => {
   
   return(
     <div>
-      
       <p>Microphone: {listening ? 'on' : 'off'}</p>
       <button onClick={startListening}>Start</button>
       <button onClick={SpeechRecognition.stopListening}>Stop</button>
@@ -38,7 +35,7 @@ const Dictaphone = () => {
       <p>{transcript}</p>
     </div>
   );
-};
+};*/
 
 const UI = () =>{
   return(
