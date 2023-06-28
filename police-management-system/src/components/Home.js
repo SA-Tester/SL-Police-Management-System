@@ -16,6 +16,11 @@ const Home = () => {
                     <td><a href="/Employees">Employees</a></td>
                     <td><a href="/Settings">Settings</a></td>
                 </tr>
+                <tr>
+                    <td><a href="/Payroll">Payroll</a></td>
+                    <td><a href="/Employees">Employees</a></td>
+                    <td><a href="/Settings">Settings</a></td>
+                </tr>
             </table>
         </div>
     );
