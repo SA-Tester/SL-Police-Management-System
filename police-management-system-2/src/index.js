@@ -1,8 +1,8 @@
-<<<<<<< Updated upstream
+
 /*import React from 'react';
-=======
+
 import React from 'react';
->>>>>>> Stashed changes
+
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
@@ -24,7 +24,7 @@ reportWebVitals();
 
 import ReactDOM from "react-dom/client";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
-
+import './index.css';
 import Home from "./components/Home";
 import Complaints from "./components/Complaints";
 import Duties from "./components/Duties";
@@ -81,5 +81,4 @@ export default function App(){
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App/>);
-=======
->>>>>>> Stashed changes
+

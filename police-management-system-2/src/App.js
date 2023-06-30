@@ -1,8 +1,3 @@
-<<<<<<< Updated upstream
-/*import logo from './logo.svg';
-=======
-import logo from './logo.svg';
->>>>>>> Stashed changes
 import './App.css';
 
 function App() {
@@ -26,8 +21,5 @@ function App() {
   );
 }
 
-<<<<<<< Updated upstream
-export default App;*/
-=======
-export default App;
->>>>>>> Stashed changes
+
+
