@@ -1,4 +1,20 @@
-.navbar {
-    background-color: #101D6B;
-    color: white;
+*{
+    
+}
+.header{
+    padding: 1rem;
+    position:fixed;
+    width: 100%;
+    height:80px;
+    z-index: 10;
+}
+.custom-slider{
+    height:500px;
+}
+.custom-slider img{
+    height:505px;
+    object-fit: cover;
+}
+.darken-image {
+    filter: brightness(45%);
 }
