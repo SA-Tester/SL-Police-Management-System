@@ -1,0 +1,19 @@
+body {
+    padding-top: 100px; 
+}
+
+.custom-slider{
+    height:500px;
+}
+.custom-slider img{
+    height:505px;
+    object-fit: cover;
+}
+.darken-image {
+    filter: brightness(45%);
+}
+footer {
+    margin-top: -1px; 
+    padding-bottom: 0; 
+  }
+
