@@ -1,3 +1,4 @@
+// ========================================================= STRAT OF AUDIO RECORDER =============================================================================== //
 const record = document.getElementById("start-recording");
 const stop = document.getElementById("stop-recording");
 const audio = document.getElementById("audioElement")
@@ -36,8 +37,6 @@ if(navigator.mediaDevices.getUserMedia){
             console.log("Data available after MediaRecorder.stop() called");
             const blob = new Blob(chunks, {type: "audio/ogg; codecs=opus"});
             chunks= [];
-            const audioURL = window.URL.createObjectURL(blob);
-            //audio.src = audioURL;
             audio.src = URL.createObjectURL(blob);
             console.log("Recorder Stopped");
         }
@@ -53,3 +52,46 @@ if(navigator.mediaDevices.getUserMedia){
 
     navigator.mediaDevices.getUserMedia(constraints).then(onSuccess, onError);
 }
+// ========================================================= END OF AUDIO RECORDER =============================================================================== //
+
+// ========================================================= START OF SPEECH RECOGNITON ========================================================================== //
+let startSpeech = document.getElementById("start-speech"); 
+let stopSpeech = document.getElementById("stop-speech");
+
+if("webkitSpeechRecognition" in window){
+    let speechRecognition = new webkitSpeechRecognition();
+    let final_transcript = "";
+
+    speechRecognition.continuous = true;
+    speechRecognition.interimResults = true; // Interim results = Results that are not yet final
+
+    speechRecognition.onresult = (event) => {
+        let interim_transcript = "";
+
+        for(let i = event.resultIndex; i < event.results.length; ++i){
+            if(event.results[i].isFinal){
+                final_transcript += event.results[i][0].transcript;
+            }
+            else{
+                interim_transcript += event.results[i][0].transcript;
+            }
+        }
+
+        document.querySelector("#comp_desc").value = final_transcript;
+        document.querySelector("#final").innerHTML = final_transcript;
+        document.querySelector("#interim").innerHTML = interim_transcript;
+    };
+
+    startSpeech.onclick = () => {
+        speechRecognition.start();
+    }
+
+    stopSpeech.onclick = () => {
+        speechRecognition.stop();
+    }
+
+}
+else{
+    console.log("Speech Recognition Not Available");
+}
+// ========================================================= END OF SPEECH RECOGNITON ============================================================================ //

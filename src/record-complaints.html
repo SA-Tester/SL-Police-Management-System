@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
     <title>Record Complaints</title>
     <link rel="icon" type="image/png" href="../assets/logo.png">
 </head>
+
 <body>
     <!-- RENDERED NAVBAR GOES HERE -->
     <script src="../js/navbar-render.js"></script>
@@ -27,7 +30,7 @@
                                     <label for="date">Date</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="date" name="date" class="mb-4 w-100"/>
+                                    <input type="text" id="date" name="date" class="mb-4 w-100" />
                                 </td>
                             </tr>
                             <tr>
@@ -72,12 +75,13 @@
                                         <option value="34">Terrorism Related</option>
                                         <option value="35">Theft</option>
                                         <option value="36">Threat &amp; Intimidation</option>
-                                        <option value="37">-SelectComplaint Category-</option><option value="31">Tourist Harassment</option>
+                                        <option value="37">-SelectComplaint Category-</option>
+                                        <option value="31">Tourist Harassment</option>
                                         <option value="38">Traffic &amp; Road Safety</option>
                                         <option value="39">Treasure Hunting</option>
                                         <option value="40">Vice Related</option>
-                                        <option value="41">Violation of Immigration Laws</option>    
-                                    </select>                
+                                        <option value="41">Violation of Immigration Laws</option>
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
@@ -85,7 +89,7 @@
                                     <label for="title">Complaint Title</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="title" name="title" class="mb-4 w-100"/>
+                                    <input type="text" id="title" name="title" class="mb-4 w-100" />
                                 </td>
                             </tr>
                             <tr>
@@ -93,19 +97,22 @@
                                     <label for="start-recording">Record Complaint</label>
                                 </td>
                                 <td>
-                                    <button name="start-recording" id="start-recording" class="btn-danger mb-4">Start</button>
-                                    <button name="stop-recording" id="stop-recording" class="btn-dark mb-4">Stop</button>
+                                    <button name="start-recording" id="start-recording" class="btn-danger mb-4">Start
+                                        Recording</button>
+                                    <button name="stop-recording" id="stop-recording" class="btn-dark mb-4">Stop
+                                        Recording</button>
                                     <p id="isRecording">Click start to button to record</p>
                                     <audio src="" id="audioElement" class="mb-4" controls></audio>
-                                    <!--input type="text" id="record" name="record" class="mb-4 w-100"/-->
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="comp_desc">Complaint In Text</label>
+                                    <label for="comp_desc"></label>Complaint In Text</label>
                                 </td>
                                 <td>
-                                    <textarea id="comp_desc" rows="5" cols="40" name="comp_desc" class="mb-4 w-100"></textarea>
+                                    <button name="start-speech" id="start-speech" class="btn-danger mb-2">Start</button>
+                                    <button name="stop-speech" id="stop-speech" class="btn-dark mb-2">Stop</button>
+                                    <textarea id="comp_desc" rows="10" cols="40" class="mb-4"></textarea>
                                 </td>
                             </tr>
                             <tr>
@@ -113,7 +120,7 @@
                                     <label for="plantiff_name">Plantiff Name</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="plantiff_name" name="plantiff_name" class="mb-4 w-100"/>
+                                    <input type="text" id="plantiff_name" name="plantiff_name" class="mb-4 w-100" />
                                 </td>
                             </tr>
                             <tr>
@@ -121,7 +128,8 @@
                                     <label for="plantiff_address">Plantiff Address</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="plantiff_address" name="plantiff_address" class="mb-4 w-100"/>
+                                    <input type="text" id="plantiff_address" name="plantiff_address"
+                                        class="mb-4 w-100" />
                                 </td>
                             </tr>
                             <tr>
@@ -129,7 +137,8 @@
                                     <label for="plantiff_contact">Plantiff Contact</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="plantiff_contact" name="plantiff_contact" class="mb-4 w-100"/>
+                                    <input type="text" id="plantiff_contact" name="plantiff_contact"
+                                        class="mb-4 w-100" />
                                 </td>
                             </tr>
                             <tr>
@@ -137,7 +146,7 @@
                                     <label for="plantiff_email">Plantiff Email</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="plantiff_email" name="plantiff_email" class="mb-4 w-100"/>
+                                    <input type="text" id="plantiff_email" name="plantiff_email" class="mb-4 w-100" />
                                 </td>
                             </tr>
                             <tr>
@@ -156,14 +165,14 @@
                                     <label for="emp_id">Recorded By</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="emp_id" name="emp_id" class="mb-4 w-100"/>
+                                    <input type="text" id="emp_id" name="emp_id" class="mb-4 w-100" />
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2" class="text-center">
                                     <input type="submit" name="submit" value="Add New" class="btn-primary mb-4 w-25">
                                     <input type="submit" name="submit" value="Update" class="btn-warning mb-4 w-25">
-                                    <input type="reset" name="reset" value="Reset" class="btn-dark mb-4 w-25">                
+                                    <input type="reset" name="reset" value="Reset" class="btn-dark mb-4 w-25">
                                 </td>
                             </tr>
                         </tbody>
@@ -188,9 +197,9 @@
                         <input type="text" id="search" name="search" placeholder="Enter Text to Search">
                     </div>
                 </div>
-                
+
                 <div class="row">
-                    <div class="col-md mr-3 w-100 d-flex">
+                    <div class="col-md mr-3">
                         <table class="table table-primary table-striped-columns">
                             <thead>
                                 <tr>
@@ -225,15 +234,23 @@
                 </div>
             </div>
         </div>
+
+        <!--button name="start-speech" id="start-speech" class="btn-danger mb-4">Start Speech</button>
+        <button name="stop-speech" id="stop-speech" class="btn-dark mb-4">Stop Speech</button-->
+        <!--div class="p-3" style="border: 1px solid #000; height: 300px;">
+            <span id="final" class="text-dark"></span>
+            <span id="interim" class="text-secondary"></span>
+        </div-->
+        
     </div>
-    
-    <script src="../js/complaint-recorder.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-    crossorigin="anonymous"></script>
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
-    crossorigin="anonymous"></script>
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+        crossorigin="anonymous"></script>
+
+    <script src="../js/complaint-recorder.js"></script>
 </body>
 </html>
