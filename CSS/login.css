@@ -46,8 +46,8 @@ h4{
     font-weight: 700;
 }
 
-@media only screen and (max-width:700px){
+@media only screen and (max-width:750px){
     form{
-        width:100% !important;
+        width:90% !important;
     }
 }
