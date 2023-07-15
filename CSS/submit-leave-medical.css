@@ -1,0 +1,24 @@
+.form-style{
+    color: darkblue;
+    padding: 20px;
+    margin: 30px 30px;
+    background-color: lavender;
+    border-radius: 10px;
+}
+
+input[type=text], select, textarea {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+  }
+
+  label{
+    vertical-align: middle;
+    display: inline-block;
+    margin-right: 5px;
+  }

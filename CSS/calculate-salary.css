@@ -1,4 +1,4 @@
-table{
+.table-con{
     border: 1px solid #ddd;
     margin-left: auto;
     margin-right: auto;
@@ -12,22 +12,25 @@ table{
     text-align: center;
 }
 
-table tr{
+.table-con tr{
     border-bottom: 1px solid #ddd;
 }
 
-td,th{
+.table-con td{
     padding: 10px;
     text-align: left;
     border-left: 1px solid #ddd;
 }
 
-tr:hover{
+.table-con tr:hover{
     background-color: #f2f2f2;
 }
 
-th{
+.table-con th{
     background-color: lavender;
+    padding: 10px;
+    text-align: center;
+    border-left: 1px solid #ddd;
 }
 
 h4{
@@ -37,7 +40,7 @@ h4{
 
 .btn1, .btn2{
     border-radius: 5px;
-    padding: 10px 14px;
+    padding: 8px 10px;
     font-size: 14px;
     cursor: pointer;
     border: 2px solid darkblue;
@@ -63,6 +66,7 @@ h4{
 .btn2:hover{
     border-color: #080e47;
     color: #080e47;
+    background-color: rgb(187, 199, 216);
 }
 
 .buttons{
