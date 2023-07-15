@@ -17,9 +17,9 @@
     <div class="containter-lg" style="position: relative;">
         <div class="row">
             <div class="col-4">
-                <h3 class="h3 mb-4">New Complaint</h3>
+                <h3 class="h3 mb-4 ml-5">New Complaint</h3>
                 <form method="POST" action="">
-                    <table>
+                    <table class="ml-5">
                         <thead></thead>
                         <tbody>
                             <tr>
@@ -27,7 +27,7 @@
                                     <label for="date">Date</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="date" name="date" class="mb-4"/>
+                                    <input type="text" id="date" name="date" class="mb-4 w-100"/>
                                 </td>
                             </tr>
                             <tr>
@@ -35,7 +35,7 @@
                                     <label for="category">Complaint Category</label>
                                 </td>
                                 <td>
-                                    <select id="category" name="category" class="mb-4">
+                                    <select id="category" name="category" class="mb-4 w-100">
                                         <option value="1">Abuse of Women or Children</option>
                                         <option value="2">Appreciation</option>
                                         <option value="3">Archeological Issue</option>
@@ -85,7 +85,7 @@
                                     <label for="title">Complaint Title</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="title" name="title" class="mb-4"/>
+                                    <input type="text" id="title" name="title" class="mb-4 w-100"/>
                                 </td>
                             </tr>
                             <tr>
@@ -93,7 +93,7 @@
                                     <label for="record">Record Complaint</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="record" name="record" class="mb-4"/>
+                                    <input type="text" id="record" name="record" class="mb-4 w-100"/>
                                 </td>
                             </tr>
                             <tr>
@@ -101,7 +101,7 @@
                                     <label for="comp_desc">Complaint In Text</label>
                                 </td>
                                 <td>
-                                    <textarea id="comp_desc" rows="5" cols="40" name="comp_desc" class="mb-4"></textarea>
+                                    <textarea id="comp_desc" rows="5" cols="40" name="comp_desc" class="mb-4 w-100"></textarea>
                                 </td>
                             </tr>
                             <tr>
@@ -109,7 +109,7 @@
                                     <label for="plantiff_name">Plantiff Name</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="plantiff_name" name="plantiff_name" class="mb-4"/>
+                                    <input type="text" id="plantiff_name" name="plantiff_name" class="mb-4 w-100"/>
                                 </td>
                             </tr>
                             <tr>
@@ -117,7 +117,7 @@
                                     <label for="plantiff_address">Plantiff Address</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="plantiff_address" name="plantiff_address" class="mb-4"/>
+                                    <input type="text" id="plantiff_address" name="plantiff_address" class="mb-4 w-100"/>
                                 </td>
                             </tr>
                             <tr>
@@ -125,7 +125,7 @@
                                     <label for="plantiff_contact">Plantiff Contact</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="plantiff_contact" name="plantiff_contact" class="mb-4"/>
+                                    <input type="text" id="plantiff_contact" name="plantiff_contact" class="mb-4 w-100"/>
                                 </td>
                             </tr>
                             <tr>
@@ -133,7 +133,7 @@
                                     <label for="plantiff_email">Plantiff Email</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="plantiff_email" name="plantiff_email" class="mb-4"/>
+                                    <input type="text" id="plantiff_email" name="plantiff_email" class="mb-4 w-100"/>
                                 </td>
                             </tr>
                             <tr>
@@ -141,7 +141,7 @@
                                     <label for="status">Complaint Status</label>
                                 </td>
                                 <td>
-                                    <select name="status" id="status" class="mb-4">
+                                    <select name="status" id="status" class="mb-4 w-100">
                                         <option value="ongoing">Ongoing</option>
                                         <option value="resolved">Resolved</option>
                                     </select>
@@ -152,16 +152,18 @@
                                     <label for="emp_id">Recorded By</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="emp_id" name="emp_id" class="mb-4"/>
+                                    <input type="text" id="emp_id" name="emp_id" class="mb-4 w-100"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="text-center">
+                                    <input type="submit" name="submit" value="Add New" class="btn-primary mb-4 w-25">
+                                    <input type="submit" name="submit" value="Update" class="btn-warning mb-4 w-25">
+                                    <input type="reset" name="reset" value="Reset" class="btn-dark mb-4 w-25">                
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-
-                    <input type="submit" name="submit" value="Add New" class="btn-primary mb-4">
-                    <input type="submit" name="submit" value="Update" class="btn-warning mb-4">
-                    <input type="reset" name="reset" value="Reset" class="btn-dark mb-4">
-
                 </form>
             </div>
 
@@ -184,7 +186,7 @@
                 </div>
                 
                 <div class="row">
-                    <div class="col-md">
+                    <div class="col-md mr-5">
                         <table class="table table-primary table-striped-columns">
                             <thead>
                                 <tr>
