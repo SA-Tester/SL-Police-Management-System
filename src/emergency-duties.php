@@ -63,7 +63,7 @@
 
                                         <option value="kandy">Kandy</option>
                                         <option value="matale">Matale</option>
-                                        <option value="nuwara-eliya">Nuwara ELiya</option>
+                                        <option value="nuwara-eliya">Nuwara Eliya</option>
 
                                         <option value="kurunegala">Kurunegala</option>
                                         <option value="puttalam">Puttalam</option>
@@ -91,12 +91,7 @@
                                     <label for="city">City</label>
                                 </td>
                                 <td>
-                                    <select name="city" id="city" class="mb-4 w-75">
-                                        <!-- FILL ON SELECT -->
-                                        <?php
-                                            
-                                        ?>
-                                    </select>
+                                    <select name="city" id="city" class="mb-4 w-75"><!-- AUTO FILLED WHEN A DISTRICT IS SELECTED --></select>
                                 </td>
                             </tr>
                             <tr>
