@@ -47,6 +47,31 @@
             margin-top: -1px;
             padding-bottom: 0;
         }
+        @media only screen and (max-width:800px){
+            #avalability-table tbody,
+            #avalability-table tr, 
+            #avalability-table td {
+                display: block;
+
+            }
+
+            #avalability-table thead tr{
+                position:absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            #avalability-table td{
+                position:relative;
+                padding-left: 50%;
+            }
+            #avalability-table td ::before{
+                content: attr(data-title);
+                position: absolute;
+                left:6px;
+                font-weight: solid;
+            }
+
+        }
     </style>
     <title>Check Avalability</title>
 </head>
@@ -93,52 +118,56 @@
         <div class="row">
             <div class="col-md-12">
                 <h3 style="color:#101D6B"><b>Check Employee Avalability</b></h3>
-                <table class="table mt-5">
-                    <thead class="thead-edit">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Employee ID</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Contact Number</th>
-                            <th scope="col">Duty</th>
-                            <th scope="col">Avalability</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive" id="avalability-table">
+                    <table class="table mt-5">
+                        <thead class="thead-edit">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Employee ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Contact Number</th>
+                                <th scope="col">Duty</th>
+                                <th scope="col">Avalability</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td data-title="ID">ss</td>
+                                <td data-title="Name">ss</td>
+                                <td data-title="Contact">ss</td>
+                                <td data-title="Duty">ss</td>
+                                <td data-title="Avalability">ss</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td data-title="ID">ss</td>
+                                <td data-title="Name">ss</td>
+                                <td data-title="Contact">ss</td>
+                                <td data-title="Duty">ss</td>
+                                <td data-title="Avalability">ss</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td data-title="ID">ss</td>
+                                <td data-title="Name">ss</td>
+                                <td data-title="Contact">ss</td>
+                                <td data-title="Duty">ss</td>
+                                <td data-title="Avalability">ss</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">4</th>
+                                <td data-title="ID">ss</td>
+                                <td data-title="Name">ss</td>
+                                <td data-title="Contact">ss</td>
+                                <td data-title="Duty">ss</td>
+                                <td data-title="Avalability">ss</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                
             </div>
         </div>
     </div>
