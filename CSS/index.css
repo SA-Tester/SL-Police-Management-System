@@ -12,4 +12,17 @@ footer {
     margin-top: -1px; 
     padding-bottom: 0; 
   }
-
+  img {	
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+  }
+  .zoomUp {
+	transition: transform .2s;	
+  }
+  
+  .zoomUp:hover {
+	-ms-transform: scale(1.5); 
+	-webkit-transform: scale(1.5);
+	transform: scale(1.5); 
+  }
