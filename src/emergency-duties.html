@@ -9,12 +9,6 @@
 
     <title>Emergency Duties</title>
     <link rel="icon" type="image/png" href="../assets/logo.png">
-
-    <style>
-        body{
-            margin: 15px;
-        }
-    </style>
 </head>
 <body>
     <!-- RENDERED NAVBAR GOES HERE -->
@@ -22,9 +16,9 @@
 
     <div class="containter-lg">
         <div class="row">
-            <div class="col-4">
-                <form method="POST" action="">
-                    <h3 class="h3 mb-4">Assign an Emergency Duty</h3>
+            <div class="col-sm">
+                <form method="POST" action="" id="emergency-duty-form">
+                    <h3 class="h3 mb-4 ml-5 mt-4">Assign an Emergency Duty</h3>
                     <table class="w-100 ml-5">
                         <thead></thead>
                         <tbody>
@@ -52,10 +46,60 @@
                             </tr>
                             <tr>
                                 <td>
+                                    <label for="district">District</label>
+                                </td>
+                                <td>
+                                    <select name="district" id="district" class="mb-4 w-75">
+                                        <option value="colombo">Colombo</option>
+                                        <option value="gampaha">Gampaha</option>
+                                        <option value="kalutara">Kalutara</option>
+
+                                        <option value="kegalle">Kegalle</option>
+                                        <option value="ratnapura">Ratnapura</option>
+
+                                        <option value="galle">Galle</option>
+                                        <option value="hambantota">Hambantota</option>
+                                        <option value="matara">Matara</option>
+
+                                        <option value="kandy">Kandy</option>
+                                        <option value="matale">Matale</option>
+                                        <option value="nuwara-eliya">Nuwara Eliya</option>
+
+                                        <option value="kurunegala">Kurunegala</option>
+                                        <option value="puttalam">Puttalam</option>
+
+                                        <option value="aunuradhapura">Anuradhapura</option>
+                                        <option value="polonnaruwa">Polonnaruwa</option>
+
+                                        <option value="trincomalee">Trincomalee</option>
+                                        <option value="batticaloa">Batticaloa</option>
+                                        <option value="ampara">Ampara</option>
+
+                                        <option value="jaffna">Jaffna</option>
+                                        <option value="mannar">Mannar</option>
+                                        <option value="killinochchi">Killinochchi</option>
+                                        <option value="mullaitivu">Mullaitivu</option>
+                                        <option value="vavuniya">Vavuniya</option>
+
+                                        <option value="badulla">Badulla</option>
+                                        <option value="monaragala">Monaragala</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="city">City</label>
+                                </td>
+                                <td>
+                                    <select name="city" id="city" class="mb-4 w-75"><!-- AUTO FILLED WHEN A DISTRICT IS SELECTED --></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
                                     <label for="lat">Scence Latitude </label>
                                 </td>
                                 <td>
-                                    <!--FILL ONCLICK OF MAP-->
+                                    <!--FILL ON SELECET OF OPTION-->
                                     <input type="text" name="lat" id="lat" class="mb-4 w-75" disabled/>
                                 </td>
                             </tr>
@@ -64,7 +108,7 @@
                                     <label for="lon">Scence Longitude </label>
                                 </td>
                                 <td>
-                                    <!--FILL ONCLICK OF MAP-->
+                                    <!--FILL ON SELECT OF OPTION-->
                                     <input type="text" name="lon" id="lon" class="mb-4 w-75" disabled/>
                                 </td>
                             </tr>
@@ -77,13 +121,16 @@
                     </table>
                 </form>
             </div>
-            <div class="col-md d-flex justify-content-center bg-dark">
+
+            <div class="col-md d-flex justify-content-center bg-dark mr-5">
                 <canvas id="worldwindCanvas" width="1200" height="1080">
                     Your browser does not support HTML5 Canvas
                 </canvas>
             </div>
         </div>
     </div>
+
+    <script src="../js/fill-city.js" type="module"></script>
 
     <script src="https://files.worldwind.arc.nasa.gov/artifactory/web/0.9.0/worldwind.min.js" type="text/javascript"></script>
     <script src="../js/location.js"></script>
