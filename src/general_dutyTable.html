@@ -154,12 +154,21 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
   <script>
     $(document).ready(function() {
       $('.dropdown-toggle').on('click', function() {
         $(this).siblings('.dropdown-menu').toggle();
       });
+  
+      $('.dropdown-menu a').on('click', function() {
+        var text = $(this).text();
+        $(this).closest('.dropdown').find('.dropdown-toggle').text(text);
+      });
     });
   </script>
+
+
+
 </body>
 </html>
