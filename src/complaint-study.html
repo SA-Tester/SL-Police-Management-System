@@ -28,7 +28,7 @@
             <div class="col-md">
                 <div class="text-center d-flex align-content-middle w-100 h-100" style="background-color: darkblue; color: #fff">
                     <p class="w-100 p-3">Eye Witness Count: #NUMBER</p>
-                    <button class="btn-success w-50 h-100" data-toggle="modal" data-target=".bd-example-modal-lg">Manage Eye Witnesses</button>
+                    <button class="btn-success w-50 h-100" data-toggle="modal" data-target="#eyeWitnessModal">Manage Eye Witnesses</button>
                 </div>
             </div>
             <div class="col-md">
@@ -109,7 +109,7 @@
                 </button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form method="POST" action="updateEyeWitness.php">
                         <label for="compID">Complaint ID</label>
                         <input type="text" id="compID" name="compID" disabled>
 
@@ -127,15 +127,31 @@
                                         <textarea id="desc" name="desc" rows="5" cols="30"></textarea>
                                     </td>
                                     <td>
-                                        <button class="btn-success">Update</button>
+                                        <button class="btn-primary">Update</button>
                                     </td>
                                     <td>
                                         <button class="btn-danger">Delete</button>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td colspan="4" class="text-center">
-                                        <button class="btn-success" data-toggle="modal" data-target="#eyeWitnessNew">Add New</button>
+                            </tbody>
+                        </table>
+                    </form>
+
+                    <form method="POST" action="newEyeWitness.php">
+                        <table class="table">
+                            <thead>
+                                <th>NIC</th>
+                                <th>Description</th>
+                                <th>Add New</th>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-dark">
+                                    <td><input type="text" id="nic" name="nic"/></td>
+                                    <td>
+                                        <textarea id="desc" name="desc" rows="5" cols="30"></textarea>
+                                    </td>
+                                    <td class="text-center">
+                                        <button class="btn-success" id="addNew" data-toggle="modal">Add New</button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -148,47 +164,10 @@
             </div>
             </div>
         </div>
-
-
-        <!-------------------------------------- Modal Eye Witness: NEW ----------------------------------------------------------------------------------------------------->
-        <div class="modal fade" id="eyeWitnessNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Update/ Delete Eye Witness</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <table>
-                                <thead></thead>
-                                <tbody>
-                                    <tr>
-                                        <td><label for="nic">NIC</label></td>
-                                        <td><input type="text" id="nic" name="nic"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label for="desc">Description</label></td>
-                                        <td><textarea id="desc" name="desc" rows="5" cols="50"></textarea></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Add New</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!------------------------------------------------------------------------ END OF EYE WITNESS MODALS ---------------------------------------------------------------->
-    
+ 
         <!------------------------------------------------------- START OF FINGERPRINTS ------------------------------------------------------------------------------------->
-        <div class="modal fade" id="fingerprintsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+        <div class="modal fade bd-example-modal-lg" id="fingerprintsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Manage Fingerprints</h5>
@@ -197,7 +176,7 @@
                     </button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form method="POST" action="updateFingerprints.php">
                             <label for="compID">Complaint ID</label>
                             <input type="text" id="compID" name="compID" disabled>
 
@@ -211,15 +190,43 @@
                                     <tr>
                                         <td>198056723034</td>
                                         <td>
-                                            <img src="fingerprint1.png" alt="Fingerprint 1">
+                                            <img src="" alt="Fingerprint 1">
                                         </td>
                                         <td>
                                             <button class="btn-danger">Delete</button>
                                         </td>
                                     </tr>
+                                </tbody>
+                            </table>
+                        </form>
+
+                        <form method="POST" action="addFingerPrints.php">
+                            <table class="table">
+                                <thead>
+                                    <th>NIC</th>
+                                    <th>Fingerprint</th>
+                                    <th>Add New</th>
+                                </thead>
+                                <tbody>
                                     <tr>
-                                        <td colspan="4" class="text-center">
-                                            <button class="btn-success" data-toggle="modal" data-target="#fingerprintsNew">Add New</button>
+                                        <td>
+                                            <label for="nic">Enter NIC </label>
+                                        </td>
+                                        <td>
+                                            <input type="text" id="nic" placeholder="Enter NIC">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="fingerprint">Fingerprint File</label>
+                                        </td>
+                                        <td>
+                                            <input type="file" id="fingerprint" type="image/png" enctype="multipart/form-data">
+                                        </td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td colspan="3">
+                                            <button class="btn-success" data-toggle="modal">Add New</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -232,42 +239,6 @@
                 </div>
             </div>
         </div>
-
-        <!------------------------------------------------------------------ ADD NEW FINGERPRINT --------------------------------------------------------------------------->
-        <div class="modal fade" id="fingerprintsNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add New Fingerprint</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <table>
-                                <thead></thead>
-                                <tbody>
-                                    <tr>
-                                        <td><label for="nic">NIC</label></td>
-                                        <td><input type="text" id="nic" name="nic"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td><label for="desc">Fingerprint</label></td>
-                                        <td><input type="file" type="image/png" enctype="multipart/form-data"/></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Add New</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!----------------------------------------------------------- END OF FINGERPRINTS ----------------------------------------------------------------------------------->
 
         <!------------------------------------------------------- START OF MEDICAL RECORDS ---------------------------------------------------------------------------------->
         <div class="modal fade" id="mediacalReportsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -280,7 +251,7 @@
                     </button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form method="POST" action="updateMedicalReports.php">
                             <label for="compID">Complaint ID</label>
                             <input type="text" id="compID" name="compID" disabled>
 
@@ -298,9 +269,23 @@
                                         <td><a href="2.pdf" alt="Court Medical Report 2">2.pdf</a></td>
                                         <td><button class="btn-danger">Delete</button></td>
                                     </tr>
+                                </tbody>
+                            </table>
+                        </form>
+
+                        <form method="POST" action="addMedicalReport.php">
+                            <table class="table">
+                                <thead>
+                                    <th>Court Medical Reports</th>
+                                    <th>Add New</th>
+                                </thead>
+                                <tbody>
                                     <tr>
-                                        <td colspan="4" class="text-center">
-                                            <button class="btn-success" data-toggle="modal" data-target="#medicalReportsNew">Add New</button>
+                                        <td>
+                                            Medical Record<input type="file" enctype="multipart/form-data">
+                                        </td>
+                                        <td>
+                                            <button class="btn-success" data-toggle="modal">Add New</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -313,38 +298,6 @@
                 </div>
             </div>
         </div>
-
-        <!------------------------------------------------------------------ ADD NEW MEDICAL RECORD ------------------------------------------------------------------------->
-        <div class="modal fade" id="medicalReportsNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add New Medical Record</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <table>
-                                <thead></thead>
-                                <tbody>
-                                    <tr>
-                                        <td><label for="desc">Medical Record</label></td>
-                                        <td><input type="file" type="file/pdf" enctype="multipart/form-data"/></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Add New</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!----------------------------------------------------------- END OF MEDICAL RECORDS --------------------------------------------------------------------------------->
 
         <!------------------------------------------------------- START OF ACCIDENT CHARTS ----------------------------------------------------------------------------------->
         <div class="modal fade" id="accidentChartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -357,7 +310,7 @@
                     </button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form method="POST" action="updateAccidentCharts.php">
                             <label for="compID">Complaint ID</label>
                             <input type="text" id="compID" name="compID" disabled>
 
@@ -369,19 +322,33 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <img src="accident1.png" alt="Accident 1">
+                                            <img src="" alt="Accident 1">
                                         </td>
                                         <td><button class="btn-danger">Delete</button></td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <img src="accident2.png" alt="Accident 2">
+                                            <img src="" alt="Accident 2">
                                         </td>
                                         <td><button class="btn-danger">Delete</button></td>
                                     </tr>
+                                </tbody>
+                            </table>
+                        </form>
+
+                        <form method="POST" action="newAccidentChart.php">
+                            <table class="table">
+                                <thead>
+                                    <th>Accident Chart</th>
+                                    <th>New</th>
+                                </thead>
+                                <tbody>
                                     <tr>
-                                        <td colspan="4" class="text-center">
-                                            <button class="btn-success" data-toggle="modal" data-target="#accidentCharts">Add New</button>
+                                        <td>
+                                            Accident Chart <input type="file" enctype="multipart/form-data">
+                                        </td>
+                                        <td>
+                                            <button class="btn-success" data-toggle="modal">Add New</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -394,38 +361,6 @@
                 </div>
             </div>
         </div>
-
-        <!------------------------------------------------------------------ ADD NEW ACCIDENT CHART ------------------------------------------------------------------------->
-        <div class="modal fade" id="accidentCharts" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add New Accident Chart</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <table>
-                                <thead></thead>
-                                <tbody>
-                                    <tr>
-                                        <td><label for="desc">Accident Chart</label></td>
-                                        <td><input type="file" type="image/png" enctype="multipart/form-data"/></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Add New</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!----------------------------------------------------------- END OF ACCIDENT CHARTS -------------------------------------------------------------------------------->
 
         <!------------------------------------------------------------- START OF PHOTOS ------------------------------------------------------------------------------------->
         <div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -450,19 +385,31 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <img src="accident1.png" alt="Accident 1">
+                                            <img src="" alt="Accident 1">
                                         </td>
                                         <td><button class="btn-danger">Delete</button></td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <img src="accident2.png" alt="Accident 2">
+                                            <img src="" alt="Accident 2">
                                         </td>
                                         <td><button class="btn-danger">Delete</button></td>
                                     </tr>
+                                </tbody>
+                            </table>
+
+                            <table>
+                                <thead>
+                                    <th>Photo</th>
+                                    <th>Add New</th>
+                                </thead>
+                                <tbody>
                                     <tr>
-                                        <td colspan="4" class="text-center">
-                                            <button class="btn-success" data-toggle="modal" data-target="#casePhotos">Add New</button>
+                                        <td>
+                                            New Photo <input type="file" enctype="multipart/form-data">
+                                        </td>
+                                        <td>
+                                            <button class="btn-success" data-toggle="modal">Add New</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -475,41 +422,11 @@
                 </div>
             </div>
         </div>
-
-        <!------------------------------------------------------------------ ADD NEW ACCIDENT CHART ------------------------------------------------------------------------->
-        <div class="modal fade" id="casePhotos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add New Photo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <table>
-                                <thead></thead>
-                                <tbody>
-                                    <tr>
-                                        <td><label for="desc">Photo</label></td>
-                                        <td><input type="file" type="image/png" enctype="multipart/form-data"/></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Add New</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!----------------------------------------------------------- END OF ACCIDENT CHARTS -------------------------------------------------------------------------------->
+        <!------------------------------------------------------------------ END OF PHOTOS  ---------------------------------------------------------------------------->
 
     </div>
 
+    <script src="../js/modal-controls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 </body>
