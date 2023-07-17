@@ -6,7 +6,7 @@ navbar.innerHTML = `
     <img src="../assets/logo.png" width="70" height="70" class="d-inline-block align-top " alt="logo">
     <h3 class="d-inline-block align-top mt-3" style="color:#101D6B">Sri Lanka Police</h3>
   </a>
-  <!--<a class="navbar-brand" href="#">
+  <!--<a class="navbar-brand" href="index.html">
       <img src="../assets/logo.png"  width="70" height="70" class=" align-top" alt="Logo">
       Sri Lanka Police
   </a>
@@ -19,7 +19,7 @@ navbar.innerHTML = `
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link h6" href="#" style="color:#101D6B">Home</a>
+        <a class="nav-link h6" href="index.html" style="color:#101D6B">Home</a>
       </li>
       <li class="nav-item">
         <a class="nav-link h6" href="#" style="color:#101D6B">
