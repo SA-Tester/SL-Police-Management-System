@@ -35,7 +35,7 @@ if(navigator.mediaDevices.getUserMedia){
 
         mediaRecorder.onstop = function(e){
             console.log("Data available after MediaRecorder.stop() called");
-            const blob = new Blob(chunks, {type: "audio/ogg; codecs=opus"});
+            const blob = new Blob(chunks, {type: "audio/mp3; codecs=opus"});
             chunks= [];
             audio.src = URL.createObjectURL(blob);
             console.log("Recorder Stopped");
