@@ -11,9 +11,9 @@
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
     <style>
-        body {
+        /*body {
             padding-top: 100px;
-        }
+        }*/
 
         .thead-edit th {
             color: white;
@@ -47,27 +47,31 @@
             margin-top: -1px;
             padding-bottom: 0;
         }
-        @media only screen and (max-width:800px){
+
+        @media only screen and (max-width:800px) {
+
             #avalability-table tbody,
-            #avalability-table tr, 
+            #avalability-table tr,
             #avalability-table td {
                 display: block;
 
             }
 
-            #avalability-table thead tr{
-                position:absolute;
+            #avalability-table thead tr {
+                position: absolute;
                 top: -9999px;
                 left: -9999px;
             }
-            #avalability-table td{
-                position:relative;
+
+            #avalability-table td {
+                position: relative;
                 padding-left: 50%;
             }
-            #avalability-table td ::before{
+
+            #avalability-table td ::before {
                 content: attr(data-title);
                 position: absolute;
-                left:6px;
+                left: 6px;
                 font-weight: solid;
             }
 
@@ -77,42 +81,8 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white m-0">
-                    <a class="navbar-brand" href="#">
-                        <img src="../assets/logo.png" width="70" height="70" alt="logo">
-                        <h3 class="d-none d-lg-inline-block align-top mt-3 h3" style="color:#101D6B">Sri Lanka Police
-                        </h3>
-                    </a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" style="color:#101D6B">Home<span
-                                        class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" style="color:#101D6B">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" style="color:#101D6B">Settings</a>
-                            </li>
-                            <form class="form-inline my-2 my-lg-0">
-                                <button class="btn btn btn-primary my-2 my-sm-0" type="submit"
-                                    style="color:white;background-color: #101D6B;">Log In</button>
-                            </form>
-                    </div>
-                </nav>
-            </div>
-        </div>
-    </div>
+    <!-- RENDERED NAVBAR GOES HERE -->
+    <script src="../js/navbar-render.js"></script>
 
     <div class="container-fluid mt-4 mb-2">
         <div class="row">
@@ -167,7 +137,7 @@
                     </table>
 
                 </div>
-                
+
             </div>
         </div>
     </div>
