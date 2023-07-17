@@ -56,13 +56,16 @@
                     <div class="card-body">                                
                             <div class="row">
                                 <div class="col">
-                                    <div class="mb-3"><label class="form-label" for="Duty"><strong>Duty</strong></label></div><select class="form-select">
-                                        <optgroup>
-                                            <option value="13">Special Duty</option>
-                                            <option value="12" >General Duty</option>                                                    
-                                            <option value="14">Emergency Duty</option>
-                                        </optgroup>
-                                    </select>
+                                    <div class="mb-3">
+                                        <label class="form-label" for="Duty">
+                                            <strong>Duty</strong>
+                                        </label>
+                                    </div>
+                                    <input type="text" list="duties"/>
+                                    <datalist id="duties">
+                                        <option>Independence Day Parade</option>
+                                        <option>Religious Function</option>
+                                    </datalist>
                                 </div>
                             </div>
                             <br>
