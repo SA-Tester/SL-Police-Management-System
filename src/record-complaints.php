@@ -11,6 +11,12 @@
 
     <title>Record Complaints</title>
     <link rel="icon" type="image/png" href="../assets/logo.png">
+
+    <style>
+        .traffic{
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -102,7 +108,7 @@
                                         Recording</button>
                                     <p id="isRecording">Click start to button to record</p>
                                     <audio src="" name="recording" id="audioElement" class="mb-4" controls></audio>
-                                    <input type="hidden" name="audio" id="audio" value=""/>
+                                    <input type="hidden" name="audio" id="audio">
                                 </td>
                             </tr>
                             <tr>
@@ -154,9 +160,44 @@
                                     <label for="plantiff_email">Plantiff Email</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="plantiff_email" name="plantiff_email" class="mb-4 w-100" />
+                                    <input type="email" id="plantiff_email" name="plantiff_email" class="mb-4 w-100" />
                                 </td>
                             </tr>
+                            <tr>
+                                <td>
+                                    <label for="location">Location</label>
+                                </td>
+                                <td>
+                                    <input type="hidden" name="selectedLat" id="selectedLat" value=""/>
+                                    <input type="hidden" name="selectedLon" id="selectedLon" value=""/>
+                                    <select id="city" name="city" class="mb-4 w-100"></select>                           
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="comp_status">Complaint Status</label>
+                                </td>
+                                <td>
+                                    <select name="comp_status" id="comp_status" class="mb-4 w-100">
+                                        <option value="Ongoing">Ongoing</option>
+                                        <option value="Resolved">Resolved</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="emp_id">Recorded By</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="emp_id" name="emp_id" class="mb-4 w-100" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="ml-3 w-100 traffic">
+                        <thead></thead>
+                        <tbody>
                             <tr>
                                 <td>
                                     <label for="vehicle_number">Vehilce Number</label>
@@ -167,7 +208,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="temp_start">Temporary License Start Date</label>
+                                    <label for="temp_start" class="mr-4">Temporary License Start Date</label>
                                 </td>
                                 <td>
                                     <input type="date" id="temp_start" name="temp_start" class="mb-4 w-100" />
@@ -200,27 +241,14 @@
                                     </select>
                                 </td>
                             </tr>
+                         </tbody>
+                    </table>
+
+                    <table class="ml-3 w-100">
+                        <thead></thead>
+                        <tbody>
                             <tr>
-                                <td>
-                                    <label for="comp_status">Complaint Status</label>
-                                </td>
-                                <td>
-                                    <select name="comp_status" id="comp_status" class="mb-4 w-100">
-                                        <option value="ongoing">Ongoing</option>
-                                        <option value="resolved">Resolved</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="emp_id">Recorded By</label>
-                                </td>
-                                <td>
-                                    <input type="text" id="emp_id" name="emp_id" class="mb-4 w-100" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="2" class="text-center">
+                                <td class="text-center">
                                     <input type="submit" name="add" value="Add New" class="btn-primary mb-4 w-25">
                                     <input type="submit" name="update" value="Update" class="btn-warning mb-4 w-25">
                                     <input type="reset" name="reset" value="Reset" class="btn-dark mb-4 w-25">
@@ -294,6 +322,42 @@
         </div-->
         
     </div>
+
+    <script type="text/javascript">
+        let tableID = document.querySelector(".traffic");
+        let category = document.getElementById("category");
+        
+        category.addEventListener("change", function(){
+            if(category.value == "38"){
+                tableID.style.display = "block";
+            }
+            else{
+                tableID.style.display = "none";
+            }
+        });
+    </script>
+
+    <script type="module">
+        import {Badulla} from "../assets/sl-cities/badulla.js";
+
+        city = document.getElementById("city");
+        for(let i=0; i<Badulla.length; i++){
+            city.options[i] = new Option(Badulla[i]["city"], i.toString());
+        }
+    </script>
+    
+    <script type="module">
+        import {Badulla} from "../assets/sl-cities/badulla.js";
+
+        let lat = document.getElementById("selectedLat");
+        let lon = document.getElementById("selectedLon");
+        let city = document.getElementById("city");
+
+        city.addEventListener("click", function(){
+            lat.value = Badulla[city.value]["latitude"];
+            lon.value = Badulla[city.value]["longitude"];
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
