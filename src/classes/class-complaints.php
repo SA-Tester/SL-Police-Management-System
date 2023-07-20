@@ -352,6 +352,7 @@ class ComplaintManager implements Complaints{
                     $e->getMessage();
                 }
 
+                $complaint_id = "";
                 $pstmt2 = $con->prepare($query3);
                 $pstmt2->bindValue(1, $this->date);
                 $pstmt2->bindValue(2, $this->category);
@@ -360,29 +361,34 @@ class ComplaintManager implements Complaints{
                 $pstmt2->bindValue(5, $this->description);
                 $pstmt2->bindValue(6, $this->complaint_status);
                 $pstmt2->bindValue(7, $this->emp_id);
-                /*try{
-                    $b = 0;//$pstmt2->execute();
+                try{
+                    $b = $pstmt2->execute();
+                    $complaint_id = $con->lastInsertId();;
                     if($b > 0){
-                        echo "Record added to the complaint table successfully";
+                        echo "Record added to complaint table successfully";
                     }
                     else{
                         echo "An Error occured";
                     }
                 }catch(PDOException $e){
                     $e->getMessage();
-                }*/
+                }
 
-                $query7 = "SELECT last_insert_id() FROM complaint";
-                $pstmt3 = $con->prepare($query7);
-                $pstmt3->execute();
-                $complaint_id = $con->lastInsertId();;
-                echo $complaint_id;
-                /*$pstmt3 = $con->prepare($query5);
+                $pstmt3 = $con->prepare($query5);
                 $pstmt3->bindValue(1, $this->plantiff_nic);
                 $pstmt3->bindValue(2, "Plantiff");
-                $pstmt3->bindValue(3, $complaint_id);*/
-
-                
+                $pstmt3->bindValue(3, $complaint_id);
+                try{
+                    $c = $pstmt3->execute();
+                    if($c > 0){
+                        echo "Record added to role in case table successfully";
+                    }
+                    else{
+                        echo "An Error occured";
+                    }
+                }catch(PDOException $e){
+                    $e->getMessage();
+                }
 
                 break;
         }
