@@ -24,11 +24,10 @@ import { Ratnapura } from "../assets/sl-cities/ratnapura.js";
 import { Trincomalee } from "../assets/sl-cities/trincomalee.js";
 import { Vavuniya } from "../assets/sl-cities/vavuniya.js";
 
-
-let district = document.getElementById("district");
-let city = document.getElementById("city");
-
 district.addEventListener("click", function(event){
+    let district = document.getElementById("district");
+    let city = document.getElementById("city");
+
     switch (district.value){
         case "ampara":
             for(let i=0; i<Ampara.length; i++){
@@ -179,6 +178,10 @@ district.addEventListener("click", function(event){
             for(let i=0; i<Vavuniya.length; i++){
                 city.options[i] = new Option(Vavuniya[i]["city"], Vavuniya[i]["city"]);
             }
+            break;
+
+        default:
+            district = document.getElementById("district");
             break;
     }
 });
