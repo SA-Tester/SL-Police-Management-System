@@ -84,12 +84,40 @@
 
 
         <div class="buttons">
-            <button type="button" class="btn1"><i class="fa-solid fa-user-plus"></i> Add</button>
+            <button type="button" class="btn1" onclick="openForm()"><i class="fa-solid fa-user-plus"></i> Add</button>
             <button type="button" class="btn2"><i class="fa-solid fa-calculator"></i> Calculate</button>
         </div>
     </div>
 
-
+    <div class="form-popup" id="myForm">
+        <form action="" class="form-container">
+          <h4>Add New Employee</h4>
+      
+          <label for="empID">EmpID</label>
+          <input type="text" placeholder="Enter Employee ID" name="empID" required>
+      
+          <label for="base_salary">Base Salary</label>
+          <input type="text" placeholder="Enter Base Salary" name="base_salary" required>
+          
+          <label for="service_years">Service Years</label>
+          <input type="text" placeholder="Enter Service Years" name="service_years" required>
+      
+          <div class="buttons">
+            <button type="submit" class="btn1">Add</button>
+            <button type="button" class="btn2" onclick="closeForm()">Close</button>
+          </div>
+        </form>
+      </div>
+      
+      <script>
+      function openForm() {
+        document.getElementById("myForm").style.display = "block";
+      }
+      
+      function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+      }
+      </script>
 
 
 
