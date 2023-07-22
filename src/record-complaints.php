@@ -123,44 +123,55 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="plantiff_name">Plantiff Name</label>
+                                    <label for="people_type">Type</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="plantiff_name" name="plantiff_name" class="mb-4 w-100" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="plantiff_nic">Plantiff NIC</label>
-                                </td>
-                                <td>
-                                    <input type="text" id="plantiff_nic" name="plantiff_nic" class="mb-4 w-100" />
+                                    <select name="people_type" id="people_type" class="mb-4 w-100">
+                                        <option value="Plantiff">Plantiff</option>
+                                        <option value="Suspect">Suspect</option>
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="plantiff_address">Plantiff Address</label>
+                                    <label for="people_name">Name</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="plantiff_address" name="plantiff_address"
+                                    <input type="text" id="people_name" name="people_name" class="mb-4 w-100" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="people_nic">NIC</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="people_nic" name="people_nic" class="mb-4 w-100" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="people_address">Address</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="people_address" name="people_address"
                                         class="mb-4 w-100" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="plantiff_contact">Plantiff Contact</label>
+                                    <label for="people_contact">Contact</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="plantiff_contact" name="plantiff_contact"
+                                    <input type="text" id="people_contact" name="people_contact"
                                         class="mb-4 w-100" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="plantiff_email">Plantiff Email</label>
+                                    <label for="people_email">Email</label>
                                 </td>
                                 <td>
-                                    <input type="email" id="plantiff_email" name="plantiff_email" class="mb-4 w-100" />
+                                    <input type="email" id="people_email" name="people_email" class="mb-4 w-100" />
                                 </td>
                             </tr>
                             <tr>
@@ -168,6 +179,7 @@
                                     <label for="location">Location</label>
                                 </td>
                                 <td>
+                                    <input type="hidden" name="selectedCity" id="selectedCity" value=""/>
                                     <input type="hidden" name="selectedLat" id="selectedLat" value=""/>
                                     <input type="hidden" name="selectedLon" id="selectedLon" value=""/>
                                     <select id="city" name="city" class="mb-4 w-100"></select>                           
@@ -285,7 +297,7 @@
                                     <th>Complaint ID</th>
                                     <th>Date</th>
                                     <th>Complaint Category</th>
-                                    <th>Plantiff Name</th>
+                                    <th>Name</th>
                                     <th>Status</th>
                                     <th>Recorded By</th>
                                 </tr>
@@ -342,18 +354,20 @@
 
         city = document.getElementById("city");
         for(let i=0; i<Badulla.length; i++){
-            city.options[i] = new Option(Badulla[i]["city"], Badulla[i]["city"]);
+            city.options[i] = new Option(Badulla[i]["city"], i);
         }
     </script>
     
     <script type="module">
         import {Badulla} from "../assets/sl-cities/badulla.js";
 
+        let selectedCity = document.getElementById("selectedCity");
         let lat = document.getElementById("selectedLat");
         let lon = document.getElementById("selectedLon");
         let city = document.getElementById("city");
 
-        city.addEventListener("click", function(){
+        city.addEventListener("change", function(){
+            selectedCity.value = Badulla[city.value]["city"];
             lat.value = Badulla[city.value]["latitude"];
             lon.value = Badulla[city.value]["longitude"];
         });
