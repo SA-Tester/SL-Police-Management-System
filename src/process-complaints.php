@@ -34,11 +34,12 @@ if(isset($_POST["add"])){
     $complaint_status = $_POST["comp_status"];
     $emp_id = $_POST["emp_id"];
 
-    $plantiff_nic = $_POST["plantiff_nic"];
-    $plantiff_name = $_POST["plantiff_name"];
-    $plantiff_address = $_POST["plantiff_address"];
-    $plantiff_contact = $_POST["plantiff_contact"];
-    $plantiff_email = $_POST["plantiff_email"];
+    $people_type = $_POST["people_type"];
+    $people_nic = $_POST["people_nic"];
+    $people_name = $_POST["people_name"];
+    $people_address = $_POST["people_address"];
+    $people_contact = $_POST["people_contact"];
+    $people_email = $_POST["people_email"];
 
     $vehicle_number = $_POST["vehicle_number"];
     $temp_license_start = $_POST["temp_start"];;
@@ -53,7 +54,7 @@ if(isset($_POST["add"])){
     $license_issued = 0;
 
     $district = "Badulla";
-    $city = $_POST["city"];
+    $city = $_POST["selectedCity"];
     $lat = $_POST["selectedLat"];
     $lon = $_POST["selectedLon"];
 
@@ -66,7 +67,7 @@ if(isset($_POST["add"])){
     $complaintObject->setEmpID($emp_id);
 
     // Construct a People Object
-    $peopleObject = new People($plantiff_nic, $plantiff_name, $plantiff_address, $plantiff_contact, $plantiff_email); // $nic, $name, $address, $contact, $email
+    $peopleObject = new People($people_nic, $people_name, $people_address, $people_contact, $people_email); // $nic, $name, $address, $contact, $email
    
     //location null
     if(empty($city)){
@@ -75,7 +76,7 @@ if(isset($_POST["add"])){
 
         $complaintObject->setCon($con);
         $complaintObject->addComplaint("");
-        $complaintObject->addRoleInCase($peopleObject->getNIC());
+        $complaintObject->addRoleInCase($peopleObject->getNIC(), $people_type);
     }
     else{
         $locationObject = new Location("Case Location", $district, $city, $lat, $lon);
@@ -86,8 +87,8 @@ if(isset($_POST["add"])){
         $peopleObject->addPerson();
 
         $complaintObject->setCon($con);
-        $complaintObject->addComplaint("", $locationObject->getLocationID());
-        $complaintObject->addRoleInCase($peopleObject->getNIC());
+        $complaintObject->addComplaint($locationObject->getLocationID());
+        $complaintObject->addRoleInCase($peopleObject->getNIC(), $people_type);
     }
 
     if(!empty($vehicle_number)){
