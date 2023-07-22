@@ -27,7 +27,7 @@
         <div class="row">
             <div class="col-md w-100">
                 <h3 class="h3 mb-4 ml-5">New Complaint</h3>
-                <form method="POST" action="./classes/process-complaints.php" enctype="multipart/form-data">
+                <form method="POST" action="process-complaints.php" enctype="multipart/form-data">
                     <table class="ml-3 w-100">
                         <thead></thead>
                         <tbody>
@@ -342,7 +342,7 @@
 
         city = document.getElementById("city");
         for(let i=0; i<Badulla.length; i++){
-            city.options[i] = new Option(Badulla[i]["city"], i.toString());
+            city.options[i] = new Option(Badulla[i]["city"], Badulla[i]["city"]);
         }
     </script>
     
