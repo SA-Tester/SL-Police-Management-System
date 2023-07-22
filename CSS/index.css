@@ -26,3 +26,9 @@ footer {
 	-webkit-transform: scale(1.5);
 	transform: scale(1.5); 
   }
+
+  a.disabled{
+    color:#aaa;
+    pointer-events: none;
+    cursor: default;
+  }
