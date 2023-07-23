@@ -30,3 +30,20 @@
 	margin-top: 2px; 
 }
 
+table th {
+	background-color:lightgrey;
+  }
+
+table tr {
+	background-color: white;
+  }
+ 
+table tr:hover {
+	background-color:  lavender;
+  }
+
+table tr:active {
+	background-color: darkblue;
+  }
+  
+

@@ -31,19 +31,29 @@
             <div class="col-50">
                 <h4 class="h4">Leave Application</h4>
 
+                <!-- <?php
+                if (isset($_GET["message"])) {
+                    if ($_GET["message"] == 1) {
+                        echo "<div class='alert'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>Successfully Saved!</strong></div>";
+                     } elseif ($_GET["message"] == 2) {
+                        echo "<div class='error'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>Error Occurred!</strong></div>";
+                     }
+                }
+                ?> -->
+
                 <div class="containerx">
-                    <form action="https://www.w3schools.com/action_page.php">
+                    <form action="apply-leave.php" method="POST">
                         <div class="row">
                             <div class="col-25">
                                 <label for="emp_id">Emp ID</label>
                             </div>
                             <div class="col-75">
-                                <select id="emp_id" name="emp_id">
-                                    <option value="1">0001</option>
-                                    <option value="2">0002</option>
-                                    <option value="3">0003</option>
-                                    <option value="4">0004</option>
-                                    <option value="5">0005</option>
+                                <select id="emp_id" name="emp_id" required>
+                                    <option value="EMP0001">EMP0001</option>
+                                    <option value="EMP0002">EMP0002</option>
+                                    <option value="EMP0003">EMP0003</option>
+                                    <option value="EMP0004">EMP0004</option>
+                                    <option value="EMP0005">EMP0005</option>
                                 </select>
                             </div>
                         </div>
@@ -52,7 +62,7 @@
                                 <label for="from_date">From</label>
                             </div>
                             <div class="col-75">
-                                <input type="text" id="from_date" name="from_date" />
+                                <input type="date" id="from_date" name="from_date" required/>
                             </div>
                         </div>
                         <div class="row">
@@ -60,7 +70,7 @@
                                 <label for="to_date">To</label>
                             </div>
                             <div class="col-75">
-                                <input type="text" id="to_date" name="to_date" />
+                                <input type="date" id="to_date" name="to_date" required/>
                             </div>
                         </div>
                         <div class="row">
@@ -68,9 +78,9 @@
                                 <label for="reason_type">Reason Type</label>
                             </div>
                             <div class="col-75">
-                                <select id="reason_type" name="reason_type">
-                                    <option value="1">Personal</option>
-                                    <option value="2">Health</option>
+                                <select id="reason_type" name="reason_type" required>
+                                    <option value="Personal">Personal</option>
+                                    <option value="Health">Health</option>
                                 </select>
                             </div>
                         </div>
@@ -80,7 +90,7 @@
                             </div>
                             <div class="col-75">
                                 <textarea id="reason_desc" name="reason_desc" placeholder="Write something.."
-                                    style="height:200px"></textarea>
+                                    style="height:200px" required></textarea>
                             </div>
                         </div>
                         <div class="row">
@@ -88,7 +98,7 @@
                                 <label for="upload_medical">Upload Medical</label>
                             </div>
                             <div class="col-75">
-                                <input type="file" id="upload_medical" name="upload_medical" />
+                                <input type="file" id="upload_medical" name="upload_medical"/>
                             </div>
                         </div>
                         <div class="row">
@@ -106,23 +116,20 @@
                         <table class="table-con">
                             <thead>
                                 <tr>
-                                    <th>Year</th>
-                                    <th>Start Day/Month</th>
-                                    <th>End Day/Month</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
                                     <th>Duration (Days)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>2023</td>
-                                    <td>05/05</td>
-                                    <td>10/05</td>
+                                    <td>2023/05/05</td>
+                                    <td>2023/05/10</td>
                                     <td>5</td>
                                 </tr>
                                 <tr>
-                                    <td>2023</td>
-                                    <td>05/06</td>
-                                    <td>08/06</td>
+                                    <td>2023/06/05</td>
+                                    <td>2023/06/08</td>
                                     <td>3</td>
                                 </tr>
                             </tbody>

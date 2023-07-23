@@ -24,7 +24,7 @@ import { Ratnapura } from "../assets/sl-cities/ratnapura.js";
 import { Trincomalee } from "../assets/sl-cities/trincomalee.js";
 import { Vavuniya } from "../assets/sl-cities/vavuniya.js";
 
-district.addEventListener("click", function(event){
+district.addEventListener("change", function(event){
     let district = document.getElementById("district");
     let city = document.getElementById("city");
 
