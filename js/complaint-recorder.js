@@ -39,7 +39,28 @@ if(navigator.mediaDevices.getUserMedia){
             chunks= [];
             audio.src = URL.createObjectURL(blob);
             console.log("Recorder Stopped");
+
+            document.getElementById("audio").value = URL.createObjectURL(blob);
+            
+            //sendAudioFile(blob);
+            /*var xhr = new XMLHttpRequest();
+            xhr.open('POST', '../src/classes/process-complaints.php', true); //my url had the ID of the item that the blob corresponded to
+            xhr.responseType = 'Blob';
+            xhr.send(blob);*/
+                     
+            //const formData = new FormData();
+            //formData.append('audio', blob, mp3FromBlob);
+            //sendAudioFile(mp3FromBlob);
         }
+
+        /*const sendAudioFile = file => {
+            const formData = new FormData();
+            formData.append('audio', file);
+            return fetch('../js/upload-audio.php', {
+              method: 'POST',
+              body: formData
+            });
+        };*/
 
         mediaRecorder.ondataavailable = function(e){
             chunks.push(e.data);
