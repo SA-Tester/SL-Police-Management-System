@@ -10,79 +10,19 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
-    <style>
-        /*body {
-            padding-top: 100px;
-        }*/
+    <link rel="stylesheet" type="text/css" href="../css/check-availability.css">
 
-        .thead-edit th {
-            color: white;
-            background: #101D6B;
-            border-bottom: none;
-        }
-
-        .table {
-            border-radius: 10px;
-        }
-
-        th,
-        td {
-            text-align: center;
-            vertical-align: middle;
-        }
-
-        th:first-child,
-        td:first-child {
-            border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
-        }
-
-        th:last-child,
-        td:last-child {
-            border-top-right-radius: 10px;
-            border-bottom-right-radius: 10px;
-        }
-
-        footer {
-            margin-top: -1px;
-            padding-bottom: 0;
-        }
-
-        @media only screen and (max-width:800px) {
-
-            #avalability-table tbody,
-            #avalability-table tr,
-            #avalability-table td {
-                display: block;
-
-            }
-
-            #avalability-table thead tr {
-                position: absolute;
-                top: -9999px;
-                left: -9999px;
-            }
-
-            #avalability-table td {
-                position: relative;
-                padding-left: 50%;
-            }
-
-            #avalability-table td ::before {
-                content: attr(data-title);
-                position: absolute;
-                left: 6px;
-                font-weight: solid;
-            }
-
-        }
-    </style>
     <title>Check Avalability</title>
+    <link rel="icon" type="image/png" href="../assets/logo.png">
 </head>
 
 <body>
-    <!-- RENDERED NAVBAR GOES HERE -->
-    <script src="../js/navbar-render.js"></script>
+    <!------------------navbar---------------------------->
+    <?php
+        include 'navbar.php';
+        renderNavBar();
+    ?>
+    <!---------------------------------------------------->
 
     <div class="container-fluid mt-4 mb-2">
         <div class="row">
@@ -149,19 +89,6 @@
         </div>
     </footer>
 
-
-
-
-
-
-
-
-
-
-
-    <!-- Optional JavaScript; choose one of the two! -->
-
-    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
@@ -169,12 +96,6 @@
         integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
         crossorigin="anonymous"></script>
 
-    <!-- Option 2: Separate Popper and Bootstrap JS -->
-    <!--
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
-    -->
 </body>
 
 </html>
