@@ -68,7 +68,7 @@ function renderNavBar()
                           <a class="nav-link" href="#" style="color:#101D6B;">Settings</a>
                         </li>
                         <form class="form-inline my-2 my-lg-0"  action="logout.php" method="get">
-                          <button class="btn btn btn-primary my-2 my-sm-0" type="submit" style="color:white;background-color: #101D6B;">Log Out</button>
+                          <button class="btn btn my-2 my-sm-0" type="submit" style="color:white;background-color: #101D6B;">Log Out</button>
                         </form>
                     </div>
                   </nav>
@@ -123,7 +123,7 @@ function renderNavBar()
                           <a class="nav-link" href="#" style="color:#101D6B;">Settings</a>
                         </li>
                         <form class="form-inline my-2 my-lg-0"  action="logout.php" method="get">
-                          <button class="btn btn btn-primary my-2 my-sm-0" type="submit" style="color:white;background-color: #101D6B;">Log Out</button>
+                          <button class="btn btn my-2 my-sm-0" type="submit" style="color:white;background-color: #101D6B;">Log Out</button>
                         </form>
                     </div>
                   </nav>
@@ -153,7 +153,7 @@ function renderNavBar()
                       <a class="nav-link" href="index.php" style="color:#101D6B">Home<span class="sr-only">(current)</span></a>
                     </li>
                     <form class="form-inline my-2 my-lg-0"  action="loginForm.php" method="get">
-                      <button class="btn btn btn-primary my-2 my-sm-0" type="submit" style="color:white;background-color: #101D6B;">Log In</button>
+                      <button class="btn btn my-2 my-sm-0" type="submit" style="color:white;background-color: #101D6B;">Log In</button>
                     </form>
                 </div>
               </nav>
