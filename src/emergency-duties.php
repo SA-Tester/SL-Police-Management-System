@@ -11,14 +11,17 @@
     <link rel="icon" type="image/png" href="../assets/logo.png">
 </head>
 <body>
-    <!-- RENDERED NAVBAR GOES HERE -->
-    <script src="../js/navbar-render.js"></script>
-
-    <div class="containter-lg">
+    <!------------------navbar---------------------------->
+    <?php
+        include 'navbar.php';
+        renderNavBar();
+    ?>
+    <!---------------------------------------------------->
+    <div class="containter-lg mt-5">
         <div class="row">
             <div class="col-sm">
-                <form method="POST" action="" id="emergency-duty-form">
-                    <h3 class="h3 mb-4 ml-5 mt-4">Assign an Emergency Duty</h3>
+                <h3 class="h3 mb-4 ml-5 mt-5">Assign an Emergency Duty</h3>
+                <form method="POST" action="" id="emergency-duty-form">     
                     <table class="w-100 ml-5">
                         <thead></thead>
                         <tbody>
@@ -122,7 +125,7 @@
                 </form>
             </div>
 
-            <div class="col-md d-flex justify-content-center bg-dark mr-5">
+            <div class="col-md d-flex justify-content-center bg-dark mr-3">
                 <canvas id="worldwindCanvas" width="1200" height="1080">
                     Your browser does not support HTML5 Canvas
                 </canvas>

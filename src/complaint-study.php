@@ -13,11 +13,16 @@
     <title>Complaint Study</title>
     <link rel="icon" type="image/png" href="../assets/logo.png">
 </head>
-<body>
-    <!-- RENDERED NAVBAR GOES HERE -->
-    <script src="../js/navbar-render.js"></script>
 
-    <div class="container-lg">
+<body>
+    <!------------------navbar---------------------------->
+    <?php
+        include 'navbar.php';
+        renderNavBar();
+    ?>
+    <!---------------------------------------------------->
+
+    <div class="container-lg mt-5">
         <div class="row d-flex justify-content-center">
             <label for="caseID" class="mr-3">Enter Case ID: </label>
             <input type="text" id="caseID" name="caseID" class="w-50" placeholder="Enter Case ID"/>
@@ -263,7 +268,6 @@
                                 <thead>
                                     <th>NIC</th>
                                     <th>Fingerprint</th>
-                                    <th>Add New</th>
                                 </thead>
                                 <tbody>
                                     <tr>

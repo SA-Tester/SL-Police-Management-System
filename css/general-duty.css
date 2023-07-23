@@ -1,0 +1,78 @@
+form {
+    min-width: 25rem;
+}
+
+.form-control {
+    background-color: #f2f6f8;
+    border-radius: 2rem;
+    border: none;
+    box-shadow: 0px 7px 5px rgba(0, 0, 0, 0.11);
+
+    &.thick {
+        height: 3.3rem;
+        padding: .5rem 3.5rem;
+    }
+
+    &:focus {
+        background-color: #f2f6f8;
+        border: none;
+        box-shadow: 0px 7px 5px rgba(0, 0, 0, 0.11);
+    }
+}
+
+.message .form-control {
+    padding: .5rem 1.8rem;
+}
+
+::placeholder {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #838788;
+    position: relative;
+    left: 0;
+}
+
+input,
+textarea {
+    font-family: 'Quicksand', sans-serif;
+    color: #212529;
+    font-size: 1.1rem;
+}
+
+.icon {
+    color: #57565c;
+    height: 1.3rem;
+    position: absolute;
+    left: 1.5rem;
+    top: 1.1rem;
+}
+
+
+.btn.btn-primary {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+    height: 2.5rem;
+    line-height: 2.5rem;
+    padding: 0 3rem;
+    border: 0;
+    border-radius: 3rem;
+    background-image: linear-gradient(131deg, #40b3ff, #3c83ff, #3cffff, #3c3cff);
+    background-size: 300% 100%;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn.btn-primary:hover:enabled {
+    box-shadow: 0 0.5em 0.5em -0.4em #3c4ffffc;
+    background-size: 100% 100%;
+    transform: translateY(-0.15em);
+}
+
+.row {
+    margin-top: 20px;
+}
+
+.navbar {
+
+    position: relative;
+}

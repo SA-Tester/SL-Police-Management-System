@@ -5,8 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    
+ 
     <link rel="stylesheet" href="../CSS/Special_Duty.css">
 
     <!-- Bootstrap CSS -->
@@ -19,8 +18,12 @@
 </head>
 
 <body>
-    <!-- RENDERED NAVBAR GOES HERE -->
-    <script src="../js/navbar-render.js"></script>
+     <!------------------navbar---------------------------->
+     <?php
+        include 'navbar.php';
+        renderNavBar();
+    ?>
+    <!---------------------------------------------------->
 
 
     <div class="containter-lg py-md-5">

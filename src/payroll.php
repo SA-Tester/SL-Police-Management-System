@@ -22,14 +22,17 @@
 </head>
 
 <body>
-    <!-- RENDERED NAVBAR GOES HERE -->
-    <script src="../js/navbar-render.js"></script>
-
-
+    <!------------------navbar---------------------------->
+    <?php
+        include 'navbar.php';
+        renderNavBar();
+    ?>
+    <!---------------------------------------------------->
+    
     <div>
         <h4>Calculate Salary</h4>
 
-        <div style="overflow-x: auto;">
+        <div style="overflow-x: auto;" class="mt-5">
             <table class="table-con">
                 <thead>
                     <tr>

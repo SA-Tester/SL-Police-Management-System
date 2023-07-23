@@ -1,0 +1,61 @@
+.thead-edit th {
+    color: white;
+    background: #101D6B;
+    border-bottom: none;
+}
+
+.table {
+    border-radius: 10px;
+}
+
+th,
+td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+th:first-child,
+td:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+th:last-child,
+td:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+footer {
+    margin-top: -1px;
+    padding-bottom: 0;
+}
+
+@media only screen and (max-width:800px) {
+
+    #avalability-table tbody,
+    #avalability-table tr,
+    #avalability-table td {
+        display: block;
+
+    }
+
+    #avalability-table thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    #avalability-table td {
+        position: relative;
+        padding-left: 50%;
+    }
+
+    #avalability-table td ::before {
+        content: attr(data-title);
+        position: absolute;
+        left: 6px;
+        font-weight: solid;
+    }
+
+}
