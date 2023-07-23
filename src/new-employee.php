@@ -3,15 +3,24 @@
 
 <head>
     <title>New Employee</title>
+    <link rel="icon" type="image/png" href="../assets/logo.png" />
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap CSS-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
     <link rel="stylesheet" href="../CSS/New_Employee.css">
 </head>
 
 <body>
-    <!-- RENDERED NAVBAR GOES HERE -->
-    <script src="../js/navbar-render.js"></script>
+    <!------------------navbar---------------------------->
+    <?php
+        include 'navbar.php';
+        renderNavBar();
+    ?>
+    <!---------------------------------------------------->
 
     <div class="container py-md-5">
         <h2 style="color: darkblue; text-align: center;">Employee Details</h2>
