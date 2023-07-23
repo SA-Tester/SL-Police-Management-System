@@ -1,6 +1,6 @@
 <?php
 
-require './classes/DBConnector.php';
+require './classes/class-db-connector.php';
 use classes\DBConnector;
 
 function login($username,$password){
