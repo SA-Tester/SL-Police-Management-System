@@ -19,7 +19,7 @@ navbar.innerHTML = `
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link h6" href="index.html" style="color:#101D6B">Home</a>
+        <a class="nav-link h6" href="index.php" style="color:#101D6B">Home</a>
       </li>
       <li class="nav-item">
         <a class="nav-link h6" href="#" style="color:#101D6B">
