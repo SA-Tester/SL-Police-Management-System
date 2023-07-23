@@ -104,7 +104,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <input type="submit" class="btn1 buttons" value="SUBMIT">
+                            <input type="submit" name="submit" class="btn1 buttons" value="SUBMIT">
                         </div>
                     </form>
                 </div>
