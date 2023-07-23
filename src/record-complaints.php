@@ -20,13 +20,17 @@
 </head>
 
 <body>
-    <!-- RENDERED NAVBAR GOES HERE -->
-    <script src="../js/navbar-render.js"></script>
+     <!------------------navbar---------------------------->
+     <?php
+        include 'navbar.php';
+        renderNavBar();
+    ?>
+    <!---------------------------------------------------->
 
-    <div class="containter-md d-flex justify-content-center ml-4 mr-4">
+    <div class="containter-md d-flex justify-content-center ml-4 mr-4 mt-5">
         <div class="row">
             <div class="col-md w-100">
-                <h3 class="h3 mb-4 ml-5">New Complaint</h3>
+                <h3 class="h3 mt-5 mb-4 ml-5">New Complaint</h3>
                 <form method="POST" action="process-complaints.php" enctype="multipart/form-data">
                     <table class="ml-3 w-100">
                         <thead></thead>
@@ -271,7 +275,7 @@
                 </form>
             </div>
 
-            <div class="col-md">
+            <div class="col-md mt-5">
                 <h3 class="h3 mb-4">Complaint History</h3>
                 <div class="row mb-4">
                     <div class="col-md">
