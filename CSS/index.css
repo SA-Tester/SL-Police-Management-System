@@ -1,8 +1,8 @@
 .custom-slider{
-    height:500px;
+    height:540px;
 }
 .custom-slider img{
-    height:505px;
+    height:540px;
     object-fit: cover;
 }
 .darken-image {
@@ -25,4 +25,10 @@ footer {
 	-ms-transform: scale(1.5); 
 	-webkit-transform: scale(1.5);
 	transform: scale(1.5); 
+  }
+
+  a.disabled{
+    color:#aaa;
+    pointer-events: none;
+    cursor: default;
   }

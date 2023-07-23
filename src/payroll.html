@@ -41,71 +41,83 @@
                         <th>Barter</th>
                         <th>Leaves</th>
                         <th>Total Salary</th>
+                        <th>Pension</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                        <td>@fat</td>
+                        <td>EMP0001</td>
+                        <td>IP</td>
+                        <td>40000</td>
+                        <td>30</td>
+                        <td>15000</td>
+                        <td>5</td>
+                        <td>60000</td>
+                        <td>NULL</td>
                     </tr>
                     <tr>
                         <td>2</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                        <td>@fat</td>
+                        <td>EMP0002</td>
+                        <td>WPC</td>
+                        <td>30000</td>
+                        <td>20</td>
+                        <td>10000</td>
+                        <td>3</td>
+                        <td>42000</td>
+                        <td>NULL</td>
                     </tr>
                     <tr>
                         <td>3</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                        <td>@fat</td>
+                        <td>EMP0003</td>
+                        <td>SI</td>
+                        <td>35000</td>
+                        <td>40</td>
+                        <td>NULL</td>
+                        <td>NULL</td>
+                        <td>NULL</td>
+                        <td>35000</td>
                     </tr>
-                    <tr>
-                        <td>4</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <td>5</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                        <td>@fat</td>
-                    </tr>
-                </tbody>
+                    </tbody>
             </table>
         </div>
 
 
         <div class="buttons">
-            <button type="button" class="btn1"><i class="fa-solid fa-user-plus"></i> Add</button>
+            <button type="button" class="btn1" onclick="openForm()"><i class="fa-solid fa-user-plus"></i> Add</button>
             <button type="button" class="btn2"><i class="fa-solid fa-calculator"></i> Calculate</button>
         </div>
     </div>
 
-
+    <div class="form-popup" id="myForm">
+        <form action="" class="form-container">
+          <h4>Add New Employee</h4>
+      
+          <label for="empID">EmpID</label>
+          <input type="text" placeholder="Enter Employee ID" name="empID" required>
+      
+          <label for="base_salary">Base Salary</label>
+          <input type="text" placeholder="Enter Base Salary" name="base_salary" required>
+          
+          <label for="service_years">Service Years</label>
+          <input type="text" placeholder="Enter Service Years" name="service_years" required>
+      
+          <div class="buttons">
+            <button type="submit" class="btn1">Add</button>
+            <button type="button" class="btn2" onclick="closeForm()">Close</button>
+          </div>
+        </form>
+      </div>
+      
+      <script>
+      function openForm() {
+        document.getElementById("myForm").style.display = "block";
+      }
+      
+      function closeForm() {
+        document.getElementById("myForm").style.display = "none";
+      }
+      </script>
 
 
 

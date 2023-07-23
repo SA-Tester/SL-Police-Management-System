@@ -11,6 +11,12 @@
 
     <title>Record Complaints</title>
     <link rel="icon" type="image/png" href="../assets/logo.png">
+
+    <style>
+        .traffic{
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -21,7 +27,7 @@
         <div class="row">
             <div class="col-md w-100">
                 <h3 class="h3 mb-4 ml-5">New Complaint</h3>
-                <form method="POST" action="">
+                <form method="POST" action="process-complaints.php" enctype="multipart/form-data">
                     <table class="ml-3 w-100">
                         <thead></thead>
                         <tbody>
@@ -30,7 +36,7 @@
                                     <label for="date">Date</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="date" name="date" class="mb-4 w-100" />
+                                    <input type="date" id="date" name="date" class="mb-4 w-100" />
                                 </td>
                             </tr>
                             <tr>
@@ -67,7 +73,7 @@
                                         <option value="26">Offence against Public Property</option>
                                         <option value="27">Organized Crime</option>
                                         <option value="28">Personal Complaint</option>
-                                        <option value="29">Police Clearance </option>
+                                        <option value="29">Police Clearance</option>
                                         <option value="30">Property Disputes</option>
                                         <option value="31">Robbery</option>
                                         <option value="32">Sexual Offences</option>
@@ -75,8 +81,7 @@
                                         <option value="34">Terrorism Related</option>
                                         <option value="35">Theft</option>
                                         <option value="36">Threat &amp; Intimidation</option>
-                                        <option value="37">-SelectComplaint Category-</option>
-                                        <option value="31">Tourist Harassment</option>
+                                        <option value="37">Tourist Harassment</option>
                                         <option value="38">Traffic &amp; Road Safety</option>
                                         <option value="39">Treasure Hunting</option>
                                         <option value="40">Vice Related</option>
@@ -102,61 +107,92 @@
                                     <button name="stop-recording" id="stop-recording" class="btn-dark mb-4">Stop
                                         Recording</button>
                                     <p id="isRecording">Click start to button to record</p>
-                                    <audio src="" id="audioElement" class="mb-4" controls></audio>
+                                    <audio src="" name="recording" id="audioElement" class="mb-4" controls></audio>
+                                    <input type="hidden" name="audio" id="audio">
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="comp_desc"></label>Complaint In Text</label>
+                                    <label for="comp_desc">Complaint In Text</label>
                                 </td>
                                 <td>
                                     <button name="start-speech" id="start-speech" class="btn-danger mb-2">Start</button>
                                     <button name="stop-speech" id="stop-speech" class="btn-dark mb-2">Stop</button>
-                                    <textarea id="comp_desc" rows="10" cols="40" class="mb-4"></textarea>
+                                    <textarea id="comp_desc" name="comp_desc" rows="10" cols="40" class="mb-4"></textarea>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="plantiff_name">Plantiff Name</label>
+                                    <label for="people_type">Type</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="plantiff_name" name="plantiff_name" class="mb-4 w-100" />
+                                    <select name="people_type" id="people_type" class="mb-4 w-100">
+                                        <option value="Plantiff">Plantiff</option>
+                                        <option value="Suspect">Suspect</option>
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="plantiff_address">Plantiff Address</label>
+                                    <label for="people_name">Name</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="plantiff_address" name="plantiff_address"
+                                    <input type="text" id="people_name" name="people_name" class="mb-4 w-100" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="people_nic">NIC</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="people_nic" name="people_nic" class="mb-4 w-100" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="people_address">Address</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="people_address" name="people_address"
                                         class="mb-4 w-100" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="plantiff_contact">Plantiff Contact</label>
+                                    <label for="people_contact">Contact</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="plantiff_contact" name="plantiff_contact"
+                                    <input type="text" id="people_contact" name="people_contact"
                                         class="mb-4 w-100" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="plantiff_email">Plantiff Email</label>
+                                    <label for="people_email">Email</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="plantiff_email" name="plantiff_email" class="mb-4 w-100" />
+                                    <input type="email" id="people_email" name="people_email" class="mb-4 w-100" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="status">Complaint Status</label>
+                                    <label for="location">Location</label>
                                 </td>
                                 <td>
-                                    <select name="status" id="status" class="mb-4 w-100">
-                                        <option value="ongoing">Ongoing</option>
-                                        <option value="resolved">Resolved</option>
+                                    <input type="hidden" name="selectedCity" id="selectedCity" value=""/>
+                                    <input type="hidden" name="selectedLat" id="selectedLat" value=""/>
+                                    <input type="hidden" name="selectedLon" id="selectedLon" value=""/>
+                                    <select id="city" name="city" class="mb-4 w-100"></select>                           
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="comp_status">Complaint Status</label>
+                                </td>
+                                <td>
+                                    <select name="comp_status" id="comp_status" class="mb-4 w-100">
+                                        <option value="Ongoing">Ongoing</option>
+                                        <option value="Resolved">Resolved</option>
                                     </select>
                                 </td>
                             </tr>
@@ -168,10 +204,65 @@
                                     <input type="text" id="emp_id" name="emp_id" class="mb-4 w-100" />
                                 </td>
                             </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="ml-3 w-100 traffic">
+                        <thead></thead>
+                        <tbody>
                             <tr>
-                                <td colspan="2" class="text-center">
-                                    <input type="submit" name="submit" value="Add New" class="btn-primary mb-4 w-25">
-                                    <input type="submit" name="submit" value="Update" class="btn-warning mb-4 w-25">
+                                <td>
+                                    <label for="vehicle_number">Vehilce Number</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="vehicle_number" name="vehicle_number" class="mb-4 w-100" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="temp_start" class="mr-4">Temporary License Start Date</label>
+                                </td>
+                                <td>
+                                    <input type="date" id="temp_start" name="temp_start" class="mb-4 w-100" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="temp_end">Temporary License End Date</label>
+                                </td>
+                                <td>
+                                    <input type="date" id="temp_end" name="temp_end" class="mb-4 w-100" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="fine_amount">Fine Amount</label>
+                                </td>
+                                <td>
+                                    <input type="text" id="fine_amount" name="fine_amount" class="mb-4 w-100" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="fine_status">Fine Status</label>
+                                </td>
+                                <td>
+                                    <select name="fine_status" id="fine_status" class="mb-4 w-100">
+                                        <option value="unpaid">Unpaid</option>    
+                                        <option value="paid">Paid</option>
+                                    </select>
+                                </td>
+                            </tr>
+                         </tbody>
+                    </table>
+
+                    <table class="ml-3 w-100">
+                        <thead></thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center">
+                                    <input type="submit" name="add" value="Add New" class="btn-primary mb-4 w-25">
+                                    <input type="submit" name="update" value="Update" class="btn-warning mb-4 w-25">
                                     <input type="reset" name="reset" value="Reset" class="btn-dark mb-4 w-25">
                                 </td>
                             </tr>
@@ -206,7 +297,7 @@
                                     <th>Complaint ID</th>
                                     <th>Date</th>
                                     <th>Complaint Category</th>
-                                    <th>Plantiff Name</th>
+                                    <th>Name</th>
                                     <th>Status</th>
                                     <th>Recorded By</th>
                                 </tr>
@@ -243,6 +334,44 @@
         </div-->
         
     </div>
+
+    <script type="text/javascript">
+        let tableID = document.querySelector(".traffic");
+        let category = document.getElementById("category");
+        
+        category.addEventListener("change", function(){
+            if(category.value == "38"){
+                tableID.style.display = "block";
+            }
+            else{
+                tableID.style.display = "none";
+            }
+        });
+    </script>
+
+    <script type="module">
+        import {Badulla} from "../assets/sl-cities/badulla.js";
+
+        city = document.getElementById("city");
+        for(let i=0; i<Badulla.length; i++){
+            city.options[i] = new Option(Badulla[i]["city"], i);
+        }
+    </script>
+    
+    <script type="module">
+        import {Badulla} from "../assets/sl-cities/badulla.js";
+
+        let selectedCity = document.getElementById("selectedCity");
+        let lat = document.getElementById("selectedLat");
+        let lon = document.getElementById("selectedLon");
+        let city = document.getElementById("city");
+
+        city.addEventListener("change", function(){
+            selectedCity.value = Badulla[city.value]["city"];
+            lat.value = Badulla[city.value]["latitude"];
+            lon.value = Badulla[city.value]["longitude"];
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

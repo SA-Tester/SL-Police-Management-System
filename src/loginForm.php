@@ -18,28 +18,38 @@
   </head>
   <body>
     <div class="container-fluid">
-      <form class="">
-        <h4 class="text-center">Login</h4>
-        <div class="form-group mb-3 mt-5">
-          <label for="exampleInputEmail1">Username</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-        </div>
-        <div class="form-group mb-3">
-          <label for="exampleInputPassword1">Password</label>
-          <div class="input-group">
-            <input type="password" class="form-control" id="exampleInputPassword1">
-            <div class="input-group-append">
-              <button class="btn eye-btn" type="button" id="toggleVisibility" >
-                <i class="fa-solid fa-eye-slash" id="eyeIcon"></i>
-              </button>
+      <form action="login.php" method="POST">
+         <h4 class="text-center">Login</h4>
+            <div class="form-group mb-3 mt-5">
+              <label for="username">Username</label>
+              <input type="text" name="username" class="form-control" id="username" aria-describedby="emailHelp">
             </div>
-          </div>
-          <small id="emailHelp" class="form-text text-muted mt-3 text-center">Forgot password? <a href="index.html" style="color:#101D6B;text-decoration: none;"><b>Click here</b></a></small>
-         
-        </div>
-        <button type="submit" class="btn btn-primary mt-4">Login </button>
+            <div class="form-group mb-3">
+              <label for="exampleInputPassword1">Password</label>
+              <div class="input-group">
+                <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+                <div class="input-group-append">
+                  <button class="btn eye-btn" type="button" id="toggleVisibility" >
+                    <i class="fa-solid fa-eye-slash" id="eyeIcon"></i>
+                  </button>
+                </div>
+              </div>
+              <small id="emailHelp" class="form-text text-muted mt-3 centered-text">Forgot password? <a href="index.html" style="color:#146C94;text-decoration: none;"><b>Click here</b></a></small>
+             
+            </div>
+            <button type="submit" class="btn btn-primary mt-4">Login </button>
       </form>
     </div>
+    <?php
+        if(isset($_GET["error"])){
+            if($_GET["error"] == 1){
+                echo "<p style='color:#fff;text-align:center;'>You must enter a value to username and password fields.</p>";
+            }
+            elseif($_GET["error"] == 2){
+                echo "<p style='color:#fff;text-align:center;'>Username or password is incorrect.</p>";
+            }
+        }
+      ?>
 
 
 
