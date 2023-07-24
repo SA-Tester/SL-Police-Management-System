@@ -1,0 +1,148 @@
+* {
+    box-sizing: border-box;
+  }
+
+.table-con{
+    border: 1px solid #ddd;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 95%;
+    color: darkblue;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.table-con tr{
+    border-bottom: 1px solid #ddd;
+}
+
+.table-con td{
+    padding: 10px;
+    text-align: left;
+    border-left: 1px solid #ddd;
+}
+
+.table-con tr:hover{
+    background-color: #f2f2f2;
+}
+
+.table-con th{
+    background-color: lavender;
+    padding: 10px;
+    text-align: center;
+    border-left: 1px solid #ddd;
+}
+
+h4{
+    color: darkblue;
+    margin: 20px;
+}
+
+.btn1, .btn2{
+    border-radius: 5px;
+    padding: 8px 10px;
+    font-size: 14px;
+    cursor: pointer;
+    border: 2px solid darkblue;
+    font-weight: bold;
+    width: 110px;
+    margin: 0 5px;
+}
+
+.btn1{
+    background-color: darkblue;
+    color: white;
+}
+
+.btn1:hover{
+    background-color: #080e47;
+    border-color: #080e47;
+}
+
+.btn2{
+    color: darkblue;
+}
+
+.btn2:hover{
+    border-color: #080e47;
+    color: #080e47;
+    background-color: rgb(187, 199, 216);
+}
+
+.buttons{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+}
+
+  
+  /* The popup form - hidden by default */
+  .form-popup {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    border-radius: 10px;
+    z-index: 9;
+  }
+  
+
+  .form-container {
+    max-width: 300px;
+    padding: 10px;
+    background-color: lavender;
+    box-shadow: #080e47;
+    color: #080e47;
+  }
+  
+
+  .form-container input[type=text], .form-container input[type=password] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: white;
+    border-radius: 10px;
+  }
+  
+
+  .form-container input[type=text]:focus, .form-container input[type=password]:focus {
+    background-color: #dddddd;
+    outline: none;
+  }
+  
+
+  .alert {
+    margin: 20px;
+    padding: 20px;
+    background-color:rgb(23, 115, 168);
+    color: white;
+    border-radius:50px;
+  }
+  .error {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f44336;
+    color: white;
+    border-radius:50px;
+  }
+  
+  .closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .closebtn:hover {
+    color: black;
+  }
