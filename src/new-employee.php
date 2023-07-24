@@ -11,7 +11,7 @@
     <!-- Bootstrap CSS-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-    <link rel="stylesheet" href="../CSS/New_Employee.css">
+    <link rel="stylesheet" href="../CSS/new-employee.css">
 </head>
 
 <body>
