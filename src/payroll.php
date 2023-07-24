@@ -6,7 +6,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../CSS/index.css">
+    <link rel="stylesgeet" href="../CSS/submit-leave-medical.css">
     <link rel="stylesheet" href="../CSS/calculate-salary.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://kit.fontawesome.com/a943423ab3.js" crossorigin="anonymous"></script>
@@ -30,9 +31,19 @@
     <!---------------------------------------------------->
     
     <div>
-        <h4>Calculate Salary</h4>
+        <h4 class="mt-5">Calculate Salary</h4>
 
         <div style="overflow-x: auto;" class="mt-5">
+        
+        <?php
+            if (isset($_GET["message"])) {
+                if ($_GET["message"] == 1) {
+                    echo "<div class='alert'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>Successfully Saved!</strong></div>";
+                } elseif ($_GET["message"] == 2) {
+                     echo "<div class='error'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>Error Occurred!</strong></div>";
+                }
+            }
+        ?>
             <table class="table-con">
                 <thead>
                     <tr>
@@ -42,9 +53,7 @@
                         <th>Base Salary</th>
                         <th>Service</th>
                         <th>Barter</th>
-                        <th>Leaves</th>
                         <th>Total Salary</th>
-                        <th>Pension</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,9 +64,7 @@
                         <td>40000</td>
                         <td>30</td>
                         <td>15000</td>
-                        <td>5</td>
                         <td>60000</td>
-                        <td>NULL</td>
                     </tr>
                     <tr>
                         <td>2</th>
@@ -66,9 +73,7 @@
                         <td>30000</td>
                         <td>20</td>
                         <td>10000</td>
-                        <td>3</td>
                         <td>42000</td>
-                        <td>NULL</td>
                     </tr>
                     <tr>
                         <td>3</th>
@@ -76,10 +81,8 @@
                         <td>SI</td>
                         <td>35000</td>
                         <td>40</td>
-                        <td>NULL</td>
-                        <td>NULL</td>
-                        <td>NULL</td>
-                        <td>35000</td>
+                        <td>12250</td>
+                        <td>75000</td>
                     </tr>
                     </tbody>
             </table>
@@ -93,7 +96,8 @@
     </div>
 
     <div class="form-popup" id="myForm">
-        <form action="" class="form-container">
+        <form method="POST" action="process-payroll.php" class="form-container">
+
           <h4>Add New Employee</h4>
       
           <label for="empID">EmpID</label>
@@ -106,7 +110,7 @@
           <input type="text" placeholder="Enter Service Years" name="service_years" required>
       
           <div class="buttons">
-            <button type="submit" class="btn1">Add</button>
+            <button type="submit" class="btn1" name="add">Add</button>
             <button type="button" class="btn2" onclick="closeForm()">Close</button>
           </div>
         </form>
