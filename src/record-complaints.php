@@ -112,7 +112,6 @@
                                         Recording</button>
                                     <p id="isRecording">Click start to button to record</p>
                                     <audio src="" name="recording" id="audioElement" class="mb-4" controls></audio>
-                                    <input type="hidden" name="audio" id="audio">
                                 </td>
                             </tr>
                             <tr>
@@ -120,8 +119,8 @@
                                     <label for="comp_desc">Complaint In Text</label>
                                 </td>
                                 <td>
-                                    <button name="start-speech" id="start-speech" class="btn-danger mb-2">Start</button>
-                                    <button name="stop-speech" id="stop-speech" class="btn-dark mb-2">Stop</button>
+                                    <button name="start-speech" id="start-speech" class="btn-danger mb-2" disabled>Start</button>
+                                    <button name="stop-speech" id="stop-speech" class="btn-dark mb-2" disabled>Stop</button>
                                     <textarea id="comp_desc" name="comp_desc" rows="10" cols="40" class="mb-4"></textarea>
                                 </td>
                             </tr>
