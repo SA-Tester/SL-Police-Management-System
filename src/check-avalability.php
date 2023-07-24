@@ -23,11 +23,18 @@
         renderNavBar();
     ?>
     <!---------------------------------------------------->
-
-    <div class="container-fluid mt-4 mb-2">
+    <br><b>
+    <div class="container-fluid heading">
         <div class="row">
             <div class="col-md-12">
-                <h3 style="color:#101D6B"><b>Check Employee Avalability</b></h3>
+                <h3 style="color:#101D6B" class="h3"><b>Check Employee Avalability</b></h3>
+            </div>
+        </div>
+    </div>
+   
+    <div class="container-fluid mt-0 mb-2">
+        <div class="row">
+            <div class="col-md-12">
                 <div class="table-responsive" id="avalability-table">
                     <table class="table mt-5">
                         <thead class="thead-edit">

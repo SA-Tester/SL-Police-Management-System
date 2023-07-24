@@ -1,3 +1,7 @@
+.heading{
+    padding-top: 100px;
+}
+
 .thead-edit th {
     color: white;
     background: #101D6B;
@@ -31,31 +35,29 @@ footer {
     padding-bottom: 0;
 }
 
-@media only screen and (max-width:800px) {
+@media only screen and (max-width: 800px) {
+    #avalability-table thead {
+        display: none;
+    }
 
     #avalability-table tbody,
     #avalability-table tr,
     #avalability-table td {
         display: block;
-
     }
 
-    #avalability-table thead tr {
-        position: absolute;
-        top: -9999px;
-        left: -9999px;
-    }
-
-    #avalability-table td {
+    #avalability-table tbody td {
         position: relative;
         padding-left: 50%;
     }
 
-    #avalability-table td ::before {
+    #avalability-table tbody td::before {
         content: attr(data-title);
         position: absolute;
+        top: 0;
         left: 6px;
-        font-weight: solid;
+        font-weight: bold;
+        color: #101D6B;
     }
-
 }
+
