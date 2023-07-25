@@ -1,8 +1,8 @@
 // ========================================================= STRAT OF AUDIO RECORDER =============================================================================== //
 const record = document.getElementById("start-recording");
 const stop = document.getElementById("stop-recording");
-const audio = document.getElementById("audioElement")
-const isRecording = document.getElementById("isRecording")
+const audio = document.getElementById("audioElement");
+const isRecording = document.getElementById("isRecording");
 
 stop.disabled = true;
 
@@ -19,6 +19,7 @@ if(navigator.mediaDevices.getUserMedia){
             mediaRecorder.start();
             console.log(mediaRecorder.state);
             console.log("Recorder Started");
+            isRecording.style.color = "red";
             isRecording.textContent = "Recorder Started";
             stop.disabled = false;
             record.disabled = true;
@@ -28,39 +29,30 @@ if(navigator.mediaDevices.getUserMedia){
             mediaRecorder.stop();
             console.log(mediaRecorder.state);
             console.log("Recorder Stopped");
+            isRecording.style.color = "red";
             isRecording.textContent = "Recorder Stopped"
             stop.disabled = true;
             record.disabled = false;
         }
 
-        mediaRecorder.onstop = function(e){
+        mediaRecorder.onstop = function(){
             console.log("Data available after MediaRecorder.stop() called");
             const blob = new Blob(chunks, {type: "audio/mp3; codecs=opus"});
             chunks= [];
             audio.src = URL.createObjectURL(blob);
             console.log("Recorder Stopped");
 
-            document.getElementById("audio").value = URL.createObjectURL(blob);
-            
-            //sendAudioFile(blob);
-            /*var xhr = new XMLHttpRequest();
-            xhr.open('POST', '../src/classes/process-complaints.php', true); //my url had the ID of the item that the blob corresponded to
-            xhr.responseType = 'Blob';
-            xhr.send(blob);*/
-                     
-            //const formData = new FormData();
-            //formData.append('audio', blob, mp3FromBlob);
-            //sendAudioFile(mp3FromBlob);
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function(e) {
+            if(this.readyState === 4) {
+                console.log("Server returned: ",e.target.responseText);
+            }
+            };
+            var fd = new FormData();
+            fd.append("audio_data", blob, "filename");
+            xhr.open("POST", "../src/save-audio.php", true);
+            xhr.send(fd);
         }
-
-        /*const sendAudioFile = file => {
-            const formData = new FormData();
-            formData.append('audio', file);
-            return fetch('../js/upload-audio.php', {
-              method: 'POST',
-              body: formData
-            });
-        };*/
 
         mediaRecorder.ondataavailable = function(e){
             chunks.push(e.data);

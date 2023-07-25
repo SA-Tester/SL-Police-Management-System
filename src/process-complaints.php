@@ -28,7 +28,6 @@
         $date = $_POST["date"];
         $category = $complaintObject->convertCategory($_POST["category"]);
         $title = $_POST["title"];
-        $recording = $_POST["audio"];
         $description = $_POST["comp_desc"];
         $complaint_status = $_POST["comp_status"];
         $emp_id = $_POST["emp_id"];
@@ -60,7 +59,6 @@
         $complaintObject->setDate($date);
         $complaintObject->setCategory($category);
         $complaintObject->setTitle($title);
-        $complaintObject->setRecording($recording); //$complaintObject->setRecording($complaintObject->saveAudio()); //should return uploads/recordings/FILENAME.mp3
         $complaintObject->setDescription($description);
         $complaintObject->setComplaintStatus($complaint_status);
         $complaintObject->setEmpID($emp_id);
@@ -68,13 +66,13 @@
         // Construct a People Object
         $peopleObject = new People($people_nic, $people_name, $people_address, $people_contact, $people_email); // $nic, $name, $address, $contact, $email
     
-        //location null
         if(empty($city)){
             $peopleObject->setCon($con);
             $peopleObject->addPerson();
 
             $complaintObject->setCon($con);
             $complaintObject->addComplaint("");
+            $complaintObject->addRecording();
             $complaintObject->addRoleInCase($peopleObject->getNIC(), $people_type);
         }
         else{
@@ -87,6 +85,7 @@
 
             $complaintObject->setCon($con);
             $complaintObject->addComplaint($locationObject->getLocationID());
+            $complaintObject->addRecording();
             $complaintObject->addRoleInCase($peopleObject->getNIC(), $people_type);
         }
 

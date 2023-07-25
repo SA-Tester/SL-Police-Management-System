@@ -27,10 +27,6 @@ class Complaints{
         $this->title = $title;
     }
 
-    function setRecording($recording){
-        $this->recording = $recording;
-    }
-
     function setDescription($description){
         $this->description = $description;
     }
@@ -179,12 +175,6 @@ class Complaints{
         }
     }
 
-    function saveAudio(){
-        $url =  $this->recording;
-        // ADD CODE TO UPLOAD THE FILE TO UPLOADS FOLDER
-        //should return uploads/recordings/FILENAME.mp3
-    }
-
     public function addComplaint($location_id){
         if($location_id == ""){
             $query = "INSERT INTO complaint(date, complaint_type, complaint_title, audio_src, complaint_text, complaint_status, empID) VALUES(?, ?, ?, ?, ?, ?, ?)";
@@ -214,18 +204,17 @@ class Complaints{
             }
         }
         else{
-            $query = "INSERT INTO complaint(date, complaint_type, complaint_title, audio_src, complaint_text, complaint_status, empID, location_id) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO complaint(date, complaint_type, complaint_title, complaint_text, complaint_status, empID, location_id) VALUES(?, ?, ?, ?, ?, ?, ?)";
             try{
                 $pstmt = $this->con->prepare($query);
                 
                 $pstmt->bindValue(1, $this->date);
                 $pstmt->bindValue(2, $this->category);
                 $pstmt->bindValue(3, $this->title);
-                $pstmt->bindValue(4, $this->recording);
-                $pstmt->bindValue(5, $this->description);
-                $pstmt->bindValue(6, $this->complaint_status);
-                $pstmt->bindValue(7, $this->emp_id);
-                $pstmt->bindValue(8, $location_id);
+                $pstmt->bindValue(4, $this->description);
+                $pstmt->bindValue(5, $this->complaint_status);
+                $pstmt->bindValue(6, $this->emp_id);
+                $pstmt->bindValue(7, $location_id);
 
                 $a = $pstmt->execute();
                 $this->complaint_id = $this->con->lastInsertId();
@@ -243,7 +232,33 @@ class Complaints{
         }
     }
 
-    function addRoleInCase($people_nic, $type){
+    function addRecording(){
+        $path = "../uploads/complaint-recordings/";
+        $old_filename = $path."filename.mp3";
+        
+        if(file_exists($old_filename)){
+            $new_filename = $path."Rec-".$this->complaint_id.".mp3";
+            rename($old_filename, $new_filename);
+
+            $query = "UPDATE complaint SET audio_src=? WHERE complaint_id=?";
+            $pstmt = $this->con->prepare($query);
+            $pstmt->bindValue(1, $new_filename);
+            $pstmt->bindValue(2, $this->complaint_id);
+
+            $a = $pstmt->execute();
+            if($a > 0){
+                echo "Recording added<br>";
+            }
+            else{
+                die("An Error occured<br>");
+            }
+        }
+        else{
+            die("DOES NOT EXIST");
+        }
+    }
+
+    public function addRoleInCase($people_nic, $type){
         $query = "INSERT INTO role_in_case(nic, role_in_case, complaint_id) VALUES(?, ?, ?)";
 
         try{
