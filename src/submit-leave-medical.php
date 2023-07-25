@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../CSS/index.css">
     <link rel="stylesheet" href="../CSS/calculate-salary.css">
     <link rel="stylesheet" href="../CSS/submit-leave-medical.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -33,7 +33,7 @@
             <div class="col-50">
                 <h4 class="h4 mt-5">Leave Application</h4>
 
-                <!-- <?php
+                <?php
                 if (isset($_GET["message"])) {
                     if ($_GET["message"] == 1) {
                         echo "<div class='alert'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>Successfully Saved!</strong></div>";
@@ -41,7 +41,7 @@
                         echo "<div class='error'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>Error Occurred!</strong></div>";
                      }
                 }
-                ?> -->
+                ?>
 
                 <div class="containerx">
                     <form action="apply-leave.php" method="POST">
@@ -104,7 +104,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <input type="submit" class="btn1 buttons" value="SUBMIT">
+                            <input type="submit" name="submit" class="btn1 buttons" value="SUBMIT">
                         </div>
                     </form>
                 </div>
