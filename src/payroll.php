@@ -110,7 +110,9 @@ $dbcon = new DBConnector();
 
         <div class="buttons">
             <button type="button" class="btn1" onclick="openForm()"><i class="fa-solid fa-user-plus"></i> Add</button>
-            <button type="button" class="btn2"><i class="fa-solid fa-calculator"></i> Calculate</button>
+            <form action="process-payroll.php" method="POST">
+                <input type="submit" class="btn2" name="refresh" value="Refresh"/>
+            </form>
         </div>
     </div>
 

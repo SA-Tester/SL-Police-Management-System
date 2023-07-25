@@ -19,7 +19,30 @@ if(isset($_POST["add"])){
     $addEmployee->setServiceYears();
     $addEmployee->setTotalSalary();
     $addEmployee->setBartar();
+    $addEmployee->setPension();
     $addEmployee->addEmployee();
 }
+
+if(isset($_POST["refresh"])){
+    $con = $dbcon->getConnection();
+    $query = "SELECT * FROM salary";
+    $pstmt = $con->prepare($query);
+    $pstmt->execute();
+    $rs = $pstmt->fetchAll(PDO::FETCH_OBJ);
+    foreach ($rs as $employee){
+        $emp_id = $employee->empID;
+        $base_salary = $employee->base_salary;
+        if($employee->pension_amount==NULL){
+            $addEmployee = new CalculateSalary($emp_id, $base_salary);
+            $addEmployee->setCon($con);
+            $addEmployee->setServiceYears();
+            $addEmployee->setTotalSalary();
+            $addEmployee->setBartar();
+            $addEmployee->reset();
+        }
+
+    }
+}
+
 
 ?>

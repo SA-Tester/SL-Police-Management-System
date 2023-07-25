@@ -13,6 +13,7 @@ $con = $dbcon->getConnection();
 $addEmployee = new CalculateSalary($emp_id, $base_salary);
 $addEmployee->setCon($con);
 $addEmployee->setServiceYears();
+$addEmployee->setPension();
 $addEmployee->retiredEmployee();
 
 ?>

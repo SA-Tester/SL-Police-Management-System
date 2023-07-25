@@ -65,27 +65,76 @@ class CalculateSalary{
         }
     }
 
-    public function addEmployee(){
-        $query = "INSERT INTO salary (empID, base_salary, service_years, bartar_amount, total_salary) VALUES (?, ?, ?, ?, ?)";
-        try {
-            $pstmt = $this->con->prepare($query);
-            $pstmt->bindValue(1, $this->emp_id);
-            $pstmt->bindValue(2, $this->base_salary);
-            $pstmt->bindValue(3, $this->service_years);
-            $pstmt->bindValue(4, $this->bartar_amount);
-            $pstmt->bindValue(5, $this->total_salary);
-            $pstmt->execute();
-            if($pstmt->rowCount() > 0){
-                header("Location: payroll.php?message=1");
-                exit;
-            } else{
-                header("Location: payroll.php?message=2");
-                exit;
-            }
-
-        } catch (PDOException $exc) {
-            echo $exc->getMessage();
+    public function setPension(){
+        if($this->service_years >= 30){
+            $this->pension = $this->base_salary * 80/100;
+        } else if($this->service_years >= 25){
+            $this->pension = $this->base_salary * 75/100;
+        } else{
+            $this->pension = $this->base_salary * 70/100;
         }
+    }
+
+    public function addEmployee(){
+        $query = "SELECT empID, retired_status FROM employee";
+        $pstmt = $this->con->prepare($query);
+        $pstmt->execute();
+        $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach($rows as $row){
+            if($row['empID']==$this->emp_id){
+                $retired_status = $row['retired_status'];
+            }
+        }
+
+        if($retired_status==0){
+            $query = "INSERT INTO salary (empID, base_salary, service_years, bartar_amount, total_salary, pension_amount) VALUES (?, ?, ?, ?, ?. ?)";
+            try {
+                $pstmt = $this->con->prepare($query);
+                $pstmt->bindValue(1, $this->emp_id);
+                $pstmt->bindValue(2, $this->base_salary);
+                $pstmt->bindValue(3, $this->service_years);
+                $pstmt->bindValue(4, $this->bartar_amount);
+                $pstmt->bindValue(5, $this->total_salary);
+                $pstmt->bindValue(6, NULL);
+                $pstmt->execute();
+                if($pstmt->rowCount() > 0){
+                    header("Location: payroll.php?message=1");
+                    exit;
+                } else{
+                    header("Location: payroll.php?message=2");
+                    exit;
+                }
+
+            } catch (PDOException $exc) {
+                echo $exc->getMessage();
+            }
+        } else{
+            $query = "INSERT INTO salary (empID, base_salary, service_years, bartar_amount, total_salary, pension_amount) VALUES (?, ?, ?, ?, ?, ?)";
+            try {
+                $pstmt = $this->con->prepare($query);
+                $pstmt->bindValue(1, $this->emp_id);
+                $pstmt->bindValue(2, $this->base_salary);
+                $pstmt->bindValue(3, $this->service_years);
+                $pstmt->bindValue(4, NULL);
+                $pstmt->bindValue(5, NULL);
+                $pstmt->bindValue(6, $this->pension);
+                $pstmt->execute();
+                if($pstmt->rowCount() > 0){
+                    header("Location: payroll.php?message=1");
+                    exit;
+                } else{
+                    header("Location: payroll.php?message=2");
+                    exit;
+                }
+
+            } catch (PDOException $exc) {
+                echo $exc->getMessage();
+            }
+        }
+
+
+        
     }
 
     public function removeEmployee(){
@@ -103,47 +152,44 @@ class CalculateSalary{
     }
 
     public function retiredEmployee(){
-        if($this->service_years > 30){
-            $this->pension = $this->base_salary * 80/100;
-        } else if($this->service_years > 25){
-            $this->pension = $this->base_salary * 75/100;
-        } else{
-            $this->pension = $this->base_salary * 70/100;
-        }
-
-        $this->bartar_amount = NULL;
-        $this->total_salary = NULL;
-
         $query = "UPDATE salary SET bartar_amount=?, total_salary=?, pension_amount=? WHERE empID=?";
         try {
             $pstmt = $this->con->prepare($query);
-            $pstmt->bindValue(1, $this->bartar_amount);
-            $pstmt->bindValue(2, $this->total_salary);
+            $pstmt->bindValue(1, NULL);
+            $pstmt->bindValue(2, NULL);
             $pstmt->bindValue(3, $this->pension);
             $pstmt->bindValue(4, $this->emp_id);
             $pstmt->execute();
-            if ($pstmt->rowCount() > 0){
-                header("Location: payroll.php"); 
-            }
+            header("Location: payroll.php");
         } catch (PDOException $exc) {
             echo $exc->getMessage();
         }
     }
 
     public function reset(){
-        $this->pension_amount=NULL;
-        
         $query = "UPDATE salary SET bartar_amount=?, total_salary=?, pension_amount=? WHERE empID=?";
         try {
             $pstmt = $this->con->prepare($query);
             $pstmt->bindValue(1, $this->bartar_amount);
             $pstmt->bindValue(2, $this->total_salary);
-            $pstmt->bindValue(3, $this->pension);
+            $pstmt->bindValue(3, NULL);
             $pstmt->bindValue(4, $this->emp_id);
             $pstmt->execute();
-            if ($pstmt->rowCount() > 0){
-                header("Location: payroll.php"); 
-            }
+            header("Location: payroll.php");
+        } catch (PDOException $exc) {
+            echo $exc->getMessage();
+        }
+    }
+
+    public function refersh(){
+        $query = "UPDATE salary SET service_years=?, bartar_amount=?, total_salary=? WHERE empID=?";
+        try {
+            $pstmt = $this->con->prepare($query);
+            $pstmt->bindValue(1, $this->service_years);
+            $pstmt->bindValue(2, $this->bartar_amount);
+            $pstmt->bindValue(3, $this->total_salary);
+            $pstmt->bindValue(4, $this->emp_id);
+            $pstmt->execute();
         } catch (PDOException $exc) {
             echo $exc->getMessage();
         }
