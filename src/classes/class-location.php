@@ -43,9 +43,10 @@ class Location{
             $this->location_id = $this->con->lastInsertId();
 
             if($a>0){
-                echo "Location: SUCCESS<br>";
+                return true;
             }
             else{
+                return false;
                 die("An error occured");
             }
         }

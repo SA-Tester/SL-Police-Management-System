@@ -193,9 +193,10 @@ class Complaints{
                 $this->complaint_id = $this->con->lastInsertId();
                 
                 if($a > 0){
-                    echo "Record added to complaint table successfully<br>";
+                    return true;
                 }
                 else{
+                    return false;
                     die("An Error occured<br>");
                 }
             }
@@ -220,9 +221,10 @@ class Complaints{
                 $this->complaint_id = $this->con->lastInsertId();
                 
                 if($a > 0){
-                    echo "Record added to complaint table successfully (with location)<br>";
+                    return true;
                 }
                 else{
+                    return false;
                     die("An Error occured<br>");
                 }
             }
@@ -247,14 +249,15 @@ class Complaints{
 
             $a = $pstmt->execute();
             if($a > 0){
-                echo "Recording added<br>";
+                return true;
             }
             else{
+                return false;
                 die("An Error occured<br>");
             }
         }
         else{
-            die("DOES NOT EXIST");
+            return;
         }
     }
 
@@ -269,9 +272,10 @@ class Complaints{
 
             $a = $pstmt->execute();
             if($a > 0){
-                echo "Record added to role in case table successfully<br>";
+                return true;
             }
             else{
+                return false;
                 die("An Error occured");
             }
         }catch(PDOException $e){

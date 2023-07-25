@@ -35,7 +35,32 @@
     ?>
     <!---------------------------------------------------->
 
-    <div class="containter-md d-flex justify-content-center ml-4 mr-4 mt-5">
+    <div class="container-md w-100 mt-5">
+        <div class="row">
+            <div class="col">
+                <?php
+                    if(isset($_GET["status"])){
+                        if($_GET["status"] == "0"){
+                            ?>
+                            <div class="alert alert-success w-100 mt-5" role="alert">
+                                Record inserted succesfully!
+                            </div>
+                            <?php
+                        }
+                        elseif ($_GET["status"] == "1"){
+                            ?>
+                            <div class="alert alert-danger w-100 mt-5" role="alert">
+                                An error occured. Please try again!
+                            </div>
+                            <?php
+                        }
+                    }
+                ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="containter-md d-flex justify-content-center ml-4 mr-4 mt-3">
         <div class="row">
             <div class="col-md w-100">
                 <h3 class="h3 mt-5 mb-4 ml-5">New Complaint</h3>
@@ -225,8 +250,22 @@
                                 <td>
                                     <label for="emp_id">Recorded By</label>
                                 </td>
-                                <td>
-                                    <input type="text" id="emp_id" name="emp_id" class="mb-4 w-100" placeholder="Employee ID"/>
+                                <td>                
+                                    <input list="emp_ids" name="emp_id" id="emp_id" class="mb-4 w-100" placeholder="Employee ID">
+                                    <datalist id="emp_ids" name="emp_id" class="mb-4 w-100">     
+                                        <?php
+                                            $query2 = "SELECT empID FROM employee WHERE retired_status=?";
+                                            $pstmt2 = $con->prepare($query2);
+                                            $pstmt2->bindValue(1,0);
+                                            $pstmt2->execute();
+                                            $rows2 = $pstmt2->fetchAll(PDO::FETCH_ASSOC);
+                                            foreach($rows2 as $row){
+                                                ?>
+                                                <option value="<?php echo $row["empID"]; ?>"></option>
+                                                <?php
+                                            }
+                                        ?>
+                                    </datalist>
                                 </td>
                             </tr>
                         </tbody>
@@ -237,7 +276,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <label for="vehicle_number">Vehilce Number</label>
+                                    <label for="vehicle_number">Vehicle Number</label>
                                 </td>
                                 <td>
                                     <input type="text" id="vehicle_number" name="vehicle_number" class="mb-4 w-100" />
@@ -360,27 +399,6 @@
         
     </div>
 
-    <?php
-        if(isset($_SESSION["msg"])){
-            if($_SESSION["msg"] == 0){
-                ?>
-                <div class="alert alert-success" role="alert">
-                    Record inserted succesfully!
-                </div>
-                <?php
-                unset($_SESSION["msg"]);
-            }
-            elseif ($_SESSION["msg"] == 1){
-                ?>
-                <div class="alert alert-danger" role="alert">
-                    An error occured. Please try again!
-                </div>
-                <?php
-                unset($_SESSION["msg"]);
-            }
-        }
-    ?>
-
     <script>
         function fillDetails(str){
             let name = document.getElementById("people_name");
@@ -388,7 +406,6 @@
             let contact = document.getElementById("people_contact");
             let email = document.getElementById("people_email");
 
-            console.log(str);
             if(str.length == 0){
                 name.value = "";
                 address.value = "";

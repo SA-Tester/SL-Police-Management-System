@@ -1,8 +1,4 @@
 <?php
-    /*error_reporting(E_ALL);
-    ini_set('display_errors', 0);
-    ini_set('log_errors', 1);*/
-
     require "./classes/class-db-connector.php";
     require "./classes/class-people.php";
     require "./classes/class-complaints.php";
@@ -16,6 +12,8 @@
     use classes\Fine;
 
     $dbcon = new DBConnector();
+
+    $state;
 
     if(isset($_POST["add"])){
         // Construct a Complaint Object
@@ -68,25 +66,25 @@
     
         if(empty($city)){
             $peopleObject->setCon($con);
-            $peopleObject->addPerson();
-
+            $state = $peopleObject->addPerson();
+            
             $complaintObject->setCon($con);
-            $complaintObject->addComplaint("");
-            $complaintObject->addRecording();
-            $complaintObject->addRoleInCase($peopleObject->getNIC(), $people_type);
+            $state = $complaintObject->addComplaint("");
+            $state = $complaintObject->addRecording();
+            $state = $complaintObject->addRoleInCase($peopleObject->getNIC(), $people_type);
         }
         else{
             $locationObject = new Location("Case Location", $district, $city, $lat, $lon);
             $locationObject->setCon($con);
-            $locationObject->addLocation();
-
+            $state = $locationObject->addLocation();
+            
             $peopleObject->setCon($con);
-            $peopleObject->addPerson();
-
+            $state = $peopleObject->addPerson();
+            
             $complaintObject->setCon($con);
-            $complaintObject->addComplaint($locationObject->getLocationID());
-            $complaintObject->addRecording();
-            $complaintObject->addRoleInCase($peopleObject->getNIC(), $people_type);
+            $state = $complaintObject->addComplaint($locationObject->getLocationID());
+            $state = $complaintObject->addRecording();
+            $state = $complaintObject->addRoleInCase($peopleObject->getNIC(), $people_type);
         }
 
         if(!empty($vehicle_number)){
@@ -94,7 +92,16 @@
             $fineObejct->setComplaintID($complaintObject->getComplaintID());
             $fineObejct->setNIC($peopleObject->getNIC());
             $fineObejct->setCon($con);
-            $fineObejct->addFine();
+            $state = $fineObejct->addFine();
+        }
+
+        if(isset($state)){
+            if($state){
+                header("Location: record-complaints.php?status=0");
+            }
+            else{
+                header("Location: record-complaints.php?status=1");
+            }
         }
     }
 
