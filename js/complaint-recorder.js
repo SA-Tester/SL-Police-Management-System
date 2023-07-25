@@ -50,7 +50,7 @@ if(navigator.mediaDevices.getUserMedia){
             };
             var fd = new FormData();
             fd.append("audio_data", blob, "filename");
-            xhr.open("POST", "../src/save-audio.php", true);
+            xhr.open("POST", "../src/scripts/save-audio.php", true);
             xhr.send(fd);
         }
 
@@ -68,6 +68,7 @@ if(navigator.mediaDevices.getUserMedia){
 // ========================================================= END OF AUDIO RECORDER =============================================================================== //
 
 // ========================================================= START OF SPEECH RECOGNITON ========================================================================== //
+/*
 let startSpeech = document.getElementById("start-speech"); 
 let stopSpeech = document.getElementById("stop-speech");
 
@@ -107,4 +108,5 @@ if("webkitSpeechRecognition" in window){
 else{
     console.log("Speech Recognition Not Available");
 }
+*/
 // ========================================================= END OF SPEECH RECOGNITON ============================================================================ //
