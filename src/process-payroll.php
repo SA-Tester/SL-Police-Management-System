@@ -13,12 +13,13 @@ if(isset($_POST["add"])){
 
     $emp_id = $_POST["empID"];
     $base_salary = $_POST["base_salary"];
-    $service_years = $_POST["service_years"];
 
-    $addEmployee = new CalculateSalary($emp_id, $base_salary, $service_years);
+    $addEmployee = new CalculateSalary($emp_id, $base_salary);
     $addEmployee->setCon($con);
-    $addEmployee->setTotalSalary($base_salary, $service_years);
-    $addEmployee->setBartar($base_salary, $service_years);
+    $addEmployee->setServiceYears();
+    $addEmployee->setTotalSalary();
+    $addEmployee->setBartar();
     $addEmployee->addEmployee();
 }
+
 ?>

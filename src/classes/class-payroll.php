@@ -2,32 +2,67 @@
 
 namespace classes;
 use PDOException;
+use PDO;
 
 class CalculateSalary{
     private $emp_id;
     private $base_salary;
-    private $service_years;
-    private $rank;
-    private $email;
     private $con;
 
 
-    public function __construct($emp_id, $base_salary, $service_years){
+    public function __construct($emp_id, $base_salary){
         $this->emp_id = $emp_id;
         $this->base_salary = $base_salary;
-        $this->service_years = $service_years;
     }
 
     public function setCon($con){
         $this->con = $con;
     }
 
-    public function setTotalSalary($base_salary, $service_years){
-        $this->total_salary = ($base_salary + $service_years * 1000);
+    public function setServiceYears(){
+        $query = "SELECT empID, appointment_date FROM employee";
+        $pstmt = $this->con->prepare($query);
+        $pstmt->execute();
+        $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach($rows as $row){
+            if($row['empID']==$this->emp_id){
+                $appointment_date = $row['appointment_date'];
+            }
+        }
+
+        $current_date = date("Y-m-d");
+        $startDate = date_create($appointment_date);
+        $lastDate = date_create($current_date);
+        $difference = date_diff($startDate, $lastDate);
+        $this->service_years = $difference->y;
     }
 
-    public function setBartar($base_salary, $service_years){
-        $this->bartar_amount = ($base_salary + $service_years * 1000) * 20 / 100 ;
+    public function setTotalSalary(){
+        $this->total_salary = ($this->base_salary + $this->service_years * 1000);
+    }
+
+    public function setBartar(){
+        $query = "SELECT empID, rank FROM employee";
+        $pstmt = $this->con->prepare($query);;
+        $pstmt->execute();
+        $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach($rows as $row){
+            if($row['empID']==$this->emp_id){
+                $rank = $row['rank'];
+            }
+        }
+
+        if($rank == "PC" || $rank == "WPC"){
+            $this->bartar_amount = 12000;
+        } else if($rank == "PC" || $rank == "WPC" || $rank == "PS" || $rank == "WPS"){
+            $this->bartar_amount = 15000;
+        } else if ($rank == "SI" || $rank == "IP" || $rank == "ASP"){
+            $this->bartar_amount = 20000;
+        } else{
+            $this->bartar_amount = 25000;
+        }
     }
 
     public function addEmployee(){
@@ -48,6 +83,67 @@ class CalculateSalary{
                 exit;
             }
 
+        } catch (PDOException $exc) {
+            echo $exc->getMessage();
+        }
+    }
+
+    public function removeEmployee(){
+        $query = "DELETE from salary WHERE empID=?";
+        try {
+            $pstmt = $this->con->prepare($query);
+            $pstmt->bindValue(1, $this->emp_id);
+            $pstmt->execute();
+            if ($pstmt->rowCount() > 0){
+                header("Location: payroll.php"); 
+            }
+        } catch (PDOException $exc) {
+            echo $exc->getMessage();
+        }
+    }
+
+    public function retiredEmployee(){
+        if($this->service_years > 30){
+            $this->pension = $this->base_salary * 80/100;
+        } else if($this->service_years > 25){
+            $this->pension = $this->base_salary * 75/100;
+        } else{
+            $this->pension = $this->base_salary * 70/100;
+        }
+
+        $this->bartar_amount = NULL;
+        $this->total_salary = NULL;
+
+        $query = "UPDATE salary SET bartar_amount=?, total_salary=?, pension_amount=? WHERE empID=?";
+        try {
+            $pstmt = $this->con->prepare($query);
+            $pstmt->bindValue(1, $this->bartar_amount);
+            $pstmt->bindValue(2, $this->total_salary);
+            $pstmt->bindValue(3, $this->pension);
+            $pstmt->bindValue(4, $this->emp_id);
+            $pstmt->execute();
+            if ($pstmt->rowCount() > 0){
+                header("Location: payroll.php"); 
+            }
+        } catch (PDOException $exc) {
+            echo $exc->getMessage();
+        }
+    }
+
+    public function reset(){
+        $this->pension_amount=NULL;
+        
+        $query = "UPDATE salary SET bartar_amount=?, total_salary=?, pension_amount=? WHERE empID=?";
+        try {
+            $pstmt = $this->con->prepare($query);
+            $pstmt->bindValue(1, $this->bartar_amount);
+            $pstmt->bindValue(2, $this->total_salary);
+            $pstmt->bindValue(3, $this->pension);
+            $pstmt->bindValue(4, $this->emp_id);
+            $pstmt->execute();
+            if ($pstmt->rowCount() > 0){
+                header("Location: payroll.php"); 
+            }
         } catch (PDOException $exc) {
             echo $exc->getMessage();
         }
