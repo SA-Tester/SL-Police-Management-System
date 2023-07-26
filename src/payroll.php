@@ -17,7 +17,6 @@ $dbcon = new DBConnector();
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="../css/index.css">
-    <link rel="stylesgeet" href="../css/submit-leave-medical.css">
     <link rel="stylesheet" href="../css/calculate-salary.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://kit.fontawesome.com/a943423ab3.js" crossorigin="anonymous"></script>
@@ -42,8 +41,6 @@ $dbcon = new DBConnector();
     
     <div>
         <h4 class="mt-5">Calculate Salary</h4>
-
-        <div style="overflow-x: auto;" class="mt-5">
         
         <?php
             if (isset($_GET["message"])) {
@@ -54,6 +51,9 @@ $dbcon = new DBConnector();
                 }
             }
         ?>
+
+        <div style="overflow-x: auto;">
+        
             <table class="table-con">
                 <thead>
                     <tr>
