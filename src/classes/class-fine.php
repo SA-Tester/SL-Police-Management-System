@@ -50,9 +50,10 @@ class Fine{
             $a = $pstmt->execute();
 
             if($a>0){
-                echo "Fine: Success <br>";
+                return true;
             }
             else{
+                return false;
                 die("An error occured");
             }
 

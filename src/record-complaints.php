@@ -1,3 +1,11 @@
+<?php
+    require "./classes/class-db-connector.php";
+    use classes\DBConnector;
+
+    $dbcon = new DBConnector();
+    $con = $dbcon->getConnection();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,7 +35,32 @@
     ?>
     <!---------------------------------------------------->
 
-    <div class="containter-md d-flex justify-content-center ml-4 mr-4 mt-5">
+    <div class="container-md w-100 mt-5">
+        <div class="row">
+            <div class="col">
+                <?php
+                    if(isset($_GET["status"])){
+                        if($_GET["status"] == "0"){
+                            ?>
+                            <div class="alert alert-success w-100 mt-5" role="alert">
+                                Record inserted succesfully!
+                            </div>
+                            <?php
+                        }
+                        elseif ($_GET["status"] == "1"){
+                            ?>
+                            <div class="alert alert-danger w-100 mt-5" role="alert">
+                                An error occured. Please try again!
+                            </div>
+                            <?php
+                        }
+                    }
+                ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="containter-md d-flex justify-content-center ml-4 mr-4 mt-3">
         <div class="row">
             <div class="col-md w-100">
                 <h3 class="h3 mt-5 mb-4 ml-5">New Complaint</h3>
@@ -98,7 +131,7 @@
                                     <label for="title">Complaint Title</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="title" name="title" class="mb-4 w-100" />
+                                    <input type="text" id="title" name="title" class="mb-4 w-100" placeholder="Enter Complaint Title"/>
                                 </td>
                             </tr>
                             <tr>
@@ -119,9 +152,9 @@
                                     <label for="comp_desc">Complaint In Text</label>
                                 </td>
                                 <td>
-                                    <button name="start-speech" id="start-speech" class="btn-danger mb-2" disabled>Start</button>
-                                    <button name="stop-speech" id="stop-speech" class="btn-dark mb-2" disabled>Stop</button>
-                                    <textarea id="comp_desc" name="comp_desc" rows="10" cols="40" class="mb-4"></textarea>
+                                    <!--button name="start-speech" id="start-speech" class="btn-danger mb-2" disabled>Start</button>
+                                    <button name="stop-speech" id="stop-speech" class="btn-dark mb-2" disabled>Stop</button-->
+                                    <textarea id="comp_desc" name="comp_desc" rows="10" cols="40" class="mb-4" placeholder="Type the complaint in text"></textarea>
                                 </td>
                             </tr>
                             <tr>
@@ -137,18 +170,34 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="people_name">Name</label>
+                                    <label for="people_nic">NIC</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="people_name" name="people_name" class="mb-4 w-100" />
+                                    <input list="people_nics" name="people_nic" id="people_nic" class="mb-4 w-100" placeholder="Person's NIC" onchange="fillDetails(this.value)" value="">
+                                    <datalist id="people_nics" name="people_nic" class="mb-4 w-100">     
+                                        <?php 
+                                            try{
+                                                $query = "SELECT nic FROM people";
+                                                $pstmt = $con->prepare($query);
+                                                $pstmt->execute();
+                                                $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
+
+                                                foreach($rows as $row){
+                                                    ?>
+                                                    <option value="<?php echo $row["nic"]; ?>"></option>
+                                                    <?php
+                                                }
+                                            }catch(PDOException $e){}
+                                        ?>
+                                    </datalist>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="people_nic">NIC</label>
+                                    <label for="people_name">Name</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="people_nic" name="people_nic" class="mb-4 w-100" />
+                                    <input type="text" id="people_name" name="people_name" class="mb-4 w-100" placeholder="Person's Name" value=""/>
                                 </td>
                             </tr>
                             <tr>
@@ -156,8 +205,7 @@
                                     <label for="people_address">Address</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="people_address" name="people_address"
-                                        class="mb-4 w-100" />
+                                    <input type="text" id="people_address" name="people_address" class="mb-4 w-100" placeholder="Person's Address" value=""/>
                                 </td>
                             </tr>
                             <tr>
@@ -165,8 +213,7 @@
                                     <label for="people_contact">Contact</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="people_contact" name="people_contact"
-                                        class="mb-4 w-100" />
+                                    <input type="text" id="people_contact" name="people_contact" class="mb-4 w-100" placeholder="Person's Contact" value=""/>
                                 </td>
                             </tr>
                             <tr>
@@ -174,7 +221,7 @@
                                     <label for="people_email">Email</label>
                                 </td>
                                 <td>
-                                    <input type="email" id="people_email" name="people_email" class="mb-4 w-100" />
+                                    <input type="email" id="people_email" name="people_email" class="mb-4 w-100" placeholder="Person's Email" value=""/>
                                 </td>
                             </tr>
                             <tr>
@@ -203,8 +250,22 @@
                                 <td>
                                     <label for="emp_id">Recorded By</label>
                                 </td>
-                                <td>
-                                    <input type="text" id="emp_id" name="emp_id" class="mb-4 w-100" />
+                                <td>                
+                                    <input list="emp_ids" name="emp_id" id="emp_id" class="mb-4 w-100" placeholder="Employee ID">
+                                    <datalist id="emp_ids" name="emp_id" class="mb-4 w-100">     
+                                        <?php
+                                            $query2 = "SELECT empID FROM employee WHERE retired_status=?";
+                                            $pstmt2 = $con->prepare($query2);
+                                            $pstmt2->bindValue(1,0);
+                                            $pstmt2->execute();
+                                            $rows2 = $pstmt2->fetchAll(PDO::FETCH_ASSOC);
+                                            foreach($rows2 as $row){
+                                                ?>
+                                                <option value="<?php echo $row["empID"]; ?>"></option>
+                                                <?php
+                                            }
+                                        ?>
+                                    </datalist>
                                 </td>
                             </tr>
                         </tbody>
@@ -215,7 +276,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <label for="vehicle_number">Vehilce Number</label>
+                                    <label for="vehicle_number">Vehicle Number</label>
                                 </td>
                                 <td>
                                     <input type="text" id="vehicle_number" name="vehicle_number" class="mb-4 w-100" />
@@ -338,6 +399,38 @@
         
     </div>
 
+    <script>
+        function fillDetails(str){
+            let name = document.getElementById("people_name");
+            let address = document.getElementById("people_address");
+            let contact = document.getElementById("people_contact");
+            let email = document.getElementById("people_email");
+
+            if(str.length == 0){
+                name.value = "";
+                address.value = "";
+                contact.value - "";
+                email.value = "";
+            }
+            else{
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function (){
+                    if(this.readyState == 4 && this.status == 200){
+                        var obj = JSON.parse(this.responseText);
+                        name.value = obj[0];
+                        address.value = obj[1];
+                        contact.value = obj[2];
+                        email.value = obj[3];
+                    }
+                };
+
+                xmlhttp.open("GET", "./scripts/people-auto-fill.php?nic=" + str, true);
+                xmlhttp.send();
+            }
+        }
+    </script>
+
+    <!-- SHOW/ HIDE TRAFFIC COMPLAINTS -->
     <script type="text/javascript">
         let tableID = document.querySelector(".traffic");
         let category = document.getElementById("category");
@@ -352,6 +445,7 @@
         });
     </script>
 
+     <!-- FILL CITIES BASED ON DISTRICT -->
     <script type="module">
         import {Badulla} from "../assets/sl-cities/badulla.js";
 
@@ -376,12 +470,8 @@
         });
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 
     <script src="../js/complaint-recorder.js"></script>
 </body>
