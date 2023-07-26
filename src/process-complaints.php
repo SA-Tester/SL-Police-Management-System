@@ -1,8 +1,4 @@
 <?php
-    /*error_reporting(E_ALL);
-    ini_set('display_errors', 0);
-    ini_set('log_errors', 1);*/
-
     require "./classes/class-db-connector.php";
     require "./classes/class-people.php";
     require "./classes/class-complaints.php";
@@ -17,6 +13,8 @@
 
     $dbcon = new DBConnector();
 
+    $state;
+
     if(isset($_POST["add"])){
         // Construct a Complaint Object
         $complaintObject = new Complaints();
@@ -28,7 +26,6 @@
         $date = $_POST["date"];
         $category = $complaintObject->convertCategory($_POST["category"]);
         $title = $_POST["title"];
-        $recording = $_POST["audio"];
         $description = $_POST["comp_desc"];
         $complaint_status = $_POST["comp_status"];
         $emp_id = $_POST["emp_id"];
@@ -60,7 +57,6 @@
         $complaintObject->setDate($date);
         $complaintObject->setCategory($category);
         $complaintObject->setTitle($title);
-        $complaintObject->setRecording($recording); //$complaintObject->setRecording($complaintObject->saveAudio()); //should return uploads/recordings/FILENAME.mp3
         $complaintObject->setDescription($description);
         $complaintObject->setComplaintStatus($complaint_status);
         $complaintObject->setEmpID($emp_id);
@@ -68,26 +64,27 @@
         // Construct a People Object
         $peopleObject = new People($people_nic, $people_name, $people_address, $people_contact, $people_email); // $nic, $name, $address, $contact, $email
     
-        //location null
         if(empty($city)){
             $peopleObject->setCon($con);
-            $peopleObject->addPerson();
-
+            $state = $peopleObject->addPerson();
+            
             $complaintObject->setCon($con);
-            $complaintObject->addComplaint("");
-            $complaintObject->addRoleInCase($peopleObject->getNIC(), $people_type);
+            $state = $complaintObject->addComplaint("");
+            $state = $complaintObject->addRecording();
+            $state = $complaintObject->addRoleInCase($peopleObject->getNIC(), $people_type);
         }
         else{
             $locationObject = new Location("Case Location", $district, $city, $lat, $lon);
             $locationObject->setCon($con);
-            $locationObject->addLocation();
-
+            $state = $locationObject->addLocation();
+            
             $peopleObject->setCon($con);
-            $peopleObject->addPerson();
-
+            $state = $peopleObject->addPerson();
+            
             $complaintObject->setCon($con);
-            $complaintObject->addComplaint($locationObject->getLocationID());
-            $complaintObject->addRoleInCase($peopleObject->getNIC(), $people_type);
+            $state = $complaintObject->addComplaint($locationObject->getLocationID());
+            $state = $complaintObject->addRecording();
+            $state = $complaintObject->addRoleInCase($peopleObject->getNIC(), $people_type);
         }
 
         if(!empty($vehicle_number)){
@@ -95,7 +92,16 @@
             $fineObejct->setComplaintID($complaintObject->getComplaintID());
             $fineObejct->setNIC($peopleObject->getNIC());
             $fineObejct->setCon($con);
-            $fineObejct->addFine();
+            $state = $fineObejct->addFine();
+        }
+
+        if(isset($state)){
+            if($state){
+                header("Location: record-complaints.php?status=0");
+            }
+            else{
+                header("Location: record-complaints.php?status=1");
+            }
         }
     }
 

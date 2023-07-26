@@ -1,3 +1,13 @@
+<?php
+
+require "./classes/class-db-connector.php";
+
+use classes\DBConnector;
+
+$dbcon = new DBConnector();
+
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -7,7 +17,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="../css/index.css">
-    <link rel="stylesheet" href="../CSS/calculate-salary.css">
+    <link rel="stylesgeet" href="../css/submit-leave-medical.css">
+    <link rel="stylesheet" href="../css/calculate-salary.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://kit.fontawesome.com/a943423ab3.js" crossorigin="anonymous"></script>
 
@@ -30,57 +41,68 @@
     <!---------------------------------------------------->
     
     <div>
-        <h4>Calculate Salary</h4>
+        <h4 class="mt-5">Calculate Salary</h4>
 
         <div style="overflow-x: auto;" class="mt-5">
+        
+        <?php
+            if (isset($_GET["message"])) {
+                if ($_GET["message"] == 1) {
+                    echo "<div class='alert'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>Successfully Saved!</strong></div>";
+                } elseif ($_GET["message"] == 2) {
+                     echo "<div class='error'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>Error Occurred!</strong></div>";
+                }
+            }
+        ?>
             <table class="table-con">
                 <thead>
                     <tr>
                         <th>#</th>
                         <th>EmpID</th>
                         <th>Rank</th>
+                        <th>Email</th>
                         <th>Base Salary</th>
-                        <th>Service</th>
+                        <th>Service Years</th>
                         <th>Barter</th>
-                        <th>Leaves</th>
                         <th>Total Salary</th>
-                        <th>Pension</th>
+                        <th>Pension Amount</th>
+                        <th>Edit</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <?php 
+                    try {
+                        $con = $dbcon->getConnection();
+                        $query = "SELECT salary.*, employee.email, employee.rank FROM salary, employee where salary.empID = employee.empID";
+                        $pstmt = $con->prepare($query);
+                        $pstmt->execute();
+                        $rs = $pstmt->fetchAll(PDO::FETCH_OBJ);
+                        $i = 1;
+                        foreach ($rs as $employee){
+                    ?>
+                    
                     <tr>
-                        <td>1</th>
-                        <td>EMP0001</td>
-                        <td>IP</td>
-                        <td>40000</td>
-                        <td>30</td>
-                        <td>15000</td>
-                        <td>5</td>
-                        <td>60000</td>
-                        <td>NULL</td>
+                        <td><?php echo $i; ?></td>
+                        <td><?php echo $employee->empID; ?></td>
+                        <td><?php echo $employee->rank; ?></td>
+                        <td><?php echo $employee->email; ?></td>
+                        <td><?php echo $employee->base_salary; ?></td>
+                        <td><?php echo $employee->service_years; ?></td>
+                        <td><?php echo $employee->bartar_amount; ?></td>
+                        <td><?php echo $employee->total_salary; ?></td>
+                        <td><?php echo $employee->pension_amount; ?></td>
+                        <td class="buttons"><a class="btn1" href="retired-employee.php?empID=<?php echo $employee->empID;?>&base_salary=<?php echo $employee->base_salary; ?>">Retired</a> <a class="btn2" href="reset-payroll.php?empID=<?php echo $employee->empID;?>&base_salary=<?php echo $employee->base_salary; ?>">Reset</a> <a class="btn2" href="remove-payroll.php?empID=<?php echo $employee->empID; ?>">Remove</a><td>
                     </tr>
-                    <tr>
-                        <td>2</th>
-                        <td>EMP0002</td>
-                        <td>WPC</td>
-                        <td>30000</td>
-                        <td>20</td>
-                        <td>10000</td>
-                        <td>3</td>
-                        <td>42000</td>
-                        <td>NULL</td>
-                    </tr>
-                    <tr>
-                        <td>3</th>
-                        <td>EMP0003</td>
-                        <td>SI</td>
-                        <td>35000</td>
-                        <td>40</td>
-                        <td>NULL</td>
-                        <td>NULL</td>
-                        <td>NULL</td>
-                        <td>35000</td>
-                    </tr>
+
+                    <?php
+                        $i++;
+                        }
+                    } catch (PDOException $exc) {
+                        echo $exc->getMessage();
+                    }
+                    ?>
+
+                    
                     </tbody>
             </table>
         </div>
@@ -88,12 +110,15 @@
 
         <div class="buttons">
             <button type="button" class="btn1" onclick="openForm()"><i class="fa-solid fa-user-plus"></i> Add</button>
-            <button type="button" class="btn2"><i class="fa-solid fa-calculator"></i> Calculate</button>
+            <form action="process-payroll.php" method="POST">
+                <input type="submit" class="btn2" name="refresh" value="Refresh"/>
+            </form>
         </div>
     </div>
 
     <div class="form-popup" id="myForm">
-        <form action="" class="form-container">
+        <form method="POST" action="process-payroll.php" class="form-container">
+
           <h4>Add New Employee</h4>
       
           <label for="empID">EmpID</label>
@@ -101,12 +126,9 @@
       
           <label for="base_salary">Base Salary</label>
           <input type="text" placeholder="Enter Base Salary" name="base_salary" required>
-          
-          <label for="service_years">Service Years</label>
-          <input type="text" placeholder="Enter Service Years" name="service_years" required>
       
           <div class="buttons">
-            <button type="submit" class="btn1">Add</button>
+            <button type="submit" class="btn1" name="add">Add</button>
             <button type="button" class="btn2" onclick="closeForm()">Close</button>
           </div>
         </form>

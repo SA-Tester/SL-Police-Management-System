@@ -1,3 +1,11 @@
+<?php
+    require "./classes/class-db-connector.php";
+    use classes\DBConnector;
+
+    $dbcon = new DBConnector();
+    $con = $dbcon->getConnection();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -27,7 +35,33 @@
     ?>
     <!---------------------------------------------------->
 
-    <div class="containter-md d-flex justify-content-center ml-4 mr-4 mt-5">
+    <!-- SUCCESS/FAIL MESSAGE UPON DB INTERACTIONS -->
+    <div class="container-md w-100 mt-5">
+        <div class="row">
+            <div class="col">
+                <?php
+                    if(isset($_GET["status"])){
+                        if($_GET["status"] == "0"){
+                            ?>
+                            <div class="alert alert-success w-100 mt-5" role="alert">
+                                Record inserted succesfully!
+                            </div>
+                            <?php
+                        }
+                        elseif ($_GET["status"] == "1"){
+                            ?>
+                            <div class="alert alert-danger w-100 mt-5" role="alert">
+                                An error occured. Please try again!
+                            </div>
+                            <?php
+                        }
+                    }
+                ?>
+            </div>
+        </div>
+    </div>
+
+    <div class="containter-md d-flex justify-content-center ml-4 mr-4 mt-3">
         <div class="row">
             <div class="col-md w-100">
                 <h3 class="h3 mt-5 mb-4 ml-5">New Complaint</h3>
@@ -98,7 +132,7 @@
                                     <label for="title">Complaint Title</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="title" name="title" class="mb-4 w-100" />
+                                    <input type="text" id="title" name="title" class="mb-4 w-100" placeholder="Enter Complaint Title"/>
                                 </td>
                             </tr>
                             <tr>
@@ -112,7 +146,6 @@
                                         Recording</button>
                                     <p id="isRecording">Click start to button to record</p>
                                     <audio src="" name="recording" id="audioElement" class="mb-4" controls></audio>
-                                    <input type="hidden" name="audio" id="audio">
                                 </td>
                             </tr>
                             <tr>
@@ -120,9 +153,9 @@
                                     <label for="comp_desc">Complaint In Text</label>
                                 </td>
                                 <td>
-                                    <button name="start-speech" id="start-speech" class="btn-danger mb-2">Start</button>
-                                    <button name="stop-speech" id="stop-speech" class="btn-dark mb-2">Stop</button>
-                                    <textarea id="comp_desc" name="comp_desc" rows="10" cols="40" class="mb-4"></textarea>
+                                    <!--button name="start-speech" id="start-speech" class="btn-danger mb-2" disabled>Start</button>
+                                    <button name="stop-speech" id="stop-speech" class="btn-dark mb-2" disabled>Stop</button-->
+                                    <textarea id="comp_desc" name="comp_desc" rows="10" cols="40" class="mb-4" placeholder="Type the complaint in text"></textarea>
                                 </td>
                             </tr>
                             <tr>
@@ -138,18 +171,34 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="people_name">Name</label>
+                                    <label for="people_nic">NIC</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="people_name" name="people_name" class="mb-4 w-100" />
+                                    <input list="people_nics" name="people_nic" id="people_nic" class="mb-4 w-100" placeholder="Person's NIC" onchange="fillDetails(this.value)" value="">
+                                    <datalist id="people_nics" name="people_nic" class="mb-4 w-100">     
+                                        <?php 
+                                            try{
+                                                $query = "SELECT nic FROM people";
+                                                $pstmt = $con->prepare($query);
+                                                $pstmt->execute();
+                                                $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
+
+                                                foreach($rows as $row){
+                                                    ?>
+                                                    <option value="<?php echo $row["nic"]; ?>"></option>
+                                                    <?php
+                                                }
+                                            }catch(PDOException $e){}
+                                        ?>
+                                    </datalist>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="people_nic">NIC</label>
+                                    <label for="people_name">Name</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="people_nic" name="people_nic" class="mb-4 w-100" />
+                                    <input type="text" id="people_name" name="people_name" class="mb-4 w-100" placeholder="Person's Name" value=""/>
                                 </td>
                             </tr>
                             <tr>
@@ -157,8 +206,7 @@
                                     <label for="people_address">Address</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="people_address" name="people_address"
-                                        class="mb-4 w-100" />
+                                    <input type="text" id="people_address" name="people_address" class="mb-4 w-100" placeholder="Person's Address" value=""/>
                                 </td>
                             </tr>
                             <tr>
@@ -166,8 +214,7 @@
                                     <label for="people_contact">Contact</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="people_contact" name="people_contact"
-                                        class="mb-4 w-100" />
+                                    <input type="text" id="people_contact" name="people_contact" class="mb-4 w-100" placeholder="Person's Contact" value=""/>
                                 </td>
                             </tr>
                             <tr>
@@ -175,7 +222,7 @@
                                     <label for="people_email">Email</label>
                                 </td>
                                 <td>
-                                    <input type="email" id="people_email" name="people_email" class="mb-4 w-100" />
+                                    <input type="email" id="people_email" name="people_email" class="mb-4 w-100" placeholder="Person's Email" value=""/>
                                 </td>
                             </tr>
                             <tr>
@@ -204,8 +251,22 @@
                                 <td>
                                     <label for="emp_id">Recorded By</label>
                                 </td>
-                                <td>
-                                    <input type="text" id="emp_id" name="emp_id" class="mb-4 w-100" />
+                                <td>                
+                                    <input list="emp_ids" name="emp_id" id="emp_id" class="mb-4 w-100" placeholder="Employee ID">
+                                    <datalist id="emp_ids" name="emp_id" class="mb-4 w-100">     
+                                        <?php
+                                            $query2 = "SELECT empID FROM employee WHERE retired_status=?";
+                                            $pstmt2 = $con->prepare($query2);
+                                            $pstmt2->bindValue(1,0);
+                                            $pstmt2->execute();
+                                            $rows2 = $pstmt2->fetchAll(PDO::FETCH_ASSOC);
+                                            foreach($rows2 as $row){
+                                                ?>
+                                                <option value="<?php echo $row["empID"]; ?>"></option>
+                                                <?php
+                                            }
+                                        ?>
+                                    </datalist>
                                 </td>
                             </tr>
                         </tbody>
@@ -216,7 +277,7 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <label for="vehicle_number">Vehilce Number</label>
+                                    <label for="vehicle_number">Vehicle Number</label>
                                 </td>
                                 <td>
                                     <input type="text" id="vehicle_number" name="vehicle_number" class="mb-4 w-100" />
@@ -277,12 +338,14 @@
 
             <div class="col-md mt-5">
                 <h3 class="h3 mb-4">Complaint History</h3>
+                <input type="hidden" name="selected_row" id="selected_row" value=""/>
+
                 <div class="row mb-4">
                     <div class="col-md">
                         <label for="sort_type" class="mr-3">Sort By</label>
-                        <select name="sort_type" id="sort_type">
+                        <select name="sort_type" id="sort_type"  onchange="fillTable(this.value)" value="">
                             <option value="id">Complaint ID</option>
-                            <option value="title">Complaint Title</option>
+                            <option value="type">Complaint Type</option>
                             <option value="date">Date</option>
                             <option value="emp">Employee</option>
                         </select>
@@ -295,10 +358,10 @@
 
                 <div class="row">
                     <div class="col-md mr-3">
-                        <table class="table table-primary table-striped-columns">
+                        <table class="table table-primary table-striped-columns" id="comp-table">
                             <thead>
                                 <tr>
-                                    <th>Complaint ID</th>
+                                    <th>Row</th>
                                     <th>Date</th>
                                     <th>Complaint Category</th>
                                     <th>Name</th>
@@ -306,24 +369,72 @@
                                     <th>Recorded By</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>C0001</td>
-                                    <td>14/07/2023</td>
-                                    <td>Traffic</td>
-                                    <td>Sachini Thakshila</td>
-                                    <td>Ongoing</td>
-                                    <td>EMP0005</td>
-                                </tr>
-                                <tr>
-                                    <td>C0002</td>
-                                    <td>12/04/2023</td>
-                                    <td>Environmental Issue</td>
-                                    <td>Gimhani Snadeepani</td>
-                                    <td>Ongoing</td>
-                                    <td>EMP0002</td>
-                                </tr>
-                            </tbody>
+                           
+                            <!-- FILL TABLE BASED ON SELECTION -->
+                            <script>
+                                let table = document.getElementById("comp-table");
+                                let rows;
+                                
+                                function fillTable(sort_type){   
+                                    rows = table.rows.length;
+                                    if(rows > 1){
+                                        for(let j=0; j < rows-1; j++){
+                                            table.deleteRow(1); //delete the first row 13 times
+                                        }
+                                    }
+
+                                    var xhr = new XMLHttpRequest();
+                                    xhr.onreadystatechange = function(e){   
+
+                                        if(this.readyState == 4 && this.status == 200){
+
+                                            var obj = JSON.parse(this.responseText);
+                                            let tableBody = document.createElement("tbody");
+                                            
+                                            for(let i=0; i<obj.length; i++){
+                                                const row = document.createElement("tr");
+                                                row.addEventListener("click", function(){
+                                                    document.getElementById("selected_row").value = obj[i][0];
+                                                })
+
+                                                const cell1 = document.createElement("td");
+                                                const cell2 = document.createElement("td");
+                                                const cell3 = document.createElement("td");
+                                                const cell4 = document.createElement("td");
+                                                const cell5 = document.createElement("td");
+                                                const cell6 = document.createElement("td");
+
+                                                const cell1Text = document.createTextNode(i+1);
+                                                const cell2Text = document.createTextNode(obj[i][1]);
+                                                const cell3Text = document.createTextNode(obj[i][2]);
+                                                const cell4Text = document.createTextNode(obj[i][3]);
+                                                const cell5Text = document.createTextNode(obj[i][4]);
+                                                const cell6Text = document.createTextNode(obj[i][5]);
+
+                                                cell1.appendChild(cell1Text);
+                                                cell2.appendChild(cell2Text);
+                                                cell3.appendChild(cell3Text);
+                                                cell4.appendChild(cell4Text);
+                                                cell5.appendChild(cell5Text);
+                                                cell6.appendChild(cell6Text);
+
+                                                row.appendChild(cell1);
+                                                row.appendChild(cell2);
+                                                row.appendChild(cell3);
+                                                row.appendChild(cell4);
+                                                row.appendChild(cell5);
+                                                row.appendChild(cell6);
+
+                                                tableBody.append(row);
+                                            }
+                                            table.append(tableBody);
+                                        }
+                                    };
+
+                                    xhr.open("GET", "./scripts/fill-complaint-table.php?sortby=" + sort_type, true);
+                                    xhr.send();                                  
+                                }  
+                            </script>
                         </table>
                     </div>
                 </div>
@@ -339,6 +450,39 @@
         
     </div>
 
+    <!-- FILL PEOPLE DETAILS BASED ON NIC -->
+    <script type="text/javascript">
+        function fillDetails(str){
+            let name = document.getElementById("people_name");
+            let address = document.getElementById("people_address");
+            let contact = document.getElementById("people_contact");
+            let email = document.getElementById("people_email");
+
+            if(str.length == 0){
+                name.value = "";
+                address.value = "";
+                contact.value - "";
+                email.value = "";
+            }
+            else{
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function (){
+                    if(this.readyState == 4 && this.status == 200){
+                        var obj = JSON.parse(this.responseText);
+                        name.value = obj[0];
+                        address.value = obj[1];
+                        contact.value = obj[2];
+                        email.value = obj[3];
+                    }
+                };
+
+                xmlhttp.open("GET", "./scripts/people-auto-fill.php?nic=" + str, true);
+                xmlhttp.send();
+            }
+        }
+    </script>
+
+    <!-- SHOW/ HIDE TRAFFIC COMPLAINTS -->
     <script type="text/javascript">
         let tableID = document.querySelector(".traffic");
         let category = document.getElementById("category");
@@ -353,6 +497,7 @@
         });
     </script>
 
+     <!-- FILL CITIES BASED ON DISTRICT -->
     <script type="module">
         import {Badulla} from "../assets/sl-cities/badulla.js";
 
@@ -362,6 +507,7 @@
         }
     </script>
     
+    <!-- SAVE SELECTED CITY DATA FOR SERVER SIDE PROCESSING -->
     <script type="module">
         import {Badulla} from "../assets/sl-cities/badulla.js";
 
@@ -377,13 +523,16 @@
         });
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
-        crossorigin="anonymous"></script>
+    <!-- SELECT COMPLAINTS ON CLICK !-->
+    <script type="text/javascript">
+        console.log(document.getElementById("selected_row").value);
+    </script>
 
+    <!-- BOOTSTRAP -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+
+    <!-- COMPLAINT RECORDER CODE -->
     <script src="../js/complaint-recorder.js"></script>
 </body>
 </html>
