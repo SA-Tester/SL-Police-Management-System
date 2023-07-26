@@ -35,6 +35,7 @@
     ?>
     <!---------------------------------------------------->
 
+    <!-- SUCCESS/FAIL MESSAGE UPON DB INTERACTIONS -->
     <div class="container-md w-100 mt-5">
         <div class="row">
             <div class="col">
@@ -337,12 +338,14 @@
 
             <div class="col-md mt-5">
                 <h3 class="h3 mb-4">Complaint History</h3>
+                <input type="hidden" name="selected_row" id="selected_row" value=""/>
+
                 <div class="row mb-4">
                     <div class="col-md">
                         <label for="sort_type" class="mr-3">Sort By</label>
-                        <select name="sort_type" id="sort_type">
+                        <select name="sort_type" id="sort_type"  onchange="fillTable(this.value)" value="">
                             <option value="id">Complaint ID</option>
-                            <option value="title">Complaint Title</option>
+                            <option value="type">Complaint Type</option>
                             <option value="date">Date</option>
                             <option value="emp">Employee</option>
                         </select>
@@ -355,10 +358,10 @@
 
                 <div class="row">
                     <div class="col-md mr-3">
-                        <table class="table table-primary table-striped-columns">
+                        <table class="table table-primary table-striped-columns" id="comp-table">
                             <thead>
                                 <tr>
-                                    <th>Complaint ID</th>
+                                    <th>Row</th>
                                     <th>Date</th>
                                     <th>Complaint Category</th>
                                     <th>Name</th>
@@ -366,24 +369,72 @@
                                     <th>Recorded By</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>C0001</td>
-                                    <td>14/07/2023</td>
-                                    <td>Traffic</td>
-                                    <td>Sachini Thakshila</td>
-                                    <td>Ongoing</td>
-                                    <td>EMP0005</td>
-                                </tr>
-                                <tr>
-                                    <td>C0002</td>
-                                    <td>12/04/2023</td>
-                                    <td>Environmental Issue</td>
-                                    <td>Gimhani Snadeepani</td>
-                                    <td>Ongoing</td>
-                                    <td>EMP0002</td>
-                                </tr>
-                            </tbody>
+                           
+                            <!-- FILL TABLE BASED ON SELECTION -->
+                            <script>
+                                let table = document.getElementById("comp-table");
+                                let rows;
+                                
+                                function fillTable(sort_type){   
+                                    rows = table.rows.length;
+                                    if(rows > 1){
+                                        for(let j=0; j < rows-1; j++){
+                                            table.deleteRow(1); //delete the first row 13 times
+                                        }
+                                    }
+
+                                    var xhr = new XMLHttpRequest();
+                                    xhr.onreadystatechange = function(e){   
+
+                                        if(this.readyState == 4 && this.status == 200){
+
+                                            var obj = JSON.parse(this.responseText);
+                                            let tableBody = document.createElement("tbody");
+                                            
+                                            for(let i=0; i<obj.length; i++){
+                                                const row = document.createElement("tr");
+                                                row.addEventListener("click", function(){
+                                                    document.getElementById("selected_row").value = obj[i][0];
+                                                })
+
+                                                const cell1 = document.createElement("td");
+                                                const cell2 = document.createElement("td");
+                                                const cell3 = document.createElement("td");
+                                                const cell4 = document.createElement("td");
+                                                const cell5 = document.createElement("td");
+                                                const cell6 = document.createElement("td");
+
+                                                const cell1Text = document.createTextNode(i+1);
+                                                const cell2Text = document.createTextNode(obj[i][1]);
+                                                const cell3Text = document.createTextNode(obj[i][2]);
+                                                const cell4Text = document.createTextNode(obj[i][3]);
+                                                const cell5Text = document.createTextNode(obj[i][4]);
+                                                const cell6Text = document.createTextNode(obj[i][5]);
+
+                                                cell1.appendChild(cell1Text);
+                                                cell2.appendChild(cell2Text);
+                                                cell3.appendChild(cell3Text);
+                                                cell4.appendChild(cell4Text);
+                                                cell5.appendChild(cell5Text);
+                                                cell6.appendChild(cell6Text);
+
+                                                row.appendChild(cell1);
+                                                row.appendChild(cell2);
+                                                row.appendChild(cell3);
+                                                row.appendChild(cell4);
+                                                row.appendChild(cell5);
+                                                row.appendChild(cell6);
+
+                                                tableBody.append(row);
+                                            }
+                                            table.append(tableBody);
+                                        }
+                                    };
+
+                                    xhr.open("GET", "./scripts/fill-complaint-table.php?sortby=" + sort_type, true);
+                                    xhr.send();                                  
+                                }  
+                            </script>
                         </table>
                     </div>
                 </div>
@@ -399,7 +450,8 @@
         
     </div>
 
-    <script>
+    <!-- FILL PEOPLE DETAILS BASED ON NIC -->
+    <script type="text/javascript">
         function fillDetails(str){
             let name = document.getElementById("people_name");
             let address = document.getElementById("people_address");
@@ -455,6 +507,7 @@
         }
     </script>
     
+    <!-- SAVE SELECTED CITY DATA FOR SERVER SIDE PROCESSING -->
     <script type="module">
         import {Badulla} from "../assets/sl-cities/badulla.js";
 
@@ -470,9 +523,16 @@
         });
     </script>
 
+    <!-- SELECT COMPLAINTS ON CLICK !-->
+    <script type="text/javascript">
+        console.log(document.getElementById("selected_row").value);
+    </script>
+
+    <!-- BOOTSTRAP -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 
+    <!-- COMPLAINT RECORDER CODE -->
     <script src="../js/complaint-recorder.js"></script>
 </body>
 </html>
