@@ -44,9 +44,9 @@ if(navigator.mediaDevices.getUserMedia){
 
             var xhr = new XMLHttpRequest();
             xhr.onload = function(e) {
-            if(this.readyState === 4) {
-                console.log("Server returned: ",e.target.responseText);
-            }
+                if(this.readyState === 4) {
+                    console.log("Server returned: ",e.target.responseText);
+                }
             };
             var fd = new FormData();
             fd.append("audio_data", blob, "filename");
