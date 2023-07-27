@@ -22,7 +22,7 @@
 
 .table-con td{
     padding: 10px;
-    text-align: left;
+    text-align: center;
     border-left: 1px solid #ddd;
 }
 
@@ -120,7 +120,7 @@ h4{
   .alert {
     margin: 20px;
     padding: 20px;
-    background-color:rgb(23, 115, 168);
+    background-color:royalblue;
     color: white;
     border-radius:50px;
   }

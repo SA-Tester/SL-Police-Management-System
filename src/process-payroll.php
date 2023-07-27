@@ -13,12 +13,36 @@ if(isset($_POST["add"])){
 
     $emp_id = $_POST["empID"];
     $base_salary = $_POST["base_salary"];
-    $service_years = $_POST["service_years"];
 
-    $addEmployee = new CalculateSalary($emp_id, $base_salary, $service_years);
+    $addEmployee = new CalculateSalary($emp_id, $base_salary);
     $addEmployee->setCon($con);
-    $addEmployee->setTotalSalary($base_salary, $service_years);
-    $addEmployee->setBartar($base_salary, $service_years);
+    $addEmployee->setServiceYears();
+    $addEmployee->setTotalSalary();
+    $addEmployee->setBartar();
+    $addEmployee->setPension();
     $addEmployee->addEmployee();
 }
+
+if(isset($_POST["refresh"])){
+    $con = $dbcon->getConnection();
+    $query = "SELECT * FROM salary";
+    $pstmt = $con->prepare($query);
+    $pstmt->execute();
+    $rs = $pstmt->fetchAll(PDO::FETCH_OBJ);
+    foreach ($rs as $employee){
+        $emp_id = $employee->empID;
+        $base_salary = $employee->base_salary;
+        if($employee->pension_amount==NULL){
+            $addEmployee = new CalculateSalary($emp_id, $base_salary);
+            $addEmployee->setCon($con);
+            $addEmployee->setServiceYears();
+            $addEmployee->setTotalSalary();
+            $addEmployee->setBartar();
+            $addEmployee->reset();
+        }
+
+    }
+}
+
+
 ?>
