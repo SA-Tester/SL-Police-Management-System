@@ -47,8 +47,8 @@ class Complaints{
         return $this->complaint_id;
     }
 
-    function convertCategory($category){
-        switch($category){
+    function convertCategory($value){
+        switch($value){
             case "1":
                 return "Abuse of Women or Children";
                 break;
@@ -173,6 +173,133 @@ class Complaints{
                 return "Violation of Immigration Laws";
                 break;
         }
+    }
+
+    function convertToValue($category){
+        switch ($category) {
+            case "Abuse of Women or Children":
+                return "1";
+
+            case "Appreciation":
+                return "2";
+
+            case "Archeological Issue":
+                return "3";
+
+            case "Assault":
+                return "4";
+
+            case "Bribery and Corruption":
+                return "5";
+
+            case "Complaint against Police":
+                return "6";
+
+            case "Criminal Offence":
+                return "7";
+
+            case "Cybercrime":
+                return "8";
+
+            case "Demonstration / Protest / Strike":
+                return "9";
+
+            case "Environmental Issue":
+                return "10";
+
+            case "Exchange Fault":
+                return "11";
+
+            case "Foreign Employment Issue":
+                return "12";
+
+            case "Frauds / Cheating":
+                return "13";
+
+            case "House Breaking":
+                return "14";
+
+            case "Illegal Mining":
+                return "15";
+
+            case "Industrial / Labour Dispute":
+                return "16";
+
+            case "Information":
+                return "17";
+
+            case "Intellectual Property Dispute":
+                return "18";
+
+            case "Miscellaneous":
+                return "19";
+
+            case "Mischief / Sabotage":
+                return "20";
+
+            case "Murder":
+                return "21";
+
+            case "Narcotics / Dangerous Drugs":
+                return "22";
+
+            case "National Security":
+                return "23";
+
+            case "Natural Disaster":
+                return "24";
+
+            case "Offence / Act against Public Health":
+                return "25";
+
+            case "Offence against Public Property":
+                return "26";
+
+            case "Organized Crime":
+                return "27";
+
+            case "Personal Complaint":
+                return "28";
+
+            case "Police Clearance":
+                return "29";
+
+            case "Property Disputes":
+                return "30";
+
+            case "Robbery":
+                return "31";
+
+            case "Sexual Offences":
+                return "32";
+
+            case "Suggestion":
+                return "33";
+
+            case "Terrorism Related":
+                return "34";
+
+            case "Theft":
+                return "35";
+
+            case "Threat & Intimidation":
+                return "36";
+
+            case "Tourist Harassment":
+                return "37";
+                
+            case "Traffic & Road Safety":
+                return "38";
+
+            case "Treasure Hunting":
+                return "39";
+
+            case "Vice Related":
+                return "40";
+                
+            case "Violation of Immigration Laws":
+                return "41";
+        }      
     }
 
     public function addComplaint($location_id){
