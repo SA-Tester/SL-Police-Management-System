@@ -26,9 +26,9 @@
     <!---------------------------------------------------->
 
 
-    <div class="containter-lg py-md-5">
+    <div class="container">
         <div class="row">
-            <div class="col-5" >              
+            <div class="col-md-6" >              
 
                 <div class="card shadow mb-3">
                     <div class="card-header py-3 text-center">
@@ -87,7 +87,7 @@
                 </div>
             </div>
 
-            <div class="col-lg">
+            <div class="col-md-6">
                 <h2 style="color: darkblue; text-align: center;">Special Duty</h2>       
                         <div class="card shadow mb-3">
                             <div class="table-responsive">
