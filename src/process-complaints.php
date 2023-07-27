@@ -41,12 +41,13 @@
         $temp_license_start = $_POST["temp_start"];;
         $temp_license_end = $_POST["temp_end"];
         $fine_amount = $_POST["fine_amount"];
-        if($_POST["fine_status"] == "unpaid"){
+        $fine_status = $_POST["fine_status"];
+        /*if($_POST["fine_status"] == "unpaid"){
             $fine_status = 0;
         }
         else{
             $fine_status = 1;
-        }
+        }*/
         $license_issued = 0;
 
         $district = "Badulla";
