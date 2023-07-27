@@ -12,7 +12,7 @@ class Employee{
         $dbcon = new DBConnector();
         try{
             $con = $dbcon->getConnection();
-            $employeeQuery = "SELECT emplD, first_name, last_name, tel_no FROM employee";
+            $employeeQuery = "SELECT emplD, first_name, last_name, tel_no FROM employee WHERE retired_status = 0";
             $epstmt = $con->prepare($employeeQuery);
             $epstmt->execute();
     
