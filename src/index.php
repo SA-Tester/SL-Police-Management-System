@@ -87,18 +87,18 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="card border-0"><a href="view-people.html" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/view people.jpg" alt="Card Image"></a>
+                <div class="card border-0"><a href="view-people.php" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/view people.jpg" alt="Card Image"></a>
                     <br>
                     <div class="card-body text-center">
-                        <h5><a href="view-people.html" style="color:darkblue" class="disabled common-link">View People and Cases</a></h5>
+                        <h5><a href="view-people.php" style="color:darkblue" class="disabled common-link">View People and Cases</a></h5>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="card border-0"><a href="complaint-study.html" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
+                <div class="card border-0"><a href="complaint-study.php" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
                     <br>
                     <div class="card-body text-center">
-                        <h5><a href="complaint-study.html" style="color:darkblue" class="disabled common-link">Complaint Study</a></h5>
+                        <h5><a href="complaint-study.php" style="color:darkblue" class="disabled common-link">Complaint Study</a></h5>
                     </div>
                 </div>
             </div>
@@ -112,26 +112,26 @@
         <br>
         <div class="row">
             <div class="col-md-6 col-lg-4">
-                <div class="card border-0"><a href="general_duty.html" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
+                <div class="card border-0"><a href="general-duty.php" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
                     <br>
                     <div class="card-body text-center">
-                        <h5><a href="general_duty.html" style="color:darkblue" class="disabled common-link">General Duty</a></h5>
+                        <h5><a href="general-duty.php" style="color:darkblue" class="disabled common-link">General Duty</a></h5>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="card border-0"><a href="special-duty.html" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
+                <div class="card border-0"><a href="special-duty.php" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
                     <br>
                     <div class="card-body text-center">
-                        <h5><a href="special-duty.html" style="color:darkblue" class="disabled common-link">Special Duty</a></h5>
+                        <h5><a href="special-duty.php" style="color:darkblue" class="disabled common-link">Special Duty</a></h5>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="card border-0"><a href="emergency-duties.html" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
+                <div class="card border-0"><a href="emergency-duties.php" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
                     <br>
                     <div class="card-body text-center">
-                        <h5><a href="emergency-duties.html" style="color:darkblue" class="disabled common-link">Emergency Duty</a></h5>
+                        <h5><a href="emergency-duties.php" style="color:darkblue" class="disabled common-link">Emergency Duty</a></h5>
                     </div>
                 </div>
             </div>
@@ -145,10 +145,10 @@
         <br>
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-4">
-                <div class="card border-0"><a href="submit-leave-medical.html" class="disabled admin-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
+                <div class="card border-0"><a href="submit-leave-medical.php" class="disabled admin-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
                     <br>
                     <div class="card-body text-center">
-                        <h5><a href="submit-leave-medical.html" style="color:darkblue" class="disabled admin-link">Submit Leaves</a></h5>
+                        <h5><a href="submit-leave-medical.php" style="color:darkblue" class="disabled admin-link">Submit Leaves</a></h5>
                     </div>
                 </div>
             </div>
@@ -170,18 +170,18 @@
         <br>
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-4">
-                <div class="card border-0"><a href="new_employee.html" class="disabled admin-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/New employee.png" alt="Card Image"></a>
+                <div class="card border-0"><a href="new-employee.php" class="disabled admin-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/New employee.png" alt="Card Image"></a>
                     <br>
                     <div class="card-body text-center">
-                        <h5><a href="new_employee.html" style="color:darkblue" class="disabled admin-link">Add New Employee</a></h5>
+                        <h5><a href="new-employee.php" style="color:darkblue" class="disabled admin-link">Add New Employee</a></h5>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="card border-0"><a href="check-avalability.html" class="disabled admin-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
+                <div class="card border-0"><a href="check-avalability.php" class="disabled admin-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
                     <br>
                     <div class="card-body text-center">
-                        <h5><a href="check-avalability.html" style="color:darkblue" class="disabled admin-link">Check Employee Availability</a></h5>
+                        <h5><a href="check-avalability.php" style="color:darkblue" class="disabled admin-link">Check Employee Availability</a></h5>
                     </div>
                 </div>
             </div>
