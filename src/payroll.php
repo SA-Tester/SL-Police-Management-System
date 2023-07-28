@@ -19,8 +19,9 @@ $dbcon = new DBConnector();
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/calculate-salary.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://kit.fontawesome.com/a943423ab3.js" crossorigin="anonymous"></script>
 
+    <script src="https://kit.fontawesome.com/a943423ab3.js" crossorigin="anonymous"></script>
+    
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
@@ -48,6 +49,12 @@ $dbcon = new DBConnector();
                     echo "<div class='alert'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>Successfully Saved!</strong></div>";
                 } elseif ($_GET["message"] == 2) {
                      echo "<div class='error'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>Error Occurred!</strong></div>";
+                } elseif ($_GET["message"] == 3) {
+                    echo "<div class='alert'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>Email Sent Successfully!</strong></div>";
+                } elseif ($_GET["message"] == 4) {
+                    echo "<div class='alert'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>Salary Sheet Sent Successfully!</strong></div>";
+                } elseif ($_GET["message"] == 5) {
+                    echo "<div class='alert'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>Pension Sheet Sent Successfully!</strong></div>";
                 }
             }
         ?>
@@ -69,7 +76,7 @@ $dbcon = new DBConnector();
                         <th>Edit</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="alluser">
                     <?php 
                     try {
                         $con = $dbcon->getConnection();
@@ -91,7 +98,10 @@ $dbcon = new DBConnector();
                         <td><?php echo $employee->bartar_amount; ?></td>
                         <td><?php echo $employee->total_salary; ?></td>
                         <td><?php echo $employee->pension_amount; ?></td>
-                        <td class="buttons"><a class="btn1" href="retired-employee.php?empID=<?php echo $employee->empID;?>&base_salary=<?php echo $employee->base_salary; ?>">Retired</a> <a class="btn2" href="reset-payroll.php?empID=<?php echo $employee->empID;?>&base_salary=<?php echo $employee->base_salary; ?>">Reset</a> <a class="btn2" href="remove-payroll.php?empID=<?php echo $employee->empID; ?>">Remove</a><td>
+                        <td class="buttons"><a class="btn1" href="retired-employee.php?empID=<?php echo $employee->empID;?>&base_salary=<?php echo $employee->base_salary; ?>">Retired</a> 
+                        <a class="btn2" href="reset-payroll.php?empID=<?php echo $employee->empID;?>&base_salary=<?php echo $employee->base_salary; ?>">Reset</a> 
+                        <a class="btn2" href="remove-payroll.php?empID=<?php echo $employee->empID; ?>">Remove</a> 
+                        <a class="btn1" href="sendPaySheets.php?empID=<?php echo $employee->empID; ?>&email=<?php echo $employee->email; ?>&base_salary=<?php echo $employee->base_salary; ?>&bartar_amount=<?php echo $employee->bartar_amount; ?>&total_salary=<?php echo $employee->total_salary; ?>&pension_amount=<?php echo $employee->pension_amount; ?>">Send</a><td>
                     </tr>
 
                     <?php
@@ -113,6 +123,7 @@ $dbcon = new DBConnector();
             <form action="process-payroll.php" method="POST">
                 <input type="submit" class="btn2" name="refresh" value="Refresh"/>
             </form>
+            <button type="button" class="btn1" onclick="sendEmail()">Send Email</button>
         </div>
     </div>
 
@@ -133,18 +144,43 @@ $dbcon = new DBConnector();
           </div>
         </form>
       </div>
-      
-      <script>
-      function openForm() {
-        document.getElementById("myForm").style.display = "block";
-      }
-      
-      function closeForm() {
-        document.getElementById("myForm").style.display = "none";
-      }
-      </script>
 
 
+       <form action="process-payroll.php" method="POST" class="msg_container" id="msg_container">
+            <h4>Compose Email</h4>
+            <p id="multi-responce"></p>
+            <!-- <div class="form-group">
+                <textarea class="form-control" id="emails" name="emails" placeholder="Email list" style="height: 80px;"></textarea>
+            </div> -->
+            <div class="form-group">
+                <input type="text" class="form-control" name="subject" placeholder="Subject" required>
+            </div>
+            <div class="form-group">
+                <textarea style="height: 220px;" name="message" class="form-control" placeholder="Your Message" rows="5" required></textarea>
+            </div>
+            <div class="buttons">
+                <input type="submit" class="btn1" name="send" value="Send"/>
+                <button type="button" class="btn2" onclick="closeEmail()">Close</button>
+            </div>
+        </form>
+
+    <script>
+    function openForm() {
+      document.getElementById("myForm").style.display = "block";
+    }
+    
+    function closeForm() {
+      document.getElementById("myForm").style.display = "none";
+    }
+
+    function sendEmail() {
+      document.getElementById("msg_container").style.display = "block";
+    }
+
+    function closeEmail() {
+      document.getElementById("msg_container").style.display = "none";
+    }
+    </script>
 
     <footer class="py-5 mt-5" style="background-color: #101D6B;">
         <div class="container text-light text-center">
