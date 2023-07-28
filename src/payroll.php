@@ -98,10 +98,10 @@ $dbcon = new DBConnector();
                         <td><?php echo $employee->bartar_amount; ?></td>
                         <td><?php echo $employee->total_salary; ?></td>
                         <td><?php echo $employee->pension_amount; ?></td>
-                        <td class="buttons"><a class="btn1" href="retired-employee.php?empID=<?php echo $employee->empID;?>&base_salary=<?php echo $employee->base_salary; ?>">Retired</a> 
+                        <td class="buttons"><a class="btn2" href="retired-employee.php?empID=<?php echo $employee->empID;?>&base_salary=<?php echo $employee->base_salary; ?>">Retired</a> 
                         <a class="btn2" href="reset-payroll.php?empID=<?php echo $employee->empID;?>&base_salary=<?php echo $employee->base_salary; ?>">Reset</a> 
                         <a class="btn2" href="remove-payroll.php?empID=<?php echo $employee->empID; ?>">Remove</a> 
-                        <a class="btn1" href="sendPaySheets.php?empID=<?php echo $employee->empID; ?>&email=<?php echo $employee->email; ?>&base_salary=<?php echo $employee->base_salary; ?>&bartar_amount=<?php echo $employee->bartar_amount; ?>&total_salary=<?php echo $employee->total_salary; ?>&pension_amount=<?php echo $employee->pension_amount; ?>">Send</a><td>
+                        <a class="btn2" href="sendPaySheets.php?empID=<?php echo $employee->empID; ?>&email=<?php echo $employee->email; ?>&base_salary=<?php echo $employee->base_salary; ?>&bartar_amount=<?php echo $employee->bartar_amount; ?>&total_salary=<?php echo $employee->total_salary; ?>&pension_amount=<?php echo $employee->pension_amount; ?>">Send</a><td>
                     </tr>
 
                     <?php
@@ -121,7 +121,7 @@ $dbcon = new DBConnector();
         <div class="buttons">
             <button type="button" class="btn1" onclick="openForm()"><i class="fa-solid fa-user-plus"></i> Add</button>
             <form action="process-payroll.php" method="POST">
-                <input type="submit" class="btn2" name="refresh" value="Refresh"/>
+                <input type="submit" class="btn1" name="refresh" value="Refresh"/>
             </form>
             <button type="button" class="btn1" onclick="sendEmail()">Send Email</button>
         </div>

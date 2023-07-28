@@ -120,16 +120,24 @@ h4{
   .alert {
     margin: 20px;
     padding: 20px;
-    background-color:royalblue;
-    color: white;
+    background-color:#080e47;
+    max-width: 400px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
     border-radius:50px;
+    color: white;
   }
   .error {
     margin: 20px;
     padding: 20px;
     background-color: #f44336;
-    color: white;
+    max-width: 400px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
     border-radius:50px;
+    color: white;
   }
   
   .closebtn {
