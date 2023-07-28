@@ -54,4 +54,28 @@ class Location{
             $e->getMessage();
         }
     }
+
+    public function updateLocation($location_id){
+        $query = "UPDATE location SET location_name=?, district=?, city=?, latitude=?, longitude=? WHERE location_id=?";
+        try{
+            $pstmt = $this->con->prepare($query);
+            $pstmt->bindValue(1, $this->name);
+            $pstmt->bindValue(2, $this->district);
+            $pstmt->bindValue(3, $this->city);
+            $pstmt->bindValue(4, $this->latitude);
+            $pstmt->bindValue(5, $this->longitude);
+            $pstmt->bindValue(6, $location_id);
+            $a = $pstmt->execute();
+            if($a > 0){
+                return true;
+            }
+            else{
+                return false;
+                die("Update unsuccessful: Location Table <br>");
+            }
+        }
+        catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
 }

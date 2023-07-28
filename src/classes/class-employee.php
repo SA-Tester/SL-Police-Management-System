@@ -12,7 +12,7 @@ class Employee{
         $dbcon = new DBConnector();
         try{
             $con = $dbcon->getConnection();
-            $employeeQuery = "SELECT emplD, first_name, last_name, tel_no FROM employee";
+            $employeeQuery = "SELECT empID, first_name, last_name, tel_no FROM employee";
             $epstmt = $con->prepare($employeeQuery);
             $epstmt->execute();
     
@@ -20,7 +20,7 @@ class Employee{
                 echo '<tbody>';
                 $count = 1;
                 while($employeeRow = $epstmt->fetch(PDO::FETCH_ASSOC)){
-                    $empID = $employeeRow[ 'emplD'];
+                    $empID = $employeeRow[ 'empID'];
                     $empName = $employeeRow[ 'first_name'] .' '. $employeeRow[ 'last_name'];
                     $empContactNo = $employeeRow['tel_no'];
                     
