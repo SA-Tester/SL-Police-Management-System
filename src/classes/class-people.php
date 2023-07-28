@@ -9,6 +9,7 @@ class People {
     private $address;
     private $contact;
     private $email;
+    
     private $con;
     
     public function __construct($nic, $name, $address, $contact, $email){
