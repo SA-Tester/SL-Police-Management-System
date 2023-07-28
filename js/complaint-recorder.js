@@ -50,7 +50,7 @@ if(navigator.mediaDevices.getUserMedia){
             };
             var fd = new FormData();
             fd.append("audio_data", blob, "filename");
-            xhr.open("GET", ".././src/scripts/save-audio.php", true);
+            xhr.open("POST", ".././src/scripts/save-audio.php", true);
             xhr.send(fd);
         }
 
@@ -60,6 +60,8 @@ if(navigator.mediaDevices.getUserMedia){
     }
 
     let onError = function(err){
+        record.disabled = true;
+        stop.disabled = true;
         console.log(err + " has occured");
     }
 
