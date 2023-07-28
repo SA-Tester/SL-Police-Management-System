@@ -50,7 +50,7 @@ if(navigator.mediaDevices.getUserMedia){
             };
             var fd = new FormData();
             fd.append("audio_data", blob, "filename");
-            xhr.open("POST", ".././src/scripts/save-audio.php", true);
+            xhr.open("GET", ".././src/scripts/save-audio.php", true);
             xhr.send(fd);
         }
 
