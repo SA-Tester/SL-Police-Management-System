@@ -60,6 +60,8 @@ if(navigator.mediaDevices.getUserMedia){
     }
 
     let onError = function(err){
+        record.disabled = true;
+        stop.disabled = true;
         console.log(err + " has occured");
     }
 

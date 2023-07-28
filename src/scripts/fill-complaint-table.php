@@ -29,7 +29,7 @@ if(isset($_REQUEST["sortby"])){
             $query1 = "SELECT complaint.complaint_id, complaint.date, complaint.complaint_type, people.nic,  people.name, complaint.complaint_status, complaint.empID 
                 FROM ((people INNER JOIN role_in_case ON people.nic = role_in_case.nic)
                 INNER JOIN complaint ON role_in_case.complaint_id = complaint.complaint_id) 
-                ORDER BY complaint.date";
+                ORDER BY complaint.date DESC";
             break;
         
         case "emp":

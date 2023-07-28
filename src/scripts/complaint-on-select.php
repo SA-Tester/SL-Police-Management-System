@@ -66,6 +66,7 @@ if(isset($_REQUEST["comp_id"]) && isset($_REQUEST["nic"])){
             if(!is_null($result0[0])){
                 $city = $result1[13];
                 array_push($response, $city);
+                array_push($response, $result0[0]);
             }
     
         }catch(PDOException $e1){

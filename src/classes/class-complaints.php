@@ -15,6 +15,10 @@ class Complaints{
     private $con;
 
     // SETTERS 
+    function setComplaintID($complaint_id){
+        $this->complaint_id = $complaint_id;
+    }
+
     function setDate($date){
         $this->date = $date;
     }
@@ -296,7 +300,7 @@ class Complaints{
 
             case "Vice Related":
                 return "40";
-                
+
             case "Violation of Immigration Laws":
                 return "41";
         }      
@@ -361,12 +365,17 @@ class Complaints{
         }
     }
 
-    function addRecording(){
+    public function addRecording(){
         $path = "../uploads/complaint-recordings/";
         $old_filename = $path."filename.mp3";
         
         if(file_exists($old_filename)){
             $new_filename = $path."Rec-".$this->complaint_id.".mp3";
+
+            // Used when updating the complaint
+            if(file_exists($new_filename)){
+                unlink($new_filename);
+            }
             rename($old_filename, $new_filename);
 
             $query = "UPDATE complaint SET audio_src=? WHERE complaint_id=?";
@@ -410,7 +419,84 @@ class Complaints{
         }
     }
 
-    function updateComplaint(){
+    public function updateComplaint($location_id){
         
+        if($location_id != ""){
+            $query = "UPDATE complaint SET date=?, complaint_type=?, complaint_title=?, complaint_text=?, complaint_status=?, 
+                empID = ?, location_id=? WHERE complaint_id = ?";
+
+            try{
+                $pstmt = $this->con->prepare($query);
+                $pstmt->bindValue(1, $this->date);
+                $pstmt->bindValue(2, $this->category);
+                $pstmt->bindValue(3, $this->title);
+                $pstmt->bindValue(4, $this->description);
+                $pstmt->bindValue(5, $this->complaint_status);
+                $pstmt->bindValue(6, $this->emp_id);
+                $pstmt->bindValue(7, $location_id);
+                $pstmt->bindValue(8, $this->complaint_id);
+
+                $a = $pstmt->execute();
+                if($a > 0){
+                    return true;
+                }
+                else{
+                    return false;
+                    die("An error occured: Complaint table<br>");
+                }
+            }
+            catch(PDOException $e){
+                echo $e->getMessage();
+            }
+        }
+        else{
+            $query = "UPDATE complaint SET date=?, complaint_type=?, complaint_title=?, complaint_text=?, complaint_status=?, 
+            empID=? WHERE complaint_id = ?";
+
+            try{
+                $pstmt = $this->con->prepare($query);
+                $pstmt->bindValue(1, $this->date);
+                $pstmt->bindValue(2, $this->category);
+                $pstmt->bindValue(3, $this->title);
+                $pstmt->bindValue(4, $this->description);
+                $pstmt->bindValue(5, $this->complaint_status);
+                $pstmt->bindValue(6, $this->emp_id);
+                $pstmt->bindValue(7, $this->complaint_id);
+
+                $a = $pstmt->execute();
+                if($a > 0){
+                    return true;
+                }
+                else{
+                    return false;
+                    die("An error occured: Complaint table<br>");
+                }
+            }
+            catch(PDOException $e){
+                echo $e->getMessage();
+            }
+        }
+    }
+
+    public function updateRoleInCase($role, $nic){
+        $query = "UPDATE role_in_case SET role_in_case=? WHERE complaint_id=? AND nic=?"; 
+        try{
+            $pstmt = $this->con->prepare($query);
+            $pstmt->bindValue(1, $role);
+            $pstmt->bindValue(2, $this->complaint_id);
+            $pstmt->bindValue(3, $nic);
+        
+            $a = $pstmt->execute();
+            if($a > 0){
+                return true;
+            }
+            else{
+                return false;
+                die("An error occured: Role in Case Table<br>");
+            }
+        }
+        catch(PDOException $e){
+            echo $e->getMessage();
+        }
     }
 }

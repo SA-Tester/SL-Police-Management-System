@@ -25,7 +25,7 @@
             display: none;
         }
 
-        #comp-table tr:hover, tr:active{
+        #comp-table tr:hover {
             background-color: rgb(0,0,255,0.2);
         }
     </style>
@@ -55,7 +55,21 @@
                         elseif ($_GET["status"] == "1"){
                             ?>
                             <div class="alert alert-danger w-100 mt-5" role="alert">
-                                An error occured. Please try again!
+                                Record insertion failed!
+                            </div>
+                            <?php
+                        }
+                        elseif ($_GET["status"] == "2"){
+                            ?>
+                            <div class="alert alert-success w-100 mt-5" role="alert">
+                                Records updated succesfully!
+                            </div>
+                            <?php
+                        }
+                        elseif ($_GET["status"] == "3"){
+                            ?>
+                            <div class="alert alert-danger w-100 mt-5" role="alert">
+                                Records update failed!
                             </div>
                             <?php
                         }
@@ -69,7 +83,7 @@
         <div class="row">
             <div class="col-md w-100">
                 <h3 class="h3 mt-5 mb-4 ml-5">New Complaint</h3>
-                <form method="POST" action="process-complaints.php" enctype="multipart/form-data">
+                <form method="POST" action="process-complaints.php" enctype="multipart/form-data" onsubmit="return confirm('Are you sure you want to proceed ?')">
                     <table class="ml-3 w-100">
                         <thead></thead>
                         <tbody>
@@ -180,7 +194,7 @@
                                 </td>
                                 <td>
                                     <input list="people_nics" name="people_nic" id="people_nic" class="mb-4 w-100" placeholder="Person's NIC" onchange="fillDetails(this.value)" value="">
-                                    <datalist id="people_nics" name="people_nic" class="mb-4 w-100">     
+                                    <datalist id="people_nics" name="people_nics" class="mb-4 w-100">     
                                         <?php 
                                             try{
                                                 $query = "SELECT nic FROM people";
@@ -257,8 +271,7 @@
                                     <label for="emp_id">Recorded By</label>
                                 </td>
                                 <td>                
-                                    <input list="emp_ids" name="emp_id" id="emp_id" class="mb-4 w-100" placeholder="Employee ID">
-                                    <datalist id="emp_ids" name="emp_id" class="mb-4 w-100">     
+                                    <select id="emp_id" name="emp_id" class="mb-4 w-100">     
                                         <?php
                                             $query2 = "SELECT empID FROM employee WHERE retired_status=?";
                                             $pstmt2 = $con->prepare($query2);
@@ -267,11 +280,11 @@
                                             $rows2 = $pstmt2->fetchAll(PDO::FETCH_ASSOC);
                                             foreach($rows2 as $row){
                                                 ?>
-                                                <option value="<?php echo $row["empID"]; ?>"></option>
+                                                <option value="<?php echo $row["empID"]; ?>"><?php echo $row["empID"]; ?></option>
                                                 <?php
                                             }
                                         ?>
-                                    </datalist>
+                                    </select>
                                 </td>
                             </tr>
                         </tbody>
@@ -323,6 +336,17 @@
                                     </select>
                                 </td>
                             </tr>
+                            <tr>
+                                <td>
+                                    <label for="license_issued">Fine Status</label>
+                                </td>
+                                <td>
+                                    <select name="license_issued" id="license_issued" class="mb-4 w-100">
+                                        <option value="0">Not Issued</option>    
+                                        <option value="1">Issued</option>
+                                    </select>
+                                </td>
+                            </tr>
                          </tbody>
                     </table>
 
@@ -338,14 +362,16 @@
                             </tr>
                         </tbody>
                     </table>
+                    
+                    <!-- SAVE THE SELECTED COMPLAINT ID AND NIC ONCLICK (Included here to be sumbitted when update is clicked) -->
+                    <input type="hidden" name="selected_row_id" id="selected_row_id" value=""/>
+                    <input type="hidden" name="selected_row_nic" id="selected_row_nic" value=""/>
+                    <input type="hidden" name="selected_row_loc_id" id="selected_row_loc_id" value=""/>
                 </form>
             </div>
 
             <div class="col-md mt-5">
                 <h3 class="h3 mb-4">Complaint History</h3>
-                <input type="hidden" name="selected_row_id" id="selected_row_id" value=""/>
-                <input type="hidden" name="selected_row_nic" id="selected_row_nic" value=""/>
-
                 <div class="row mb-4">
                     <div class="col-md">
                         <label for="sort_type" class="mr-3">Sort By</label>
@@ -404,6 +430,7 @@
                                                     row.addEventListener("click", function(e){
                                                         document.getElementById("selected_row_id").value = obj[i][0];
                                                         document.getElementById("selected_row_nic").value = obj[i][3];
+                                                        document.getElementById("people_nic").readOnly = true; //to avoid updating the nic
                                                         fillForm();
                                                     })
 
@@ -440,7 +467,6 @@
                                                 table.append(tableBody);
                                             }
                                         };
-
                                         xhr.open("GET", "./scripts/fill-complaint-table.php?sortby=" + sort_type, true);
                                         xhr.send();                                  
                                     }  
@@ -551,6 +577,7 @@
         function fillForm(){
             let selected_row_id = document.getElementById("selected_row_id").value;
             let selected_row_nic = document.getElementById("selected_row_nic").value;
+            let selected_row_loc_id = document.getElementById("selected_row_loc_id");
 
             let date = document.getElementById("date");
             var category = document.getElementById("category");
@@ -571,11 +598,9 @@
             let temp_end = document.getElementById("temp_end");
             let fine_amount = document.getElementById("fine_amount");
             let fine_status = document.getElementById("fine_status");
+            let license_issued = document.getElementById("license_issued");
 
-            if(selected_row_id.length == 0){
-
-            }
-            else{
+            if(selected_row_id.length != 0){
                 var xhr = new XMLHttpRequest();
                 xhr.onreadystatechange = function(){
                     if(this.readyState == 4 && this.status == 200){
@@ -598,18 +623,23 @@
 
                         if(getCityValue(obj[13]) >= "0"){
                             city.value = getCityValue(obj[13]);
-                            vehicle_no.value = obj[14];
-                            temp_start.value = obj[15];
-                            temp_end.value = obj[16];
-                            fine_amount.value = obj[17];
-                            fine_status.value = obj[18];
+                            selected_row_loc_id.value = obj[14];
+                            vehicle_no.value = obj[15];
+                            temp_start.value = obj[16];
+                            temp_end.value = obj[17];
+                            fine_amount.value = obj[18];
+                            fine_status.value = obj[19];
+                            license_issued.value = obj[20];   
                         }
                         else{
+                            city.value = "";
+                            selected_row_loc_id.value = "";
                             vehicle_no.value = obj[13];
                             temp_start.value = obj[14];
                             temp_end.value = obj[15];
                             fine_amount.value = obj[16];
                             fine_status.value = obj[17];
+                            license_issued.value = obj[18];
                         }
 
                         if(obj[1] == "38"){
