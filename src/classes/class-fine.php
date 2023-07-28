@@ -61,4 +61,33 @@ class Fine{
             $e->getMessage();
         }
     }
+
+    public function updateFine($complaint_id, $nic){
+        $query = "UPDATE fine SET vehicle_number=?, temp_license_start_date=?, temp_license_end_date=?, fine_amount=?, 
+            fine_status=?, license_issued=? WHERE complaint_id=? AND nic=?";
+
+        try{
+            $pstmt = $this->con->prepare($query);
+            $pstmt->bindValue(1, $this->vehicle_number);
+            $pstmt->bindValue(2, $this->temp_license_start_date);
+            $pstmt->bindValue(3, $this->temp_license_end_date);
+            $pstmt->bindValue(4, $this->fine_amount);
+            $pstmt->bindValue(5, $this->fine_status);
+            $pstmt->bindValue(6, $this->license_issued);
+            $pstmt->bindValue(7, $complaint_id);
+            $pstmt->bindValue(8, $nic);
+
+            $a = $pstmt->execute();
+            if($a > 0){
+                return true;
+            }
+            else{
+                return false;
+                die("Record update failed: Fine Table");
+            }
+        }
+        catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
 }
