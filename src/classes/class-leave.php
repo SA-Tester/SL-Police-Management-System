@@ -1,7 +1,7 @@
 <?php
 
 namespace classes;
-use PDPException;
+use PDOException;
 
 class Leave{
     private $emp_id;

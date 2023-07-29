@@ -1,5 +1,5 @@
 <?php
-    require "./classes/class-db-connector.php";
+    require_once "./classes/class-db-connector.php";
     use classes\DBConnector;
 
     $dbcon = new DBConnector();
@@ -23,6 +23,10 @@
     <style>
         .traffic{
             display: none;
+        }
+
+        #comp-table tr:hover {
+            background-color: rgb(0,0,255,0.2);
         }
     </style>
 </head>
@@ -51,7 +55,21 @@
                         elseif ($_GET["status"] == "1"){
                             ?>
                             <div class="alert alert-danger w-100 mt-5" role="alert">
-                                An error occured. Please try again!
+                                Record insertion failed!
+                            </div>
+                            <?php
+                        }
+                        elseif ($_GET["status"] == "2"){
+                            ?>
+                            <div class="alert alert-success w-100 mt-5" role="alert">
+                                Records updated succesfully!
+                            </div>
+                            <?php
+                        }
+                        elseif ($_GET["status"] == "3"){
+                            ?>
+                            <div class="alert alert-danger w-100 mt-5" role="alert">
+                                Records update failed!
                             </div>
                             <?php
                         }
@@ -65,7 +83,7 @@
         <div class="row">
             <div class="col-md w-100">
                 <h3 class="h3 mt-5 mb-4 ml-5">New Complaint</h3>
-                <form method="POST" action="process-complaints.php" enctype="multipart/form-data">
+                <form method="POST" action="process-complaints.php" enctype="multipart/form-data" onsubmit="return confirm('Are you sure you want to proceed ?')">
                     <table class="ml-3 w-100">
                         <thead></thead>
                         <tbody>
@@ -166,6 +184,7 @@
                                     <select name="people_type" id="people_type" class="mb-4 w-100">
                                         <option value="Plantiff">Plantiff</option>
                                         <option value="Suspect">Suspect</option>
+                                        <option value="Culprit">Culprit</option>
                                     </select>
                                 </td>
                             </tr>
@@ -175,7 +194,7 @@
                                 </td>
                                 <td>
                                     <input list="people_nics" name="people_nic" id="people_nic" class="mb-4 w-100" placeholder="Person's NIC" onchange="fillDetails(this.value)" value="">
-                                    <datalist id="people_nics" name="people_nic" class="mb-4 w-100">     
+                                    <datalist id="people_nics" name="people_nics" class="mb-4 w-100">     
                                         <?php 
                                             try{
                                                 $query = "SELECT nic FROM people";
@@ -252,8 +271,7 @@
                                     <label for="emp_id">Recorded By</label>
                                 </td>
                                 <td>                
-                                    <input list="emp_ids" name="emp_id" id="emp_id" class="mb-4 w-100" placeholder="Employee ID">
-                                    <datalist id="emp_ids" name="emp_id" class="mb-4 w-100">     
+                                    <select id="emp_id" name="emp_id" class="mb-4 w-100">     
                                         <?php
                                             $query2 = "SELECT empID FROM employee WHERE retired_status=?";
                                             $pstmt2 = $con->prepare($query2);
@@ -262,11 +280,11 @@
                                             $rows2 = $pstmt2->fetchAll(PDO::FETCH_ASSOC);
                                             foreach($rows2 as $row){
                                                 ?>
-                                                <option value="<?php echo $row["empID"]; ?>"></option>
+                                                <option value="<?php echo $row["empID"]; ?>"><?php echo $row["empID"]; ?></option>
                                                 <?php
                                             }
                                         ?>
-                                    </datalist>
+                                    </select>
                                 </td>
                             </tr>
                         </tbody>
@@ -313,8 +331,19 @@
                                 </td>
                                 <td>
                                     <select name="fine_status" id="fine_status" class="mb-4 w-100">
-                                        <option value="unpaid">Unpaid</option>    
-                                        <option value="paid">Paid</option>
+                                        <option value="0">Unpaid</option>    
+                                        <option value="1">Paid</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="license_issued">Fine Status</label>
+                                </td>
+                                <td>
+                                    <select name="license_issued" id="license_issued" class="mb-4 w-100">
+                                        <option value="0">Not Issued</option>    
+                                        <option value="1">Issued</option>
                                     </select>
                                 </td>
                             </tr>
@@ -333,27 +362,31 @@
                             </tr>
                         </tbody>
                     </table>
+                    
+                    <!-- SAVE THE SELECTED COMPLAINT ID AND NIC ONCLICK (Included here to be sumbitted when update is clicked) -->
+                    <input type="hidden" name="selected_row_id" id="selected_row_id" value=""/>
+                    <input type="hidden" name="selected_row_nic" id="selected_row_nic" value=""/>
+                    <input type="hidden" name="selected_row_loc_id" id="selected_row_loc_id" value=""/>
                 </form>
             </div>
 
             <div class="col-md mt-5">
                 <h3 class="h3 mb-4">Complaint History</h3>
-                <input type="hidden" name="selected_row" id="selected_row" value=""/>
-
                 <div class="row mb-4">
                     <div class="col-md">
                         <label for="sort_type" class="mr-3">Sort By</label>
                         <select name="sort_type" id="sort_type"  onchange="fillTable(this.value)" value="">
+                            <option value="none">--None--</option>
                             <option value="id">Complaint ID</option>
                             <option value="type">Complaint Type</option>
                             <option value="date">Date</option>
                             <option value="emp">Employee</option>
                         </select>
                     </div>
-                    <div class="col-md">
+                    <!--div class="col-md">
                         <label for="search" class="mr-3">Search</label>
                         <input type="text" id="search" name="search" placeholder="Enter Text to Search">
-                    </div>
+                    </div-->
                 </div>
 
                 <div class="row">
@@ -383,57 +416,61 @@
                                         }
                                     }
 
-                                    var xhr = new XMLHttpRequest();
-                                    xhr.onreadystatechange = function(e){   
+                                    if(sort_type != "none"){
+                                        var xhr = new XMLHttpRequest();
+                                        xhr.onreadystatechange = function(e){   
 
-                                        if(this.readyState == 4 && this.status == 200){
+                                            if(this.readyState == 4 && this.status == 200){
 
-                                            var obj = JSON.parse(this.responseText);
-                                            let tableBody = document.createElement("tbody");
-                                            
-                                            for(let i=0; i<obj.length; i++){
-                                                const row = document.createElement("tr");
-                                                row.addEventListener("click", function(){
-                                                    document.getElementById("selected_row").value = obj[i][0];
-                                                })
+                                                var obj = JSON.parse(this.responseText);
+                                                let tableBody = document.createElement("tbody");
+                                                
+                                                for(let i=0; i<obj.length; i++){
+                                                    const row = document.createElement("tr");
+                                                    row.addEventListener("click", function(e){
+                                                        document.getElementById("selected_row_id").value = obj[i][0];
+                                                        document.getElementById("selected_row_nic").value = obj[i][3];
+                                                        document.getElementById("people_nic").readOnly = true; //to avoid updating the nic
+                                                        fillForm();
+                                                    })
 
-                                                const cell1 = document.createElement("td");
-                                                const cell2 = document.createElement("td");
-                                                const cell3 = document.createElement("td");
-                                                const cell4 = document.createElement("td");
-                                                const cell5 = document.createElement("td");
-                                                const cell6 = document.createElement("td");
+                                                    const cell1 = document.createElement("td");
+                                                    const cell2 = document.createElement("td");
+                                                    const cell3 = document.createElement("td");
+                                                    const cell4 = document.createElement("td");
+                                                    const cell5 = document.createElement("td");
+                                                    const cell6 = document.createElement("td");
 
-                                                const cell1Text = document.createTextNode(i+1);
-                                                const cell2Text = document.createTextNode(obj[i][1]);
-                                                const cell3Text = document.createTextNode(obj[i][2]);
-                                                const cell4Text = document.createTextNode(obj[i][3]);
-                                                const cell5Text = document.createTextNode(obj[i][4]);
-                                                const cell6Text = document.createTextNode(obj[i][5]);
+                                                    const cell1Text = document.createTextNode(i+1);
+                                                    const cell2Text = document.createTextNode(obj[i][1]);
+                                                    const cell3Text = document.createTextNode(obj[i][2]);
+                                                    const cell4Text = document.createTextNode(obj[i][4]);
+                                                    const cell5Text = document.createTextNode(obj[i][5]);
+                                                    const cell6Text = document.createTextNode(obj[i][6]);
 
-                                                cell1.appendChild(cell1Text);
-                                                cell2.appendChild(cell2Text);
-                                                cell3.appendChild(cell3Text);
-                                                cell4.appendChild(cell4Text);
-                                                cell5.appendChild(cell5Text);
-                                                cell6.appendChild(cell6Text);
+                                                    cell1.appendChild(cell1Text);
+                                                    cell2.appendChild(cell2Text);
+                                                    cell3.appendChild(cell3Text);
+                                                    cell4.appendChild(cell4Text);
+                                                    cell5.appendChild(cell5Text);
+                                                    cell6.appendChild(cell6Text);
 
-                                                row.appendChild(cell1);
-                                                row.appendChild(cell2);
-                                                row.appendChild(cell3);
-                                                row.appendChild(cell4);
-                                                row.appendChild(cell5);
-                                                row.appendChild(cell6);
+                                                    row.appendChild(cell1);
+                                                    row.appendChild(cell2);
+                                                    row.appendChild(cell3);
+                                                    row.appendChild(cell4);
+                                                    row.appendChild(cell5);
+                                                    row.appendChild(cell6);
 
-                                                tableBody.append(row);
+                                                    tableBody.append(row);
+                                                }
+                                                table.append(tableBody);
                                             }
-                                            table.append(tableBody);
-                                        }
-                                    };
-
-                                    xhr.open("GET", "./scripts/fill-complaint-table.php?sortby=" + sort_type, true);
-                                    xhr.send();                                  
-                                }  
+                                        };
+                                        xhr.open("GET", "./scripts/fill-complaint-table.php?sortby=" + sort_type, true);
+                                        xhr.send();                                  
+                                    }  
+                                }         
                             </script>
                         </table>
                     </div>
@@ -475,7 +512,6 @@
                         email.value = obj[3];
                     }
                 };
-
                 xmlhttp.open("GET", "./scripts/people-auto-fill.php?nic=" + str, true);
                 xmlhttp.send();
             }
@@ -485,15 +521,19 @@
     <!-- SHOW/ HIDE TRAFFIC COMPLAINTS -->
     <script type="text/javascript">
         let tableID = document.querySelector(".traffic");
-        let category = document.getElementById("category");
+        var category = document.getElementById("category");
         
-        category.addEventListener("change", function(){
+        function showHideTraffic(){
             if(category.value == "38"){
                 tableID.style.display = "block";
             }
             else{
                 tableID.style.display = "none";
             }
+        }
+
+        category.addEventListener("change", function(){
+            showHideTraffic();
         });
     </script>
 
@@ -503,8 +543,9 @@
 
         city = document.getElementById("city");
         for(let i=0; i<Badulla.length; i++){
-            city.options[i] = new Option(Badulla[i]["city"], i);
+            city.options[i+1] = new Option(Badulla[i]["city"], i);
         }
+        city.options[0] = new Option("--None--", "");
     </script>
     
     <!-- SAVE SELECTED CITY DATA FOR SERVER SIDE PROCESSING -->
@@ -514,7 +555,7 @@
         let selectedCity = document.getElementById("selectedCity");
         let lat = document.getElementById("selectedLat");
         let lon = document.getElementById("selectedLon");
-        let city = document.getElementById("city");
+        var city = document.getElementById("city");
 
         city.addEventListener("change", function(){
             selectedCity.value = Badulla[city.value]["city"];
@@ -525,7 +566,94 @@
 
     <!-- SELECT COMPLAINTS ON CLICK !-->
     <script type="text/javascript">
-        console.log(document.getElementById("selected_row").value);
+
+        function getCityValue(reqCity){
+            for(let i=0; i < city.length; i++){
+                if(city.options[i].textContent == reqCity){
+                    return city.options[i].value;
+                }
+            }
+        }
+        function fillForm(){
+            let selected_row_id = document.getElementById("selected_row_id").value;
+            let selected_row_nic = document.getElementById("selected_row_nic").value;
+            let selected_row_loc_id = document.getElementById("selected_row_loc_id");
+
+            let date = document.getElementById("date");
+            var category = document.getElementById("category");
+            let title = document.getElementById("title");
+            let rec = document.getElementById("audioElement");
+            let desc = document.getElementById("comp_desc");
+            let people_type = document.getElementById("people_type");
+            let nic = document.getElementById("people_nic");
+            let name = document.getElementById("people_name");
+            let address = document.getElementById("people_address");
+            let contact = document.getElementById("people_contact");
+            let email = document.getElementById("people_email");
+            var city = document.getElementById("city");
+            let status = document.getElementById("comp_status");
+            let emp_id = document.getElementById("emp_id");
+            let vehicle_no = document.getElementById("vehicle_number");
+            let temp_start = document.getElementById("temp_start");
+            let temp_end = document.getElementById("temp_end");
+            let fine_amount = document.getElementById("fine_amount");
+            let fine_status = document.getElementById("fine_status");
+            let license_issued = document.getElementById("license_issued");
+
+            if(selected_row_id.length != 0){
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function(){
+                    if(this.readyState == 4 && this.status == 200){
+                        var obj = JSON.parse(this.responseText);
+
+                        date.value = obj[0];
+                        category.value = obj[1];
+                        title.value = obj[2];
+                        rec.src = ""
+                        if(obj[3] != null) rec.src = obj[3];
+                        desc.value = obj[4];
+                        people_type.value = obj[5];
+                        nic.value = obj[6];
+                        name.value = obj[7];
+                        address.value = obj[8];
+                        contact.value = obj[9];
+                        email.value = obj[10];
+                        status.value = obj[11];
+                        emp_id.value = obj[12];
+
+                        if(getCityValue(obj[13]) >= "0"){
+                            city.value = getCityValue(obj[13]);
+                            selected_row_loc_id.value = obj[14];
+                            vehicle_no.value = obj[15];
+                            temp_start.value = obj[16];
+                            temp_end.value = obj[17];
+                            fine_amount.value = obj[18];
+                            fine_status.value = obj[19];
+                            license_issued.value = obj[20];   
+                        }
+                        else{
+                            city.value = "";
+                            selected_row_loc_id.value = "";
+                            vehicle_no.value = obj[13];
+                            temp_start.value = obj[14];
+                            temp_end.value = obj[15];
+                            fine_amount.value = obj[16];
+                            fine_status.value = obj[17];
+                            license_issued.value = obj[18];
+                        }
+
+                        if(obj[1] == "38"){
+                            document.querySelector(".traffic").style.display = "block";
+                        }
+                        else{
+                            document.querySelector(".traffic").style.display = "none";
+                        }
+                    }         
+                };
+                xhr.open("GET", "./scripts/complaint-on-select.php?comp_id=" + selected_row_id + "&nic=" + selected_row_nic, true);
+                xhr.send();
+            }
+        }
     </script>
 
     <!-- BOOTSTRAP -->

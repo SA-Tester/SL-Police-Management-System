@@ -79,7 +79,7 @@
         <br>
         <div class="row">
             <div class="col-md-6 col-lg-4">
-                <div class="card border-0"><a href="record-complaints.php" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
+                <div class="card border-0"><a href="record-complaints.php" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/Add_view_complaint.png" alt="Card Image"></a>
                     <br>
                     <div class="card-body text-center">
                         <h5><a href="record-complaints.php" style="color:darkblue" class="disabled common-link">Add/ View Complaints</a></h5>
@@ -112,7 +112,7 @@
         <br>
         <div class="row">
             <div class="col-md-6 col-lg-4">
-                <div class="card border-0"><a href="general_duty.html" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
+                <div class="card border-0"><a href="general_duty.html" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/General_duty.png" alt="Card Image"></a>
                     <br>
                     <div class="card-body text-center">
                         <h5><a href="general_duty.html" style="color:darkblue" class="disabled common-link">General Duty</a></h5>
@@ -120,7 +120,7 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="card border-0"><a href="special-duty.html" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
+                <div class="card border-0"><a href="special-duty.html" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/special_duty.png" alt="Card Image"></a>
                     <br>
                     <div class="card-body text-center">
                         <h5><a href="special-duty.html" style="color:darkblue" class="disabled common-link">Special Duty</a></h5>
@@ -128,7 +128,7 @@
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="card border-0"><a href="emergency-duties.html" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
+                <div class="card border-0"><a href="emergency-duties.html" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/Emergensy.png" alt="Card Image"></a>
                     <br>
                     <div class="card-body text-center">
                         <h5><a href="emergency-duties.html" style="color:darkblue" class="disabled common-link">Emergency Duty</a></h5>
@@ -145,7 +145,7 @@
         <br>
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-4">
-                <div class="card border-0"><a href="submit-leave-medical.html" class="disabled admin-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
+                <div class="card border-0"><a href="submit-leave-medical.html" class="disabled admin-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/Submit_leves.png" alt="Card Image"></a>
                     <br>
                     <div class="card-body text-center">
                         <h5><a href="submit-leave-medical.html" style="color:darkblue" class="disabled admin-link">Submit Leaves</a></h5>

@@ -22,11 +22,12 @@
     ?>
     <!---------------------------------------------------->
 
+    <div class="container-lg" style="height: 10pt;"></div>
     <div class="container-lg mt-5">
-        <div class="row d-flex justify-content-center">
-            <label for="caseID" class="mr-3">Enter Case ID: </label>
-            <input type="text" id="caseID" name="caseID" class="w-50" placeholder="Enter Case ID"/>
-            <button><i class="fas fa-search"></i></button>
+        <div class="row d-flex justify-content-center mt-5">
+            <label for="caseID" class="mr-3 mt-5">Enter Case ID: </label>
+            <input type="text" id="caseID" name="caseID" class="w-50 mt-5" placeholder="Enter Case ID"/>
+            <button class="mt-5"><i class="fas fa-search"></i></button>
         </div>
 
         <div class="row mt-5">

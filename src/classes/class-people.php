@@ -9,6 +9,7 @@ class People {
     private $address;
     private $contact;
     private $email;
+    
     private $con;
     
     public function __construct($nic, $name, $address, $contact, $email){
@@ -57,6 +58,30 @@ class People {
                 catch(PDOException $e){
                     echo $e->getMessage();
                 }
+            }
+        }
+        catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
+
+    public function updatePerson(){
+        $query = "UPDATE people SET name=?, address=?, contact=?, email=? WHERE nic=?";
+        try{
+            $pstmt = $this->con->prepare($query);
+            $pstmt->bindValue(1, $this->name);
+            $pstmt->bindValue(2, $this->address);
+            $pstmt->bindValue(3, $this->contact);
+            $pstmt->bindValue(4, $this->email);
+            $pstmt->bindValue(5, $this->nic);
+
+            $a = $pstmt->execute();
+            if($a > 0){
+                return true;
+            }
+            else{
+                return false;
+                die("Update Failed: People Table <br>");
             }
         }
         catch(PDOException $e){

@@ -25,14 +25,14 @@
     ?>
     <!---------------------------------------------------->
 
-
-    <div class="containter-lg py-md-5">
+    <br>
+    <div class="container">
         <div class="row">
-            <div class="col-5" >              
+            <div class="col-md-6" >              
 
                 <div class="card shadow mb-3">
                     <div class="card-header py-3 text-center">
-                        <p class="m-0 fw-bold" style="color: darkblue;">Special Duty</p>
+                        <p style="color: darkblue;">Special Duty</p>
                     </div>
                     <form>
                         <div class="card-body">                                
@@ -86,8 +86,8 @@
                 </form>
                 </div>
             </div>
-
-            <div class="col-lg">
+            <br>
+            <div class="col-md-6">
                 <h2 style="color: darkblue; text-align: center;">Special Duty</h2>       
                         <div class="card shadow mb-3">
                             <div class="table-responsive">
