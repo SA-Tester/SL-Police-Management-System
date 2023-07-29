@@ -1,5 +1,5 @@
 <?php
-    require "./classes/class-db-connector.php";
+    require_once "./classes/class-db-connector.php";
     use classes\DBConnector;
 
     $dbcon = new DBConnector();
