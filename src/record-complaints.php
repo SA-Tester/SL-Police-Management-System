@@ -383,10 +383,10 @@
                             <option value="emp">Employee</option>
                         </select>
                     </div>
-                    <div class="col-md">
+                    <!--div class="col-md">
                         <label for="search" class="mr-3">Search</label>
                         <input type="text" id="search" name="search" placeholder="Enter Text to Search">
-                    </div>
+                    </div-->
                 </div>
 
                 <div class="row">
