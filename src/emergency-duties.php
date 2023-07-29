@@ -1,3 +1,12 @@
+<?php
+require "./classes/class-db-connector.php";
+use classes\DBConnector;
+
+$dbcon = new DBConnector();
+$con = $dbcon->getConnection();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +17,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
     <title>Emergency Duties</title>
-    <link rel="icon" type="image/png" href="../assets/logo.png">
+    <link rel="icon" type="image/png" href="../assets/logo.png" />
 </head>
 <body>
     <!------------------navbar---------------------------->
@@ -17,11 +26,44 @@
         renderNavBar();
     ?>
     <!---------------------------------------------------->
+
+    <div class="container-md w-100 mt-5">
+        <div class="row">
+            <div class="col">
+                <?php
+                    if(isset($_GET["status"])){
+                        if($_GET["status"] == "0"){
+                            ?>
+                            <div class="alert alert-success w-100 mt-5" role="alert">
+                                Record inserted succesfully!
+                            </div>
+                            <?php
+                        }
+                        elseif ($_GET["status"] == "1"){
+                            ?>
+                            <div class="alert alert-danger w-100 mt-5" role="alert">
+                                Record insertion failed!
+                            </div>
+                            <?php
+                        }
+                        elseif ($_GET["status"] == "2"){
+                            ?>
+                            <div class="alert alert-danger w-100 mt-5" role="alert">
+                                No entries can be empty! Please fill ou all the fields.
+                            </div>
+                            <?php
+                        }
+                    }
+                ?>
+            </div>
+        </div>
+    </div>
+
     <div class="containter-lg mt-5">
         <div class="row">
             <div class="col-sm">
                 <h3 class="h3 mb-4 ml-5 mt-5">Assign an Emergency Duty</h3>
-                <form method="POST" action="" id="emergency-duty-form">     
+                <form method="POST" action="process-emergency-duties.php" id="emergency-duty-form" onsubmit="return confirm('Are you sure you want to proceed ?')">     
                     <table class="w-100 ml-5">
                         <thead></thead>
                         <tbody>
@@ -30,21 +72,55 @@
                                     <label for="emp_id">Employee ID</label>
                                 </td>
                                 <td>
-                                    <input type="text" name="emp_id" id="emp_id" placeholder="Enter Employee ID" class="mb-4 w-75">
+                                    <select id="emp_id" name="emp_id" class="mb-4 w-75">
+                                        <?php
+                                            try{
+                                                $query = "SELECT empID FROM employee where retired_status=?";
+                                                $pstmt = $con->prepare($query);
+                                                $pstmt->bindValue(1, "0");
+                                                $pstmt->execute();
+                                                $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
+
+                                                foreach($rows as $row){
+                                                    ?>
+                                                    <option value="<?php echo $row["empID"]; ?>"><?php echo $row["empID"]; ?></option>
+                                                    <?php
+                                                }
+                                            }catch(PDOException $e){
+                                                echo $e->getMessage();
+                                            }
+                                        ?>
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="duty_type">Duty Cause</label>
+                                    <label for="duty_cause">Duty Cause</label>
                                 </td>
                                 <td>
-                                    <select id="duty_type" name="duty_type" class="mb-4 w-75">
+                                    <select id="duty_cause" name="duty_cause" class="mb-4 w-75">
                                         <option value="Crime">Crime</option>
-                                        <option value="accident">Road Accident</option>
-                                        <option value="robbery">Robbery</option>
-                                        <option value="drugs_explosives">Drugs/ Explosives Raid</option>
+                                        <option value="Accident">Road Accident</option>
+                                        <option value="Robbery">Robbery</option>
+                                        <option value="Drugs/ Explosives">Drugs/ Explosives Raid</option>
                                         <option value="119">119 Request</option>
                                     </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="start">Start Time</label>
+                                </td>
+                                <td>
+                                    <input type="datetime-local" id="start" name="start" class="mb-4 w-75" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="end">End Time</label>
+                                </td>
+                                <td>
+                                    <input type="datetime-local" id="end" name="end" class="mb-4 w-75" />
                                 </td>
                             </tr>
                             <tr>
@@ -53,6 +129,8 @@
                                 </td>
                                 <td>
                                     <select name="district" id="district" class="mb-4 w-75">
+                                        <option value="">--None--</option>
+
                                         <option value="colombo">Colombo</option>
                                         <option value="gampaha">Gampaha</option>
                                         <option value="kalutara">Kalutara</option>
@@ -102,8 +180,7 @@
                                     <label for="lat">Scence Latitude </label>
                                 </td>
                                 <td>
-                                    <!--FILL ON SELECET OF OPTION-->
-                                    <input type="text" name="lat" id="lat" class="mb-4 w-75" disabled/>
+                                    <input type="text" name="lat" id="lat" class="mb-4 w-75" readonly/>
                                 </td>
                             </tr>
                             <tr>
@@ -111,8 +188,7 @@
                                     <label for="lon">Scence Longitude </label>
                                 </td>
                                 <td>
-                                    <!--FILL ON SELECT OF OPTION-->
-                                    <input type="text" name="lon" id="lon" class="mb-4 w-75" disabled/>
+                                    <input type="text" name="lon" id="lon" class="mb-4 w-75" readonly/>
                                 </td>
                             </tr>
                             <tr>
