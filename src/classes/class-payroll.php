@@ -211,9 +211,9 @@ class CalculateSalary{
         $mail->SMTPAuth = "true";
         $mail->SMTPSecure = "tls";
         $mail->Port = "587";
-        //$mail->Username = "kasunikamaheshi2000@gmail.com";
-        $mail->Password = "zafvlbvxlpakbvsv";
-        //$mail->setFrom("kasunikamaheshi2000@gmail.com");
+        $mail->Username = "slpsms23@gmail.com";
+        $mail->Password = "wloxdhhwlfhmqmuc";
+        $mail->setFrom("slpsms23@gmail.com");
         $mail->isHTML(true);
         return $mail;
     }
