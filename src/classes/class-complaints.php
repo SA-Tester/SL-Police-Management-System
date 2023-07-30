@@ -11,6 +11,7 @@ class Complaints{
     private $recording;
     private $description;
     private $complaint_status;
+    
     private $emp_id;
     private $con;
 

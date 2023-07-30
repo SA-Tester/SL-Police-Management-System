@@ -25,7 +25,7 @@
     ?>
     <!---------------------------------------------------->
 
-    <br>
+    <br><br><br><br>
     <div class="container">
         <div class="row">
             <div class="col-md-6" >              
@@ -86,7 +86,7 @@
                 </form>
                 </div>
             </div>
-            <br>
+            <br><br><br><br>
             <div class="col-md-6">
                 <h2 style="color: darkblue; text-align: center;">Special Duty</h2>       
                         <div class="card shadow mb-3">

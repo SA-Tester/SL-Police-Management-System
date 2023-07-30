@@ -1,9 +1,9 @@
 <?php
-    require "./classes/class-db-connector.php";
-    require "./classes/class-people.php";
-    require "./classes/class-complaints.php";
-    require "./classes/class-location.php";
-    require "./classes/class-fine.php";
+    require_once "./classes/class-db-connector.php";
+    require_once "./classes/class-people.php";
+    require_once "./classes/class-complaints.php";
+    require_once "./classes/class-location.php";
+    require_once "./classes/class-fine.php";
 
     use classes\DBConnector;
     use classes\People;
