@@ -21,7 +21,7 @@
         renderNavBar();
     ?>
     <!---------------------------------------------------->
-
+    <br><br><br><br>
     <div class="container py-md-5">
         <h2 style="color: darkblue; text-align: center;">Employee Details</h2>
         <div class="card shadow mb-3">
