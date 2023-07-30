@@ -44,5 +44,29 @@ if(isset($_POST["refresh"])){
     }
 }
 
+if(isset($_POST["send"])){
+    $con = $dbcon->getConnection();
+
+    $subject = $_POST['subject'];
+    $message = $_POST['message'];
+
+    $query = "SELECT * FROM employee";
+    $pstmt = $con->prepare($query);
+    $pstmt->execute();
+    $rs = $pstmt->fetchAll(PDO::FETCH_OBJ);
+    foreach ($rs as $employee){
+        $addEmployee = new CalculateSalary($employee->empID, 0);
+        $addEmployee->setCon($con);
+        $mail=$addEmployee->sendSalarySheet();
+        $mail->addAddress($employee->email);
+        $mail->Subject = $subject;
+        $mail->Body = $message;
+        if (!($mail->send())) {
+            echo $mail->ErrorInfo;
+        }
+    }
+    header("Location: payroll.php?message=3");
+    exit;
+}
 
 ?>
