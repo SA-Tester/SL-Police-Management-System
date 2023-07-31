@@ -4,6 +4,15 @@ namespace classes;
 use PDOException;
 use PDO;
 
+require "includes\PHPMailer.php";
+require "includes\SMTP.php";
+require "includes\Exception.php";
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+
 class CalculateSalary{
     private $emp_id;
     private $base_salary;
@@ -193,6 +202,20 @@ class CalculateSalary{
         } catch (PDOException $exc) {
             echo $exc->getMessage();
         }
+    }
+
+    public function sendSalarySheet(){
+        $mail = new PHPMailer();
+        $mail->isSMTP();
+        $mail->Host = "smtp.gmail.com";
+        $mail->SMTPAuth = "true";
+        $mail->SMTPSecure = "tls";
+        $mail->Port = "587";
+        $mail->Username = "slpsms23@gmail.com";
+        $mail->Password = "wloxdhhwlfhmqmuc";
+        $mail->setFrom("slpsms23@gmail.com");
+        $mail->isHTML(true);
+        return $mail;
     }
 }
 
