@@ -21,7 +21,7 @@
         renderNavBar();
     ?>
     <!---------------------------------------------------->
-    <br><br><br><br>
+    <br><br>
     <div class="container py-md-5">
         <h2 style="color: darkblue; text-align: center;">Employee Details</h2>
         <div class="card shadow mb-3">
@@ -115,12 +115,12 @@
                                         <div class="col">
                                             <div class="mb-3"><label class="form-label" for="Emp_Id"><strong>Employee
                                                         ID</strong></label></div><input class="form-control"
-                                                type="text">
+                                                type="text" required>
                                         </div>
                                         <div class="col">
                                             <div class="mb-3"><label class="form-label"
                                                     for="NIC"><strong>NIC</strong></label></div><input
-                                                class="form-control" type="text">
+                                                class="form-control" type="text" required>
                                         </div>
                                     </div>
                                 </div>
@@ -129,12 +129,12 @@
                                         <div class="col">
                                             <div class="mb-3"><label class="form-label" for="first_name"><strong>First
                                                         Name</strong></label><input class="form-control" type="text"
-                                                    id="first_name-4" name="first_name"></div>
+                                                    id="first_name-4" name="first_name" required></div>
                                         </div>
                                         <div class="col">
                                             <div class="mb-3"><label class="form-label" for="last_name"><strong>Last
                                                         Name</strong></label><input class="form-control" type="text"
-                                                    id="last_name-4" name="last_name"></div>
+                                                    id="last_name-4" name="last_name" required></div>
                                         </div>
                                     </div>
                                 </div>
@@ -143,12 +143,12 @@
                                         <div class="col">
                                             <div class="mb-3"><label class="form-label"
                                                     for="DOB"><strong>DOB</strong></label></div><input
-                                                class="form-control" type="date">
+                                                class="form-control" type="date" required>
                                         </div>
                                         <div class="col">
                                             <div class="mb-3"><label class="form-label"
                                                     for="Gender"><strong>Gender</strong></label></div><select
-                                                class="form-select">
+                                                class="form-select" required>
                                                 <optgroup>
                                                     <option value="12" selected="">Female</option>
                                                     <option value="13">Male</option>
@@ -162,12 +162,12 @@
                                         <div class="col">
                                             <div class="mb-3"><label class="form-label"
                                                     for="tel"><strong>Contact</strong></label></div><input
-                                                class="form-control" type="tel">
+                                                class="form-control" type="tel" required>
                                         </div>
                                         <div class="col">
                                             <div class="mb-3"><label class="form-label" for="email"><strong>Email
                                                         Address</strong></label></div><input class="form-control"
-                                                type="email" id="email-1" name="email">
+                                                type="email" id="email-1" name="email" required>
                                         </div>
                                     </div>
                                 </div>
@@ -176,7 +176,7 @@
                                         <div class="col">
                                             <div class="mb-3"><label class="form-label"
                                                     for="Address"><strong>Address</strong></label></div><input
-                                                class="form-control" type="text">
+                                                class="form-control" type="text" required>
                                         </div>
                                     </div>
                                     <br>
@@ -184,12 +184,12 @@
                                         <div class="col">
                                             <div class="mb-3"><label class="form-label" for="M_Status"><strong>Marital
                                                         Status</strong></label></div><input class="form-control"
-                                                type="text">
+                                                type="text" required>
                                         </div>
                                         <div class="col">
                                             <div class="mb-3"><label class="form-label"
                                                     for="Rank"><strong>Rank</strong></label></div><input
-                                                class="form-control" type="text">
+                                                class="form-control" type="text" required>
                                         </div>
                                     </div>
                                 </div>
@@ -198,12 +198,12 @@
                                         <div class="col">
                                             <div class="mb-3"><label class="form-label" for="Joined_Date"><strong>Joined
                                                         Date</strong></label></div><input class="form-control"
-                                                type="date">
+                                                type="date" required>
                                         </div>
                                         <div class="col">
                                             <div class="mb-3"><label class="form-label"
                                                     for="Retired_Status"><strong>Retired Status</strong></label></div>
-                                            <select class="form-select">
+                                            <select class="form-select" required>
                                                 <optgroup>
                                                     <option value="12" selected="">Yes</option>
                                                     <option value="13">No</option>
@@ -225,6 +225,13 @@
             </div>
         </div>
     </div>
+    <footer class="py-5 mt-5" style="background-color: #101D6B;">
+            <div class="container text-light text-center">
+                <p class="display-5 mb-3">Sri Lanka Police</p>
+                <small class="text-white-50">&copy; Copyright. All right reserved</small>
+            </div>
+    </footer>
+    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 

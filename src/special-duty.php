@@ -38,21 +38,21 @@
                         <div class="card-body">                                
                             <div class="row">
                                 <div class="col">
-                                    <div class="mb-3"><label class="form-label" for="emp_id"><strong>Employee Id</strong></label><input class="form-control" type="text" id="emp_id" name="emp_id"></div>
+                                    <div class="mb-3"><label class="form-label" for="emp_id"><strong>Employee Id</strong></label><input class="form-control" type="text" id="emp_id" name="emp_id" required></div>
                                 </div>
                             </div>                                
                     </div>
                     <div class="card-body">                                
                             <div class="row">
                                 <div class="col">
-                                    <div class="mb-3"><label class="form-label" for="Name"><strong>Employee Name</strong></label><input class="form-control" type="text" id="Name" name="Name"></div>
+                                    <div class="mb-3"><label class="form-label" for="Name"><strong>Employee Name</strong></label><input class="form-control" type="text" id="Name" name="Name" required></div>
                                 </div>
                             </div>                                
                     </div>
                     <div class="card-body">                                
                         <div class="row">
                             <div class="col">
-                                <div class="mb-3"><label class="form-label" for="Rank"><strong>Rank</strong></label><input class="form-control" type="text" id="Rank" name="Rank"></div>
+                                <div class="mb-3"><label class="form-label" for="Rank"><strong>Rank</strong></label><input class="form-control" type="text" id="Rank" name="Rank" required></div>
                             </div>
                         </div>                                
                     </div>                           
@@ -64,7 +64,7 @@
                                             <strong>Duty</strong>
                                         </label>
                                     </div>
-                                    <input type="text" list="duties"/>
+                                    <input type="text" list="duties" required/>
                                     <datalist id="duties">
                                         <option>Independence Day Parade</option>
                                         <option>Religious Function</option>
