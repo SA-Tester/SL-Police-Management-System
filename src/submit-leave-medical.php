@@ -1,3 +1,13 @@
+<?php
+require "./classes/class-db-connector.php";
+
+use classes\DBConnector;
+
+$dbcon = new DBConnector();
+
+$con = $dbcon->getConnection();
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -51,11 +61,24 @@
                             </div>
                             <div class="col-75">
                                 <select id="emp_id" name="emp_id" required>
-                                    <option value="EMP0001">EMP0001</option>
-                                    <option value="EMP0002">EMP0002</option>
-                                    <option value="EMP0003">EMP0003</option>
-                                    <option value="EMP0004">EMP0004</option>
-                                    <option value="EMP0005">EMP0005</option>
+                                    <?php 
+                                    if(isset($_SESSION['username'])){
+                                    $username = $_SESSION['username'];
+                                    $query1 = "SELECT * FROM login";
+                                    $pstmt1 = $con->prepare($query1);
+                                    $pstmt1->execute();
+                                    $rows = $pstmt1->fetchAll(PDO::FETCH_ASSOC);
+                                
+                                    foreach ($rows as $row){
+                                        if($row['username']==$username){
+                                            $emp_id = $row['empID'];
+                                        }
+                                    }
+                                } else{
+                                    $emp_id = "";
+                                }
+                                ?>
+                                    <option value="<?php echo $emp_id; ?>"><?php echo $emp_id; ?></option> <!-- only show their employee ID-->
                                 </select>
                             </div>
                         </div>
@@ -124,16 +147,45 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php
+                                if(isset($_SESSION['username'])){
+                                    $username = $_SESSION['username'];
+                                    $query1 = "SELECT * FROM login";
+                                    $pstmt1 = $con->prepare($query1);
+                                    $pstmt1->execute();
+                                    $rows = $pstmt1->fetchAll(PDO::FETCH_ASSOC);
+                                
+                                    foreach ($rows as $row){
+                                        if($row['username']==$username){
+                                            $emp_id = $row['empID'];
+                                        }
+                                    }
+                                } else{
+                                    $emp_id = "";
+                                }
+                                
+                                $query2 = "SELECT * FROM leaves";
+                                $pstmt2 = $con->prepare($query2);
+                                $pstmt2->execute();
+                                $rs = $pstmt2->fetchAll(PDO::FETCH_OBJ);
+                                foreach ($rs as $emplyee){
+                                    if($emplyee->empID==$emp_id){
+                                        $start_date = date_create($emplyee->leave_start);
+                                        $end_date = date_create($emplyee->leave_end);
+                                        $difference = date_diff($start_date, $end_date);
+                                        $duration = $difference->d;
+                                ?>
                                 <tr>
-                                    <td>2023/05/05</td>
-                                    <td>2023/05/10</td>
-                                    <td>5</td>
-                                </tr>
-                                <tr>
-                                    <td>2023/06/05</td>
-                                    <td>2023/06/08</td>
-                                    <td>3</td>
-                                </tr>
+                                    <td><?php echo $emplyee->leave_start; ?></td>
+                                    <td><?php echo $emplyee->leave_end; ?></td>
+                                    <td><?php echo $duration ?></td>
+                                </tr>        
+                                <?php
+                                    }
+                                }
+
+                                ?>
+
                             </tbody>
                         </table>
                     </div>

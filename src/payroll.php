@@ -76,7 +76,7 @@ $dbcon = new DBConnector();
                         <th>Edit</th>
                     </tr>
                 </thead>
-                <tbody id="alluser">
+                <tbody>
                     <?php 
                     try {
                         $con = $dbcon->getConnection();
