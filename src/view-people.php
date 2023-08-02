@@ -253,13 +253,78 @@
         }
       }
     }
-    
+
     // Bind the filterTableByRole function to the click event of the "Sort By" dropdown menu options
     $(".dropdown-menu a").on("click", function() {
       var selectedRole = $(this).text();
       filterTableByRole(selectedRole);
     });
   });
+  
+$(document).ready(function() {
+  // Handle click event of the "Send Email" button
+  $("#sendEmailButton").on("click", function() {
+    var recipientEmail = $("#recipientEmail").val();
+    var emailSubject = $("#emailSubject").val();
+    var emailBody = $("#emailBody").val();
+
+    // Perform AJAX request to check if the email exists in the database
+    $.ajax({
+      type: "POST",
+      url: "send_email.php", // PHP script to check if email exists in the database
+      data: { recipientEmail: recipientEmail },
+      success: function(response) {
+        if (response === "email_exists") {
+          // The email exists in the database, so proceed to send the email
+          sendEmail(recipientEmail, emailSubject, emailBody);
+        } else {
+          // The email does not exist in the database, show an error message
+          $(".modal-body").html('<div class="alert alert-danger" role="alert">The email address you provided does not exist in our records.</div>');
+        }
+      },
+      error: function(xhr, status, error) {
+        // Show error message in the modal body
+        $(".modal-body").html('<div class="alert alert-danger" role="alert">Failed to check email. Please try again later.</div>');
+      }
+    });
+  });
+
+  // Function to send the email after checking recipient email in the database
+  function sendEmail(recipientEmail, emailSubject, emailBody) {
+    // Perform AJAX request to send the email
+    $.ajax({
+      type: "POST",
+      url: "send_email.php", // PHP script to send the email
+      data: {
+        recipientEmail: recipientEmail,
+        emailSubject: emailSubject,
+        emailBody: emailBody
+      },
+      success: function(response) {
+        // Show success message in the modal body
+        $(".modal-body").html('<div class="alert alert-success" role="alert">Email sent successfully!</div>');
+        // Clear the email form after sending the email
+        $("#recipientEmail").val('');
+        $("#recipientName").val('');
+        $("#emailSubject").val('');
+        $("#emailBody").val('');
+        // Hide the "Send Email" button
+        $("#sendEmailButton").hide();
+      },
+      error: function(xhr, status, error) {
+        // Show error message in the modal body
+        $(".modal-body").html('<div class="alert alert-danger" role="alert">Failed to send email. Please try again later.</div>');
+      }
+    });
+  }
+
+  // Clear the modal content when the modal is closed
+  $("#emailModal").on("hidden.bs.modal", function() {
+    $(".modal-body").html(""); // Clear the modal body content
+    $("#sendEmailButton").show(); // Show the "Send Email" button again if it was hidden
+  });
+});
+
 
 
 
