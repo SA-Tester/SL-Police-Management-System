@@ -198,11 +198,38 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $('.dropdown-toggle').on('click', function () {
-                $(this).siblings('.dropdown-menu').toggle();
-            });
-        });
+    // $(document).ready(function() {
+    $('.dropdown-toggle').on('click', function() {
+      $(this).siblings('.dropdown-menu').toggle();
+    });
+
+    $('.dropdown-menu a').on('click', function() {
+      var text = $(this).text();
+      $(this).closest('.dropdown').find('.dropdown-toggle').text(text);
+    });        
+        
+ $(document).ready(function() {
+  // Function to handle the search and highlighting
+  function searchTable() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = $("#searchInput");
+    filter = input.val().toUpperCase();
+    table = $("table")[0];
+    tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows, starting from index 1 to skip the header row
+    for (i = 1; i < tr.length; i++) {
+      td = $(tr[i]).find("td:eq(4)"); // Column index 4 (Com_Type)
+      if (td) {
+        txtValue = td.text();
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          $(tr[i]).addClass("highlight");
+        } else {
+          $(tr[i]).removeClass("highlight");
+        }
+      }
+    }
+  }
     </script>
 </body>
 
