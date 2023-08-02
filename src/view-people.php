@@ -98,16 +98,15 @@
           </th>
         </tr>
         <tr>
-
-                    <th>NIC</th>
-                    <th>Name</th>
-                    <th>Com_ID</th>
-                    <th>Role-In-Case<br>(Plantit/Victim/Suspect)</th>
-                    <th>Com_Type</th>
-                    <th>If Traffic On Click</th>
-                    <th>Fine<br>(Paid/NotePad/N/A)</th>
-                    <th>Fine Deadline<br>Date/N/A</th>
-                    <th>NextComing Date</th>
+          <th>NIC</th>
+          <th>Name</th>
+          <th>Com_ID</th>
+          <th>Role-In-Case<br>(Plantit/Victim/Suspect)</th>
+          <th>Com_Type</th>
+          <th>If Traffic On Click</th>
+          <th>Fine<br>(Paid/NotPaid/N/A)</th>
+          <th>Fine Deadline<br>Date/N/A</th>
+          <th>Next Coming Date</th>
                 </tr>
             </thead>
             <tbody>
