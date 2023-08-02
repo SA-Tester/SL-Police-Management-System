@@ -230,6 +230,41 @@
       }
     }
   }
+
+  // Bind the searchTable function to the click event of the search button
+  $("#searchButton").on("click", function() {
+    searchTable();
+  });
+});
+ $(document).ready(function() {
+    // Function to handle filtering based on "role_in_case" value
+    function filterTableByRole(role) {
+      var table = $("table")[0];
+      var tr = table.getElementsByTagName("tr");
+
+      // Loop through all table rows, starting from index 1 to skip the header row
+      for (var i = 1; i < tr.length; i++) {
+        var roleInCaseCell = $(tr[i]).find("td:eq(3)"); // Column index 3 (Role-In-Case)
+
+        if (role === "All" || roleInCaseCell.text() === role) {
+          $(tr[i]).show(); // Show rows that match the selected role or show all rows for "All"
+        } else {
+          $(tr[i]).hide(); // Hide rows that do not match the selected role
+        }
+      }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     </script>
 </body>
 
