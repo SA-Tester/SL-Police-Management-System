@@ -62,17 +62,17 @@ class Employee{
             $a = $pstmt->execute();
 
             if ($a > 0) {
-                header("Location: index.php?message=1");
+                header("Location: new-employee.php?message=1");
                 exit;
             } else {
-                header("Location: index.php?message=2");
+                header("Location: new-employee.php?message=2");
                 exit;
             }
         } catch (PDOException $e) {
             die("Connection failed: ") . $e->getMessage();
         }
     }
-    
+
     function viewEmployeeAvalability(){
         date_default_timezone_set('Asia/Colombo');
         $currentDate = date("Y-m-d");
