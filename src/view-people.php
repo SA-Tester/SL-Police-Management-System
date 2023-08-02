@@ -128,7 +128,7 @@
            <td colspan="9">
              <div class="btn-group">
              <button class="btn btn-primary" data-toggle="modal" data-target="#emailModal">Send Email</button>
-             <form action="backend.php" method="post">
+             <form action="updatebutton_data_people.php" method="post">
              <button type="submit" class="btn btn-secondary" name="updateButton">Update Data</button>
              </form>
           </td>
@@ -260,7 +260,7 @@
       filterTableByRole(selectedRole);
     });
   });
-  
+
 $(document).ready(function() {
   // Handle click event of the "Send Email" button
   $("#sendEmailButton").on("click", function() {
