@@ -23,6 +23,40 @@
         .form-control {
             background-color: lightblue;
         }
+ 
+        .highlight {
+    background-color: yellow;
+  }
+  
+  .search-button {
+        display: flex;
+        justify-content: center;
+      }
+    /* Added margin to separate the "Select Place" dropdown and search button */
+    .search-area {
+      margin-bottom: 10px;   
+    }
+    
+    .table-responsive {
+      overflow-x: auto;
+    }
+     th, td {
+        font-size: 14px;
+      }
+    
+    @media (max-width: 768px) {
+      /* Adjust the margin for small screens */
+      .input-group-append {
+        margin-left: 0;
+      }
+
+
+
+
+
+
+
+
     </style>
 </head>
 
