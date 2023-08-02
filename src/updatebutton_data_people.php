@@ -1,9 +1,7 @@
 <?php
-// backend.php
 
-// Include the DbConnector and DataFetcher classes
-require_once 'DbConnector.php'; // Replace 'DbConnector.php' with the correct path to your DbConnector class file
-require_once 'fetch_people_data.php'; // Replace 'fetch_data.php' with the correct path to your fetch_data.php file
+require_once 'DbConnector.php'; // insert 'DbConnector.php' 
+require_once 'fetch_people_data.php'; 
 
 // Function to check if a NIC exists in the evidence table
 function isNICExistsInEvidenceTable($nic, $dataFetcher) {
