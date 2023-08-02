@@ -110,29 +110,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Data 1</td>
-                    <td>Data 2</td>
-                    <td>Data 3</td>
-                    <td>Data 4</td>
-                    <td>Data 5</td>
-                    <td>Data 6</td>
-                    <td>Data 7</td>
-                    <td>Column 8</td>
-                    <td>Column 9</td>
-                </tr>
-                <tr>
-                    <td>Data 8</td>
-                    <td>Data 9</td>
-                    <td>Data 10</td>
-                    <td>Data 11</td>
-                    <td>Data 12</td>
-                    <td>Data 13</td>
-                    <td>Data 14</td>
-                    <td>Column 15</td>
-                    <td>Column 16</td>
-                </tr>
-                <!-- Add more rows as needed -->
+            <?php foreach ($dataPeople as $index => $row): ?>
+        <tr>
+            <td><?php echo isset($row['nic']) ? $row['nic'] : 'N/A'; ?></td>
+            <td><?php echo isset($row['name']) ? $row['name'] : 'N/A'; ?></td>
+            <td><?php echo isset($dataRoleInCase[$index]['complaint_id']) ? $dataRoleInCase[$index]['complaint_id'] : 'N/A'; ?></td>
+            <td><?php echo isset($dataRoleInCase[$index]['role_in_case']) ? $dataRoleInCase[$index]['role_in_case'] : 'N/A'; ?></td>
+            <td><?php echo isset($dataComplaint[$index]['complaint_type']) ? $dataComplaint[$index]['complaint_type'] : 'N/A'; ?></td>
+            <td>N/A</td><!-- have to update -->
+            <td><?php echo isset($dataFine[$index]['fine_amount']) ? $dataFine[$index]['fine_amount'] : 'N/A'; ?></td>
+            <td><?php echo isset($dataFine[$index]['fine_deadline']) ? $dataFine[$index]['fine_deadline'] : 'N/A'; ?></td>
+            <td><?php echo isset($dataCourtOrder[$index]['next_court_date']) ? $dataCourtOrder[$index]['next_court_date'] : 'N/A'; ?></td>
+        </tr>
+    <?php endforeach; ?>
             </tbody>
             <tfoot>
                 <tr>
