@@ -124,21 +124,19 @@
         </tr>
     <?php endforeach; ?>
             </tbody>
-            <tfoot>
-                <tr>
-                    <td colspan="9">
-                        <button class="btn btn-primary">Send Email</button>
-                        <div class="btn-group">
-                            <button class="btn btn-secondary" id="dropdownMenuButton" data-toggle="dropdown">
-                                Update
-                            </button>
-
-                        </div>
-                    </td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
+            <tr>
+           <td colspan="9">
+             <div class="btn-group">
+             <button class="btn btn-primary" data-toggle="modal" data-target="#emailModal">Send Email</button>
+             <form action="backend.php" method="post">
+             <button type="submit" class="btn btn-secondary" name="updateButton">Update Data</button>
+             </form>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+          
 
     <footer class="py-5 mt-5" style="background-color: #101D6B;">
         <div class="container text-light text-center">
