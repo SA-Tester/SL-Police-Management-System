@@ -138,6 +138,54 @@
   </div>
           
 
+  // Adding modal for email sending           
+  <div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="emailModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="emailModalLabel">Send Email</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="emailForm">
+          <div class="form-group">
+            <label for="recipientEmail">Recipient Email:</label>
+            <input type="email" class="form-control" id="recipientEmail" name="recipientEmail" required>
+          </div>
+            <div class="form-group">
+            <label for="recipientName">Recipient Name:</label>
+            <input type="text" class="form-control" id="recipientName" name="recipientName" required>
+           </div>
+          <div class="form-group">
+            <label for="emailSubject">Subject:</label>
+            <input type="text" class="form-control" id="emailSubject" name="emailSubject" required>
+          </div>
+          <div class="form-group">
+            <label for="emailBody">Message:</label>
+            <textarea class="form-control" id="emailBody" name="emailBody" rows="4" required></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="sendEmailButton">Send Email</button>
+      </div>
+    </div>
+  </div>
+</div>        
+
+
+
+
+
+
+
+
+
+
+
     <footer class="py-5 mt-5" style="background-color: #101D6B;">
         <div class="container text-light text-center">
             <p class="display-5 mb-3">Sri Lanka Police</p>
