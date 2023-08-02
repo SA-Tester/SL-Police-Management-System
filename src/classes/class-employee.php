@@ -5,6 +5,37 @@ use PDO;
 use PDOException;
 
 class Employee{
+    
+    private $emplD;
+    private $nic;
+    private $first_name;
+    private $last_name;
+    private $dob;
+    private $gender;
+    private $tel_no;
+    private $email;
+    private $address;
+    private $marital_status;
+    private $rank;
+    private $appointment_date;
+    private $retired_status;
+
+    public function __construct($emplD, $nic, $first_name, $last_name, $dob, $gender, $tel_no, $email, $address, $marital_status, $rank, $appointment_date, $retired_status) {
+        $this->emplD = $emplD;
+        $this->nic = $nic;
+        $this->first_name = $first_name;
+        $this->last_name = $last_name;
+        $this->dob = $dob;
+        $this->gender = $gender;
+        $this->tel_no = $tel_no;
+        $this->email = $email;
+        $this->address = $address;
+        $this->marital_status = $marital_status;
+        $this->rank = $rank;
+        $this->appointment_date = $appointment_date;
+        $this->retired_status = $retired_status;
+        
+    }
     function viewEmployeeAvalability(){
         date_default_timezone_set('Asia/Colombo');
         $currentDate = date("Y-m-d");
