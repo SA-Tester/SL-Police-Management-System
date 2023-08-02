@@ -253,7 +253,13 @@
         }
       }
     }
-
+    
+    // Bind the filterTableByRole function to the click event of the "Sort By" dropdown menu options
+    $(".dropdown-menu a").on("click", function() {
+      var selectedRole = $(this).text();
+      filterTableByRole(selectedRole);
+    });
+  });
 
 
 
