@@ -74,31 +74,30 @@
                 <tr>
                     <th colspan="9">
                         <div class="row">
-                            <div class="col-sm-6">
-                                <div class="btn-group">
-                                    <button class="btn btn-secondary dropdown-toggle" id="button2"
-                                        data-toggle="dropdown">
-                                        Sort By
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="#">Option 1</a>
-                                        <a class="dropdown-item" href="#">Option 2</a>
-                                        <a class="dropdown-item" href="#">Option 3</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6 text-right">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Search">
-                                    <div class="input-group-append" style="margin-left: 10px;">
-                                        <button class="btn btn-secondary" type="button">Search</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </th>
-                </tr>
-                <tr>
+                        <div class="col-sm-4">
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown2" name="sortby" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Sort By
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdown2">
+                     <a class="dropdown-item" href="#">All</a> 
+                    <a class="dropdown-item" href="#">Plantiff</a>
+                    <a class="dropdown-item" href="#">Culprit</a>
+                    <a class="dropdown-item" href="#">Suspect</a>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-8 text-right">
+                <!-- Search input moved to the right -->
+                <div class="search-button">
+                  <input type="text" class="form-control" id="searchInput" placeholder="Search">
+                  <button class="btn btn-secondary" type="button" id="searchButton">Search</button>
+                </div>
+              </div>
+            </div>
+          </th>
+        </tr>
+        <tr>
 
                     <th>NIC</th>
                     <th>Name</th>
