@@ -5,6 +5,74 @@ use PDO;
 use PDOException;
 
 class Employee{
+    
+    private $emplD;
+    private $nic;
+    private $first_name;
+    private $last_name;
+    private $dob;
+    private $gender;
+    private $tel_no;
+    private $email;
+    private $address;
+    private $marital_status;
+    private $rank;
+    private $appointment_date;
+    private $retired_status;
+
+    public function __construct($emplD, $nic, $first_name, $last_name, $dob, $gender, $tel_no, $email, $address, $marital_status, $rank, $appointment_date, $retired_status) {
+        $this->emplD = $emplD;
+        $this->nic = $nic;
+        $this->first_name = $first_name;
+        $this->last_name = $last_name;
+        $this->dob = $dob;
+        $this->gender = $gender;
+        $this->tel_no = $tel_no;
+        $this->email = $email;
+        $this->address = $address;
+        $this->marital_status = $marital_status;
+        $this->rank = $rank;
+        $this->appointment_date = $appointment_date;
+        $this->retired_status = $retired_status;
+        
+    }
+    public function register() {
+        $dbcon = new DbConnector();
+        $con = $dbcon->getConnection();
+
+        $query = "INSERT INTO employee(emplD, nic, first_name, last_name, dob, gender, tel_no, email, address, marital_status, rank, appointment_date, retired_status) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
+        try {
+            $pstmt = $con->prepare($query);
+            $pstmt->bindValue(1, $this->emplD);
+            $pstmt->bindValue(2, $this->nic);
+            $pstmt->bindValue(3, $this->first_name);
+            $pstmt->bindValue(4, $this->last_name);
+            $pstmt->bindValue(5, $this->dob);
+            $pstmt->bindValue(6, $this->gender);
+            $pstmt->bindValue(7, $this->tel_no);
+            $pstmt->bindValue(8, $this->email);
+            $pstmt->bindValue(9, $this->address);
+            $pstmt->bindValue(10, $this->marital_status);
+            $pstmt->bindValue(11, $this->rank);
+            $pstmt->bindValue(12, $this->appointment_date);
+            $pstmt->bindValue(13, $this->retired_status);
+           
+
+            $a = $pstmt->execute();
+
+            if ($a > 0) {
+                header("Location: new-employee.php?message=1");
+                exit;
+            } else {
+                header("Location: new-employee.php?message=2");
+                exit;
+            }
+        } catch (PDOException $e) {
+            die("Connection failed: ") . $e->getMessage();
+        }
+    }
+
     function viewEmployeeAvalability(){
         date_default_timezone_set('Asia/Colombo');
         $currentDate = date("Y-m-d");
