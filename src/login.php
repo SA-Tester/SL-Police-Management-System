@@ -1,51 +1,45 @@
 <?php
+session_start();
 
 require './classes/class-db-connector.php';
+require './classes/class-user.php';
+
 use classes\DBConnector;
+use classes\User;
 
-function login($username,$password){
-    $dbcon = new DBConnector();
-
-    try{
-        $con = $dbcon->getConnection();
-        $query = "SELECT * FROM login WHERE username=?";
-        $pstmt = $con->prepare($query);
-        $pstmt->bindValue(1,$username,PDO::PARAM_STR);
-        $pstmt->execute();
-
-        $userData = $pstmt-> fetch(PDO::FETCH_ASSOC);
-        
-        if($userData && $userData['password'] === $password){               //password_verify($password,$userData['password'])
-            session_start();
-            $_SESSION['username']= $username;
-            $_SESSION['role'] = $userData['role'];
-            header('Location: index.php');
-            exit();
-        }
-        else{
-            header("Location: loginForm.php?error=2");
-            exit;
-        }
-    }catch(PDOException $ex){
-        echo $ex->getMessage();
-    }
-
-}
-
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    if (isset($_POST["username"], $_POST["password"])) {
+if($_SERVER["REQUEST_METHOD"] === "POST"){
+    if(isset($_POST["username"],$_POST["password"])){
         if(empty($_POST["username"]) || empty($_POST["password"])){
-            header("Location: loginForm.php?error=1");
-            exit;
+            header("Location: loginForm.php?status=1");
         }
         else{
-            $username = $_POST["username"];
-            $password = $_POST["password"];
-            login($username,$password);
-     
+            $username = trim($_POST["username"]);
+            $password = trim($_POST["password"]);
+
+            $dbcon = new DBConnector();
+
+            $user = new User($username,$password);
+
+            if($user->login($dbcon->getConnection())){
+                $_SESSION['role'] = $user->getRole();
+                $_SESSION['user_id'] = $user->getEmpId();
+                $_SESSION['username'] = $user->getUsername();
+
+                header("Location: index.php");
+            }
+            else{
+                header("Location: loginForm.php?status=2"); 
+            }
         }
+
+    }else{
+        header("Location: loginForm.php?status=0");
     }
+
+
+
+
+
 }
 
 
