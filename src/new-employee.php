@@ -1,5 +1,5 @@
 <?php
-require './classes/DbConnector.php';
+require './classes/class-db-connector.php';
 
 use classes\DbConnector;
 
@@ -73,9 +73,9 @@ $dbcon = new DbConnector();
                             foreach ($rs as $user) {
                         ?>
                                 <tr>
-                                    <td><a href="editEmployee.php?emplD=<?php echo $user->emplD; ?>">Edit</a></td>
-                                    <td><a href="deleteEmployee.php?emplD=<?php echo $user->emplD; ?>">Delete</a></td>
-                                    <td><?php echo $user->emplD; ?></td>
+                                    <td><a href="editEmployee.php?empID=<?php echo $user->s; ?>">Edit</a></td>
+                                    <td><a href="deleteEmployee.php?empID=<?php echo $user->empID; ?>">Delete</a></td>
+                                    <td><?php echo $user->empID; ?></td>
                                     <td><?php echo $user->first_name; ?></td>
                                     <td><?php echo $user->last_name; ?></td>
                                     <td><?php echo $user->dob; ?></td>
@@ -121,7 +121,7 @@ $dbcon = new DbConnector();
                                     <div class="row">
                                         <div class="col">
                                             <div class="mb-3"><label class="form-label"><strong>Employee
-                                                        ID</strong></label></div><input class="form-control" type="text" id="emplD" name="emplD" required>
+                                                        ID</strong></label></div><input class="form-control" type="text" id="empID" name="empID" required>
                                         </div>
                                         <div class="col">
                                             <div class="mb-3"><label class="form-label"><strong>NIC</strong></label></div><input class="form-control" type="text" id="nic" name="nic" required>
