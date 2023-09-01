@@ -1,3 +1,23 @@
+<?php
+require_once 'fetch_people_data.php';
+
+// Create an instance of DataFetcher
+$dataFetcher = new DataFetcher();
+
+$dataFetcherPeople = new DataFetcher();
+$dataFetcherRoleInCase = new DataFetcher();
+$dataFetcherComplaint = new DataFetcher();
+$dataFetcherFine = new DataFetcher();
+$dataFetcherCourtOrder = new DataFetcher();
+
+// Fetch data from each table
+$dataPeople = $dataFetcherPeople->getPeopleData();
+$dataRoleInCase = $dataFetcherRoleInCase->getRoleInCaseData();
+$dataComplaint = $dataFetcherComplaint->getComplaintData();
+$dataFine = $dataFetcherFine->getFineData();
+$dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
+
+?>
 <!DOCTYPE html>
 <html>
 
