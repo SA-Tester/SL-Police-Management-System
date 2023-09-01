@@ -75,8 +75,13 @@ function renderNavBar()
                         <li class="nav-item">
                           <a class="nav-link" href="payroll.php" style="color:#101D6B">Salary</a>
                         </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="index.php#settings" style="color:#101D6B;">Settings</a>
+                        <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" href="#" id="dutiesDropdown" role="button"
+                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#101D6B">Settings</a>
+                          <div class="dropdown-menu" aria-labelledby="dutiesDropdown">
+                            <a class="dropdown-item" href="update-personal-details.php" style="color:#101D6B"><b>Update Details</b></a>
+                            <a class="dropdown-item" href="change-password.php" style="color:#101D6B"><b>Change Password</b></a>
+                          </div>
                         </li>
                         <form class="form-inline my-2 my-lg-0"  action="logout.php" method="get">
                           <button class="btn btn my-2 my-sm-0" type="submit" style="color:white;background-color: #101D6B;">Log Out</button>
@@ -135,8 +140,13 @@ function renderNavBar()
                         <li class="nav-item">
                           <a class="nav-link" href="payroll.php" style="color:#101D6B">Salary</a>
                         </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="index.php#settings" style="color:#101D6B;">Settings</a>
+                        <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" href="#" id="dutiesDropdown" role="button"
+                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#101D6B">Settings</a>
+                          <div class="dropdown-menu" aria-labelledby="dutiesDropdown">
+                            <a class="dropdown-item" href="update-personal-details.php" style="color:#101D6B"><b>Update Details</b></a>
+                            <a class="dropdown-item" href="change-password.php" style="color:#101D6B"><b>Change Password</b></a>
+                          </div>
                         </li>
                         <form class="form-inline my-2 my-lg-0"  action="logout.php" method="get">
                           <button class="btn btn my-2 my-sm-0" type="submit" style="color:white;background-color: #101D6B;">Log Out</button>
