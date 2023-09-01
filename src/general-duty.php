@@ -15,6 +15,17 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="../css/general-duty.css"/>
+
+    <!--boostrap icon-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <!-- dark mode switch condition -->
+    <?php
+    session_start();
+    if ($_SESSION['dark']) {
+        echo '<link rel="stylesheet" href="../css/dark-mode.css">';
+    }
+    ?>
 </head>
 
 <body>

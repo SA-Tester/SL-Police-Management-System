@@ -45,6 +45,17 @@ $_SESSION['empID']=$oldDetails['emplD'];
             background-color: rgb(0,0,255,0.2);
         }
     </style>
+
+    <!--boostrap icon-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <!-- dark mode switch condition -->
+    <?php
+    session_start();
+    if ($_SESSION['dark']) {
+        echo '<link rel="stylesheet" href="../css/dark-mode.css">';
+    }
+    ?>
 </head>
 
 <body>

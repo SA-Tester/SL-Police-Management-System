@@ -28,6 +28,17 @@ $con = $dbcon->getConnection();
 
     <title>Leave Request</title>
     <link rel="icon" type="image/png" href="../assets/logo.png">
+
+    <!--boostrap icon-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <!-- dark mode switch condition -->
+    <?php
+    session_start();
+    if ($_SESSION['dark']) {
+        echo '<link rel="stylesheet" href="../css/dark-mode.css">';
+    }
+    ?>
 </head>
 
 <body>
