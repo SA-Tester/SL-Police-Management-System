@@ -51,6 +51,11 @@ body {
       75
     ) !important; /* Change this to the desired background color for disabled input fields */
   }
+
+
+  ::-ms-reveal {
+    filter: invert(1);
+  }
   
   /*index.php*/
   .card-img-top {
