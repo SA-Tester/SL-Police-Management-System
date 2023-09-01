@@ -91,8 +91,8 @@ function renderNavBar()
               </div>
             </div>
           </div>';
-        } elseif ($_SESSION['role'] === 'user') {
-            echo '<div class="container">
+    } elseif ($_SESSION['role'] === 'user') {
+      echo '<div class="container">
             <div class="row">
               <div class="col-md-12">
                   <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white m-0 mt-0 mb-0">
@@ -156,9 +156,9 @@ function renderNavBar()
               </div>
             </div>
           </div>';
-        }
-    } else {
-        echo '<div class="container">
+    }
+  } else {
+    echo '<div class="container">
         <div class="row">
           <div class="col-md-12">
               <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white m-0 mt-0 mb-0">
@@ -191,5 +191,5 @@ function renderNavBar()
           </div>
         </div>
       </div>';
-    }
+  }
 }

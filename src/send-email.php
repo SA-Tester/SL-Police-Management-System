@@ -1,5 +1,6 @@
 <?php
-require_once 'DbConnector.php';
+require_once './classes/class-db-connector.php';
+use classes\DBConnector;
 
 class EmailChecker
 {
@@ -9,7 +10,7 @@ class EmailChecker
     {
         // Create a new instance of DbConnector to connect to the database
         $dbConnector = new DbConnector();
-        $this->conn = $dbConnector->conn;
+        $this->conn = $dbConnector->getConnection();
     }
 
     public function checkEmailExists($recipientEmail)

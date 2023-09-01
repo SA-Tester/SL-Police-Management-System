@@ -386,7 +386,7 @@
                 <div class="row mb-4">
                     <div class="col-md">
                         <label for="sort_type" class="mr-3">Sort By</label>
-                        <select name="sort_type" id="sort_type"  onchange="fillTable(this.value)" value="">
+                        <select name="sort_type" id="sort_type"  onchange="fillTable(this.value)" value="" selected="Date">
                             <option value="none">--None--</option>
                             <option value="id">Complaint ID</option>
                             <option value="type">Complaint Type</option>
