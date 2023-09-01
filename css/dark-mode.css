@@ -1,0 +1,202 @@
+/*common*/
+body {
+    background-color: rgba(0, 0, 0, 0.9);
+  }
+  
+  * {
+    color: white !important;
+  }
+  
+  ::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+  }
+  
+  input,
+  select,
+  textarea {
+    background-color: #101d9f !important;
+    border: 2px solid #101d80 !important;
+    border-radius: 5px;
+  }
+  
+  table {
+    background-color: #101d6b;
+  }
+  
+  table th {
+    background-color: #101d9f !important;
+  }
+  
+  input[type="submit"],
+  .buttons > button {
+    background-color: white !important;
+    color: #101d6b !important;
+    font-weight: 500;
+  }
+  
+  input[type="submit"]:hover,
+  .buttons > button:hover {
+    background-color: #d9d9ff !important;
+  }
+  
+  .modal-content {
+    background-color: #101d6b;
+  }
+  
+  input:disabled {
+    color: gray !important; /* Change this to the desired color for disabled text */
+    background-color: rgb(
+      75,
+      81,
+      75
+    ) !important; /* Change this to the desired background color for disabled input fields */
+  }
+  
+  /*index.php*/
+  .card-img-top {
+    border-radius: 50%;
+    background-color: white;
+  }
+  
+  /*navbar*/
+  .navbar {
+    background-color: #101d6b !important;
+  }
+  
+  .navbar img {
+    background-color: white;
+    border-radius: 50%;
+  }
+  
+  .navbar .btn:not(.theme-toggle) {
+    background-color: white !important;
+    color: #101d6b !important;
+    font-weight: 500 !important;
+  }
+  
+  .dropdown-menu {
+    background-color: #101d6b !important;
+    border: 2px solid #101d50 !important;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #101d40 !important;
+  }
+  
+  .theme-toggle i {
+    color: white;
+    font-size: 25px !important;
+  }
+  
+  /*record-complaints.php*/
+  audio::-webkit-media-controls-panel {
+    background-color: #101d9f;
+    border: 2px solid #101d80;
+  }
+  
+  audio::-webkit-media-controls-panel,
+  audio::-webkit-media-controls-mute-button,
+  audio::-webkit-media-controls-play-button,
+  audio::-webkit-media-controls-timeline-container,
+  audio::-webkit-media-controls-current-time-display,
+  audio::-webkit-media-controls-time-remaining-display,
+  audio::-webkit-media-controls-timeline,
+  audio::-webkit-media-controls-volume-slider-container,
+  audio::-webkit-media-controls-volume-slider,
+  audio::-webkit-media-controls-seek-back-button,
+  audio::-webkit-media-controls-seek-forward-button,
+  audio::-webkit-media-controls-fullscreen-button,
+  audio::-webkit-media-controls-rewind-button,
+  audio::-webkit-media-controls-return-to-realtime-button,
+  audio::-webkit-media-controls-toggle-closed-captions-button {
+    color: white;
+  }
+  
+  table.ml-3.w-100 {
+    background-color: transparent !important;
+  }
+  
+  /*view-people.php*/
+  th {
+    background-color: #05115d;
+  }
+  
+  th input {
+    background-color: #101d6b !important;
+  }
+  
+  /*complaint-study*/
+  button:has(i):not(.theme-toggle) {
+    background-color: #101d8a;
+    border: 2px solid #101d9f;
+    border-radius: 5px;
+  }
+  
+  /*general_duty.php*/
+  
+  /*special-duty.php*/
+  .card {
+    background-color: #101d6b !important;
+  }
+  
+  .card-body button,
+  .card button {
+    background-color: white !important;
+    color: #101d6b !important;
+    font-weight: 500;
+  }
+  
+  .card-body button:hover,
+  .card button:hover {
+    background-color: #d9d9ff !important;
+  }
+  
+  .card-header {
+    border-bottom: 1px solid white;
+  }
+  
+  .card tr {
+    background-color: transparent;
+  }
+  
+  .card tr:hover {
+    background-color: #3aa5e8 !important;
+  }
+  
+  .card tr:active {
+    background-color: #1286c9 !important;
+  }
+  
+  /*emergency-duties.php*/
+  table.w-100.ml-5 {
+    background-color: transparent;
+  }
+  
+  /*submit-leave-medical.php*/
+  .containerx {
+    background-color: #101d6b;
+  }
+  
+  /*new-employee*/
+  
+  /*payroll.php*/
+  .buttons > button > i {
+    color: #101d6b !important;
+  }
+  
+  .form-popup form,
+  .msg_container {
+    background-color: #101d6b;
+    border-radius: 10px;
+  }
+  
+  .form-popup {
+    border: 3px solid #101d9f;
+  }
+  
+  /* update_personal_details.php */
+  input[type="reset"] {
+    background-color: rgb(0, 202, 0) !important;
+    color: white !important;
+  }
+  
