@@ -24,13 +24,13 @@ function renderNavBar()
                       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                       <span class="navbar-toggler-icon"></span>
                     </button>
+                  
+                    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                     <form class="form-inline my-2 my-lg-0" action="switch-theme.php" method="post">
     <button class="btn btn my-2 my-sm-0 theme-toggle" type="submit" style="color: #101D6B;">
         <i id="toggleIcon" class="'.$mode_icon.'" style="font-size: 30px"></i>
     </button>
 </form>
-                  
-                    <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                       <ul class="navbar-nav">
                         <li class="nav-item">
                           <a class="nav-link" href="index.php" style="color:#101D6B">Home<span class="sr-only">(current)</span></a>
