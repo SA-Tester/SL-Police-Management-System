@@ -1,5 +1,6 @@
 <?php
-require_once 'DbConnector.php';
+require_once './classes/class-db-connector.php';
+use classes\DBConnector;
 
 class DataFetcher
 {
@@ -14,7 +15,7 @@ class DataFetcher
     {
        try {
             $query = "SELECT nic, name FROM people";
-            $pstmt = $this->db->conn->prepare($query);
+            $pstmt = $this->db->getConnection()->prepare($query);
             $pstmt->execute();
             return $pstmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -27,7 +28,7 @@ class DataFetcher
     {
         try {
             $query = "SELECT role_in_case , complaint_id  FROM role_in_case";
-            $pstmt = $this->db->conn->prepare($query);
+            $pstmt = $this->db->getConnection()->prepare($query);
             $pstmt->execute();
             return $pstmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -40,7 +41,7 @@ class DataFetcher
     {
         try {
             $query = "SELECT complaint_type FROM complaint";
-            $pstmt = $this->db->conn->prepare($query);
+            $pstmt = $this->db->getConnection()->prepare($query);
             $pstmt->execute();
             return $pstmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -53,7 +54,7 @@ class DataFetcher
 {
     try {
         $query = "SELECT fine_amount FROM fine"; 
-        $pstmt = $this->db->conn->prepare($query);
+        $pstmt = $this->db->getConnection()->prepare($query);
         $pstmt->execute();
         $data = $pstmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -69,7 +70,7 @@ class DataFetcher
     {
         try {
             $query = "SELECT next_court_date FROM court_order";
-            $pstmt = $this->db->conn->prepare($query);
+            $pstmt = $this->db->getConnection()->prepare($query);
             $pstmt->execute();
             return $pstmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -81,7 +82,7 @@ class DataFetcher
   public function getEvidenceDataForNIC($nic)
     {
         try {
-            $stmt = $this->conn->prepare('SELECT * FROM evidence  WHERE nic = :nic');
+            $stmt = $this->db->getConnection()->prepare('SELECT * FROM evidence  WHERE nic = :nic');
             $stmt->bindParam(':nic', $nic);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -89,14 +90,7 @@ class DataFetcher
             // Handle any database errors
             return null;
         }   
-    }
-    
-    
-    
-    
-    
-    
-    
+    }   
 }
 
 ?>

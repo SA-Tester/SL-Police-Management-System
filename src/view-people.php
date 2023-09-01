@@ -1,5 +1,5 @@
 <?php
-require_once 'fetch_people_data.php';
+require_once 'fetch-people-data.php';
 
 // Create an instance of DataFetcher
 $dataFetcher = new DataFetcher();
@@ -145,10 +145,11 @@ $dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
             <tr>
                 <td colspan="9">
                     <div class="btn-group">
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#emailModal">Send Email</button>
-                        <form action="updatebutton_data_people.php" method="post">
+                        <button class="btn btn-primary mr-4" data-toggle="modal" data-target="#emailModal">Send Email</button>
+                        <form action="update-button-data-people.php" method="post">
                             <button type="submit" class="btn btn-secondary" name="updateButton">Update Data</button>
                         </form>
+                    </div>
                 </td>
             </tr>
             </tfoot>
@@ -156,7 +157,7 @@ $dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
     </div>
 
 
-    // Adding modal for email sending
+    <!-- Adding modal for email sending -->
     <div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="emailModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -193,16 +194,6 @@ $dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-
 
     <footer class="py-5 mt-5" style="background-color: #101D6B;">
         <div class="container text-light text-center">

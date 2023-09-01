@@ -2,9 +2,7 @@
 
 use classes\employee;
 
-require_once 'classes/employee.php';
-
-
+require_once './classes/employee.php';
 
 if (isset($_POST['emplD'], $_POST['nic'], $_POST['first_name'], $_POST['last_name'], $_POST['dob'], $_POST['gender'], $_POST['tel_no'], $_POST['email'], $_POST['address'], $_POST['marital_status'], $_POST['rank'], $_POST['appointment_date'], $_POST['retired_status'])) {
 
@@ -25,9 +23,3 @@ if (isset($_POST['emplD'], $_POST['nic'], $_POST['first_name'], $_POST['last_nam
     $register = new employee($emplD, $nic, $first_name, $last_name, $dob, $gender, $tel_no, $email, $address, $marital_status, $rank, $appointment_date, $retired_status);
     $register->register();
 }
-
-
-
-
-
-
