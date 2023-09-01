@@ -195,7 +195,7 @@
         <br>
         <div class="row justify-content-center">
             <div class=" col-md-6 col-lg-4">
-                <div class="card border-0"><a href="#" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
+                <div class="card border-0"><a href="update-personal-details.php" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
                     <br>
                     <div class="card-body text-center">
                         <h5><a href="#" style="color:darkblue" class="disabled common-link">Update Personal Details</a></h5>
