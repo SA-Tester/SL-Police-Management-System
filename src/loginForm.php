@@ -10,10 +10,13 @@ if(isset($_GET["status"])){
         $message = "<h6 class='text-danger'>Required values were not submitted.</h6>";
     }elseif($status == 1){
         $message = "<h6 class='text-danger'>Please provide your username and password to proceed. Both fields are required for access.</h6>";        
+    }elseif($status == 2){
+        $message = "<h6 class='text-success'>Password has been reset. New password is: <b>".$_GET['pwd']."</b></h6>";        
     }else{
         $message = "<h6 class='text-danger'>The entered username and password are incorrect. Please try again.</h6>"; 
     }
 }
+
 
 ?>
 <!doctype html>
@@ -57,7 +60,7 @@ if(isset($_GET["status"])){
                         </button>
                     </div>
                 </div>
-                <small id="emailHelp" class="form-text text-muted mt-3 centered-text">Forgot password? <a href="index.html" style="color:#146C94;text-decoration: none;"><b>Click here</b></a></small>
+                <small id="emailHelp" class="form-text text-muted mt-3 centered-text">Forgot password? <a href="reset-password.php" style="color:#146C94;text-decoration: none;"><b>Click here</b></a></small>
 
             </div>
             <button type="submit" class="btn btn-primary mt-4">Login </button>
