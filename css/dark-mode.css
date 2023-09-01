@@ -57,6 +57,10 @@ body {
     border-radius: 50%;
     background-color: white;
   }
+
+  .card.border-0{
+    background-color: transparent !important;
+  }
   
   /*navbar*/
   .navbar {
