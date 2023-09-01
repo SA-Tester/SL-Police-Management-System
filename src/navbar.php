@@ -1,9 +1,13 @@
 <?php
 session_start();
+if(!isset($_SESSION['dark'])) {
+    $_SESSION['dark'] = false;
+}
 
 // Function to render the navigation bar based on the user's role
 function renderNavBar()
 {
+    $mode_icon = $_SESSION['dark'] ? 'bi bi-moon-fill' : 'bi bi-sun-fill';
     if (isset($_SESSION['role'])) {
         if ($_SESSION['role'] === 'admin') {
             echo '<div class="container">
@@ -12,14 +16,19 @@ function renderNavBar()
                   <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white m-0 mt-0 mb-0">
                     <a class="navbar-brand" href="index.php">
                       <div class="d-flex align-items-center">
-                        <img src="../assets/logo.png" width="70" height="70" alt="logo">
-                        <h3 class="d-none d-lg-inline-block align-top mt-3 h3" style="color:#101D6B">Sri Lanka Police</h3>
+                        <img src="../assets/logo.png" alt="logo" width=70px; height=70px">
+                        <h3 class="d-none d-lg-inline-block align-top mt-3 h3" style="color:#101D6B;margin: auto 10px">Sri Lanka Police</h3>
                       </div>
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                       <span class="navbar-toggler-icon"></span>
                     </button>
+                    <form class="form-inline my-2 my-lg-0" action="switch-theme.php" method="post">
+    <button class="btn btn my-2 my-sm-0 theme-toggle" type="submit" style="color: #101D6B;">
+        <i id="toggleIcon" class="'.$mode_icon.'" style="font-size: 30px"></i>
+    </button>
+</form>
                   
                     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                       <ul class="navbar-nav">
@@ -65,7 +74,7 @@ function renderNavBar()
                           <a class="nav-link" href="payroll.php" style="color:#101D6B">Salary</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="#" style="color:#101D6B;">Settings</a>
+                          <a class="nav-link" href="index.php#settings" style="color:#101D6B;">Settings</a>
                         </li>
                         <form class="form-inline my-2 my-lg-0"  action="logout.php" method="get">
                           <button class="btn btn my-2 my-sm-0" type="submit" style="color:white;background-color: #101D6B;">Log Out</button>
@@ -83,7 +92,7 @@ function renderNavBar()
                     <a class="navbar-brand" href="index.php">
                       <div class="d-flex align-items-center">
                         <img src="../assets/logo.png" width="70" height="70" alt="logo">
-                        <h3 class="d-none d-lg-inline-block align-top mt-3 h3" style="color:#101D6B">Sri Lanka Police</h3>
+                        <h3 class="d-none d-lg-inline-block align-top mt-3 h3" style="color:#101D6B;margin: auto 10px">Sri Lanka Police</h3>
                       </div>
                     </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -92,6 +101,11 @@ function renderNavBar()
                     </button>
                   
                     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+<form class="form-inline my-2 my-lg-0" action="switch-theme.php" method="post">
+    <button class="btn btn my-2 my-sm-0 theme-toggle" type="submit" style="color: #101D6B;">
+        <i id="toggleIcon" class="'.$mode_icon.'" style="font-size: 30px"></i>
+    </button>
+</form>
                       <ul class="navbar-nav">
                         <li class="nav-item">
                           <a class="nav-link" href="index.php" style="color:#101D6B">Home<span class="sr-only">(current)</span></a>
@@ -120,7 +134,7 @@ function renderNavBar()
                           <a class="nav-link" href="payroll.php" style="color:#101D6B">Salary</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="#" style="color:#101D6B;">Settings</a>
+                          <a class="nav-link" href="index.php#settings" style="color:#101D6B;">Settings</a>
                         </li>
                         <form class="form-inline my-2 my-lg-0"  action="logout.php" method="get">
                           <button class="btn btn my-2 my-sm-0" type="submit" style="color:white;background-color: #101D6B;">Log Out</button>
@@ -139,7 +153,7 @@ function renderNavBar()
                 <a class="navbar-brand" href="index.php">
                   <div class="d-flex align-items-center">
                     <img src="../assets/logo.png" width="70" height="70" alt="logo">
-                    <h3 class="d-none d-lg-inline-block align-top mt-3 h3" style="color:#101D6B">Sri Lanka Police</h3>
+                    <h3 class="d-none d-lg-inline-block align-top mt-3 h3" style="color:#101D6B;margin: auto 10px">Sri Lanka Police</h3>
                   </div>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -148,6 +162,11 @@ function renderNavBar()
                 </button>
               
                 <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                <form class="form-inline my-2 my-lg-0" action="switch-theme.php" method="post">
+    <button class="btn btn my-2 my-sm-0 theme-toggle" type="submit" style="color: #101D6B;">
+        <i id="toggleIcon" class="'.$mode_icon.'" style="font-size: 30px"></i>
+    </button>
+</form>
                   <ul class="navbar-nav">
                     <li class="nav-item">
                       <a class="nav-link" href="index.php" style="color:#101D6B">Home<span class="sr-only">(current)</span></a>
