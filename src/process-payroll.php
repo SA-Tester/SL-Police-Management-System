@@ -13,14 +13,20 @@ if(isset($_POST["add"])){
 
     $emp_id = $_POST["empID"];
     $base_salary = $_POST["base_salary"];
-
     $addEmployee = new CalculateSalary($emp_id, $base_salary);
     $addEmployee->setCon($con);
-    $addEmployee->setServiceYears();
-    $addEmployee->setTotalSalary();
-    $addEmployee->setBartar();
-    $addEmployee->setPension();
-    $addEmployee->addEmployee();
+
+    if($addEmployee->checkEmployee()){
+        header("Location: payroll.php?message=6");
+    } else{
+        $addEmployee->setServiceYears();
+        $addEmployee->setTotalSalary();
+        $addEmployee->setBartar();
+        $addEmployee->setPension();
+        $addEmployee->addEmployee();
+    }
+
+    
 }
 
 if(isset($_POST["refresh"])){

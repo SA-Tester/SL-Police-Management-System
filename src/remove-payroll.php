@@ -7,10 +7,12 @@ use classes\CalculateSalary;
 
 $dbcon = new DBConnector();
 
-$emp_id = $_GET["empID"];
+$emp_id = $_POST["empID"];
 $con = $dbcon->getConnection();
 $addEmployee = new CalculateSalary($emp_id, 0);
 $addEmployee->setCon($con);
-$addEmployee->removeEmployee();
+if($addEmployee->removeEmployee()){
+    header("Location: payroll.php?message=7"); 
+}
 
 ?>

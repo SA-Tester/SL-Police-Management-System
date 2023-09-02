@@ -96,8 +96,8 @@ class CalculateSalary{
             }
         }
 
-        if($retired_status==0){
-            $query = "INSERT INTO salary (empID, base_salary, service_years, bartar_amount, total_salary, pension_amount) VALUES (?, ?, ?, ?, ?. ?)";
+        if(!$retired_status){
+            $query = "INSERT INTO salary (empID, base_salary, service_years, bartar_amount, total_salary, pension_amount) VALUES (?, ?, ?, ?, ?, ?)";
             try {
                 $pstmt = $this->con->prepare($query);
                 $pstmt->bindValue(1, $this->emp_id);
@@ -142,7 +142,6 @@ class CalculateSalary{
             }
         }
 
-
         
     }
 
@@ -153,7 +152,7 @@ class CalculateSalary{
             $pstmt->bindValue(1, $this->emp_id);
             $pstmt->execute();
             if ($pstmt->rowCount() > 0){
-                header("Location: payroll.php"); 
+                return true;
             }
         } catch (PDOException $exc) {
             echo $exc->getMessage();
@@ -216,6 +215,19 @@ class CalculateSalary{
         $mail->setFrom("slpsms23@gmail.com");
         $mail->isHTML(true);
         return $mail;
+    }
+
+    public function checkEmployee(){
+        $query = "SELECT * FROM salary";
+        $pstmt = $this->con->prepare($query);
+        $pstmt->execute();
+        $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach($rows as $row){
+            if($row['empID']==$this->emp_id){
+                return true;
+            }
+        }
     }
 }
 
