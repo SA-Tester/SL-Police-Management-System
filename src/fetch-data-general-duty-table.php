@@ -1,6 +1,6 @@
 <?php
 // Include the DbConnector class
-require_once './classes/class-db-connector.php.php';
+require_once './classes/class-db-connector.php';
 require_once './classes/class-duties.php';
 use classes\DBConnector;
 
