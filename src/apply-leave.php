@@ -12,7 +12,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
         if(empty($_POST["emp_id"]) || empty($_POST["from_date"]) || empty($_POST["from_date"]) || empty($_POST["from_date"]) || empty($_POST["from_date"])){
             header("Location: submit-leave-medical.php?message=5");
             exit;
-        } else if($_POST["reason_type"] == "Health" && empty($_FILES["upload_medical"])){
+        } else if($_POST["reason_type"] == "Health" && empty($_FILES["upload_medical"]['name'])){
             header("Location: submit-leave-medical.php?message=6");
             exit;
         } else{
