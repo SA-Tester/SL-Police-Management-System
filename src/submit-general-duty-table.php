@@ -1,4 +1,8 @@
 <?php
+// First, include the DbConnector class file
+require_once './classes/class-db-connector.php';
+use classes\DBConnector;
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Ensure that the data is received correctly
     $empID = isset($_POST["empID"]) ? $_POST["empID"] : null;
@@ -8,16 +12,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $end = isset($_POST["end"]) ? $_POST["end"] : null;
     $location_id = isset($_POST["location_id"]) ? $_POST["location_id"] : null;
 
-    // First, include the DbConnector class file
-    require_once 'DbConnector.php';
-
     // Create a new DbConnector instance
     $dbConnector = new DbConnector();
 
     try {
         // Check if the empID already exists in the database
         $checkSql = "SELECT COUNT(*) as count FROM duty WHERE empID = :empID";
-        $checkStmt = $dbConnector->conn->prepare($checkSql);
+        $checkStmt = $dbConnector->getConnection()->prepare($checkSql);
         $checkStmt->bindParam(':empID', $empID);
         $checkStmt->execute();
         $result = $checkStmt->fetch(PDO::FETCH_ASSOC);
@@ -32,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     VALUES (:empID, :duty_type, :duty_cause, :start, :end, :location_id)";
             
             // Use prepared statements to prevent SQL injection
-            $stmt = $dbConnector->conn->prepare($sql);
+            $stmt = $dbConnector->getConnection()->prepare($sql);
             $stmt->bindParam(':empID', $empID);
             $stmt->bindParam(':duty_type', $duty_type);
             $stmt->bindParam(':duty_cause', $duty_cause);

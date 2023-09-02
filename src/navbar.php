@@ -4,9 +4,9 @@ session_start();
 // Function to render the navigation bar based on the user's role
 function renderNavBar()
 {
-    if (isset($_SESSION['role'])) {
-        if ($_SESSION['role'] === 'admin') {
-            echo '<div class="container">
+  if (isset($_SESSION['role'])) {
+    if ($_SESSION['role'] === 'admin') {
+      echo '<div class="container">
             <div class="row">
               <div class="col-md-12">
                   <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white m-0 mt-0 mb-0">
@@ -279,5 +279,5 @@ function renderNavBar()
           </div>
         </div>
       </div>';
-    }
+  }
 }
