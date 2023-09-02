@@ -1,13 +1,14 @@
 <?php
 // Include the DbConnector class
-require_once 'DbConnector.php';
+require_once 'classes/class-db-connector.php.php';
+use classes\DBConnector;
 
 try {
     // Create a new instance of the DbConnector class to establish the database connection
     $dbConnector = new DbConnector();
 
     // Get the PDO connection object from the DbConnector class
-    $conn = $dbConnector->conn;
+    $conn = $dbConnector->getConnection();
 
     // SQL query to fetch data from the table for duty_type = "General"
     $sql = "SELECT empID, duty_type, duty_cause, start, end, location_id FROM duty WHERE duty_type = 'General'";
