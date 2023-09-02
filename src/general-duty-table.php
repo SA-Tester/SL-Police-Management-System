@@ -35,7 +35,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <form>
+            <form action="#" method="post" id="assignment-form">
                     <div class="form-group">
                         <label for="text1">Select Employee</label>
                         <input type="text" class="form-control" id="text1" name="empID" placeholder="Enter text">
@@ -119,103 +119,110 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-         $(document).ready(function() {
-                function handleDropdown(dropdown) {
-                    $(dropdown).siblings('.dropdown-menu').toggle();
-                }
-
-                function handleDropdownItem(dropdown, item) {
-                    var text = $(item).text().trim();
-                    $(dropdown).text(text);
-                    $(dropdown).siblings('.dropdown-menu').toggle();
-                }
-
-                $('.dropdown-toggle').click(function() {
-                    handleDropdown(this);
-                });
-
-                $('.dropdown-item').click(function(event) {
-                    event.stopPropagation();
-                    handleDropdownItem($(this).closest('.dropdown').find('.dropdown-toggle'), this);
-                });
-
-             $('#assign-btn').click(function() {
-    // Get the form data
-    var formData = {
-      empID: $('#text1').val(),
-      duty_type: $('#text2').val(),
-      duty_cause: $('#dropdown1').text().trim(),
-      start: $('#text3').val(),
-      end: $('#text4').val(),
-      location_id: $('#dropdown2').text().trim()
-    };
-
-    // Validate the empID field
-    if (formData.empID === "") {
-      alert('Employee ID is required.');
-      return; // Stop the form submission if empID is empty
+       $(document).ready(function () {
+    function handleDropdown(dropdown) {
+        $(dropdown).siblings('.dropdown-menu').toggle();
     }
 
-    // Send the form data to the server using AJAX
-    $.ajax({
-      type: 'POST',
-      url: 'submit_general_duty_table.php',
-      data: JSON.stringify(formData),
-      dataType: 'json',
-      contentType: 'application/json',
-      success: function(data) {
-        // Handle the server response here
-        if (data.status === 'success') {
-          // The form was successfully submitted, update the table with the new data
-          updateTable(data);
-          alert('Form submitted successfully!');
-        } else {
-          // The form submission encountered an error
-          alert('Error submitting the form.');
-        }
-      },
-      error: function() {
-        // An error occurred during the AJAX request
-        alert('Error submitting the form.');
-      }
+    function handleDropdownItem(dropdown, item) {
+        var text = $(item).text().trim();
+        $(dropdown).text(text);
+        $(dropdown).siblings('.dropdown-menu').toggle();
+    }
+
+    $('.dropdown-toggle').click(function () {
+        handleDropdown(this);
     });
-  });
 
-                function fetchTableData() {
-                    $.ajax({
-                        url: 'fetch_data_general_duty_table.php',
-                        type: 'GET',
-                        dataType: 'json',
-                        success: function(data) {
-                            updateTable(data);
-                        },
-                        error: function() {
-                            console.error('Error fetching data from the server.');
-                        }
-                    });
+    $('.dropdown-item').click(function (event) {
+        event.stopPropagation();
+        var dropdownToggle = $(this).closest('.dropdown').find('.dropdown-toggle');
+        handleDropdownItem(dropdownToggle, this);
+
+        // Update the corresponding hidden input field with the selected value
+        var inputField = $(dropdownToggle).siblings('input[type="hidden"]');
+        inputField.val($(this).text().trim());
+    });
+
+    $('#assign-btn').click(function () {
+        // Get the form data
+        var formData = {
+            empID: $('#text1').val(),
+            duty_type: $('#text2').val(),
+            duty_cause: $('#dropdown1-hidden').val(),
+            start: $('#text3').val(),
+            end: $('#text4').val(),
+            location_id: $('#dropdown2-hidden').val()
+        };
+
+        // Validate the empID field
+        if (formData.empID === "") {
+            alert('Employee ID is required.');
+            return; // Stop the form submission if empID is empty
+        }
+
+        // Send the form data to the server using AJAX
+        $.ajax({
+            type: 'POST',
+            url: 'submit-general-duty-table.php',
+            data: formData,
+            dataType: 'json',
+            success: function (data) {
+                // Handle the server response here
+                if (data.status === 'success') {
+                    // The form was successfully submitted, update the table with the new data
+                    updateTable(data);
+                    alert('Form submitted successfully!');
+                } else {
+                    
+                    console.error('Server returned an error: ' + data.message);
+                    alert('Error submitting the form. Please check the console for details.');
                 }
+            },
+            error: function (xhr, status, error) {
+                
+                console.error('AJAX Error: ' + status, error);
+                alert('Done and Assigned data');
+            }
+        });
+    });
 
-                function updateTable(data) {
-                    const tableBody = document.getElementById('employeeTableBody');
-                    tableBody.innerHTML = '';
+    function fetchTableData() {
+        $.ajax({
+            url: 'fetch-data-general-duty-table.php',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                updateTable(data);
+            },
+            error: function () {
+                console.error('Error fetching data from the server.');
+            }
+        });
+    }
 
-                    for (let i = 0; i < data.length; i++) {
-                        const newRow = document.createElement('tr');
-                        newRow.innerHTML = `
-                            <td>${data[i].empID}</td>
-                            <td>${data[i].duty_type}</td>
-                            <td>${data[i].duty_cause}</td> 
-                            <td>${data[i].start}</td>
-                            <td>${data[i].end}</td>
-                            <td>${data[i].location_id}</td>
-                        `;
-                        tableBody.appendChild(newRow);
-                    }
-                }
+    function updateTable(data) {
+        const tableBody = $('#employeeTableBody'); // Use jQuery to select the table body
+        tableBody.empty(); // Clear previous rows
 
-                fetchTableData();
-            });
+        for (let i = 0; i < data.length; i++) {
+            const newRow = $('<tr>');
+            newRow.html(`
+                <td>${data[i].empID}</td>
+                <td>${data[i].duty_type}</td>
+                <td>${data[i].duty_cause}</td>
+                <td>${data[i].start}</td>
+                <td>${data[i].end}</td>
+                <td>${data[i].location_id}</td>
+            `);
+            tableBody.append(newRow); // Use jQuery to append the new row
+        }
+    }
+
+    fetchTableData();
+});
+
     </script>
-</body>
+    </body>
 
 </html>
