@@ -1,27 +1,27 @@
 <?php
 // Include the DbConnector class
-require_once 'classes/class-db-connector.php.php';
+require_once './classes/class-db-connector.php.php';
 require_once './classes/class-duties.php';
 use classes\DBConnector;
 
 try {
     // Create a new instance of the DbConnector class to establish the database connection
-    $dbConnector = new DbConnector();
+    $dbConnector = new DBConnector();
 
     // Get the PDO connection object from the DbConnector class
-    $conn = $dbConnector->getConnection();
+    $con = $dbConnector->getConnection();
 
     // SQL query to fetch data from the table for duty_type = "General"
     $sql = "SELECT empID, duty_type, duty_cause, start, end, location_id FROM duty WHERE duty_type = 'General'";
 
     // Prepare the query and execute it
-    $stmt = $conn->query($sql);
+    $stmt = $con->query($sql);
 
     // Fetch all rows as an associative array
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Close the database connection (PDO automatically closes the connection when the object is destroyed)
-    $conn = null;
+    $con= null;
 
     // Convert the array to JSON format and send it as the response
     header('Content-Type: application/json');
