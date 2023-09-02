@@ -37,11 +37,9 @@ class Leave{
             $pstmt->bindValue(6, $this->upload_medical);
             $pstmt->execute();
             if($pstmt->rowCount() > 0){
-                header("Location: submit-leave-medical.php?message=1");
-                exit;
+                return true;
             } else{
-                header("Location: submit-leave-medical.php?message=2");
-                exit;
+                return false;
             }       
         } catch (PDOException $exc) {
             echo $exc->getMessage();
