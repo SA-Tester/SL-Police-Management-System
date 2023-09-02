@@ -5,7 +5,7 @@ require './classes/class-employee.php';
 use classes\DBConnector;
 use classes\Employee;
 
-$employee = new Employee();
+$employee = new Employee("","","","","","","","","","","","","");
 
 ?>
 

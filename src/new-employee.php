@@ -1,3 +1,10 @@
+<?php
+require './classes/class-db-connector.php';
+
+use classes\DbConnector;
+
+$dbcon = new DbConnector();
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,26 +24,37 @@
 <body>
     <!------------------navbar---------------------------->
     <?php
-        include 'navbar.php';
-        renderNavBar();
+    include 'navbar.php';
+    renderNavBar();
     ?>
     <!---------------------------------------------------->
     <br><br>
     <div class="container py-md-5">
+        <?php
+        if (isset($_GET["message"])) {
+            if ($_GET["message"] == 1) {
+                echo "Successfully Saved!";
+            } elseif ($_GET["message"] == 2) {
+                echo "Error Occurred!";
+            }
+        }
+        ?>
         <h2 style="color: darkblue; text-align: center;">Employee Details</h2>
         <div class="card shadow mb-3">
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>NIC</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
                             <th>Employee ID</th>
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Date of Birth</th>
-                            <th>Contact Number</th>
                             <th>Email</th>
+                            <th>Contact Number</th>
                             <th>Address</th>
+                            <th>NIC</th>
                             <th>Gender</th>
                             <th>Joined Date</th>
                             <th>Marital Status</th>
@@ -45,51 +63,40 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>123456789V</td>
-                            <td>EMP001</td>
-                            <td>John</td>
-                            <td>Doe</td>
-                            <td>1985-10-15</td>
-                            <td>9876543210</td>
-                            <td>johndoe@gmail.com</td>
-                            <td>123 Main St, City</td>
-                            <td>Male</td>
-                            <td>2020-01-01</td>
-                            <td>Married</td>
-                            <td>Inspector</td>
-                            <td>No</td>
-                        </tr>
-                        <tr>
-                            <td>987654321V</td>
-                            <td>EMP002</td>
-                            <td>Jane</td>
-                            <td>Smith</td>
-                            <td>1990-05-20</td>
-                            <td>1234567890</td>
-                            <td>janesmith@gmail.com</td>
-                            <td>456 Elm St, Town</td>
-                            <td>Female</td>
-                            <td>2019-07-10</td>
-                            <td>Single</td>
-                            <td>Sergeant</td>
-                            <td>No</td>
-                        </tr>
-                        <tr>
-                            <td>987123654V</td>
-                            <td>EMP005</td>
-                            <td>David</td>
-                            <td>Wilson</td>
-                            <td>1982-12-10</td>
-                            <td>1111111111</td>
-                            <td>davidwilson@gmail.com</td>
-                            <td>321 Cedar St, District</td>
-                            <td>Male</td>
-                            <td>2017-06-05</td>
-                            <td>Divorced</td>
-                            <td>Inspector</td>
-                            <td>No</td>
-                        </tr>
+                        <?php
+                        try {
+                            $con = $dbcon->getConnection();
+                            $query = "SELECT * FROM employee";
+                            $pstmt = $con->prepare($query);
+                            $pstmt->execute();
+                            $rs = $pstmt->fetchAll(PDO::FETCH_OBJ);
+                            foreach ($rs as $user) {
+                        ?>
+                                <tr>
+                                    <td><a href="editEmployee.php?empID=<?php echo $user->s; ?>">Edit</a></td>
+                                    <td><a href="deleteEmployee.php?empID=<?php echo $user->empID; ?>">Delete</a></td>
+                                    <td><?php echo $user->empID; ?></td>
+                                    <td><?php echo $user->first_name; ?></td>
+                                    <td><?php echo $user->last_name; ?></td>
+                                    <td><?php echo $user->dob; ?></td>
+                                    <td><?php echo $user->email; ?></td>
+                                    <td><?php echo $user->tel_no; ?></td>
+                                    <td><?php echo $user->address; ?></td>
+                                    <td><?php echo $user->nic; ?></td>
+                                    <td><?php echo $user->gender; ?></td>
+                                    <td><?php echo $user->appointment_date; ?></td>
+                                    <td><?php echo $user->marital_status; ?></td>
+                                    <td><?php echo $user->rank; ?></td>
+                                    <td><?php echo $user->retired_status; ?></td>
+
+                                </tr>
+                        <?php
+
+                            }
+                        } catch (PDOException $exc) {
+                            echo $exc->getMessage();
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>
@@ -109,46 +116,37 @@
 
                         <!-- Modal Body -->
                         <div class="modal-body">
-                            <form>
+                            <form action="New_EmployeeForm.php" method="POST">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="Emp_Id"><strong>Employee
-                                                        ID</strong></label></div><input class="form-control"
-                                                type="text">
+                                            <div class="mb-3"><label class="form-label"><strong>Employee
+                                                        ID</strong></label></div><input class="form-control" type="text" id="empID" name="empID" required>
                                         </div>
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label"
-                                                    for="NIC"><strong>NIC</strong></label></div><input
-                                                class="form-control" type="text">
+                                            <div class="mb-3"><label class="form-label"><strong>NIC</strong></label></div><input class="form-control" type="text" id="nic" name="nic" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="first_name"><strong>First
-                                                        Name</strong></label><input class="form-control" type="text"
-                                                    id="first_name-4" name="first_name"></div>
+                                            <div class="mb-3"><label class="form-label"><strong>First
+                                                        Name</strong></label><input class="form-control" type="text" id="first_name" name="first_name" required></div>
                                         </div>
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="last_name"><strong>Last
-                                                        Name</strong></label><input class="form-control" type="text"
-                                                    id="last_name-4" name="last_name"></div>
+                                            <div class="mb-3"><label class="form-label"><strong>Last
+                                                        Name</strong></label><input class="form-control" type="text" id="last_name" name="last_name" required></div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label"
-                                                    for="DOB"><strong>DOB</strong></label></div><input
-                                                class="form-control" type="date">
+                                            <div class="mb-3"><label class="form-label"><strong>DOB</strong></label></div><input class="form-control" type="date" id="dob" name="dob" required>
                                         </div>
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label"
-                                                    for="Gender"><strong>Gender</strong></label></div><select
-                                                class="form-select">
+                                            <div class="mb-3"><label class="form-label"><strong>Gender</strong></label></div><select class="form-select" id="gender" name="gender" required>
                                                 <optgroup>
                                                     <option value="12" selected="">Female</option>
                                                     <option value="13">Male</option>
@@ -160,50 +158,40 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label"
-                                                    for="tel"><strong>Contact</strong></label></div><input
-                                                class="form-control" type="tel">
+                                            <div class="mb-3"><label class="form-label"><strong>Contact</strong></label></div><input class="form-control" type="tel" id="tel_no" name="tel_no" required>
                                         </div>
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="email"><strong>Email
-                                                        Address</strong></label></div><input class="form-control"
-                                                type="email" id="email-1" name="email">
+                                            <div class="mb-3"><label class="form-label"><strong>Email
+                                                        Address</strong></label></div><input class="form-control" type="email" id="email" name="email" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label"
-                                                    for="Address"><strong>Address</strong></label></div><input
-                                                class="form-control" type="text">
+                                            <div class="mb-3"><label class="form-label"><strong>Address</strong></label></div><input class="form-control" type="text" id="address" name="address" required>
                                         </div>
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="M_Status"><strong>Marital
-                                                        Status</strong></label></div><input class="form-control"
-                                                type="text">
+                                            <div class="mb-3"><label class="form-label"><strong>Marital
+                                                        Status</strong></label></div><input class="form-control" type="text" id="marital_status" name="marital_status" required>
                                         </div>
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label"
-                                                    for="Rank"><strong>Rank</strong></label></div><input
-                                                class="form-control" type="text">
+                                            <div class="mb-3"><label class="form-label"><strong>Rank</strong></label></div><input class="form-control" type="text" id="rank" name="rank" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label" for="Joined_Date"><strong>Joined
-                                                        Date</strong></label></div><input class="form-control"
-                                                type="date">
+                                            <div class="mb-3"><label class="form-label"><strong>Joined
+                                                        Date</strong></label></div><input class="form-control" type="date" id="appointment_date" name="appointment_date" required>
                                         </div>
                                         <div class="col">
-                                            <div class="mb-3"><label class="form-label"
-                                                    for="Retired_Status"><strong>Retired Status</strong></label></div>
-                                            <select class="form-select">
+                                            <div class="mb-3"><label class="form-label"><strong>Retired Status</strong></label></div>
+                                            <select class="form-select" id="retired_status" name="retired_status" required>
                                                 <optgroup>
                                                     <option value="12" selected="">Yes</option>
                                                     <option value="13">No</option>
@@ -213,11 +201,12 @@
                                     </div>
                                 </div>
 
-                                <!-- Modal Footer -->
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary" onclick="submitForm()">Submit</button>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <input type="submit" name="submit" class="btn btn-primary" onclick="validateForm()" value="Submit">
+                                    <button type="button" name="close" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <span id="error-message" style="color: red; display: none;">Please fill all fields.</span>
                                 </div>
+
                             </form>
                         </div>
                     </div>
@@ -226,20 +215,39 @@
         </div>
     </div>
     <footer class="py-5 mt-5" style="background-color: #101D6B;">
-            <div class="container text-light text-center">
-                <p class="display-5 mb-3">Sri Lanka Police</p>
-                <small class="text-white-50">&copy; Copyright. All right reserved</small>
-            </div>
+        <div class="container text-light text-center">
+            <p class="display-5 mb-3">Sri Lanka Police</p>
+            <small class="text-white-50">&copy; Copyright. All right reserved</small>
+        </div>
     </footer>
-    
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-        function submitForm() {
-            $('#myModal').modal('hide');
+        function validateForm() {
+            // Check if all required fields are filled in
+            const inputs = document.querySelectorAll('#myModal input[required], #myModal select[required]');
+            let isValid = true;
+
+            for (const input of inputs) {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    break;
+                }
+            }
+
+            if (isValid) {
+                // If all required fields are filled, hide the error message and close the modal
+                document.getElementById('error-message').style.display = 'none';
+                $('#myModal').modal('hide');
+            } else {
+                // If any required field is empty, show the error message and keep the modal open
+                document.getElementById('error-message').style.display = 'block';
+            }
         }
     </script>
+
 </body>
 
 </html>

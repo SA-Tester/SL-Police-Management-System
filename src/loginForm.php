@@ -1,3 +1,21 @@
+<?php
+
+$message = null;
+
+if(isset($_GET["status"])){
+    
+    $status = $_GET["status"];
+    
+    if($status == 0){
+        $message = "<h6 class='text-danger'>Required values were not submitted.</h6>";
+    }elseif($status == 1){
+        $message = "<h6 class='text-danger'>Please provide your username and password to proceed. Both fields are required for access.</h6>";        
+    }else{
+        $message = "<h6 class='text-danger'>The entered username and password are incorrect. Please try again.</h6>"; 
+    }
+}
+
+?>
 <!doctype html>
 <html lang="en">
 
@@ -22,6 +40,9 @@
     <div class="container-fluid">
         <form action="login.php" method="POST">
             <h4 class="text-center">Login</h4>
+            
+            <?= $message ?>
+            
             <div class="form-group mb-3 mt-5">
                 <label for="username">Username</label>
                 <input type="text" name="username" class="form-control" id="username" aria-describedby="emailHelp">
@@ -42,19 +63,10 @@
             <button type="submit" class="btn btn-primary mt-4">Login </button>
         </form>
     </div>
-    <?php
-    if (isset($_GET["error"])) {
-        if ($_GET["error"] == 1) {
-            echo "<p style='color:#fff;text-align:center;'>You must enter a value to username and password fields.</p>";
-        } elseif ($_GET["error"] == 2) {
-            echo "<p style='color:#fff;text-align:center;'>Username or password is incorrect.</p>";
-        }
-    }
-    ?>
 
 
 
-    <script src="../js/login.js"></script>
+   <script src="../js/login.js"></script>
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
