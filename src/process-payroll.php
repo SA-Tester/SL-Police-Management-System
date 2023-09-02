@@ -20,7 +20,7 @@ if(isset($_POST["add"])){
         header("Location: payroll.php?message=6");
     } else{
         $addEmployee->setServiceYears();
-        $addEmployee->setTotalSalary();
+        $addEmployee->calculateSalary();
         $addEmployee->setBartar();
         $addEmployee->setPension();
         $addEmployee->addEmployee();
@@ -42,9 +42,11 @@ if(isset($_POST["refresh"])){
             $addEmployee = new CalculateSalary($emp_id, $base_salary);
             $addEmployee->setCon($con);
             $addEmployee->setServiceYears();
-            $addEmployee->setTotalSalary();
+            $addEmployee->calculateSalary();
             $addEmployee->setBartar();
             $addEmployee->reset();
+        } else{
+            header("Location: payroll.php");
         }
 
     }

@@ -47,7 +47,7 @@ class CalculateSalary{
         $this->service_years = $difference->y;
     }
 
-    public function setTotalSalary(){
+    public function calculateSalary(){
         $this->total_salary = ($this->base_salary + $this->service_years * 1000);
     }
 
