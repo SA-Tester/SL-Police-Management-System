@@ -15,7 +15,7 @@ class EmailHandler {
 
     public function validateEmail($email) {
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM employee WHERE email = :email");
+            $stmt = $this->con->prepare("SELECT * FROM employee WHERE email = :email");
             $stmt->bindParam(':email', $email);
             $stmt->execute();
             return $stmt->rowCount() > 0;
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $dbConnector = new DbConnector();
     $con = $dbConnector->getConnection();
 
-    $emailHandler = new EmailHandler($conn);
+    $emailHandler = new EmailHandler($con);
 
     if ($emailHandler->validateEmail($email)) {
         $subject = "Message from Sri Lanka Police";

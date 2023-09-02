@@ -10,7 +10,7 @@ $con = $dbConnector->getConnection();
 
 try {
     $sql = "SELECT tel_no FROM employee ";
-    $stmt = $conn->prepare($sql);
+    $stmt = $con->prepare($sql);
     $stmt->execute();
 
     $telNumbers = $stmt->fetchAll(PDO::FETCH_COLUMN);

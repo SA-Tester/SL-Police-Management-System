@@ -4,9 +4,9 @@ namespace classes;
 use PDOException;
 use PDO;
 
-require "includes\PHPMailer.php";
-require "includes\SMTP.php";
-require "includes\Exception.php";
+require "./classes/includes/PHPMailer.php";
+require "./classes/includes/SMTP.php";
+require "./classes/includes/Exception.php";
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -17,7 +17,10 @@ class CalculateSalary{
     private $emp_id;
     private $base_salary;
     private $con;
-
+    private $service_years;
+    private $total_salary;
+    private $bartar_amount;
+    private $pension;
 
     public function __construct($emp_id, $base_salary){
         $this->emp_id = $emp_id;
