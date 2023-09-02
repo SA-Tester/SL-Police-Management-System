@@ -218,7 +218,7 @@ $dbcon = new DBConnector();
             
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" form="form-email" class="btn btn-danger">Send</button>
+                    <button type="submit" form="form-email" class="btn btn-info">Send</button>
                 </div>
             
             </div>
@@ -273,7 +273,7 @@ $dbcon = new DBConnector();
     function sendSalarySheet(self) {
         var id = self.getAttribute("data-id");
  
-        document.getElementById("form-delete-user").empID.value = id;
+        document.getElementById("form-email").empID.value = id;
         $("#myModal2").modal("show");
     }
     </script>
