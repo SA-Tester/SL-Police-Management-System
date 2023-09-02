@@ -1,7 +1,7 @@
 <?php
 
-require_once 'DbConnector.php'; // insert 'DbConnector.php' 
-require_once 'fetch_people_data.php'; 
+require_once './classes/class-db-connector.php'; // insert 'DbConnector.php' 
+require_once 'fetch-people-data.php'; 
 
 // Function to check if a NIC exists in the evidence table
 function isNICExistsInEvidenceTable($nic, $dataFetcher) {
