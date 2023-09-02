@@ -49,12 +49,20 @@ $con = $dbcon->getConnection();
                         echo "<div class='alert'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>Successfully Saved!</strong></div>";
                      } elseif ($_GET["message"] == 2) {
                         echo "<div class='error'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>Error Occurred!</strong></div>";
+                     } elseif ($_GET["message"] == 3) {
+                        echo "<div class='error'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>Please submit form though POST method</strong></div>";
+                     } elseif ($_GET["message"] == 4) {
+                        echo "<div class='error'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>Please submit form though Submit button</strong></div>";
+                     } elseif ($_GET["message"] == 5) {
+                        echo "<div class='error'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>There are empty fields. Please try again.</strong></div>";
+                     } elseif ($_GET["message"] == 6) {
+                        echo "<div class='error'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>Please upload your medical report</strong></div>";
                      }
                 }
                 ?>
 
                 <div class="containerx">
-                    <form action="apply-leave.php" method="POST">
+                    <form action="apply-leave.php" method="POST" enctype="multipart/form-data">
                         <div class="row">
                             <div class="col-25">
                                 <label for="emp_id">Emp ID</label>
@@ -123,7 +131,7 @@ $con = $dbcon->getConnection();
                                 <label for="upload_medical">Upload Medical</label>
                             </div>
                             <div class="col-75">
-                                <input type="file" id="upload_medical" name="upload_medical"/>
+                                <input type="file" id="upload_medical" name="upload_medical" accept="image/jpg, image/jpeg, image/png"/>
                             </div>
                         </div>
                         <div class="row">
