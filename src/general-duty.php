@@ -3,7 +3,7 @@ namespace classes;
 
 use PDOException;
 use PDO;
-require_once './classes/class-db-connector.php.php';
+require_once './classes/class-db-connector.php';
 
 $dbConnector = new DBConnector();
 $con = $dbConnector->getConnection();
