@@ -83,14 +83,15 @@ class Employee{
             $employeeQuery = "SELECT empID, first_name, last_name, tel_no FROM employee";
             $epstmt = $con->prepare($employeeQuery);
             $epstmt->execute();
-    
-            if($epstmt->rowCount() > 0){
+            $employeeRows = $epstmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if(!empty($employeeRows)){
                 echo '<tbody>';
                 $count = 1;
-                while($employeeRow = $epstmt->fetch(PDO::FETCH_ASSOC)){
-                    $empID = $employeeRow[ 'empID'];
-                    $empName = $employeeRow[ 'first_name'] .' '. $employeeRow[ 'last_name'];
-                    $empContactNo = $employeeRow['tel_no'];
+                foreach($employeeRows as $row){
+                    $empID = $row[ 'empID'];
+                    $empName = $row[ 'first_name'] .' '. $row[ 'last_name'];
+                    $empContactNo = $row['tel_no'];
                     
                     echo '<tr>';
                     echo '<th scope="row">'. $count .'</th>';
@@ -98,33 +99,38 @@ class Employee{
                     echo '<td data-title="Name">' . $empName .'</td>';
                     echo '<td data-title="Contact Number">' . $empContactNo .'</td>';
 
-                    //duty
                     $dutyQuery = "SELECT duty_type FROM duty WHERE empID = ? AND start <= ? AND end >= ?" ;
                     $dpstmt = $con->prepare($dutyQuery);
                     $dpstmt->bindValue(1,$empID);
                     $dpstmt->bindValue(2,$currentDate);
                     $dpstmt->bindValue(3,$currentDate);
                     $dpstmt->execute();
-    
-                    //leave
+                    $dutyResult = $dpstmt->fetch(PDO::FETCH_ASSOC);
+
                     $leaveQuery = "SELECT leaveID FROM leaves WHERE empID = ? AND leave_start <= ? AND leave_end >= ?";
                     $lpstmt = $con->prepare($leaveQuery);
                     $lpstmt->bindValue(1,$empID);
                     $lpstmt->bindValue(2,$currentDate);
                     $lpstmt->bindValue(3,$currentDate);
                     $lpstmt->execute();
-    
+                    $leaveResult = $lpstmt->fetch(PDO::FETCH_ASSOC);
 
-    
-                    $isOnDuty = $dpstmt->rowCount() > 0;
-                    $isOnLeave = $lpstmt->rowCount() > 0;
+                    $isOnDuty = "";
+                    $isOnLeave = "";
+
+                    if(!empty($dutyResult)){
+                        $isOnDuty = true;
+                    };
+                    if(!empty($leaveResult)){
+                        $isOnLeave = true;
+                    };
     
                     echo '<td data-title="Duty">';
                     if ($isOnDuty) {
-                        $dutyType = $dpstmt->fetch(PDO::FETCH_ASSOC)['duty_type'];
+                        $dutyType = $dutyResult['duty_type'];
                         echo $dutyType;
                     } else {
-                        echo 'No Duty';
+                        echo 'Duty not assigned';
                     }
                     echo '</td>';
     
