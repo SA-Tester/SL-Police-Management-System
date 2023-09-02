@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         
         // Check if the empID already exists in the database
         $checkSql = "SELECT COUNT(*) as count FROM duty WHERE empID = :empID";
-        $checkStmt = $dbConnector->con->prepare($checkSql);
+        $checkStmt = $dbConnector->getConnection()->prepare($checkSql);
         $checkStmt->bindParam(':empID', $empID);
         $checkStmt->execute();
         $result = $checkStmt->fetch(PDO::FETCH_ASSOC);
@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     VALUES (:empID, :duty_type, :duty_cause, :start, :end, :location_id)";
             
             // Use prepared statements to prevent SQL injection
-            $stmt = $dbConnector->con->prepare($sql);
+            $stmt = $dbConnector->getConnection()->prepare($sql);
             $stmt->bindParam(':empID', $empID);
             $stmt->bindParam(':duty_type', $duty_type);
             $stmt->bindParam(':duty_cause', $duty_cause);
@@ -73,7 +73,7 @@ try {
     $duty = new Duties($duty_type, $duty_cause, $start, $end);
 
     // Set the database connection (assuming you have a $dbConnector object)
-    $duty->setCon($dbConnector->con);
+    $duty->setCon($dbConnector->getConnection());
 
     // Set other properties 
     $duty->setEmpID($empID);
