@@ -1,7 +1,7 @@
 <?php
 namespace classes;
 
-require_once './classes/class-db-connector.php.php';
+require_once './classes/class-db-connector.php';
 class TelephoneNumberFetcher {
     private $dbConnector;
 
