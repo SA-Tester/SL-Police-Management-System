@@ -114,6 +114,7 @@ $con = $dbcon->getConnection();
                                 <select id="reason_type" name="reason_type" required>
                                     <option value="Personal">Personal</option>
                                     <option value="Health">Health</option>
+                                    <option value="Other">Other</option>
                                 </select>
                             </div>
                         </div>

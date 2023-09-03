@@ -88,7 +88,16 @@ $dbcon = new DBConnector();
                                     <td><?php echo $user->appointment_date; ?></td>
                                     <td><?php echo $user->marital_status; ?></td>
                                     <td><?php echo $user->rank; ?></td>
-                                    <td><?php echo $user->retired_status; ?></td>
+                                    <td>
+                                        <?php 
+                                            if($user->retired_status == "0"){
+                                                echo "No";
+                                            }
+                                            else{
+                                                echo "Yes";
+                                            }
+                                        ?>                        
+                                    </td>
 
                                 </tr>
                         <?php

@@ -49,15 +49,30 @@ $dbcon = new DBConnector();
                     <div class="card-header py-3 text-center">
                         <p style="color: darkblue;">Special Duty</p>
                     </div>
-                    <form action="Assign_special_duty.php" method="POST">
+                    <form action="assign-special-duty.php" method="POST">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3"><label class="form-label" for="empID"><strong>Employee
-                                                ID</strong></label></div> <select id="empID" name="empID" required>
-                                        <option value="EMP0001">EMP0001</option>
-                                        <option value="EMP0002">EMP0002</option>
-                                        <option value="EMP0003">EMP0003</option>                                       
+                                                ID</strong></label></div> 
+                                    <select id="empID" name="empID" class="form-control" required>
+                                        <?php
+                                            try{
+                                                $query = "SELECT empID FROM employee where retired_status=?";
+                                                $pstmt = $dbcon->getConnection()->prepare($query);
+                                                $pstmt->bindValue(1, "0");
+                                                $pstmt->execute();
+                                                $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
+
+                                                foreach($rows as $row){
+                                                    ?>
+                                                    <option value="<?php echo $row["empID"]; ?>"><?php echo $row["empID"]; ?></option>
+                                                    <?php
+                                                }
+                                            }catch(PDOException $e){
+                                                echo $e->getMessage();
+                                            }
+                                        ?>
                                     </select>
                                 </div>
                             </div>
@@ -72,10 +87,12 @@ $dbcon = new DBConnector();
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <div class="mb-3"><label class="form-label"><strong>Duty cause</strong></label></div><select id="duty_cause" name="duty_cause" required>
-                                        <option>Independence Day Parade</option>
-                                        <option>Religious Function</option>
-                                    </select>
+                                    <div class="mb-3"><label class="form-label"><strong>Duty cause</strong></label></div>
+                                    <input list="duty_causes" name="duty_cause" id="duty_cause" class="form-control" required/>
+                                    <datalist id="duty_causes">
+                                        <option value="Independence Day Parade"></option>
+                                        <option value="Religious Function"></option>
+                                    </datalist>
                                 </div>
                             </div>
                         </div>
