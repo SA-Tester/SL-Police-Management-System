@@ -29,7 +29,7 @@ $dbcon = new DBConnector();
     renderNavBar();
     ?>
     <!---------------------------------------------------->
-    <br><br>
+    <br><br><br>
     <div class="container py-md-5">
         <?php
         if (isset($_GET["message"])) {
@@ -198,6 +198,12 @@ $dbcon = new DBConnector();
                                                     <option value="No">No</option>
                                                 </optgroup>
                                             </select>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3"><label class="form-label"><strong>User Name</strong></label></div><input class="form-control" type="text" id="username" name="username" required>
                                         </div>
                                     </div>
                                 </div>
