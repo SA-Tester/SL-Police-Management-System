@@ -18,11 +18,14 @@ if(isset($_POST["submit"])){
     $end = ($_POST['end']); 
     $location_id = ($_POST['location_id']);
 
-    $SpecialObject = new Duties($empID, $duty_type, $duty_cause, $start, $end);
+    $SpecialObject = new Duties($duty_type, $duty_cause, $start, $end);
     $SpecialObject->setCon($con);
     $SpecialObject->setEmpID($empID);
     $SpecialObject->setLocationID($location_id);   
-    $SpecialObject->addDuty();
+    $a = $SpecialObject->addDuty();
+    if($a){
+        header("Location: special-duty.php?message=1");
+    }
 }
 
 ?>

@@ -19,7 +19,7 @@ $dbcon = new DBConnector();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
 
-    <title>Special_Duty</title>
+    <title>Special Duty</title>
     <link rel="icon" type="image/png" href="../assets/logo.png">
 </head>
 
