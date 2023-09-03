@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 18, 2023 at 03:26 AM
+-- Generation Time: Sep 03, 2023 at 06:25 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -44,8 +44,18 @@ CREATE TABLE `complaint` (
 --
 
 INSERT INTO `complaint` (`complaint_id`, `date`, `complaint_type`, `complaint_title`, `audio_src`, `complaint_text`, `complaint_status`, `empID`, `location_id`) VALUES
-(1, '2023-06-12', 'Bribery and Corruption', 'An attempted bribe during school admission', '..assets/uploads/complaint-recordings/1.mp3', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', 'Ongoing', 'EMP0001', 2),
-(2, '2023-07-03', 'Traffic & Road Safety', 'Committed road rule violation on Road B67', 'N/A', 'Ignored the police stop sign and continued to drive.', 'Ongoing', 'EMP0002', NULL);
+(1, '2023-06-14', 'Bribery and Corruption', 'An attempted bribe during school admission', '../uploads/complaint-recordings/Rec-1.mp3', 'An amount of 500000 LKR was requested as bribe during my daughter\'s admission to XYZ girls\' school in Badulla.', 'Ongoing', 'EMP0001', 2),
+(2, '2023-07-03', 'Traffic & Road Safety', 'Committed road rule violation on Road B67', '', 'Ignored the police stop sign and continued to drive.', 'Ongoing', 'EMP0002', NULL),
+(15, '2023-07-22', 'Appreciation', 'Appreciating Service', '', 'Appreciating service of the traffic officer assigned near Uva College.', 'Ongoing', 'EMP0002', NULL),
+(16, '2023-07-22', 'Cybercrime', 'Cyberbullying ', '', '16 year old girl is subjected to serious cyberbullying from a 21 year old male, who claims to be one of her brother\'s friends. ', 'Ongoing', 'EMP0002', 25),
+(22, '2023-07-22', 'Traffic & Road Safety', 'Not obeying the traffic light signals', '', 'The suspect did not stop at the \"Red\" colour light. Instead he sped up causing a possible threat to pedestrians.', 'Resolved', 'EMP0001', NULL),
+(25, '2023-07-22', 'Traffic & Road Safety', 'Honking near a hospital ignoring police warnings.', '', 'The suspect honked loud ignoring the warning and the advices of the police officer near the Badulla general hospital.', 'Ongoing', 'EMP0001', 13),
+(26, '2023-07-24', 'Foreign Employment Issue', 'House maid harresment in Saudi Arabia', '../uploads/complaint-recordings/Rec-26.mp3', 'Mrs K.D Samanthi, my wife, is being harassed in Saudi Arabia. She was sent to that country during last September (2022) . She is currently being subjected to severe domestic violence and the agency is not taking necessary actions to bring her back to this country.', 'Ongoing', 'EMP0002', 14),
+(27, '2023-07-24', 'Illegal Mining', 'Illegal Mining site in Badulu Oya valley', '../uploads/complaint-recordings/Rec-27.mp3', 'An illegal mining site was found in Badulu Oya, 2-3 km upper in the Bandarapura Road, near the old bridge.', 'Ongoing', 'EMP0001', 15),
+(29, '2023-07-23', 'Information', 'Misuse of office information', NULL, 'Mr K.B Kumara, a minor staff member of Sena Holdings is suspected with handing over office secrets to potential competitors of the business.', 'Ongoing', 'EMP0001', 20),
+(31, '2023-07-25', 'House Breaking', 'A house breaking reported in Bibilegama', NULL, 'The house number 44, Badulla Rd, Bibilegama has subjected to house breaking on 24th July 2023. Most of the house property has been misplaced after the theft.', 'Ongoing', 'EMP0001', 21),
+(32, '2023-07-25', 'Exchange Fault', 'Used a devalued rate for a dollar exchange', '../uploads/complaint-recordings/Rec-32.mp3', 'The exchange unit of ABC Bank used a devalued rate to exchange the foreign currencies which is very much lower than that what is recommended from the central bank.', 'Ongoing', 'EMP0002', 22),
+(33, '2023-07-24', 'Intellectual Property Dispute', 'Suspected plagiarism is a popular song', NULL, 'The song ABC is published by an unknown user in all major streaming platform without any permission from the original artist.', 'Ongoing', 'EMP0002', NULL);
 
 -- --------------------------------------------------------
 
@@ -89,7 +99,14 @@ CREATE TABLE `duty` (
 
 INSERT INTO `duty` (`empID`, `duty_type`, `duty_cause`, `start`, `end`, `location_id`) VALUES
 ('EMP0001', 'General', NULL, '2023-07-18 06:30:00', '2023-07-18 17:30:00', 3),
-('EMP0002', 'Special', 'Special Office Request', '2023-07-23 06:00:00', '2023-07-24 06:00:00', NULL);
+('EMP0002', 'Special', 'Special Office Request', '2023-07-23 06:00:00', '2023-07-24 06:00:00', NULL),
+('EMP0001', 'Emergency', 'Crime', '2023-07-19 10:30:00', '2023-07-19 13:30:00', 1),
+('EMP0002', 'Emergency', 'Robbery', '2023-07-21 12:00:00', '2023-07-21 17:00:00', NULL),
+('EMP0002', 'Emergency', '119', '2023-07-29 13:00:00', '2023-07-29 17:00:00', 36),
+('EMP0001', 'Emergency', 'Drugs/ Explosives', '2023-07-30 08:00:00', '2023-07-30 15:00:00', 37),
+('EMP0001', 'General', 'Traffic', '2023-09-04 08:10:00', '2023-09-04 15:10:00', 2),
+('EMP0004', 'Special', 'Religious Function', '2023-09-13 21:46:00', '2023-09-19 21:46:00', 3),
+('EMP0002', 'Emergency', 'Robbery', '2023-09-03 21:48:00', '2023-09-04 21:48:00', 39);
 
 -- --------------------------------------------------------
 
@@ -98,7 +115,7 @@ INSERT INTO `duty` (`empID`, `duty_type`, `duty_cause`, `start`, `end`, `locatio
 --
 
 CREATE TABLE `employee` (
-  `emplD` varchar(10) NOT NULL,
+  `empID` varchar(10) NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
   `dob` date NOT NULL,
@@ -117,10 +134,12 @@ CREATE TABLE `employee` (
 -- Dumping data for table `employee`
 --
 
-INSERT INTO `employee` (`emplD`, `first_name`, `last_name`, `dob`, `email`, `tel_no`, `address`, `nic`, `gender`, `appointment_date`, `marital_status`, `rank`, `retired_status`) VALUES
-('EMP0001', 'Sisira', 'Fernando', '1973-02-12', 'sisirafernando@gmail.com', '0716778898', '34/1 A, King Street, Passara Rd, Badulla', '197312400034', 'Male', '1993-04-26', 'Married', 'IP', 0),
+INSERT INTO `employee` (`empID`, `first_name`, `last_name`, `dob`, `email`, `tel_no`, `address`, `nic`, `gender`, `appointment_date`, `marital_status`, `rank`, `retired_status`) VALUES
+('EMP0001', 'Sisira', 'Fernando', '1973-02-12', 'siattanayake@gmail.com', '0716778898', '34/1 A, King Street, Passara Rd, Badulla', '197312400034', 'Male', '1993-04-26', 'Married', 'IP', 0),
 ('EMP0002', 'Nayanamali', 'Jeewanthi', '1975-10-20', 'njeewanthi@gmail.com', '0744423111', 'No 5, Flower Rd, Hali Ela', '197558600011', 'Female', '1997-01-06', 'Married', 'WPC', 0),
-('EMP0003', 'Saman', 'Krishnakumar', '1960-06-20', '', '0768907867', '15/23 C, Kolonna Rd, Meegahakiula\r\n', '196022300089', 'Male', '1980-03-10', 'Unmarried', 'ASP', 1);
+('EMP0003', 'Saman', 'Krishnakumar', '1960-06-20', 'cst20076@std.uwu.ac.lk', '0768907867', '15/23 C, Kolonna Rd, Meegahakiula\r\n', '196022300089', 'Male', '1980-03-10', 'Unmarried', 'ASP', 1),
+('EMP0004', 'Gimhani', 'Sandeepani', '1997-05-03', 'cst20043@std.uwu.ac.lk', '0778978675', 'No 5, ABC Rd, Ratnapura', '19978978666534', 'Female', '2021-06-05', 'Married', 'PC', 0),
+('EMP0005', 'Bodhika ', 'Nishadhi ', '1980-09-03', 'cst20097@std.uwu.ac.lk', '0786756555', 'ABCd', '19607867555', 'Female', '1980-03-01', 'Married', 'IP', 1);
 
 -- --------------------------------------------------------
 
@@ -167,7 +186,9 @@ CREATE TABLE `fine` (
 --
 
 INSERT INTO `fine` (`complaint_id`, `nic`, `vehicle_number`, `temp_license_start_date`, `temp_license_end_date`, `fine_amount`, `fine_status`, `license_issued`) VALUES
-(2, '199078675523', 'BST-8998', '2023-07-10', '2023-07-24', 2000, 0, 0);
+(2, '199078675523', 'BST-8998', '2023-07-10', '2023-07-24', 2000, 0, 0),
+(22, '197789234564', 'BST-2332', '2023-07-22', '2023-08-05', 3500, 1, 1),
+(25, '199578678900', 'GH-8989', '2023-07-22', '2023-08-05', 3000, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -191,7 +212,9 @@ CREATE TABLE `leaves` (
 
 INSERT INTO `leaves` (`leaveID`, `empID`, `leave_start`, `leave_end`, `reason_type`, `reason`, `medical`) VALUES
 (1, 'EMP0001', '2023-07-25', '2023-07-27', 'Personal', 'Will be going out of town for a personal matter.', NULL),
-(2, 'EMP0002', '2023-07-16', '2023-07-17', 'Health', 'Medical clinic', '../uploads/medicals/EMP0002.pdf');
+(2, 'EMP0002', '2023-07-16', '2023-07-17', 'Health', 'Medical clinic', '../uploads/medicals/EMP0002.pdf'),
+(3, 'EMP0002', '2023-09-07', '2023-09-10', 'Personal', 'To go home', 'Algorithms Roadmap.png'),
+(4, 'EMP0002', '2023-09-13', '2023-09-17', 'Health', 'Sick', 'Algorithms Roadmap.png');
 
 -- --------------------------------------------------------
 
@@ -214,8 +237,21 @@ CREATE TABLE `location` (
 
 INSERT INTO `location` (`location_id`, `location_name`, `district`, `city`, `latitude`, `longitude`) VALUES
 (1, 'Crime Scene', 'Badulla', 'Mawanagama', 7.59698, 81.1527),
-(2, 'Crime Scene', 'Badulla', 'Liyangahawela', 6.81189, 81.0299),
-(3, 'Office', 'Badulla', 'Badulla', 6.9934, 81.055);
+(2, 'Case Location', 'Badulla', 'Hali Ela', 6.95553, 81.0314),
+(3, 'Office', 'Badulla', 'Badulla', 6.9934, 81.055),
+(13, 'Case Location', 'Badulla', 'Arawa', 7.16667, 81.0833),
+(14, 'Case Location', 'Badulla', 'Pitamaruwa', 7.11015, 81.1592),
+(15, 'Case Location', 'Badulla', 'Baduluoya', 7.12483, 81.0303),
+(20, 'Case Location', 'Badulla', 'Kalupahana', 6.79101, 80.8454),
+(21, 'Case Location', 'Badulla', 'Bibilegama', 6.89617, 81.1403),
+(22, 'Case Location', 'Badulla', 'Kendagolla', 6.99276, 81.1085),
+(25, 'Case Location', 'Badulla', 'Passara', 6.93491, 81.1527),
+(26, 'Crime Scene', 'Badulla', 'Malgoda', 6.98189, 81.0763),
+(27, 'Crime Scene', 'Badulla', 'Ella', 6.8667, 81.0466),
+(36, 'Crime Scene', 'Monaragala', 'Bibile', 6.86086, 81.3503),
+(37, 'Crime Scene', 'Badulla', 'Galporuyaya', 7.42852, 81.0368),
+(38, 'Crime Scene', 'Badulla', 'Ambagasdowa', 6.92807, 80.8966),
+(39, 'Crime Scene', 'Monaragala', 'Buttala', 6.75892, 81.2491);
 
 -- --------------------------------------------------------
 
@@ -226,7 +262,7 @@ INSERT INTO `location` (`location_id`, `location_name`, `district`, `city`, `lat
 CREATE TABLE `login` (
   `empID` varchar(10) NOT NULL,
   `username` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `password` varchar(64) NOT NULL,
   `role` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -237,7 +273,9 @@ CREATE TABLE `login` (
 INSERT INTO `login` (`empID`, `username`, `password`, `role`) VALUES
 ('EMP0001', 'U0001', '1234', 'user'),
 ('EMP0002', 'A0003', '1234', 'admin'),
-('EMP0003', 'U0003', '1234', 'user');
+('EMP0003', 'U0003', '1234', 'user'),
+('EMP0004', 'gimhani', '1234', 'user'),
+('EMP0005', 'bodhika', '+HBuOoor5E-t', 'user');
 
 -- --------------------------------------------------------
 
@@ -258,9 +296,16 @@ CREATE TABLE `people` (
 --
 
 INSERT INTO `people` (`nic`, `name`, `address`, `contact`, `email`) VALUES
+('197089678833', 'K. Priyantha', 'No 12/5, Malwatte Rd, Pitamaruwa ', '0782323211', ''),
+('197789234564', 'A. A Kamalan', 'No 1A, Malwatte Rd, Arawa', '0765654332', 'kamalana@gmail.com'),
+('197867466678', 'C.K Sandamali', 'No 34/1, Passara Rd, Badulla', '0788978666', 'ksandamali@gmail.com'),
+('197867567889', 'A.B Herath', 'No 13, Old Cross Street, Badulla', '0712345234', ''),
 ('198044377789', 'K.M.P Bandara', '12/45 R, Kuttiyagolla, Badulla', '0778978666', 'pramoadbandara@gmail.com'),
-('198077665823', 'A.B Silva', 'No 3, Temple Rd, Kendagolla', '0712334456', NULL),
-('199078675523', 'M.N.N Karunaratne', 'No 8/1 C, Polwatte Road, Lunugala', '0713423288', NULL);
+('198077665823', 'A.B Silva', 'No 3, Temple Rd, Kendagolla', '0712334456', ''),
+('198234355534', 'L.L Marasinghe', '1/B, Badulla Rd, Kalupahana.', '0764545667', 'marasinghe@senaholdings.lk'),
+('198567342212', 'J.K Murugan', 'No 12, Pansalwatte Road, Baduluoya', '0556778774', ''),
+('199078675523', 'M.N.N Karunaratne', 'No 8/1 C, Polwatte Road, Lunugala', '0713423288', ''),
+('199578678900', 'J M Jayaratne', 'No 4, Passara Road, Arawa', '0782323222', 'jayaratne95@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -269,6 +314,7 @@ INSERT INTO `people` (`nic`, `name`, `address`, `contact`, `email`) VALUES
 --
 
 CREATE TABLE `role_in_case` (
+  `row_no` int(11) NOT NULL,
   `nic` varchar(15) NOT NULL,
   `role_in_case` varchar(30) NOT NULL,
   `complaint_id` int(11) NOT NULL
@@ -278,10 +324,20 @@ CREATE TABLE `role_in_case` (
 -- Dumping data for table `role_in_case`
 --
 
-INSERT INTO `role_in_case` (`nic`, `role_in_case`, `complaint_id`) VALUES
-('198044377789', 'Plantiff', 1),
-('199078675523', 'Culprit', 2),
-('199078675523', 'Suspect', 1);
+INSERT INTO `role_in_case` (`row_no`, `nic`, `role_in_case`, `complaint_id`) VALUES
+(1, '198044377789', 'Plantiff', 1),
+(2, '199078675523', 'Culprit', 2),
+(3, '199078675523', 'Suspect', 1),
+(6, '197867567889', 'Plantiff', 15),
+(7, '197867466678', 'Plantiff', 16),
+(13, '197789234564', 'Suspect', 22),
+(15, '199578678900', 'Suspect', 25),
+(16, '197089678833', 'Plantiff', 26),
+(17, '198567342212', 'Plantiff', 27),
+(18, '198234355534', 'Plantiff', 29),
+(20, '198234355534', 'Plantiff', 31),
+(21, '198077665823', 'Plantiff', 32),
+(22, '197867466678', 'Plantiff', 33);
 
 -- --------------------------------------------------------
 
@@ -303,9 +359,10 @@ CREATE TABLE `salary` (
 --
 
 INSERT INTO `salary` (`empID`, `base_salary`, `service_years`, `bartar_amount`, `total_salary`, `pension_amount`) VALUES
-('EMP0001', 30000, 30, 400, 42000, NULL),
-('EMP0002', 35000, 26, 450, 46700, NULL),
-('EMP0003', 30000, 40, NULL, NULL, 30000);
+('EMP0001', 30000, 30, 20000, 60000, NULL),
+('EMP0002', 35000, 26, 12000, 61000, NULL),
+('EMP0003', 35000, 43, NULL, NULL, 28000),
+('EMP0004', 20000, 2, 12000, 22000, NULL);
 
 --
 -- Indexes for dumped tables
@@ -337,7 +394,7 @@ ALTER TABLE `duty`
 -- Indexes for table `employee`
 --
 ALTER TABLE `employee`
-  ADD PRIMARY KEY (`emplD`);
+  ADD PRIMARY KEY (`empID`);
 
 --
 -- Indexes for table `evidence`
@@ -382,6 +439,7 @@ ALTER TABLE `people`
 -- Indexes for table `role_in_case`
 --
 ALTER TABLE `role_in_case`
+  ADD PRIMARY KEY (`row_no`),
   ADD KEY `complaint_id` (`complaint_id`),
   ADD KEY `nic` (`nic`);
 
@@ -399,19 +457,25 @@ ALTER TABLE `salary`
 -- AUTO_INCREMENT for table `complaint`
 --
 ALTER TABLE `complaint`
-  MODIFY `complaint_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `complaint_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `leaves`
 --
 ALTER TABLE `leaves`
-  MODIFY `leaveID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `leaveID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `location`
 --
 ALTER TABLE `location`
-  MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+--
+-- AUTO_INCREMENT for table `role_in_case`
+--
+ALTER TABLE `role_in_case`
+  MODIFY `row_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- Constraints for dumped tables
@@ -421,7 +485,7 @@ ALTER TABLE `location`
 -- Constraints for table `complaint`
 --
 ALTER TABLE `complaint`
-  ADD CONSTRAINT `complaint_ibfk_1` FOREIGN KEY (`empID`) REFERENCES `employee` (`emplD`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `complaint_ibfk_1` FOREIGN KEY (`empID`) REFERENCES `employee` (`empID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `complaint_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -435,7 +499,7 @@ ALTER TABLE `court_order`
 -- Constraints for table `duty`
 --
 ALTER TABLE `duty`
-  ADD CONSTRAINT `duty_ibfk_1` FOREIGN KEY (`empID`) REFERENCES `employee` (`emplD`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `duty_ibfk_1` FOREIGN KEY (`empID`) REFERENCES `employee` (`empID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `duty_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `location` (`location_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
@@ -456,13 +520,13 @@ ALTER TABLE `fine`
 -- Constraints for table `leaves`
 --
 ALTER TABLE `leaves`
-  ADD CONSTRAINT `leaves_ibfk_1` FOREIGN KEY (`empID`) REFERENCES `employee` (`emplD`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `leaves_ibfk_1` FOREIGN KEY (`empID`) REFERENCES `employee` (`empID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `login`
 --
 ALTER TABLE `login`
-  ADD CONSTRAINT `login_ibfk_1` FOREIGN KEY (`empID`) REFERENCES `employee` (`emplD`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `login_ibfk_1` FOREIGN KEY (`empID`) REFERENCES `employee` (`empID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `role_in_case`
@@ -475,7 +539,7 @@ ALTER TABLE `role_in_case`
 -- Constraints for table `salary`
 --
 ALTER TABLE `salary`
-  ADD CONSTRAINT `salary_ibfk_1` FOREIGN KEY (`empID`) REFERENCES `employee` (`emplD`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `salary_ibfk_1` FOREIGN KEY (`empID`) REFERENCES `employee` (`empID`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
