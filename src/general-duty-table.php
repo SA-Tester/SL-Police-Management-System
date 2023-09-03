@@ -1,3 +1,11 @@
+<?php
+    require "./classes/class-db-connector.php";
+    use classes\DBConnector;
+    
+    $dbcon = new DBConnector();
+    $con = $dbcon->getConnection();
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -38,48 +46,65 @@
             <form action="#" method="post" id="assignment-form">
                     <div class="form-group">
                         <label for="text1">Select Employee</label>
-                        <input type="text" class="form-control" id="text1" name="empID" placeholder="Enter text">
+                        <select class="form-control" id="text1" name="empID">
+                            <?php
+                                try{
+                                    $query = "SELECT empID FROM employee where retired_status=?";
+                                    $pstmt = $con->prepare($query);
+                                    $pstmt->bindValue(1, "0");
+                                    $pstmt->execute();
+                                    $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
+
+                                    foreach($rows as $row){
+                                        ?>
+                                        <option value="<?php echo $row["empID"]; ?>"><?php echo $row["empID"]; ?></option>
+                                        <?php
+                                    }
+                                }catch(PDOException $e){
+                                    echo $e->getMessage();
+                                }
+                            ?>
+                        </select>
                     </div>
                     <div class="form-group">
-                                <label for="text1">Enter Duty type</label>
-                                <input type="text" class="form-control" id="text2" name="duty_type" placeholder="Enter text">
-                            </div>
-                    <div class="form-group">
-                                <label for="dropdown1">Duty Cause</label>
-                                <div class="dropdown">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown1" name="duty_cause" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Select Duty
-                                    </button>
-                                       <div class="dropdown-menu" aria-labelledby="dropdown1">
-                                        <a class="dropdown-item" href="#">Investigation</a>  
-                                        <a class="dropdown-item" href="#">Traffic</a>
-                                        <a class="dropdown-item" href="#">Office Duty</a>
-                                        <a class="dropdown-item" href="#">Night Duty</a>
-                                    </div>
-                                </div>
-                            </div>
-                    <div class="form-group">
-                        <label for="text2">Duty Start Time</label>
-                        <input type="text" class="form-control" id="text2" name="start"  placeholder="Enter text">
+                                <label for="text2">Enter Duty Type</label>
+                                <input type="text" class="form-control" id="text2" name="duty_type" placeholder="Enter text" readonly="" value="General">
                     </div>
                     <div class="form-group">
-                        <label for="text3">Duty End Time</label>
-                        <input type="text" class="form-control" id="text3" name="end" placeholder="Enter text">
+                        <label for="dropdown1">Duty Cause</label>
+                        <select id="dropdown1" name="duty_cause" class="form-control">
+                            <option value="Investigation">Investigation</option>
+                            <option value="Traffic">Traffic</option>
+                            <option value="Office Duty">Office Duty</option>
+                            <option value="Night Duty">Night Duty</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="text3">Duty Start Time</label>
+                        <input type="datetime-local" class="form-control" id="text3" name="start"  placeholder="Enter text">
+                    </div>
+                    <div class="form-group">
+                        <label for="text4">Duty End Time</label>
+                        <input type="datetime-local" class="form-control" id="text4" name="end" placeholder="Enter text">
                     </div>
                     
                     <div class="form-group">
-                        <label for="dropdown2">Duty Place</label>
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown2" name="location_id"   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Select location_id
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdown2">
-                                <a class="dropdown-item" href="#">1</a>
-                                <a class="dropdown-item" href="#">2</a>
-                                <a class="dropdown-item" href="#">3</a>
-                            </div>
-                        </div>
+                        <label for="dropdown2">Duty Place</label><br>
+                        <select name="location_id" id="dropdown2" aria-labelledby="dropdown2" class="form-control">
+                        <?php
+                            $query = "SELECT location_id, location_name, city FROM location";
+                            $pstmt = $con->prepare($query);
+                            $pstmt->execute();
+                            $rows = $pstmt->fetchAll();
+                            foreach($rows as $row){
+                                ?>
+                                <option class="dropdown-item" value="<?php echo $row["location_id"]; ?>"><?php echo $row["location_name"]." - ".$row["city"] ?></option>
+                                <?php
+                            }
+                        ?>
+                        </select>
                     </div>
+
                     <button type="submit" class="btn btn-primary" id="assign-btn" >Assign</button>
                     <button type="reset" class="btn btn-secondary">Remove</button>
                 </form>
@@ -149,10 +174,10 @@
         var formData = {
             empID: $('#text1').val(),
             duty_type: $('#text2').val(),
-            duty_cause: $('#dropdown1-hidden').val(),
+            duty_cause: $('#dropdown1').val(),
             start: $('#text3').val(),
             end: $('#text4').val(),
-            location_id: $('#dropdown2-hidden').val()
+            location_id: $('#dropdown2').val()
         };
 
         // Validate the empID field

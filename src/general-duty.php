@@ -321,7 +321,7 @@ try {
 
             <!-- Button to trigger modal -->
             <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
-                data-bs-target="#addAssignmentModal">
+                data-bs-target="#addAssignmentModal" onclick="location.href = 'general-duty-table.php'">
                 Add Duty
             </button>
 
