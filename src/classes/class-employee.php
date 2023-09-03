@@ -12,7 +12,7 @@ use classes\DBConnector;
 class Employee
 {
 
-    private $emplD;
+    private $empID;
     private $nic;
     private $first_name;
     private $last_name;
@@ -27,9 +27,9 @@ class Employee
     private $retired_status;
     private $username;
 
-    public function __construct($emplD, $nic, $first_name, $last_name, $dob, $gender, $tel_no, $email, $address, $marital_status, $rank, $appointment_date, $retired_status, $username)
+    public function __construct($empID, $nic, $first_name, $last_name, $dob, $gender, $tel_no, $email, $address, $marital_status, $rank, $appointment_date, $retired_status, $username)
     {
-        $this->emplD = $emplD;
+        $this->empID = $empID;
         $this->nic = $nic;
         $this->first_name = $first_name;
         $this->last_name = $last_name;
@@ -41,7 +41,12 @@ class Employee
         $this->marital_status = $marital_status;
         $this->rank = $rank;
         $this->appointment_date = $appointment_date;
-        $this->retired_status = $retired_status;
+        if($retired_status == "Yes"){
+            $this->retired_status = "1";
+        }
+        else{
+            $this->retired_status = "0";
+        }
         $this->username = $username;
     }
     public function register()
@@ -58,17 +63,23 @@ class Employee
                 $index = random_int(0, $charCount - 1);
                 $password .= $characters[$index];
             }
-
+        
+        $file = fopen("/Applications/XAMPP/xamppfiles/htdocs/sl-police/assets/Passwords.csv", "a");
+        if($file){
+            $data = "$this->username, $password";
+            fwrite($file, $data);
+            fclose($file);
+        }
         $randomPassword = password_hash($password, PASSWORD_BCRYPT);   
 
         $dbcon = new DBConnector();
         $con = $dbcon->getConnection();
 
         try {
-            $query1 = "INSERT INTO employee(emplD, nic, first_name, last_name, dob, gender, tel_no, email, address, marital_status, rank, appointment_date, retired_status) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            $query1 = "INSERT INTO employee(empID, nic, first_name, last_name, dob, gender, tel_no, email, address, marital_status, rank, appointment_date, retired_status) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
             $pstmt1 = $con->prepare($query1);
-            $pstmt1->bindValue(1, $this->emplD);
+            $pstmt1->bindValue(1, $this->empID);
             $pstmt1->bindValue(2, $this->nic);
             $pstmt1->bindValue(3, $this->first_name);
             $pstmt1->bindValue(4, $this->last_name);
@@ -88,7 +99,7 @@ class Employee
             $query2 = "INSERT INTO login(empID,username,password,role) VALUES(?, ?, ?, ?);";
 
             $pstmt2 = $con->prepare($query2);
-            $pstmt2->bindValue(1, $this->emplD);
+            $pstmt2->bindValue(1, $this->empID);
             $pstmt2->bindValue(2, $this->username);
             $pstmt2->bindValue(3, $randomPassword);
             $pstmt2->bindValue(4, "user");
