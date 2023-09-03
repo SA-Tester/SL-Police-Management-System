@@ -1,3 +1,26 @@
+<?php
+namespace classes;
+
+use PDOException;
+use PDO;
+require_once './classes/class-db-connector.php';
+
+$dbConnector = new DBConnector();
+$con = $dbConnector->getConnection();
+
+try {
+    $sql = "SELECT tel_no FROM employee ";
+    $stmt = $con->prepare($sql);
+    $stmt->execute();
+
+    $telNumbers = $stmt->fetchAll(PDO::FETCH_COLUMN);
+} catch (PDOException $e) {
+    // Handle errors if needed
+    $telNumbers = [];
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -291,8 +314,8 @@
                                 <h4>Mr.Ambewela</h4>
                                 <p class="text-secondary mb-1">Duty in charge offiser</p>
                                 <p class="text-muted font-size-sm">Colombo Road,7</p>
-                                <button class="btn btn-primary">Contact</button>
-                                <button class="btn btn-outline-primary">Message</button>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#contactModal" name="btn-primary">Contact Other Officers</button>
+                                
                             </div>
                         </div>
                     </div>
@@ -309,7 +332,7 @@
 
             <!-- Button to trigger modal -->
             <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
-                data-bs-target="#addAssignmentModal">
+                data-bs-target="#addAssignmentModal" onclick="location.href = 'general-duty-table.php'">
                 Add Duty
             </button>
 
@@ -333,88 +356,126 @@
 
                 </tbody>
             </table>
+</div>
 
-            <!-- Add Duty Modal -->
-            <div class="modal fade" id="addAssignmentModal" tabindex="-1" aria-labelledby="addAssignmentModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="addAssignmentModalLabel">Add Duty</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="officerName" class="form-label">Officer Name</label>
-                                    <input type="text" class="form-control" id="officerName"
-                                        placeholder="Enter officer name">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="assignment" class="form-label">Duties</label>
-                                    <select class="form-select" id="assignment">
-                                        <option selected>Select Duty</option>
-                                        <option value="traffic">Investigation</option>
-                                        <option value="patrol">Office</option>
-                                        <option value="patrol">Night</option>
-                                        <option value="investigation">Traffic</option>
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Add</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-4 col-sm-6 col-12">
-            <form>
-                <!-- Name -->
-                <h1 class="title text-center mb-4">FOR CHANGE DUTIES</h1>
-                <div class="form-group position-relative">
-                    <label for="formName" class="d-block">
-                        <i class="icon" data-feather="user"></i>
-                    </label>
-                    <input type="text" id="formName" class="form-control form-control-lg thick" placeholder="Name">
-                </div>
-
-                <!-- E-mail -->
-                <div class="form-group position-relative">
-                    <label for="formEmail" class="d-block">
-                        <i class="icon" data-feather="mail"></i>
-                    </label>
-                    <input type="email" id="formEmail" class="form-control form-control-lg thick" placeholder="E-mail">
-                </div>
-
-                <!-- Message -->
-                <div class="form-group message">
-                    <textarea id="formMessage" class="form-control form-control-lg" rows="7"
-                        placeholder="Mensagem"></textarea>
-                </div>
-
-                <!-- Submit btn -->
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary" tabIndex="-1">Send message</button>
-                </div>
-            </form>
-        </div>
-    </div>
+           
+<div class="col-xl-4 col-sm-6 col-12">
+   <div id="response-message"></div>
+    
+    <form class="contact" method="POST" action="general-email.php">
+    <!-- Name -->
+    <h1 class="title text-center mb-4">FOR CHANGE DUTIES</h1>  
+    <div class="form-group position-relative">
+        <label for="formName" class="d-block">
+            <i class="icon" data-feather="user"></i>
+        </label>
+        <input type="text" id="formName" class="form-control form-control-lg thick" placeholder="Name" name="name">
     </div>
 
+    <!-- E-mail -->
+    <div class="form-group position-relative">
+        <label for="formEmail" class="d-block">
+            <i class="icon" data-feather="mail"></i>
+        </label>
+        <input type="email" id="formEmail" class="form-control form-control-lg thick" placeholder="E-mail" name="email">
+    </div>
 
-    <!--Duty-->
-    <footer class="py-5 mt-5" style="background-color: #101D6B;">
-        <div class="container text-light text-center">
-            <p class="display-5 mb-3">Sri Lanka Police</p>
-            <small class="text-white-50">&copy; Copyright. All right reserved</small>
-        </div>
-    </footer>
+    <!-- Message -->
+    <div class="form-group message">
+        <textarea id="formMessage" class="form-control form-control-lg" rows="7" placeholder="Message" name="message"></textarea>
+    </div>
 
+    <!-- Submit btn -->
+    <div class="text-center">
+        <button type="submit" class="btn btn-primary" tabIndex="-1">Send message</button>
+    </div>
+</form>
+</div>
+    
+</div>
+</div>
+  
+  
 
+<!-- Contact Modal -->
+<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="contactModalLabel">Contact Information</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+    <div class="modal-body">
+  <p><strong>Telephone Numbers:</strong></p>
+  <ul>
+    <?php foreach ($telNumbers as $telNumber): ?>
+      <li><?php echo $telNumber; ?></li>
+    <?php endforeach; ?>
+  </ul>
+</div>
 
+<!-- Include Bootstrap JS library -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+ <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const contactButton = document.querySelector(".btn-primary");
+
+    contactButton.addEventListener("click", () => {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", "general-get-tel-number.php", true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                try {
+                    const data = JSON.parse(xhr.responseText);
+                    if (data.success) {
+                        const telNumbers = data.telNumbers;
+                        const telNumberList = telNumbers.join(', ');
+                        document.querySelector("#telNumber").textContent = telNumberList;
+                        const contactModal = new bootstrap.Modal(document.getElementById('contactModal'));
+                        contactModal.show();
+                    } else {
+                        console.error("Failed to fetch telephone numbers:", data.error);
+                    }
+                } catch (error) {
+                    console.error("Error parsing JSON:", error);
+                }
+            }
+        };
+        xhr.send();
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+  const form = document.querySelector(".contact");
+  const responseMessage = document.querySelector("#response-message");
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch("general-email.php", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.text();
+
+      // Update the response message container with the response
+      responseMessage.innerHTML = data;
+
+      // Clear the form fields
+      form.reset();
+    } catch (error) {
+      console.error("Error sending form data:", error);
+    }
+  });
+});
+
+</script>
+
 </body>
-
 </html>

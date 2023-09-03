@@ -4,9 +4,9 @@ namespace classes;
 use PDOException;
 use PDO;
 
-require "includes\PHPMailer.php";
-require "includes\SMTP.php";
-require "includes\Exception.php";
+require "./classes/includes/PHPMailer.php";
+require "./classes/includes/SMTP.php";
+require "./classes/includes/Exception.php";
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -17,7 +17,10 @@ class CalculateSalary{
     private $emp_id;
     private $base_salary;
     private $con;
-
+    private $service_years;
+    private $total_salary;
+    private $bartar_amount;
+    private $pension;
 
     public function __construct($emp_id, $base_salary){
         $this->emp_id = $emp_id;
@@ -47,7 +50,7 @@ class CalculateSalary{
         $this->service_years = $difference->y;
     }
 
-    public function setTotalSalary(){
+    public function calculateSalary(){
         $this->total_salary = ($this->base_salary + $this->service_years * 1000);
     }
 
@@ -96,8 +99,8 @@ class CalculateSalary{
             }
         }
 
-        if($retired_status==0){
-            $query = "INSERT INTO salary (empID, base_salary, service_years, bartar_amount, total_salary, pension_amount) VALUES (?, ?, ?, ?, ?. ?)";
+        if(!$retired_status){
+            $query = "INSERT INTO salary (empID, base_salary, service_years, bartar_amount, total_salary, pension_amount) VALUES (?, ?, ?, ?, ?, ?)";
             try {
                 $pstmt = $this->con->prepare($query);
                 $pstmt->bindValue(1, $this->emp_id);
@@ -142,7 +145,6 @@ class CalculateSalary{
             }
         }
 
-
         
     }
 
@@ -153,7 +155,7 @@ class CalculateSalary{
             $pstmt->bindValue(1, $this->emp_id);
             $pstmt->execute();
             if ($pstmt->rowCount() > 0){
-                header("Location: payroll.php"); 
+                return true;
             }
         } catch (PDOException $exc) {
             echo $exc->getMessage();
@@ -216,6 +218,19 @@ class CalculateSalary{
         $mail->setFrom("slpsms23@gmail.com");
         $mail->isHTML(true);
         return $mail;
+    }
+
+    public function checkEmployee(){
+        $query = "SELECT * FROM salary";
+        $pstmt = $this->con->prepare($query);
+        $pstmt->execute();
+        $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach($rows as $row){
+            if($row['empID']==$this->emp_id){
+                return true;
+            }
+        }
     }
 }
 

@@ -1,10 +1,11 @@
 <?php
-require './classes/class-db-connector.php';
+require_once "./classes/class-db-connector.php";
 
-use classes\DbConnector;
+use classes\DBConnector;
 
-$dbcon = new DbConnector();
+$dbcon = new DBConnector();
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +18,6 @@ $dbcon = new DbConnector();
 
     <!-- Bootstrap CSS-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
     <link rel="stylesheet" href="../css/new-employee.css">
 
     <!--boostrap icon-->
@@ -39,7 +39,7 @@ $dbcon = new DbConnector();
     renderNavBar();
     ?>
     <!---------------------------------------------------->
-    <br><br>
+    <br><br><br>
     <div class="container py-md-5">
         <?php
         if (isset($_GET["message"])) {
@@ -84,8 +84,8 @@ $dbcon = new DbConnector();
                             foreach ($rs as $user) {
                         ?>
                                 <tr>
-                                    <td><a href="editEmployee.php?empID=<?php echo $user->s; ?>">Edit</a></td>
-                                    <td><a href="deleteEmployee.php?empID=<?php echo $user->empID; ?>">Delete</a></td>
+                                    <td><a href="../src/editEmployee.php?empID=<?php echo $user->empID; ?>">Edit</a></td>
+                                    <td><a href="../src/deleteEmployee.php?empID=<?php echo $user->empID; ?>">Delete</a></td>
                                     <td><?php echo $user->empID; ?></td>
                                     <td><?php echo $user->first_name; ?></td>
                                     <td><?php echo $user->last_name; ?></td>
@@ -127,7 +127,7 @@ $dbcon = new DbConnector();
 
                         <!-- Modal Body -->
                         <div class="modal-body">
-                            <form action="New_EmployeeForm.php" method="POST">
+                            <form action="new-employee-form.php" method="POST">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
@@ -159,8 +159,8 @@ $dbcon = new DbConnector();
                                         <div class="col">
                                             <div class="mb-3"><label class="form-label"><strong>Gender</strong></label></div><select class="form-select" id="gender" name="gender" required>
                                                 <optgroup>
-                                                    <option value="12" selected="">Female</option>
-                                                    <option value="13">Male</option>
+                                                    <option value="Female" selected="">Female</option>
+                                                    <option value="Male">Male</option>
                                                 </optgroup>
                                             </select>
                                         </div>
@@ -204,10 +204,16 @@ $dbcon = new DbConnector();
                                             <div class="mb-3"><label class="form-label"><strong>Retired Status</strong></label></div>
                                             <select class="form-select" id="retired_status" name="retired_status" required>
                                                 <optgroup>
-                                                    <option value="12" selected="">Yes</option>
-                                                    <option value="13">No</option>
+                                                    <option value="Yes" selected="">Yes</option>
+                                                    <option value="No">No</option>
                                                 </optgroup>
                                             </select>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3"><label class="form-label"><strong>User Name</strong></label></div><input class="form-control" type="text" id="username" name="username" required>
                                         </div>
                                     </div>
                                 </div>
