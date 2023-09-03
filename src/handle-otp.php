@@ -100,7 +100,7 @@ if (isset($_POST['username'])) {
         $conn->query("UPDATE login SET password = '$new_password' WHERE username = '" . $_SESSION['uname'] . "'");
 
         session_unset();
-        header("Location: loginForm.php?status=2&pwd=".$new_password);
+        header("Location: loginForm.php?status=3&pwd=".$new_password);
     } else {
         header('Location: reset-password.php?msg=OTP is invalid, Try again!');
     }
