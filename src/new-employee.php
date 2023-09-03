@@ -74,9 +74,9 @@ $dbcon = new DBConnector();
                             foreach ($rs as $user) {
                         ?>
                                 <tr>
-                                    <td><a href="../src/editEmployee.php?emplD=<?php echo $user->emplD; ?>">Edit</a></td>
-                                    <td><a href="../src/deleteEmployee.php?emplD=<?php echo $user->emplD; ?>">Delete</a></td>
-                                    <td><?php echo $user->emplD; ?></td>
+                                    <td><a href="../src/editEmployee.php?empID=<?php echo $user->empID; ?>">Edit</a></td>
+                                    <td><a href="../src/deleteEmployee.php?empID=<?php echo $user->empID; ?>">Delete</a></td>
+                                    <td><?php echo $user->empID; ?></td>
                                     <td><?php echo $user->first_name; ?></td>
                                     <td><?php echo $user->last_name; ?></td>
                                     <td><?php echo $user->dob; ?></td>
@@ -122,7 +122,7 @@ $dbcon = new DBConnector();
                                     <div class="row">
                                         <div class="col">
                                             <div class="mb-3"><label class="form-label"><strong>Employee
-                                                        ID</strong></label></div><input class="form-control" type="text" id="emplD" name="emplD" required>
+                                                        ID</strong></label></div><input class="form-control" type="text" id="empID" name="empID" required>
                                         </div>
                                         <div class="col">
                                             <div class="mb-3"><label class="form-label"><strong>NIC</strong></label></div><input class="form-control" type="text" id="nic" name="nic" required>

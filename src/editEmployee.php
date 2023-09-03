@@ -31,7 +31,7 @@ and open the template in the editor.
 
     <?php
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        $emplD = ($_POST['emplD']);
+        $empID = ($_POST['empID']);
         $nic = ($_POST['nic']);
         $first_name = ($_POST['first_name']);
         $last_name = ($_POST['last_name']);
@@ -46,7 +46,7 @@ and open the template in the editor.
         $retired_status = ($_POST['retired_status']);
         try {
             $con = $dbcon->getConnection();
-            $query = "UPDATE employee SET nic=?, first_name=?, last_name=?, dob=?, gender=?, tel_no=?, email=?, address=?, marital_status=?, rank=?, appointment_date=?, retired_status=? WHERE `employee`.`emplD` = ?";
+            $query = "UPDATE employee SET nic=?, first_name=?, last_name=?, dob=?, gender=?, tel_no=?, email=?, address=?, marital_status=?, rank=?, appointment_date=?, retired_status=? WHERE `employee`.`empID` = ?";
 
             $pstmt = $con->prepare($query);
             $pstmt->bindValue(1, $nic);
@@ -61,7 +61,7 @@ and open the template in the editor.
             $pstmt->bindValue(10, $rank);
             $pstmt->bindValue(11, $appointment_date);
             $pstmt->bindValue(12, $retired_status);
-            $pstmt->bindValue(13, $emplD);
+            $pstmt->bindValue(13, $empID);
             $pstmt->execute();
             if ($pstmt->rowCount() > 0) {
                 header("Location: new-employee.php");
@@ -76,12 +76,12 @@ and open the template in the editor.
             echo $exc->getMessage();
         }
     } else {
-        $emplD = ($_GET["emplD"]);
+        $empID = ($_GET["empID"]);
         try {
             $con = $dbcon->getConnection();
-            $query = "SELECT * FROM employee WHERE `employee`.`emplD` = ?";
+            $query = "SELECT * FROM employee WHERE `employee`.`empID` = ?";
             $pstmt = $con->prepare($query);
-            $pstmt->bindValue(1, $emplD);
+            $pstmt->bindValue(1, $empID);
             $pstmt->execute();
             $rs = $pstmt->fetch(PDO::FETCH_OBJ);
         } catch (PDOException $exc) {
@@ -99,7 +99,7 @@ and open the template in the editor.
                         <div class="row">
                             <div class="col">
                                 <div class="mb-3">
-                                    <input type="hidden" name="emplD" value="<?php echo $rs->emplD; ?>" />
+                                    <input type="hidden" name="empID" value="<?php echo $rs->empID; ?>" />
                                 </div>
                             </div>
                         </div>
