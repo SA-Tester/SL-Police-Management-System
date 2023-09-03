@@ -25,7 +25,7 @@ $employee = new Employee("","","","","","","","","","","","","","");
     <link rel="stylesheet" type="text/css" href="../css/check-availability.css">
 
     <title>Check Avalability</title>
-    <link rel="icon" type="image/png" href="../assets/logo.png">
+    <link rel="icon" type="image/png" href="../assets/logo.png" />
 </head>
 
 <body>
