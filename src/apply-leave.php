@@ -25,7 +25,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
             $reason_desc = filter_var($_POST["reason_desc"], FILTER_SANITIZE_STRING);
             $upload_medical = $_FILES['upload_medical']['name'];
             $upload_medical_tem_name = $_FILES['upload_medical']['tmp_name'];
-            $upload_medical_folder = __DIR__."/../assets/uploaded_medical/".$upload_medical;
+            $upload_medical_folder = __DIR__."/../uploads/medicals/".$upload_medical;
 
             $applyLeaveObject = new Leave($emp_id, $from_date, $to_date, $reason_type, $reason_desc, $upload_medical);
             $applyLeaveObject->setCon($con);
