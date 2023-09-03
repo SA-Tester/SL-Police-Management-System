@@ -3,6 +3,8 @@
 namespace classes;
 use PDO;
 use PDOException;
+require_once "./classes/class-db-connector.php";
+use classes\DBConnector;
 
 class Employee{
     
@@ -37,7 +39,8 @@ class Employee{
         
     }
     public function register() {
-        $dbcon = new DbConnector();
+        
+        $dbcon = new DBConnector();
         $con = $dbcon->getConnection();
 
         $query = "INSERT INTO employee(emplD, nic, first_name, last_name, dob, gender, tel_no, email, address, marital_status, rank, appointment_date, retired_status) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -62,10 +65,11 @@ class Employee{
             $a = $pstmt->execute();
 
             if ($a > 0) {
-                header("Location: new-employee.php?message=1");
+               
+                header("Location: ../src/new-employee.php?message=1");
                 exit;
             } else {
-                header("Location: new-employee.php?message=2");
+                header("Location: ../src/new-employee.php?message=2");
                 exit;
             }
         } catch (PDOException $e) {
@@ -83,15 +87,14 @@ class Employee{
             $employeeQuery = "SELECT empID, first_name, last_name, tel_no FROM employee";
             $epstmt = $con->prepare($employeeQuery);
             $epstmt->execute();
-            $employeeRows = $epstmt->fetchAll(PDO::FETCH_ASSOC);
-
-            if(!empty($employeeRows)){
+    
+            if($epstmt->rowCount() > 0){
                 echo '<tbody>';
                 $count = 1;
-                foreach($employeeRows as $row){
-                    $empID = $row[ 'empID'];
-                    $empName = $row[ 'first_name'] .' '. $row[ 'last_name'];
-                    $empContactNo = $row['tel_no'];
+                while($employeeRow = $epstmt->fetch(PDO::FETCH_ASSOC)){
+                    $empID = $employeeRow[ 'empID'];
+                    $empName = $employeeRow[ 'first_name'] .' '. $employeeRow[ 'last_name'];
+                    $empContactNo = $employeeRow['tel_no'];
                     
                     echo '<tr>';
                     echo '<th scope="row">'. $count .'</th>';
@@ -99,38 +102,33 @@ class Employee{
                     echo '<td data-title="Name">' . $empName .'</td>';
                     echo '<td data-title="Contact Number">' . $empContactNo .'</td>';
 
+                    //duty
                     $dutyQuery = "SELECT duty_type FROM duty WHERE empID = ? AND start <= ? AND end >= ?" ;
                     $dpstmt = $con->prepare($dutyQuery);
                     $dpstmt->bindValue(1,$empID);
                     $dpstmt->bindValue(2,$currentDate);
                     $dpstmt->bindValue(3,$currentDate);
                     $dpstmt->execute();
-                    $dutyResult = $dpstmt->fetch(PDO::FETCH_ASSOC);
-
+    
+                    //leave
                     $leaveQuery = "SELECT leaveID FROM leaves WHERE empID = ? AND leave_start <= ? AND leave_end >= ?";
                     $lpstmt = $con->prepare($leaveQuery);
                     $lpstmt->bindValue(1,$empID);
                     $lpstmt->bindValue(2,$currentDate);
                     $lpstmt->bindValue(3,$currentDate);
                     $lpstmt->execute();
-                    $leaveResult = $lpstmt->fetch(PDO::FETCH_ASSOC);
+    
 
-                    $isOnDuty = "";
-                    $isOnLeave = "";
-
-                    if(!empty($dutyResult)){
-                        $isOnDuty = true;
-                    };
-                    if(!empty($leaveResult)){
-                        $isOnLeave = true;
-                    };
+    
+                    $isOnDuty = $dpstmt->rowCount() > 0;
+                    $isOnLeave = $lpstmt->rowCount() > 0;
     
                     echo '<td data-title="Duty">';
                     if ($isOnDuty) {
-                        $dutyType = $dutyResult['duty_type'];
+                        $dutyType = $dpstmt->fetch(PDO::FETCH_ASSOC)['duty_type'];
                         echo $dutyType;
                     } else {
-                        echo 'Duty not assigned';
+                        echo 'No Duty';
                     }
                     echo '</td>';
     
