@@ -51,7 +51,7 @@ $otp_sent = isset($_SESSION['otp'])
 
     <?php
     if (isset($_GET["msg"])) {
-        $email = $_SESSION['email'];
+        $email = isset($_SESSION['email']) ? $_SESSION['email']:'';
         echo "<p style='color:#fff;text-align:center;'>".$_GET['msg']." <b>".$email."</b></p>";
     }
     ?>
