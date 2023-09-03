@@ -64,12 +64,6 @@ class Employee
                 $password .= $characters[$index];
             }
         
-        $file = fopen("/Applications/XAMPP/xamppfiles/htdocs/sl-police/assets/Passwords.csv", "a");
-        if($file){
-            $data = "$this->username, $password";
-            fwrite($file, $data);
-            fclose($file);
-        }
         $randomPassword = password_hash($password, PASSWORD_BCRYPT);   
 
         $dbcon = new DBConnector();
