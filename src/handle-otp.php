@@ -27,6 +27,12 @@ if (isset($_POST['username'])) {
         $result = $conn->query("SELECT email FROM employee WHERE emplD = '$empID'");
         $email = $result->fetch(PDO::FETCH_ASSOC)['email'];
 
+        //check if the email exists
+        if ($email==null) {
+            header('Location: reset-password.php?msg=There is no email address associated to your account, Please contact administrator!');
+            exit();
+        };
+
         //sending email
         $mail = new PHPMailer(true);
         try {
