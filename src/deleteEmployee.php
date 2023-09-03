@@ -17,12 +17,12 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-        $emplD=$_GET["emplD"];
+        $empID=$_GET["empID"];
         try {
                 $con = $dbcon->getConnection();
-                $query = "DELETE FROM employee WHERE `employee`.`emplD` = ?";
+                $query = "DELETE FROM employee WHERE `employee`.`empID` = ?";
                 $pstmt = $con->prepare($query);
-                $pstmt->bindValue(1, $emplD);
+                $pstmt->bindValue(1, $empID);
                 $pstmt->execute();
                 if($pstmt->rowCount() > 0){
                     header("Location: new-employee.php");
