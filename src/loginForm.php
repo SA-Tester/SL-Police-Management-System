@@ -5,15 +5,16 @@ $message = null;
 if(isset($_GET["status"])){
     
     $status = $_GET["status"];
+    $pwd = isset($_GET["pwd"]) ? $_GET["pwd"]:'';
     
     if($status == 0){
         $message = "<h6 class='text-danger'>Required values were not submitted.</h6>";
     }elseif($status == 1){
         $message = "<h6 class='text-danger'>Please provide your username and password to proceed. Both fields are required for access.</h6>";        
     }elseif($status == 2){
-        $message = "<h6 class='text-success'>Password has been reset. New password is: <b>".$_GET['pwd']."</b></h6>";        
-    }else{
         $message = "<h6 class='text-danger'>The entered username and password are incorrect. Please try again.</h6>"; 
+    }elseif($status == 3){
+        $message = "<h6 class='text-success'>Password has been reset. New password is: <b>".$pwd."</b></h6>";        
     }
 }
 
