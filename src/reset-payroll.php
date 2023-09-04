@@ -13,7 +13,7 @@ $con = $dbcon->getConnection();
 $addEmployee = new CalculateSalary($emp_id, $base_salary);
 $addEmployee->setCon($con);
 $addEmployee->setServiceYears();
-$addEmployee->setTotalSalary();
+$addEmployee->calculateSalary();
 $addEmployee->setBartar();
 $addEmployee->reset();
 

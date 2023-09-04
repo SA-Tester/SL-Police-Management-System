@@ -6,32 +6,43 @@ use classes\DBConnector;
 use classes\CalculateSalary;
 
 $dbcon = new DBConnector();
-
-$emp_id = $_GET["empID"];
-$email = $_GET["email"];
-$base_salary = $_GET["base_salary"];
-$bartar_amount = $_GET["bartar_amount"];
-$total_salary = $_GET["total_salary"];
-$pension_amount = $_GET["pension_amount"];
-$year = date("Y");
-$month = date("F");
 $con = $dbcon->getConnection();
 
-$query = "SELECT * FROM employee";
-    $pstmt = $con->prepare($query);
-    $pstmt->execute();
-    $rs = $pstmt->fetchAll(PDO::FETCH_OBJ);
-    foreach ($rs as $employee){
-        if($emp_id == $employee->empID){ 
-            $name = $employee->first_name." ".$employee->last_name;
-            $rank = $employee->rank;
-        }
-    }
+$emp_id = $_POST["empID"];
 
-    $salarySheet = new CalculateSalary($emp_id, $base_salary);
-    $salarySheet->setCon($con);
-    $mail=$salarySheet->sendSalarySheet();
-    $mail->addAddress($email);
+$query = "SELECT * FROM salary";
+$pstmt = $con->prepare($query);
+$pstmt->execute();
+$rs = $pstmt->fetchAll(PDO::FETCH_OBJ);
+foreach ($rs as $emp){
+    if($emp_id == $emp->empID){ 
+        $base_salary = $emp->base_salary;
+        $bartar_amount = $emp->bartar_amount;
+        $total_salary = $emp->total_salary;
+        $pension_amount = $emp->pension_amount;
+    }
+}
+
+
+$year = date("Y");
+$month = date("F");
+
+$query = "SELECT * FROM employee";
+$pstmt = $con->prepare($query);
+$pstmt->execute();
+$rs = $pstmt->fetchAll(PDO::FETCH_OBJ);
+foreach ($rs as $employee){
+    if($emp_id == $employee->empID){ 
+        $name = $employee->first_name." ".$employee->last_name;
+        $rank = $employee->rank;
+        $email = $employee->email;
+    }
+}
+
+$salarySheet = new CalculateSalary($emp_id, $base_salary);
+$salarySheet->setCon($con);
+$mail=$salarySheet->sendSalarySheet();
+$mail->addAddress($email);
 
 if($pension_amount == NULL){
     $mail->Subject = "Salary Sheet for [$month/$year]";
