@@ -68,7 +68,7 @@ class CalculateSalary{
 
         if($rank == "PC" || $rank == "WPC"){
             $this->bartar_amount = 12000;
-        } else if($rank == "PC" || $rank == "WPC" || $rank == "PS" || $rank == "WPS"){
+        } else if($rank == "PS" || $rank == "WPS"){
             $this->bartar_amount = 15000;
         } else if ($rank == "SI" || $rank == "IP" || $rank == "ASP"){
             $this->bartar_amount = 20000;
