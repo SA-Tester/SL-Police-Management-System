@@ -31,7 +31,7 @@
     </style>
 </head>
 
-<body>
+<body onload="fillTable('id')">
      <!------------------navbar---------------------------->
      <?php
         include 'navbar.php';
@@ -375,8 +375,7 @@
                 <div class="row mb-4">
                     <div class="col-md">
                         <label for="sort_type" class="mr-3">Sort By</label>
-                        <select name="sort_type" id="sort_type"  onchange="fillTable(this.value)" value="" selected="Date">
-                            <option value="none">--None--</option>
+                        <select name="sort_type" id="sort_type" onchange="fillTable(this.value)" selected="id">
                             <option value="id">Complaint ID</option>
                             <option value="type">Complaint Type</option>
                             <option value="date">Date</option>
@@ -402,7 +401,9 @@
                                     <th>Recorded By</th>
                                 </tr>
                             </thead>
-                           
+                            <tbody>
+                                
+
                             <!-- FILL TABLE BASED ON SELECTION -->
                             <script>
                                 let table = document.getElementById("comp-table");
@@ -416,62 +417,61 @@
                                         }
                                     }
 
-                                    if(sort_type != "none"){
-                                        var xhr = new XMLHttpRequest();
-                                        xhr.onreadystatechange = function(e){   
+                                    var xhr = new XMLHttpRequest();
+                                    xhr.onreadystatechange = function(e){   
 
-                                            if(this.readyState == 4 && this.status == 200){
+                                        if(this.readyState == 4 && this.status == 200){
 
-                                                var obj = JSON.parse(this.responseText);
-                                                let tableBody = document.createElement("tbody");
-                                                
-                                                for(let i=0; i<obj.length; i++){
-                                                    const row = document.createElement("tr");
-                                                    row.addEventListener("click", function(e){
-                                                        document.getElementById("selected_row_id").value = obj[i][0];
-                                                        document.getElementById("selected_row_nic").value = obj[i][3];
-                                                        document.getElementById("people_nic").readOnly = true; //to avoid updating the nic
-                                                        fillForm();
-                                                    })
+                                            var obj = JSON.parse(this.responseText);
+                                            let tableBody = document.createElement("tbody");
+                                            
+                                            for(let i=0; i<obj.length; i++){
+                                                const row = document.createElement("tr");
+                                                row.addEventListener("click", function(e){
+                                                    document.getElementById("selected_row_id").value = obj[i][0];
+                                                    document.getElementById("selected_row_nic").value = obj[i][3];
+                                                    document.getElementById("people_nic").readOnly = true; //to avoid updating the nic
+                                                    fillForm();
+                                                })
 
-                                                    const cell1 = document.createElement("td");
-                                                    const cell2 = document.createElement("td");
-                                                    const cell3 = document.createElement("td");
-                                                    const cell4 = document.createElement("td");
-                                                    const cell5 = document.createElement("td");
-                                                    const cell6 = document.createElement("td");
+                                                const cell1 = document.createElement("td");
+                                                const cell2 = document.createElement("td");
+                                                const cell3 = document.createElement("td");
+                                                const cell4 = document.createElement("td");
+                                                const cell5 = document.createElement("td");
+                                                const cell6 = document.createElement("td");
 
-                                                    const cell1Text = document.createTextNode(i+1);
-                                                    const cell2Text = document.createTextNode(obj[i][1]);
-                                                    const cell3Text = document.createTextNode(obj[i][2]);
-                                                    const cell4Text = document.createTextNode(obj[i][4]);
-                                                    const cell5Text = document.createTextNode(obj[i][5]);
-                                                    const cell6Text = document.createTextNode(obj[i][6]);
+                                                const cell1Text = document.createTextNode(i+1);
+                                                const cell2Text = document.createTextNode(obj[i][1]);
+                                                const cell3Text = document.createTextNode(obj[i][2]);
+                                                const cell4Text = document.createTextNode(obj[i][4]);
+                                                const cell5Text = document.createTextNode(obj[i][5]);
+                                                const cell6Text = document.createTextNode(obj[i][6]);
 
-                                                    cell1.appendChild(cell1Text);
-                                                    cell2.appendChild(cell2Text);
-                                                    cell3.appendChild(cell3Text);
-                                                    cell4.appendChild(cell4Text);
-                                                    cell5.appendChild(cell5Text);
-                                                    cell6.appendChild(cell6Text);
+                                                cell1.appendChild(cell1Text);
+                                                cell2.appendChild(cell2Text);
+                                                cell3.appendChild(cell3Text);
+                                                cell4.appendChild(cell4Text);
+                                                cell5.appendChild(cell5Text);
+                                                cell6.appendChild(cell6Text);
 
-                                                    row.appendChild(cell1);
-                                                    row.appendChild(cell2);
-                                                    row.appendChild(cell3);
-                                                    row.appendChild(cell4);
-                                                    row.appendChild(cell5);
-                                                    row.appendChild(cell6);
+                                                row.appendChild(cell1);
+                                                row.appendChild(cell2);
+                                                row.appendChild(cell3);
+                                                row.appendChild(cell4);
+                                                row.appendChild(cell5);
+                                                row.appendChild(cell6);
 
-                                                    tableBody.append(row);
-                                                }
-                                                table.append(tableBody);
+                                                tableBody.append(row);
                                             }
-                                        };
-                                        xhr.open("GET", "./scripts/fill-complaint-table.php?sortby=" + sort_type, true);
-                                        xhr.send();                                  
-                                    }  
+                                            table.append(tableBody);
+                                        }
+                                    };
+                                    xhr.open("GET", "./scripts/fill-complaint-table.php?sortby=" + sort_type, true);
+                                    xhr.send();                                  
                                 }         
                             </script>
+                            </tbody>
                         </table>
                     </div>
                 </div>
