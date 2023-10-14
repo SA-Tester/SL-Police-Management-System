@@ -3,41 +3,61 @@
 require "../classes/class-db-connector.php";
 use classes\DBConnector;
 
-if(isset($_REQUEST["sortby"])){
+if(isset($_REQUEST["element"])){
     $dbcon = new DBConnector();
     $con = $dbcon->getConnection();
 
-    $selection = $_REQUEST["sortby"];
+    $selection = $_REQUEST["element"];
 
-    switch($selection){
-        case "id":
-            $query1 = "SELECT complaint.complaint_id, complaint.date, complaint.complaint_type, people.nic, people.name, complaint.complaint_status, complaint.empID 
-                FROM ((people INNER JOIN role_in_case ON people.nic = role_in_case.nic)
+    if($selection == "id" || $selection == "type" || $selection == "date" || $selection == "emp"){
+        switch($selection){
+            case "id":
+                $query1 = "SELECT complaint.complaint_id, complaint.date, complaint.complaint_type, people.nic, people.name, role_in_case.role_in_case, 
+                    complaint.complaint_status, complaint.empID 
+                FROM ((people INNER JOIN role_in_case ON people.nic = role_in_case.nic) 
                 INNER JOIN complaint ON role_in_case.complaint_id = complaint.complaint_id) 
-                ORDER BY complaint.complaint_id";
-
-            break;
-
-        case "type":
-            $query1 = "SELECT complaint.complaint_id, complaint.date, complaint.complaint_type, people.nic, people.name, complaint.complaint_status, complaint.empID 
-                FROM ((people INNER JOIN role_in_case ON people.nic = role_in_case.nic)
+                ORDER BY complaint.complaint_id;";
+    
+                break;
+    
+            case "type":
+                $query1 = "SELECT complaint.complaint_id, complaint.date, complaint.complaint_type, people.nic, people.name, role_in_case.role_in_case, 
+                    complaint.complaint_status, complaint.empID 
+                FROM ((people INNER JOIN role_in_case ON people.nic = role_in_case.nic) 
                 INNER JOIN complaint ON role_in_case.complaint_id = complaint.complaint_id) 
-                ORDER BY complaint.complaint_type";
-            break;
-
-        case "date":
-            $query1 = "SELECT complaint.complaint_id, complaint.date, complaint.complaint_type, people.nic,  people.name, complaint.complaint_status, complaint.empID 
-                FROM ((people INNER JOIN role_in_case ON people.nic = role_in_case.nic)
+                ORDER BY complaint.complaint_type;";
+                break;
+    
+            case "date":
+                $query1 = "SELECT complaint.complaint_id, complaint.date, complaint.complaint_type, people.nic, people.name, role_in_case.role_in_case, 
+                    complaint.complaint_status, complaint.empID 
+                FROM ((people INNER JOIN role_in_case ON people.nic = role_in_case.nic) 
                 INNER JOIN complaint ON role_in_case.complaint_id = complaint.complaint_id) 
-                ORDER BY complaint.date DESC";
-            break;
-        
-        case "emp":
-            $query1 = "SELECT complaint.complaint_id, complaint.date, complaint.complaint_type, people.nic, people.name, complaint.complaint_status, complaint.empID 
-                FROM ((people INNER JOIN role_in_case ON people.nic = role_in_case.nic)
+                ORDER BY complaint.date;";
+                break;
+            
+            case "emp":
+                $query1 = "SELECT complaint.complaint_id, complaint.date, complaint.complaint_type, people.nic, people.name, role_in_case.role_in_case, 
+                    complaint.complaint_status, complaint.empID 
+                FROM ((people INNER JOIN role_in_case ON people.nic = role_in_case.nic) 
                 INNER JOIN complaint ON role_in_case.complaint_id = complaint.complaint_id) 
-                ORDER BY complaint.empID";
-            break;
+                ORDER BY complaint.empID;";
+                break;
+        }
+    }
+    else{
+        $query1 = "SELECT complaint.complaint_id, complaint.date, complaint.complaint_type, people.nic, people.name, 
+            role_in_case.role_in_case, complaint.complaint_status, complaint.empID 
+        FROM ((people INNER JOIN role_in_case ON people.nic = role_in_case.nic) 
+        INNER JOIN complaint ON role_in_case.complaint_id = complaint.complaint_id) WHERE 
+        complaint.complaint_id LIKE '%$selection%' OR
+        year(complaint.date) LIKE '%$selection%' OR MONTHNAME(complaint.date) LIKE '$selection' OR day(complaint.date) LIKE '$selection' OR
+        complaint.complaint_type LIKE '%$selection%' OR
+        people.nic LIKE '$selection%' OR
+        people.name LIKE '%$selection%' OR
+        role_in_case.role_in_case LIKE '$selection%' OR
+        complaint.complaint_status LIKE '$selection%' OR
+        complaint.empID LIKE 'EMP$selection'";
     }
 
     try{
@@ -52,10 +72,11 @@ if(isset($_REQUEST["sortby"])){
             $type = $row[2];
             $nic = $row[3];
             $name = $row[4];
-            $status = $row[5];
-            $emp = $row[6];
+            $ric = $row[5];
+            $status = $row[6];
+            $emp = $row[7];
 
-            array_push($array, array($id, $date, $type, $nic, $name, $status, $emp));
+            array_push($array, array($id, $date, $type, $nic, $name, $ric, $status, $emp));
         }
 
         $response = $array;

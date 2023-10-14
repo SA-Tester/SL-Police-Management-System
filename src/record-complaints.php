@@ -81,7 +81,7 @@
 
     <div class="containter-md d-flex justify-content-center ml-4 mr-4 mt-3">
         <div class="row">
-            <div class="col-md w-100">
+            <div class="col-md-5 w-100">
                 <h3 class="h3 mt-5 mb-4 ml-5">New Complaint</h3>
                 <form method="POST" action="process-complaints.php" enctype="multipart/form-data" onsubmit="return confirm('Are you sure you want to proceed ?')">
                     <table class="ml-3 w-100">
@@ -92,7 +92,7 @@
                                     <label for="date">Date</label>
                                 </td>
                                 <td>
-                                    <input type="date" id="date" name="date" class="mb-4 w-100" />
+                                    <input type="date" id="date" name="date" class="mb-4 w-100 form-control" />
                                 </td>
                             </tr>
                             <tr>
@@ -100,7 +100,7 @@
                                     <label for="category" class="mr-4">Complaint Category</label>
                                 </td>
                                 <td>
-                                    <select id="category" name="category" class="mb-4 w-100">
+                                    <select id="category" name="category" class="mb-4 w-100 form-control">
                                         <option value="1">Abuse of Women or Children</option>
                                         <option value="2">Appreciation</option>
                                         <option value="3">Archeological Issue</option>
@@ -150,7 +150,7 @@
                                     <label for="title">Complaint Title</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="title" name="title" class="mb-4 w-100" placeholder="Enter Complaint Title"/>
+                                    <input type="text" id="title" name="title" class="mb-4 w-100 form-control" placeholder="Enter Complaint Title"/>
                                 </td>
                             </tr>
                             <tr>
@@ -173,7 +173,7 @@
                                 <td>
                                     <!--button name="start-speech" id="start-speech" class="btn-danger mb-2" disabled>Start</button>
                                     <button name="stop-speech" id="stop-speech" class="btn-dark mb-2" disabled>Stop</button-->
-                                    <textarea id="comp_desc" name="comp_desc" rows="10" cols="40" class="mb-4" placeholder="Type the complaint in text"></textarea>
+                                    <textarea id="comp_desc" name="comp_desc" rows="10" cols="40" class="mb-4 form-control" placeholder="Type the complaint in text"></textarea>
                                 </td>
                             </tr>
                             <tr>
@@ -181,7 +181,7 @@
                                     <label for="people_type">Type</label>
                                 </td>
                                 <td>
-                                    <select name="people_type" id="people_type" class="mb-4 w-100">
+                                    <select name="people_type" id="people_type" class="mb-4 w-100 form-control">
                                         <option value="Plantiff">Plantiff</option>
                                         <option value="Suspect">Suspect</option>
                                         <option value="Culprit">Culprit</option>
@@ -193,7 +193,7 @@
                                     <label for="people_nic">NIC</label>
                                 </td>
                                 <td>
-                                    <input list="people_nics" name="people_nic" id="people_nic" class="mb-4 w-100" placeholder="Person's NIC" onchange="fillDetails(this.value)" value="">
+                                    <input list="people_nics" name="people_nic" id="people_nic" class="mb-4 w-100 form-control" placeholder="Person's NIC" onchange="fillDetails(this.value)" value="">
                                     <datalist id="people_nics" name="people_nics" class="mb-4 w-100">     
                                         <?php 
                                             try{
@@ -217,7 +217,7 @@
                                     <label for="people_name">Name</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="people_name" name="people_name" class="mb-4 w-100" placeholder="Person's Name" value=""/>
+                                    <input type="text" id="people_name" name="people_name" class="mb-4 w-100 form-control" placeholder="Person's Name" value=""/>
                                 </td>
                             </tr>
                             <tr>
@@ -225,7 +225,7 @@
                                     <label for="people_address">Address</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="people_address" name="people_address" class="mb-4 w-100" placeholder="Person's Address" value=""/>
+                                    <input type="text" id="people_address" name="people_address" class="mb-4 w-100 form-control" placeholder="Person's Address" value=""/>
                                 </td>
                             </tr>
                             <tr>
@@ -233,7 +233,7 @@
                                     <label for="people_contact">Contact</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="people_contact" name="people_contact" class="mb-4 w-100" placeholder="Person's Contact" value=""/>
+                                    <input type="text" id="people_contact" name="people_contact" class="mb-4 w-100 form-control" placeholder="Person's Contact" value=""/>
                                 </td>
                             </tr>
                             <tr>
@@ -241,7 +241,7 @@
                                     <label for="people_email">Email</label>
                                 </td>
                                 <td>
-                                    <input type="email" id="people_email" name="people_email" class="mb-4 w-100" placeholder="Person's Email" value=""/>
+                                    <input type="email" id="people_email" name="people_email" class="mb-4 w-100 form-control" placeholder="Person's Email" value=""/>
                                 </td>
                             </tr>
                             <tr>
@@ -252,7 +252,7 @@
                                     <input type="hidden" name="selectedCity" id="selectedCity" value=""/>
                                     <input type="hidden" name="selectedLat" id="selectedLat" value=""/>
                                     <input type="hidden" name="selectedLon" id="selectedLon" value=""/>
-                                    <select id="city" name="city" class="mb-4 w-100"></select>                           
+                                    <select id="city" name="city" class="mb-4 w-100 form-control"></select>                           
                                 </td>
                             </tr>
                             <tr>
@@ -260,7 +260,7 @@
                                     <label for="comp_status">Complaint Status</label>
                                 </td>
                                 <td>
-                                    <select name="comp_status" id="comp_status" class="mb-4 w-100">
+                                    <select name="comp_status" id="comp_status" class="mb-4 w-100 form-control">
                                         <option value="Ongoing">Ongoing</option>
                                         <option value="Resolved">Resolved</option>
                                     </select>
@@ -271,7 +271,7 @@
                                     <label for="emp_id">Recorded By</label>
                                 </td>
                                 <td>                
-                                    <select id="emp_id" name="emp_id" class="mb-4 w-100">     
+                                    <select id="emp_id" name="emp_id" class="mb-4 w-100 form-control">     
                                         <?php
                                             $query2 = "SELECT empID FROM employee WHERE retired_status=?";
                                             $pstmt2 = $con->prepare($query2);
@@ -298,7 +298,7 @@
                                     <label for="vehicle_number">Vehicle Number</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="vehicle_number" name="vehicle_number" class="mb-4 w-100" />
+                                    <input type="text" id="vehicle_number" name="vehicle_number" class="mb-4 w-100 form-control" />
                                 </td>
                             </tr>
                             <tr>
@@ -306,7 +306,7 @@
                                     <label for="temp_start" class="mr-4">Temporary License Start Date</label>
                                 </td>
                                 <td>
-                                    <input type="date" id="temp_start" name="temp_start" class="mb-4 w-100" />
+                                    <input type="date" id="temp_start" name="temp_start" class="mb-4 w-100 form-control" />
                                 </td>
                             </tr>
                             <tr>
@@ -314,7 +314,7 @@
                                     <label for="temp_end">Temporary License End Date</label>
                                 </td>
                                 <td>
-                                    <input type="date" id="temp_end" name="temp_end" class="mb-4 w-100" />
+                                    <input type="date" id="temp_end" name="temp_end" class="mb-4 w-100 form-control" />
                                 </td>
                             </tr>
                             <tr>
@@ -322,7 +322,7 @@
                                     <label for="fine_amount">Fine Amount</label>
                                 </td>
                                 <td>
-                                    <input type="text" id="fine_amount" name="fine_amount" class="mb-4 w-100" />
+                                    <input type="text" id="fine_amount" name="fine_amount" class="mb-4 w-100 form-control" />
                                 </td>
                             </tr>
                             <tr>
@@ -330,7 +330,7 @@
                                     <label for="fine_status">Fine Status</label>
                                 </td>
                                 <td>
-                                    <select name="fine_status" id="fine_status" class="mb-4 w-100">
+                                    <select name="fine_status" id="fine_status" class="mb-4 w-100 form-control">
                                         <option value="0">Unpaid</option>    
                                         <option value="1">Paid</option>
                                     </select>
@@ -341,7 +341,7 @@
                                     <label for="license_issued">Fine Status</label>
                                 </td>
                                 <td>
-                                    <select name="license_issued" id="license_issued" class="mb-4 w-100">
+                                    <select name="license_issued" id="license_issued" class="mb-4 w-100 form-control">
                                         <option value="0">Not Issued</option>    
                                         <option value="1">Issued</option>
                                     </select>
@@ -370,22 +370,22 @@
                 </form>
             </div>
 
-            <div class="col-md mt-5">
+            <div class="col-md ml-4 mt-5">
                 <h3 class="h3 mb-4">Complaint History</h3>
                 <div class="row mb-4">
                     <div class="col-md">
                         <label for="sort_type" class="mr-3">Sort By</label>
-                        <select name="sort_type" id="sort_type" onchange="fillTable(this.value)" selected="id">
+                        <select name="sort_type" id="sort_type" onchange="fillTable(this.value)" selected="id" class="form-control">
                             <option value="id">Complaint ID</option>
                             <option value="type">Complaint Type</option>
                             <option value="date">Date</option>
                             <option value="emp">Employee</option>
                         </select>
                     </div>
-                    <!--div class="col-md">
+                    <div class="col-md">
                         <label for="search" class="mr-3">Search</label>
-                        <input type="text" id="search" name="search" placeholder="Enter Text to Search">
-                    </div-->
+                        <input type="text" id="search" name="search" placeholder="Enter Text to Search" onchange="fillTable(this.value)" class="form-control">
+                    </div>
                 </div>
 
                 <div class="row">
@@ -397,6 +397,7 @@
                                     <th>Date</th>
                                     <th>Complaint Category</th>
                                     <th>Name</th>
+                                    <th>R.I.C</th>
                                     <th>Status</th>
                                     <th>Recorded By</th>
                                 </tr>
@@ -409,7 +410,7 @@
                                 let table = document.getElementById("comp-table");
                                 let rows;
                                 
-                                function fillTable(sort_type){   
+                                function fillTable(element){   
                                     rows = table.rows.length;
                                     if(rows > 1){
                                         for(let j=0; j < rows-1; j++){
@@ -440,6 +441,7 @@
                                                 const cell4 = document.createElement("td");
                                                 const cell5 = document.createElement("td");
                                                 const cell6 = document.createElement("td");
+                                                const cell7 = document.createElement("td");
 
                                                 const cell1Text = document.createTextNode(i+1);
                                                 const cell2Text = document.createTextNode(obj[i][1]);
@@ -447,6 +449,7 @@
                                                 const cell4Text = document.createTextNode(obj[i][4]);
                                                 const cell5Text = document.createTextNode(obj[i][5]);
                                                 const cell6Text = document.createTextNode(obj[i][6]);
+                                                const cell7Text = document.createTextNode(obj[i][7]);
 
                                                 cell1.appendChild(cell1Text);
                                                 cell2.appendChild(cell2Text);
@@ -454,6 +457,7 @@
                                                 cell4.appendChild(cell4Text);
                                                 cell5.appendChild(cell5Text);
                                                 cell6.appendChild(cell6Text);
+                                                cell7.appendChild(cell7Text);
 
                                                 row.appendChild(cell1);
                                                 row.appendChild(cell2);
@@ -461,13 +465,14 @@
                                                 row.appendChild(cell4);
                                                 row.appendChild(cell5);
                                                 row.appendChild(cell6);
+                                                row.appendChild(cell7);
 
                                                 tableBody.append(row);
                                             }
                                             table.append(tableBody);
                                         }
                                     };
-                                    xhr.open("GET", "./scripts/fill-complaint-table.php?sortby=" + sort_type, true);
+                                    xhr.open("GET", "./scripts/fill-complaint-table.php?element=" + element, true);
                                     xhr.send();                                  
                                 }         
                             </script>
