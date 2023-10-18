@@ -145,7 +145,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-       $(document).ready(function () {
+      $(document).ready(function () {
     function handleDropdown(dropdown) {
         $(dropdown).siblings('.dropdown-menu').toggle();
     }
@@ -200,19 +200,16 @@
                     updateTable(data);
                     alert('Form submitted successfully!');
                 } else {
-                    
                     console.error('Server returned an error: ' + data.message);
                     alert('Error submitting the form. Please check the console for details.');
                 }
             },
             error: function (xhr, status, error) {
-                
                 console.error('AJAX Error: ' + status, error);
                 alert('Done and Assigned data');
             }
         });
     });
-
 
     // Handle the Remove button click event
     $('#remove-btn').click(function () {
@@ -265,8 +262,8 @@
     }
 
     function updateTable(data) {
-        const tableBody = $('#employeeTableBody'); // Use jQuery to select the table body
-        tableBody.empty(); // Clear previous rows
+        const tableBody = $('#employeeTableBody');
+        tableBody.empty();
 
         for (let i = 0; i < data.length; i++) {
             const newRow = $('<tr>');
@@ -278,9 +275,8 @@
                 <td>${data[i].end}</td>
                 <td>${data[i].location_id}</td>
                 <td><input type="checkbox" data-emp-id="${data[i].empID}"></td>
-
             `);
-            tableBody.append(newRow); // Use jQuery to append the new row
+            tableBody.append(newRow);
         }
     }
 
