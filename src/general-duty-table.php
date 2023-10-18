@@ -106,7 +106,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary" id="assign-btn" >Assign</button>
-                    <button type="reset" class="btn btn-secondary">Remove</button>
+                    <button type="button" class="btn btn-secondary" id="remove-btn">Remove</button>
                 </form>
             </div>
             <div class="col-md-6">
@@ -210,6 +210,43 @@
                 alert('Done and Assigned data');
             }
         });
+    });
+
+
+    // Handle the Remove button click event
+    $('#remove-btn').click(function () {
+        var selectedRows = $('#employeeTableBody input[type="checkbox"]:checked');
+
+        if (selectedRows.length === 0) {
+            alert('Select one or more rows to remove.');
+        } else {
+            if (confirm('Are you sure you want to remove the selected rows?')) {
+                selectedRows.each(function () {
+                    var empID = $(this).data('emp-id');
+
+                    // Send a request to remove the row with empID
+                    $.ajax({
+                        type: 'POST',
+                        url: 'remove-duty.php',
+                        data: { empID: empID },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.status === 'success') {
+                                // Remove the row from the table if removal was successful
+                                $(this).closest('tr').remove();
+                            } else {
+                                console.error('Server returned an error: ' + data.message);
+                                alert('Error removing the row. Please check the console for details.');
+                            }
+                        }.bind(this), 
+                        error: function (xhr, status, error) {
+                            console.error('AJAX Error: ' + status, error);
+                            alert('Error removing the row. Please check the console for details.');
+                        }
+                    });
+                });
+            }
+        }
     });
 
     function fetchTableData() {
