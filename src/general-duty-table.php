@@ -119,6 +119,7 @@
                             <th>Duty Start Time</th>
                             <th>Duty End Time</th>
                             <th>Duty Place</th>
+                            <th> Remove Duty</th>
                            
 
                         </tr>
@@ -276,6 +277,8 @@
                 <td>${data[i].start}</td>
                 <td>${data[i].end}</td>
                 <td>${data[i].location_id}</td>
+                <td><input type="checkbox" data-emp-id="${data[i].empID}"></td>
+
             `);
             tableBody.append(newRow); // Use jQuery to append the new row
         }
