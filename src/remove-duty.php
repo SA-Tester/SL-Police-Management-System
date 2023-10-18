@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
           
             $query = "DELETE FROM employee WHERE empID = ?";
-            $pstmt = $conn->prepare($query);
+            $pstmt = $con->prepare($query);
             $pstmt->bindValue(1, $empID);
             $pstmt->execute();
 
