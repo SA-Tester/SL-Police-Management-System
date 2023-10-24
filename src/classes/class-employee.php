@@ -49,9 +49,18 @@ class Employee
         }
         $this->username = $username;
     }
+
+    // SETTERS
+    public function setEmpID($emp_id){
+        $this->empID = $emp_id;
+    }
+
+    public function initEmployee(){
+
+    }
+
     public function register()
     {      
-
        $length = 12;
        $randomPassword=0;
 

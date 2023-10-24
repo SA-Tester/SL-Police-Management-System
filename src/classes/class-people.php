@@ -20,10 +20,16 @@ class People {
         $this->email = $email;
     }
 
+    // GETTERS
     public function getNIC(){
         return $this->nic;
     }
 
+    public function getName(){
+        return $this->name;
+    }
+
+    // SETTERS
     public function setCon($con){
         $this->con = $con;
     }

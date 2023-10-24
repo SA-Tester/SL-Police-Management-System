@@ -1,6 +1,7 @@
 <?php 
 
 namespace classes;
+use PDO;
 use PDOException;
 
 class Complaints{
@@ -48,8 +49,29 @@ class Complaints{
         $this->con = $con;
     }
 
+    // GETTERS
     function getComplaintID(){
         return $this->complaint_id;
+    }
+
+    function getDate(){
+        return $this->date;
+    }
+
+    function getCategory(){
+        return $this->category;
+    }
+
+    function getTitle(){
+        return $this->title;
+    }
+
+    function getDescription(){
+        return $this->description;
+    }
+
+    function getEmpID(){
+        return $this->description;
     }
 
     function convertCategory($value){
@@ -305,6 +327,32 @@ class Complaints{
             case "Violation of Immigration Laws":
                 return "41";
         }      
+    }
+
+    function initComplaint(){
+        $query1 = "SELECT * FROM complaint WHERE complaint_id=?";
+        try{
+            $pstmt = $this->con->prepare($query1);
+            $pstmt->bindValue(1, $this->complaint_id);
+            $a = $pstmt->execute();
+            if($a > 0){
+                $row = $pstmt->fetch(PDO::FETCH_NUM);
+                $this->complaint_id = $row[0];
+                $this->category = $row[1];
+                $this->title = $row[2];
+                $this->recording = $row[3];
+                $this->description = $row[4];
+                $this->complaint_status = $row[5];
+                $this->emp_id = $row[6];
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        catch(PDOException $e){
+            die("An Error Occured: ".$e->getMessage());
+        }
     }
 
     public function addComplaint($location_id){
