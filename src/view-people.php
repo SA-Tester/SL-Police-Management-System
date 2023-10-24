@@ -194,6 +194,8 @@ $dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
             </div>
         </div>
     </div>
+    
+    <button class="btn btn-success" id="generateReportButton">Generate Report</button>  
 
     <footer class="py-5 mt-5" style="background-color: #101D6B;">
         <div class="container text-light text-center">
@@ -366,6 +368,33 @@ $dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
                 $("#sendEmailButton").show(); // Show the "Send Email" button again if it was hidden
             });
         });
+
+    //Generate report
+    $(document).ready(function() {
+     // Handle the "Generate Report" button click
+      $("#generateReportButton").on("click", function() {
+    // Make an AJAX request to the PHP script for report generation
+      $.ajax({
+      type: "GET", 
+      url: "reportPeople.php", 
+      success: function(response) {
+        // Create a new browser window or tab to display the report
+        var reportWindow = window.open();
+        reportWindow.document.write(response);
+      },
+      error: function(xhr, status, error) {
+        // Handle the error 
+        console.error(error);
+      }
+    });
+  });
+});
+
+
+
+
+
+
     </script>
 </body>
 
