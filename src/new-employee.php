@@ -34,7 +34,7 @@ $dbcon = new DBConnector();
         <?php
         if (isset($_GET["message"])) {
             if ($_GET["message"] == 1) {
-                echo "Successfully Saved!";
+                echo "New employee registered successfully; password has been sent via email.";
             } elseif ($_GET["message"] == 2) {
                 echo "Error Occurred!";
             }
