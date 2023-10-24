@@ -106,7 +106,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary" id="assign-btn" >Assign</button>
-                    <button type="reset" class="btn btn-secondary">Remove</button>
+                    <button type="button" class="btn btn-secondary" id="remove-btn">Remove</button>
                 </form>
             </div>
             <div class="col-md-6">
@@ -119,6 +119,7 @@
                             <th>Duty Start Time</th>
                             <th>Duty End Time</th>
                             <th>Duty Place</th>
+                            <th> Remove Duty</th>
                            
 
                         </tr>
@@ -144,7 +145,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-       $(document).ready(function () {
+      $(document).ready(function () {
     function handleDropdown(dropdown) {
         $(dropdown).siblings('.dropdown-menu').toggle();
     }
@@ -199,17 +200,51 @@
                     updateTable(data);
                     alert('Form submitted successfully!');
                 } else {
-                    
                     console.error('Server returned an error: ' + data.message);
                     alert('Error submitting the form. Please check the console for details.');
                 }
             },
             error: function (xhr, status, error) {
-                
                 console.error('AJAX Error: ' + status, error);
                 alert('Done and Assigned data');
             }
         });
+    });
+
+    // Handle the Remove button click event
+    $('#remove-btn').click(function () {
+        var selectedRows = $('#employeeTableBody input[type="checkbox"]:checked');
+
+        if (selectedRows.length === 0) {
+            alert('Select one or more rows to remove.');
+        } else {
+            if (confirm('Are you sure you want to remove the selected rows?')) {
+                selectedRows.each(function () {
+                    var empID = $(this).data('emp-id');
+
+                    // Send a request to remove the row with empID
+                    $.ajax({
+                        type: 'POST',
+                        url: 'remove-duty.php',
+                        data: { empID: empID },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.status === 'success') {
+                                // Remove the row from the table if removal was successful
+                                $(this).closest('tr').remove();
+                            } else {
+                                console.error('Server returned an error: ' + data.message);
+                                alert('Error removing the row. Please check the console for details.');
+                            }
+                        }.bind(this), 
+                        error: function (xhr, status, error) {
+                            console.error('AJAX Error: ' + status, error);
+                            alert('Error removing the row. Please check the console for details.');
+                        }
+                    });
+                });
+            }
+        }
     });
 
     function fetchTableData() {
@@ -227,8 +262,8 @@
     }
 
     function updateTable(data) {
-        const tableBody = $('#employeeTableBody'); // Use jQuery to select the table body
-        tableBody.empty(); // Clear previous rows
+        const tableBody = $('#employeeTableBody');
+        tableBody.empty();
 
         for (let i = 0; i < data.length; i++) {
             const newRow = $('<tr>');
@@ -239,8 +274,9 @@
                 <td>${data[i].start}</td>
                 <td>${data[i].end}</td>
                 <td>${data[i].location_id}</td>
+                <td><input type="checkbox" data-emp-id="${data[i].empID}"></td>
             `);
-            tableBody.append(newRow); // Use jQuery to append the new row
+            tableBody.append(newRow);
         }
     }
 

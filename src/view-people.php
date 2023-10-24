@@ -147,7 +147,7 @@ $dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
                     <div class="btn-group">
                         <button class="btn btn-primary mr-4" data-toggle="modal" data-target="#emailModal">Send Email</button>
                         <form action="update-button-data-people.php" method="post">
-                            <button type="submit" class="btn btn-secondary" name="updateButton">Update Data</button>
+                        <button type="submit" class="btn btn-secondary" name="updateButton" id="updateButton">Update Data</button>
                         </form>
                     </div>
                 </td>
@@ -269,6 +269,37 @@ $dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
                 filterTableByRole(selectedRole);
             });
         });
+
+        $(document).ready(function() {
+    // handle the "Update Data" button click
+    $("#updateButton").on("click", function(e) {
+        e.preventDefault(); // Prevent the default form submission behavior
+
+        // Make an AJAX request to the backend to update data
+        $.ajax({
+            type: "POST",
+            url: "update-button-data-people.php", 
+            data: {
+                // Provide any data needed for the update
+            },
+            success: function(response) {
+                // Handle the response here, update the table, and display the message
+                if (response.message) {
+                    alert(response.message);
+                }
+                if (response.insertedRows) {
+                    // Update the table with the inserted rows
+                    
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle the error here
+                console.error(error);
+            }
+        });
+    });
+});
+
 
         $(document).ready(function() {
             // Handle click event of the "Send Email" button
