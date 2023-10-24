@@ -7,7 +7,7 @@ require_once('./pdf-library/TCPDF-main/tcpdf.php');
  
 if (isset($_GET['generate-pdf']) && $_GET['generate-pdf'] == 'true') {
     require "./classes/class-db-connector.php";
-    use classes\DBConnector;
+    
     require_once 'fetch-people-data.php';
 
     $dataFetcher = new DataFetcher();
