@@ -27,8 +27,12 @@
     <div class="container-lg mt-5">
         <div class="row d-flex justify-content-center mt-5">
             <label for="caseID" class="mr-3 mt-5">Enter Case ID: </label>
-            <input type="text" id="caseID" name="caseID" class="w-50 mt-5" placeholder="Enter Case ID"/>
-            <button class="mt-5" onclick="fillComplaintData(document.getElementById('caseID').value)"><i class="fas fa-search"></i></button>
+            <input type="text" id="caseID" name="caseID" class="w-50 mt-5 form-group" placeholder="Enter Case ID"/>
+            <button class="mt-5 form-group" onclick="fillComplaintData(document.getElementById('caseID').value)"><i class="fas fa-search"></i></button>
+        </div>
+
+        <div class="alert alert-danger mt-3 mb-3" role="alert" id="alertMsg" style="display: none;">
+            Complaint Not Found
         </div>
 
         <div class="row d-flex mt-4">
@@ -107,16 +111,25 @@
                 <legend>Manage Evidences</legend>
 
                 <fieldset class="form-group border p-4">
+                    <legend class="small font-weight-bold">Add Suspects/ Culprits</legend>
+                    <div class="row w-100">
+                        <div class="col">
+                            <button class="btn btn-success h-100">Add Suspects/ Culprits</button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-info">Update Suspects/ Culprits</button>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="form-group border p-4">
                     <legend class="small font-weight-bold">Eyewitness Descriptions</legend>
                     <div class="row w-100">
                         <div class="col">
-                            <button class="btn btn-success h-100">Add Eye Witness</button>
+                            <button class="btn btn-success h-100">Add Eye Witnesses</button>
                         </div>
                         <div class="col">
                             <button class="btn btn-info">Update Eye Witnesses</button>
-                        </div>
-                        <div class="col">
-                            <button class="btn btn-danger">Delete Eye Witnesses</button>
                         </div>
                     </div>
                 </fieldset>
@@ -125,10 +138,10 @@
                     <legend class="small font-weight-bold">Fingerprints</legend>
                     <div class="row">
                         <div class="col">
-                            <button class="btn btn-success h-100">Add Fingerprint</button>
+                            <button class="btn btn-success h-100">Add Fingerprints</button>
                         </div>
                         <div class="col">
-                            <button class="btn btn-danger h-100">Delete Fingerprints</button>
+                            <button class="btn btn-info h-100">Update Fingerprints</button>
                         </div>
                     </div>
                 </fieldset>
@@ -140,7 +153,7 @@
                             <button class="btn btn-success">Add Photos</button>
                         </div>
                         <div class="col">
-                            <button class="btn btn-danger">Delete Photos</button>
+                            <button class="btn btn-info">Update Photos</button>
                         </div>
                     </div>
                 </fieldset>
@@ -152,7 +165,7 @@
                             <button class="btn btn-success">Add Court Medical Reports</button>
                         </div>
                         <div class="col">
-                            <button class="btn btn-danger">Delete Court Medical Reports</button>
+                            <button class="btn btn-info">Update Court Medical Reports</button>
                         </div>
                     </div>
                 </fieldset>
@@ -164,7 +177,7 @@
                             <button class="btn btn-success h-100">Add Accident Charts</button>
                         </div>
                         <div class="col">
-                            <button class="btn btn-danger h-100">Delete Accident Charts</button>
+                            <button class="btn btn-info h-100">Update Accident Charts</button>
                         </div>
                     </div>
                 </fieldset>
@@ -173,6 +186,10 @@
     </div>
 
     <script type="text/javascript">
+        document.getElementById("caseID").addEventListener("keydown", function(e) {
+            if (e.keyCode == 13) { fillComplaintData(this.value); }
+        }, false);
+
         function fillComplaintData(case_id){
             let comp_id = document.getElementById("comp_id");
             let comp_date = document.getElementById("comp_date");
@@ -198,6 +215,21 @@
                     comp_desc.value = obj[6];
                     emp_id.value = obj[7];
                     emp_name.value = obj[8];
+
+                    document.getElementById("alertMsg").style.display = "none";
+                }
+                else{
+                    comp_id.value = "";
+                    comp_date.value = "";
+                    plantiff_nic.value = "";
+                    plantiff_name.value = "";
+                    comp_category.value = "";
+                    comp_title.value = "";
+                    comp_desc.value = "";
+                    emp_id.value = "";
+                    emp_name.value = "";
+
+                    document.getElementById("alertMsg").style.display = "block";
                 }
             };
             xmlhttp.open("GET", "./scripts/fill-complaint-study.php?comp_id=" + String(case_id), true);

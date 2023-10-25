@@ -334,8 +334,8 @@ class Complaints{
         try{
             $pstmt = $this->con->prepare($query1);
             $pstmt->bindValue(1, $this->complaint_id);
-            $a = $pstmt->execute();
-            if($a > 0){
+            $pstmt->execute();
+            if($pstmt->rowCount() > 0){
                 $row = $pstmt->fetch(PDO::FETCH_NUM);
                 if($pstmt->columnCount() > 8){
                     $this->complaint_id = $row[0];

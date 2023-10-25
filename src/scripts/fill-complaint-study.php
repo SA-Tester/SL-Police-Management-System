@@ -22,40 +22,44 @@ if(isset($_REQUEST["comp_id"]) && !empty($_REQUEST["comp_id"])){
 
     $complaint->setCon($con);
     $complaint->setComplaintID($complaint_id);
-    $complaint->initComplaint();
 
-    $date = $complaint->getDate();
+    if($complaint->initComplaint()){
+        $date = $complaint->getDate();
 
-    $plantiff_nic = $complaint->getPersonNIC("Plantiff");
-    if(!empty($plantiff_nic)){
-        $person->setCon($con);
-        $person->setNIC($plantiff_nic);
-
-        if($person->initPerson()){
-            $plantiff_name = $person->getName();
+        $plantiff_nic = $complaint->getPersonNIC("Plantiff");
+        if(!empty($plantiff_nic)){
+            $person->setCon($con);
+            $person->setNIC($plantiff_nic);
+    
+            if($person->initPerson()){
+                $plantiff_name = $person->getName();
+            }
         }
+        else{
+            $plantiff_nic = "NA";
+            $plantiff_name = "NA";
+        }
+    
+        $category = $complaint->getCategory();
+        $title = $complaint->getTitle();
+        $description = $complaint->getDescription();
+        
+        $employee_id = $complaint->getEmpID();
+        $employee->setEmpID($employee_id);
+        if($employee->initEmployee()){
+            $employee_name = $employee->getName();
+        }
+    
+    
+        $array = array($complaint_id, $date, $category, $plantiff_nic, $plantiff_name, $title, $description, $employee_id, $employee_name);
+        $response = $array;
+        $json = json_encode($response);
+        echo $json;
     }
     else{
-        $plantiff_nic = "NA";
-        $plantiff_name = "NA";
+        header("Location: ../complaint-study.php?error=2"); //Complaint not found
     }
-
-    $category = $complaint->getCategory();
-    $title = $complaint->getTitle();
-    $description = $complaint->getDescription();
-    
-    $employee_id = $complaint->getEmpID();
-    $employee->setEmpID($employee_id);
-    if($employee->initEmployee()){
-        $employee_name = $employee->getName();
-    }
-
-
-    $array = array($complaint_id, $date, $category, $plantiff_nic, $plantiff_name, $title, $description, $employee_id, $employee_name);
-    $response = $array;
-    $json = json_encode($response);
-    echo $json;
 }
 else{
-    return false;
+    header("Location: ../complaint-study.php?error=1"); //Empty complaint
 }
