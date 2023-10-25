@@ -5,10 +5,10 @@ namespace classes;
 use PDO;
 use PDOException;
 
-require "/Applications/XAMPP/xamppfiles/htdocs/sl-police/src/classes/includes/PHPMailer.php";#  ./includes/PHPMailer.php
-require "/Applications/XAMPP/xamppfiles/htdocs/sl-police/src/classes/includes/SMTP.php";#./includes/SMTP.php
-require "/Applications/XAMPP/xamppfiles/htdocs/sl-police/src/classes/includes/Exception.php"; #./includes/Exception.php
-require_once "/Applications/XAMPP/xamppfiles/htdocs/sl-police/src/classes/class-db-connector.php"; #./class-db-connector.php
+require_once("includes/PHPMailer.php");#  ./includes/PHPMailer.php
+require_once("includes/SMTP.php");#./includes/SMTP.php
+require_once("includes/Exception.php"); #./includes/Exception.php
+require_once("class-db-connector.php"); #./class-db-connector.php
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;

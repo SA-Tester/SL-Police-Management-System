@@ -1,3 +1,7 @@
+<?php
+    require_once("./scripts/fill-complaint-study.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -111,20 +115,63 @@
                 <legend>Manage Evidences</legend>
 
                 <fieldset class="form-group border p-4">
-                    <legend class="small font-weight-bold">Add Suspects/ Culprits</legend>
-                    <div class="row w-100">
-                        <div class="col">
-                            <button class="btn btn-success h-100">Add Suspects/ Culprits</button>
+                    <legend class="small font-weight-bold">Manage Suspects/ Culprits</legend>
+                    <div class="row">
+                        <div class="col d-flex justify-content-center">
+                            <button class="btn btn-success h-100 w-50" onclick="showHide('suspectCulpritCol')">Manage Suspects/ Culprits</button>
                         </div>
-                        <div class="col">
-                            <button class="btn btn-info">Update Suspects/ Culprits</button>
+                    </div>
+                    <div class="row">
+                        <div class="col" name="suspectCulpritCol" id="suspectCulpritCol" style="display: none;">
+                            <table class="table mt-4 w-100" name="suspectCulpritTable" id="suspectCulpritTable">
+                                <thead>
+                                    <th>Role in Case</th>
+                                    <th>NIC</th>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Contact</th>
+                                    <th>Email</th>
+                                    <th>Manage</th>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                        
+                                    ?>
+                                    <tr>
+                                        <td>
+                                            <select class="form-control" id="role" name="role">
+                                                <option value="Suspect">Suspect</option>
+                                                <option value="Culprit">Culprit</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="text" name="new_nic" id="new_nic" class="form-control"/>
+                                        </td>
+                                        <td>
+                                            <input type="text" name="new_name" id="new_name" class="form-control"/>
+                                        </td>
+                                        <td>
+                                            <input type="text" name="new_address" id="new_address" class="form-control"/>
+                                        </td>
+                                        <td>
+                                            <input type="text" name="new_contact" id="new_contact" class="form-control"/>
+                                        </td>
+                                        <td>
+                                            <input type="text" name="new_email" id="new_email" class="form-control"/>
+                                        </td>
+                                        <td colspan="2">
+                                            <button class="btn btn-success">Add</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </fieldset>
 
                 <fieldset class="form-group border p-4">
                     <legend class="small font-weight-bold">Eyewitness Descriptions</legend>
-                    <div class="row w-100">
+                    <div class="row">
                         <div class="col">
                             <button class="btn btn-success h-100">Add Eye Witnesses</button>
                         </div>
@@ -184,6 +231,18 @@
             </fieldset>
         </div>
     </div>
+
+    <script type = "text/javascript">
+        function showHide(element_name){
+            let element = document.getElementById(String(element_name));
+            if(element.style.display == "none"){
+                element.style.display = "block";
+            }
+            else{
+                element.style.display = "none";
+            }
+        }
+    </script>
 
     <script type="text/javascript">
         document.getElementById("caseID").addEventListener("keydown", function(e) {
