@@ -28,7 +28,7 @@
         <div class="row d-flex justify-content-center mt-5">
             <label for="caseID" class="mr-3 mt-5">Enter Case ID: </label>
             <input type="text" id="caseID" name="caseID" class="w-50 mt-5" placeholder="Enter Case ID"/>
-            <button class="mt-5"><i class="fas fa-search"></i></button>
+            <button class="mt-5" onclick="fillComplaintData(document.getElementById('caseID').value)"><i class="fas fa-search"></i></button>
         </div>
 
         <div class="row d-flex mt-4">
@@ -173,25 +173,36 @@
     </div>
 
     <script type="text/javascript">
-        let comp_id = document.getElementById("comp_id");
-        let comp_date = document.getElementById("comp_date");
-        let plantiff_nic = document.getElementById("plantiff_nic");
-        let plantiff_name = document.getElementById("plantiff_name");
-        let comp_category = document.getElementById("comp_category");
-        let comp_title = document.getElementById("comp_title");
-        let comp_desc = document.getElementById("comp_desc");
-        let emp_id = document.getElementById("emp_id");
-        let emp_name = document.getElementById("emp_name");
+        function fillComplaintData(case_id){
+            let comp_id = document.getElementById("comp_id");
+            let comp_date = document.getElementById("comp_date");
+            let plantiff_nic = document.getElementById("plantiff_nic");
+            let plantiff_name = document.getElementById("plantiff_name");
+            let comp_category = document.getElementById("comp_category");
+            let comp_title = document.getElementById("comp_title");
+            let comp_desc = document.getElementById("comp_desc");
+            let emp_id = document.getElementById("emp_id");
+            let emp_name = document.getElementById("emp_name");
 
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function (){
-            if(this.readyState == 4 && this.status == 200){
-                var obj = JSON.parse(this.responseText);
-                
-            }
-        };
-        xmlhttp.open("GET", "./scripts/complaint-study.php?comp_id=" + str, true);
-        xmlhttp.send();
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function (){
+                if(this.readyState == 4 && this.status == 200){
+                    var obj = JSON.parse(this.responseText);
+
+                    comp_id.value = obj[0];
+                    comp_date.value = obj[1];
+                    plantiff_nic.value = obj[2];
+                    plantiff_name.value = obj[3];
+                    comp_category.value = obj[4];
+                    comp_title.value = obj[5];
+                    comp_desc.value = obj[6];
+                    emp_id.value = obj[7];
+                    emp_name.value = obj[8];
+                }
+            };
+            xmlhttp.open("GET", "./scripts/fill-complaint-study.php?comp_id=" + String(case_id), true);
+            xmlhttp.send();
+        }
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

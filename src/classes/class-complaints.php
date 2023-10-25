@@ -71,7 +71,7 @@ class Complaints{
     }
 
     function getEmpID(){
-        return $this->description;
+        return $this->emp_id;
     }
 
     function convertCategory($value){
@@ -337,17 +337,51 @@ class Complaints{
             $a = $pstmt->execute();
             if($a > 0){
                 $row = $pstmt->fetch(PDO::FETCH_NUM);
-                $this->complaint_id = $row[0];
-                $this->category = $row[1];
-                $this->title = $row[2];
-                $this->recording = $row[3];
-                $this->description = $row[4];
-                $this->complaint_status = $row[5];
-                $this->emp_id = $row[6];
+                if($pstmt->columnCount() > 8){
+                    $this->complaint_id = $row[0];
+                    $this->date = $row[1];
+                    $this->category = $row[2];
+                    $this->title = $row[3];
+                    $this->recording = $row[4];
+                    $this->description = $row[5];
+                    $this->complaint_status = $row[6];
+                    $this->emp_id = $row[7];
+                }
+                else{
+                    $this->complaint_id = $row[0];
+                    $this->date = $row[1];
+                    $this->category = $row[2];
+                    $this->title = $row[3];
+                    $this->recording = "";
+                    $this->description = $row[4];
+                    $this->complaint_status = $row[5];
+                    $this->emp_id = $row[6];
+                }
+                
                 return true;
             }
             else{
                 return false;
+            }
+        }
+        catch(PDOException $e){
+            die("An Error Occured: ".$e->getMessage());
+        }
+    }
+
+    function getPersonNIC($role_in_case){
+        $query1 = "SELECT nic FROM role_in_case WHERE complaint_id=? AND role_in_case=?";
+        try{
+            $pstmt = $this->con->prepare($query1);
+            $pstmt->bindValue(1, $this->complaint_id);
+            $pstmt->bindValue(2, $role_in_case);
+            $pstmt->execute();
+            if($pstmt->rowCount() > 0){
+                $row = $pstmt->fetch(PDO::FETCH_NUM);
+                return $row[0];
+            }
+            else{
+                return null;
             }
         }
         catch(PDOException $e){

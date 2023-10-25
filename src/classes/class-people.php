@@ -2,6 +2,7 @@
 
 namespace classes;
 use PDOException;
+use PDO;
 
 class People {
     private $nic;
@@ -32,6 +33,33 @@ class People {
     // SETTERS
     public function setCon($con){
         $this->con = $con;
+    }
+
+    public function setNIC($nic){
+        $this->nic = $nic;
+    }
+
+    public function initPerson(){
+        try{
+            $query1 = "SELECT * FROM people WHERE nic=?";
+            $pstmt1 = $this->con->prepare($query1);
+            $pstmt1->bindValue(1, $this->nic);
+            $a = $pstmt1->execute();
+            if($a > 0){
+                $row = $pstmt1->fetch(PDO::FETCH_NUM);
+                $this->name = $row[1];
+                $this->address = $row[2];
+                $this->contact = $row[3];
+                $this->email = $row[4];
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        catch(PDOException $e){
+            die("An Error Occured: ".$e->getMessage());
+        }
     }
 
     public function addPerson(){

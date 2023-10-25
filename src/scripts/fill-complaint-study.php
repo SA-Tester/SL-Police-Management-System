@@ -1,6 +1,6 @@
 <?php
 
-require_once("../classes/db-connector.php");
+require_once("../classes/class-db-connector.php");
 require_once("../classes/class-complaints.php");
 require_once("../classes/class-people.php");
 require_once("../classes/class-employee.php");
@@ -10,7 +10,7 @@ use classes\Complaints;
 use classes\People;
 use classes\Employee;
 
-if(isset($_REQUEST["comp_id"])){
+if(isset($_REQUEST["comp_id"]) && !empty($_REQUEST["comp_id"])){
     $dbcon = new DBConnector();
     $con = $dbcon->getConnection();
 
@@ -25,24 +25,37 @@ if(isset($_REQUEST["comp_id"])){
     $complaint->initComplaint();
 
     $date = $complaint->getDate();
-    $plantiff_nic = "";
-    $plantiff_name = "";
+
+    $plantiff_nic = $complaint->getPersonNIC("Plantiff");
+    if(!empty($plantiff_nic)){
+        $person->setCon($con);
+        $person->setNIC($plantiff_nic);
+
+        if($person->initPerson()){
+            $plantiff_name = $person->getName();
+        }
+    }
+    else{
+        $plantiff_nic = "NA";
+        $plantiff_name = "NA";
+    }
+
     $category = $complaint->getCategory();
     $title = $complaint->getTitle();
     $description = $complaint->getDescription();
     
     $employee_id = $complaint->getEmpID();
-    $employee_name = "";
+    $employee->setEmpID($employee_id);
+    if($employee->initEmployee()){
+        $employee_name = $employee->getName();
+    }
 
-    /*
-    let comp_id = document.getElementById("comp_id");
-        let comp_date = document.getElementById("comp_date");
-        let plantiff_nic = document.getElementById("plantiff_nic");
-        let plantiff_name = document.getElementById("plantiff_name");
-        let comp_category = document.getElementById("comp_category");
-        let comp_title = document.getElementById("comp_title");
-        let comp_desc = document.getElementById("comp_desc");
-        let emp_id = document.getElementById("emp_id");
-        let emp_name = document.getElementById("emp_name");
-    */
+
+    $array = array($complaint_id, $date, $category, $plantiff_nic, $plantiff_name, $title, $description, $employee_id, $employee_name);
+    $response = $array;
+    $json = json_encode($response);
+    echo $json;
+}
+else{
+    return false;
 }

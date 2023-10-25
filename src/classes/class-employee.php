@@ -5,16 +5,14 @@ namespace classes;
 use PDO;
 use PDOException;
 
-require "./classes/includes/PHPMailer.php";
-require "./classes/includes/SMTP.php";
-require "./classes/includes/Exception.php";
+require "/Applications/XAMPP/xamppfiles/htdocs/sl-police/src/classes/includes/PHPMailer.php";#  ./includes/PHPMailer.php
+require "/Applications/XAMPP/xamppfiles/htdocs/sl-police/src/classes/includes/SMTP.php";#./includes/SMTP.php
+require "/Applications/XAMPP/xamppfiles/htdocs/sl-police/src/classes/includes/Exception.php"; #./includes/Exception.php
+require_once "/Applications/XAMPP/xamppfiles/htdocs/sl-police/src/classes/class-db-connector.php"; #./class-db-connector.php
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-
-require_once "./classes/class-db-connector.php";
-
 use classes\DBConnector;
 
 class Employee
@@ -63,8 +61,46 @@ class Employee
         $this->empID = $emp_id;
     }
 
-    public function initEmployee(){
+    // GETTERS
+    public function getName(){
+        return $this->first_name. " ". $this->last_name;
+    }
 
+    public function initEmployee(){
+        $dbcon = new DBConnector();
+        $con = $dbcon->getConnection();
+
+        try{
+            $query1 = "SELECT * FROM employee WHERE empID=?";
+            $pstmt1 = $con->prepare($query1);
+            $pstmt1->bindValue(1, $this->empID);
+            $a = $pstmt1->execute();
+            if($a > 0){
+                $row = $pstmt1->fetch(PDO::FETCH_NUM);
+
+                $this->empID = $row[0];
+                $this->first_name = $row[1];
+                $this->last_name = $row[2];
+                $this->dob = $row[3];
+                $this->gender = $row[4];
+                $this->tel_no = $row[5];
+                $this->email = $row[6];
+                $this->address = $row[7];
+                $this->marital_status = $row[8];
+                $this->rank = $row[9];
+                $this->appointment_date = $row[10];
+                $this->retired_status = $row[11];
+                $this->username = $row[12];
+
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        catch(PDOException $e){
+            die("An Error Occured: ". $e->getMessage());
+        }
     }
 
     public function register()
