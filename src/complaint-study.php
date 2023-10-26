@@ -118,7 +118,7 @@
                     <legend class="small font-weight-bold">Manage Suspects/ Culprits</legend>
                     <div class="row">
                         <div class="col d-flex justify-content-center">
-                            <button class="btn btn-success h-100 w-50" onclick="showHide('suspectCulpritCol')">Manage Suspects/ Culprits</button>
+                            <button class="btn btn-info h-100 w-50" onclick="showHide('suspectCulpritCol')">Manage Suspects/ Culprits</button>
                         </div>
                     </div>
                     <div class="row">
@@ -131,37 +131,37 @@
                                     <th>Address</th>
                                     <th>Contact</th>
                                     <th>Email</th>
-                                    <th>Manage</th>
+                                    <th>Update</th>
+                                    <th>Delete</th>
                                 </thead>
-                                <tbody>
-                                    <?php
-                                        
-                                    ?>
+                                <tbody>                                
                                     <tr>
-                                        <td>
-                                            <select class="form-control" id="role" name="role">
-                                                <option value="Suspect">Suspect</option>
-                                                <option value="Culprit">Culprit</option>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input type="text" name="new_nic" id="new_nic" class="form-control"/>
-                                        </td>
-                                        <td>
-                                            <input type="text" name="new_name" id="new_name" class="form-control"/>
-                                        </td>
-                                        <td>
-                                            <input type="text" name="new_address" id="new_address" class="form-control"/>
-                                        </td>
-                                        <td>
-                                            <input type="text" name="new_contact" id="new_contact" class="form-control"/>
-                                        </td>
-                                        <td>
-                                            <input type="text" name="new_email" id="new_email" class="form-control"/>
-                                        </td>
-                                        <td colspan="2">
-                                            <button class="btn btn-success">Add</button>
-                                        </td>
+                                        <form method="POST" action="scripts/fill-complaint-study.php" name="newSuspectCulprit">
+                                            <td>
+                                                <select class="form-control" id="role" name="role">
+                                                    <option value="Suspect">Suspect</option>
+                                                    <option value="Culprit">Culprit</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="new_nic" id="new_nic" class="form-control"/>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="new_name" id="new_name" class="form-control"/>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="new_address" id="new_address" class="form-control"/>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="new_contact" id="new_contact" class="form-control"/>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="new_email" id="new_email" class="form-control"/>
+                                            </td>
+                                            <td colspan="2">
+                                                <button type="submit" name="addNew" class="btn btn-success">Add</button>
+                                            </td>
+                                        </form>
                                     </tr>
                                 </tbody>
                             </table>
@@ -249,6 +249,8 @@
             if (e.keyCode == 13) { fillComplaintData(this.value); }
         }, false);
 
+        let suspectCulpritTable = document.getElementById("suspectCulpritTable");
+
         function fillComplaintData(case_id){
             let comp_id = document.getElementById("comp_id");
             let comp_date = document.getElementById("comp_date");
@@ -264,16 +266,121 @@
             xmlhttp.onreadystatechange = function (){
                 if(this.readyState == 4 && this.status == 200){
                     var obj = JSON.parse(this.responseText);
+                    comp_id.value = obj[0][0];
+                    comp_date.value = obj[0][1];
+                    plantiff_nic.value = obj[0][2];
+                    plantiff_name.value = obj[0][3];
+                    comp_category.value = obj[0][4];
+                    comp_title.value = obj[0][5];
+                    comp_desc.value = obj[0][6];
+                    emp_id.value = obj[0][7];
+                    emp_name.value = obj[0][8];
 
-                    comp_id.value = obj[0];
-                    comp_date.value = obj[1];
-                    plantiff_nic.value = obj[2];
-                    plantiff_name.value = obj[3];
-                    comp_category.value = obj[4];
-                    comp_title.value = obj[5];
-                    comp_desc.value = obj[6];
-                    emp_id.value = obj[7];
-                    emp_name.value = obj[8];
+                    let suspectCulpritArray = obj[1][0];
+                    for (let i=0; i<suspectCulpritArray.length; i++){
+
+                        let form = document.createElement("form");
+                        form.setAttribute("method", "POST");
+                        form.setAttribute("action", "scripts/fill-complaint-study.php");
+                        
+                        let row = document.createElement("tr");
+
+                        let cell1 = document.createElement("td");
+                        let cell2 = document.createElement("td");
+                        let cell3 = document.createElement("td");
+                        let cell4 = document.createElement("td");
+                        let cell5 = document.createElement("td");
+                        let cell6 = document.createElement("td");
+                        let cell7 = document.createElement("td");
+                        let cell8 = document.createElement("td");
+
+                        let cell9 = document.createElement("td");
+                        cell9.setAttribute("colspan", "8");
+                        
+                        let select = document.createElement("SELECT"); // Suspect/ Culprit
+                        select.setAttribute("id", "suspectCulprit");
+                        select.setAttribute("name", "suspectCulprit");
+
+                        let option1 = document.createElement("option");
+                        option1.setAttribute("value", "Suspect");
+                        let option1Text = document.createTextNode("Suspect");
+                        option1.appendChild(option1Text);
+
+                        let option2 = document.createElement("option");
+                        option2.setAttribute("value", "Culprit");
+                        let option2Text = document.createTextNode("Culprit");
+                        option2.appendChild(option2Text);
+
+                        select.classList.add("form-control");
+                        select.appendChild(option1);
+                        select.appendChild(option2);
+
+                        let text1 = document.createElement("INPUT"); //NIC
+                        text1.setAttribute("name", "suspectCulpritNIC");
+                        text1.setAttribute("type", "text");
+                        text1.setAttribute("value", suspectCulpritArray[i]["nic"]);
+                        text1.classList.add("form-control");
+                        
+                        let text2 = document.createElement("INPUT"); // Name
+                        text2.setAttribute("name", "suspectCulpritName");
+                        text2.setAttribute("type", "text");
+                        text2.setAttribute("value", suspectCulpritArray[i]["name"]);
+                        text2.classList.add("form-control");
+                        
+                        let text3 = document.createElement("INPUT"); //Address
+                        text3.setAttribute("name", "suspectCulpritAddress");
+                        text3.setAttribute("type", "text");
+                        text3.setAttribute("value", suspectCulpritArray[i]["address"]);
+                        text3.classList.add("form-control");
+                        
+                        let text4 = document.createElement("INPUT"); //Contact
+                        text4.setAttribute("name", "suspectCulpritContact");
+                        text4.setAttribute("type", "text");
+                        text4.setAttribute("value", suspectCulpritArray[i]["contact"]);
+                        text4.classList.add("form-control");
+                        
+                        let text5 = document.createElement("INPUT"); //Email 
+                        text5.setAttribute("name", "suspectCulpritEmail");
+                        text5.setAttribute("type", "text");
+                        text5.setAttribute("value", suspectCulpritArray[i]["email"]);
+                        text5.classList.add("form-control");
+                        
+                        let updateBtn = document.createElement("INPUT");
+                        updateBtn.setAttribute("type", "submit");
+                        updateBtn.setAttribute("name", "update");
+                        updateBtn.setAttribute("value", "Update");
+                        updateBtn.classList.add("btn");
+                        updateBtn.classList.add("btn-info");
+
+                        let deleteBtn = document.createElement("INPUT");
+                        deleteBtn.setAttribute("type", "submit");
+                        deleteBtn.setAttribute("name", "delete");
+                        deleteBtn.setAttribute("value", "Delete");
+                        deleteBtn.classList.add("btn");
+                        deleteBtn.classList.add("btn-danger");
+
+                        cell1.appendChild(select);
+                        cell2.appendChild(text1); 
+                        cell3.appendChild(text2);
+                        cell4.appendChild(text3);
+                        cell5.appendChild(text4);
+                        cell6.appendChild(text5);
+                        cell7.appendChild(updateBtn);
+                        cell8.appendChild(deleteBtn);
+                        
+                        form.appendChild(cell1);
+                        form.appendChild(cell2);
+                        form.appendChild(cell3);
+                        form.appendChild(cell4);
+                        form.appendChild(cell5);
+                        form.appendChild(cell6);
+                        form.appendChild(cell7);
+                        form.appendChild(cell8);
+
+                        cell9.appendChild(form)
+                        row.appendChild(cell9);
+                        suspectCulpritTable.getElementsByTagName("tbody")[0].appendChild(row);
+                    }
 
                     document.getElementById("alertMsg").style.display = "none";
                 }
@@ -287,6 +394,13 @@
                     comp_desc.value = "";
                     emp_id.value = "";
                     emp_name.value = "";
+
+                    let rows = suspectCulpritTable.rows.length;
+                    if(rows > 2){
+                        for (let i=0; i < rows-2; i++){
+                            suspectCulpritTable.deleteRow(2);
+                        }
+                    }
 
                     document.getElementById("alertMsg").style.display = "block";
                 }

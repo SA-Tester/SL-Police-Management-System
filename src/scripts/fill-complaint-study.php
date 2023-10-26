@@ -29,6 +29,18 @@ function fillSuspectsCulprits($complaint_id){
     }
 }
 
+if(isset($_POST["addNew"])){
+    echo $_POST["new_nic"];
+}
+
+if(isset($_POST["update"])){
+    echo $_POST["suspectCulpritNIC"];
+}
+
+if(isset($_POST["delete"])){
+    echo $_POST["suspectCulpritNIC"];
+}
+
 if(isset($_REQUEST["comp_id"]) && !empty($_REQUEST["comp_id"])){
     $dbcon = new DBConnector();
     $con = $dbcon->getConnection();
@@ -70,7 +82,8 @@ if(isset($_REQUEST["comp_id"]) && !empty($_REQUEST["comp_id"])){
         }
 
         $array1 = array($complaint_id, $date, $category, $plantiff_nic, $plantiff_name, $title, $description, $employee_id, $employee_name);
-        $response = $array1;
+        $array2 = array(fillSuspectsCulprits($complaint_id));
+        $response = array($array1, $array2);
         $json = json_encode($response);
         echo $json;
     }
