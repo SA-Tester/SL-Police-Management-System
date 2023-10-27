@@ -1,3 +1,7 @@
+<?php
+    require_once("./scripts/fill-complaint-study.php");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,481 +27,386 @@
     <!---------------------------------------------------->
 
     <div class="container-lg" style="height: 10pt;"></div>
+
     <div class="container-lg mt-5">
         <div class="row d-flex justify-content-center mt-5">
             <label for="caseID" class="mr-3 mt-5">Enter Case ID: </label>
-            <input type="text" id="caseID" name="caseID" class="w-50 mt-5" placeholder="Enter Case ID"/>
-            <button class="mt-5"><i class="fas fa-search"></i></button>
+            <input type="text" id="caseID" name="caseID" class="w-50 mt-5 form-group" placeholder="Enter Case ID"/>
+            <button class="mt-5 form-group" onclick="fillComplaintData(document.getElementById('caseID').value)"><i class="fas fa-search"></i></button>
         </div>
 
-        <div class="row mt-5">
-            <div class="col-md">
-                <div class="text-center d-flex align-content-middle w-100 h-100" style="background-color: darkblue; color: #fff">
-                    <p class="w-100 p-3">Road Rule Violations</p>
-                    <button class="btn-success w-50 h-100" onclick="showHide()">Manage Road Rule Violations</button>
-                </div>
-            </div>
+        <div class="alert alert-danger mt-3 mb-3" role="alert" id="alertMsg" style="display: none;">
+            Complaint Not Found
         </div>
 
-        <!----------------------------------------------- Modal 1: Road Rule Violations -------------------------------------------------------------------------------------->
-        <div class="row-mt-5">
-            <div class="roadRules mt-5" style="display: none;">
-                <div class="head">
-                    <h5 class="modal-title" id="exampleModalLabel">Manage Road Rule Violations</h5>
-                </div>
-                <div class="body">
-                    <form method="POST" action="roadRules.php">
-                        <label for="compID">Complaint ID</label>
-                        <input type="text" id="compID" name="compID" disabled>
-
-                        <table class="table">
-                            <thead>
-                                <th>NIC</th>
-                                <th>Vehicle Number</th>
-                                <th>Temp License (Start)</th>
-                                <th>Temp License (End)</th>
-                                <th>Fine Amount</th>
-                                <th>Fine Status</th>
-                                <th>License Issed Status</th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><input type="text" id="nic" name="nic" disabled/></td>
-                                    <td><input type="text" id="vehicle_number" name="vehicle_number" disabled/></td>
-                                    <td><input type="date" id="temp_start" name="temp_start" disabled/></td>
-                                    <td><input type="date" id="temp_end" name="temp_end" disabled/></td>
-                                    <td><input type="text" id="fine_amount" name="fine_amount" disabled/></td>
-                                    <td>
-                                        <select id="fine_status">
-                                            <option value="1">Paid</option>
-                                            <option value="2">Unpaid</option>
-                                        </select>
-                                    </td>
-                                    <td><input type="checkbox" id="license_issue_status" name="license_issue_status"/></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="7" class="text-center">
-                                        <input type="submit" name="road_rules" value="Update" class="btn-success"/>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!-------------------------------------------------------------------------------------------------------------------------------------------------------------------->
-
-        <div class="row mt-5">
-            <div class="col-md">
-                <div class="text-center d-flex align-content-middle w-100 h-100" style="background-color: darkblue; color: #fff">
-                    <p class="w-100 p-3">Eye Witness Count: #NUMBER</p>
-                    <button class="btn-success w-50 h-100" data-toggle="modal" data-target="#eyeWitnessModal">Manage Eye Witnesses</button>
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="text-center d-flex align-content-middle w-100 h-100" style="background-color: darkblue; color: #fff">
-                    <p class="w-100 p-3">Finger Print Data: #NUMBER</p>
-                    <button class="btn-success w-50 h-100" data-toggle="modal" data-target="#fingerprintsModal">Manage Fingerprints</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-5">
-            <div class="col-md">
-                <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                      <div class="carousel-item active">
-                        <img class="d-block w-100" src="../uploads/case-imagery/1-3.jpg" alt="First slide">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h3>CASE ID</h3>
-                            <p>Image 1</p>
-                          </div>
-                      </div>
-                      <div class="carousel-item">
-                        <img class="d-block w-100" src="../uploads/case-imagery/1-1.jpg" alt="Second slide">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h3>CASE ID</h3>
-                            <p>Image 2</p>
-                          </div>
-                      </div>
-                      <div class="carousel-item">
-                        <img class="d-block w-100" src="../uploads/case-imagery/1-2.jpg" alt="Third slide">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h3>Case ID</h3>
-                            <p>Image 3</p>
-                          </div>
-                      </div>
+        <div class="row d-flex mt-4">
+            <fieldset class="form-group border p-4 w-100">
+                <legend>Case Summary</legend>
+                <div class="row">
+                    <div class="col-4">
+                        <p>Complaint ID</p>
                     </div>
-                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                      <span class="sr-only">Next</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="row mt-5 text-center mb-5">
-            <div class="col-md">
-                <button class="btn-primary w-50 h-100" data-toggle="modal" data-target="#photoModal">Manage Photos</button>
-            </div>
-        </div>
-
-        <div class="row mt-5">
-            <div class="col-md">
-                <div class="text-center d-flex align-content-middle w-100 h-100" style="background-color: darkblue; color: #fff">
-                    <p class="w-100 p-3">Court Medical Reports: #NUMBER</p>
-                    <button class="btn-success w-50 h-100" data-toggle="modal" data-target="#mediacalReportsModal">Show Court Medical Reports</button>
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="text-center d-flex align-content-middle w-100 h-100" style="background-color: darkblue; color: #fff">
-                    <p class="w-100 p-3">Accident Charts: #NUMBER</p>
-                    <button class="btn-success w-50 h-100" data-toggle="modal" data-target="#accidentChartModal">Show Accident Charts</button>
-                </div>
-            </div>
-        </div>
-  
-        <!------------------------------------------------ Modal 2: Eye Witnesses -------------------------------------------------------------------------------------------->
-        <div class="modal fade bd-example-modal-lg" id="eyeWitnessModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Manage Eye Witnesses</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-                <div class="modal-body">
-                    <form method="POST" action="updateEyeWitness.php">
-                        <label for="compID">Complaint ID</label>
-                        <input type="text" id="compID" name="compID" disabled>
-
-                        <table class="table">
-                            <thead>
-                                <th>NIC</th>
-                                <th>Description</th>
-                                <th>Update</th>
-                                <th>Delete</th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><input type="text" id="nic" name="nic"/></td>
-                                    <td>
-                                        <textarea id="desc" name="desc" rows="5" cols="30"></textarea>
-                                    </td>
-                                    <td>
-                                        <button class="btn-primary">Update</button>
-                                    </td>
-                                    <td>
-                                        <button class="btn-danger">Delete</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </form>
-
-                    <form method="POST" action="newEyeWitness.php">
-                        <table class="table">
-                            <thead>
-                                <th>NIC</th>
-                                <th>Description</th>
-                                <th>Add New</th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><input type="text" id="nic" name="nic"/></td>
-                                    <td>
-                                        <textarea id="desc" name="desc" rows="5" cols="30"></textarea>
-                                    </td>
-                                    <td class="text-center">
-                                        <button class="btn-success" id="addNew" data-toggle="modal">Add New</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-            </div>
-        </div>
- 
-        <!------------------------------------------------------- START OF FINGERPRINTS ------------------------------------------------------------------------------------->
-        <div class="modal fade bd-example-modal-lg" id="fingerprintsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Manage Fingerprints</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <div class="col-8">
+                        <input type="text" name="comp_id" id="comp_id" class="form-group w-100"/>
                     </div>
-                    <div class="modal-body">
-                        <form method="POST" action="updateFingerprints.php">
-                            <label for="compID">Complaint ID</label>
-                            <input type="text" id="compID" name="compID" disabled>
+                </div>
 
-                            <table class="table">
+                <div class="row">
+                    <div class="col-4">
+                        <p>Date Recorded</p>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" name="comp_date" id="comp_date" class="form-group w-100"/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-4">
+                        <p>Plantiff (NIC - Name)</p>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" name="plantiff_nic" id="plantiff_nic" class="form-group mr-3"/>
+                        <input type="text" name="plantiff_name" id="plantiff_name" class="form-group w-50"/>
+                    </div>
+                </div>
+                         
+                <div class="row">
+                    <div class="col-4">
+                        <p>Complaint Type</p>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" name="comp_category" id="comp_category" class="form-group w-100"/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-4">
+                        <p>Complaint Title</p>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" name="comp_title" id="comp_title" class="form-group w-100"/>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-4">
+                        <p>Complaint in Words</p>
+                    </div>
+                    <div class="col-8">
+                        <textarea class="mb-3 w-100" rows="10" name="comp_desc" id="comp_desc">
+                        </textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-4">
+                        <p>Recorded By (EMP ID - Name)</p>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" name="emp_id" id="emp_id" class="form-group mr-3"/>
+                        <input type="text" name="emp_name" id="emp_name" class="form-group w-50"/>
+                    </div>
+                </div>               
+            </fieldset>
+        </div>
+
+        <div class="row d-flex mt-4">
+            <fieldset class="form-group w-100">
+                <legend>Manage Evidences</legend>
+
+                <fieldset class="form-group border p-4">
+                    <legend class="small font-weight-bold">Manage Suspects/ Culprits</legend>
+                    <div class="row">
+                        <div class="col d-flex justify-content-center">
+                            <button class="btn btn-info h-100 w-50" onclick="showHide('suspectCulpritCol')">Manage Suspects/ Culprits</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col" name="suspectCulpritCol" id="suspectCulpritCol" style="display: none;">
+                            <table class="table mt-4 w-100" name="suspectCulpritTable" id="suspectCulpritTable">
                                 <thead>
+                                    <th>Role in Case</th>
                                     <th>NIC</th>
-                                    <th>Fingerprint</th>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Contact</th>
+                                    <th>Email</th>
+                                    <th>Update</th>
                                     <th>Delete</th>
                                 </thead>
-                                <tbody>
+                                <tbody>                                
                                     <tr>
-                                        <td>198056723034</td>
-                                        <td>
-                                            <img src="" alt="Fingerprint 1">
-                                        </td>
-                                        <td>
-                                            <button class="btn-danger">Delete</button>
-                                        </td>
+                                        <form method="POST" action="scripts/fill-complaint-study.php" name="newSuspectCulprit">
+                                            <td>
+                                                <select class="form-control" id="role" name="role">
+                                                    <option value="Suspect">Suspect</option>
+                                                    <option value="Culprit">Culprit</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="new_nic" id="new_nic" class="form-control"/>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="new_name" id="new_name" class="form-control"/>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="new_address" id="new_address" class="form-control"/>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="new_contact" id="new_contact" class="form-control"/>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="new_email" id="new_email" class="form-control"/>
+                                            </td>
+                                            <td colspan="2">
+                                                <button type="submit" name="addNew" class="btn btn-success">Add</button>
+                                            </td>
+                                        </form>
                                     </tr>
                                 </tbody>
                             </table>
-                        </form>
+                        </div>
+                    </div>
+                </fieldset>
 
-                        <form method="POST" action="addFingerPrints.php">
-                            <table class="table">
-                                <thead>
-                                    <th>NIC</th>
-                                    <th>Fingerprint</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <label for="nic">Enter NIC </label>
-                                        </td>
-                                        <td>
-                                            <input type="text" id="nic" placeholder="Enter NIC">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label for="fingerprint">Fingerprint File</label>
-                                        </td>
-                                        <td>
-                                            <input type="file" id="fingerprint" type="image/png" enctype="multipart/form-data">
-                                        </td>
-                                    </tr>
-                                    <tr class="text-center">
-                                        <td colspan="3">
-                                            <button class="btn-success" data-toggle="modal">Add New</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </form>
+                <fieldset class="form-group border p-4">
+                    <legend class="small font-weight-bold">Eyewitness Descriptions</legend>
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-success h-100">Add Eye Witnesses</button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-info">Update Eye Witnesses</button>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </fieldset>
+
+                <fieldset class="form-group border p-4">
+                    <legend class="small font-weight-bold">Fingerprints</legend>
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-success h-100">Add Fingerprints</button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-info h-100">Update Fingerprints</button>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </fieldset>
+
+                <fieldset class="form-group border p-4">
+                    <legend class="small font-weight-bold">Photos</legend>
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-success">Add Photos</button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-info">Update Photos</button>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="form-group border p-4">
+                    <legend class="small font-weight-bold">Court Medical Reports</legend>
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-success">Add Court Medical Reports</button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-info">Update Court Medical Reports</button>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="form-group border p-4">
+                    <legend class="small font-weight-bold">Accident Charts</legend>
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-success h-100">Add Accident Charts</button>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-info h-100">Update Accident Charts</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </fieldset>
         </div>
-
-        <!------------------------------------------------------- START OF MEDICAL RECORDS ---------------------------------------------------------------------------------->
-        <div class="modal fade" id="mediacalReportsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Manage Court Medical Reports</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="POST" action="updateMedicalReports.php">
-                            <label for="compID">Complaint ID</label>
-                            <input type="text" id="compID" name="compID" disabled>
-
-                            <table class="table">
-                                <thead>
-                                    <th>Court Medical Reports</th>
-                                    <th>Delete</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><a href="1.pdf" alt="Court Medical Report 1">1.pdf</a></td>
-                                        <td><button class="btn-danger">Delete</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td><a href="2.pdf" alt="Court Medical Report 2">2.pdf</a></td>
-                                        <td><button class="btn-danger">Delete</button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </form>
-
-                        <form method="POST" action="addMedicalReport.php">
-                            <table class="table">
-                                <thead>
-                                    <th>Court Medical Reports</th>
-                                    <th>Add New</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            Medical Record<input type="file" enctype="multipart/form-data">
-                                        </td>
-                                        <td>
-                                            <button class="btn-success" data-toggle="modal">Add New</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!------------------------------------------------------- START OF ACCIDENT CHARTS ----------------------------------------------------------------------------------->
-        <div class="modal fade" id="accidentChartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Manage Accident Charts</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                    <div class="modal-body">
-                        <form method="POST" action="updateAccidentCharts.php">
-                            <label for="compID">Complaint ID</label>
-                            <input type="text" id="compID" name="compID" disabled>
-
-                            <table class="table">
-                                <thead>
-                                    <th>Accident Chart</th>
-                                    <th>Delete</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <img src="" alt="Accident 1">
-                                        </td>
-                                        <td><button class="btn-danger">Delete</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="" alt="Accident 2">
-                                        </td>
-                                        <td><button class="btn-danger">Delete</button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </form>
-
-                        <form method="POST" action="newAccidentChart.php">
-                            <table class="table">
-                                <thead>
-                                    <th>Accident Chart</th>
-                                    <th>New</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            Accident Chart <input type="file" enctype="multipart/form-data">
-                                        </td>
-                                        <td>
-                                            <button class="btn-success" data-toggle="modal">Add New</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!------------------------------------------------------------- START OF PHOTOS ------------------------------------------------------------------------------------->
-        <div class="modal fade" id="photoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Manage Photos</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <label for="compID">Complaint ID</label>
-                            <input type="text" id="compID" name="compID" disabled>
-
-                            <table class="table">
-                                <thead>
-                                    <th>Photo</th>
-                                    <th>Delete</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            <img src="" alt="Accident 1">
-                                        </td>
-                                        <td><button class="btn-danger">Delete</button></td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <img src="" alt="Accident 2">
-                                        </td>
-                                        <td><button class="btn-danger">Delete</button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <table>
-                                <thead>
-                                    <th>Photo</th>
-                                    <th>Add New</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>
-                                            New Photo <input type="file" enctype="multipart/form-data">
-                                        </td>
-                                        <td>
-                                            <button class="btn-success" data-toggle="modal">Add New</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!------------------------------------------------------------------ END OF PHOTOS  ---------------------------------------------------------------------------->
-
     </div>
 
-    <script>
-        function showHide(){
-            let roadRulesDiv = document.querySelector(".roadRules");
-            if(roadRulesDiv.style.display == "none"){
-                roadRulesDiv.style.display = "block";
+    <script type = "text/javascript">
+        function showHide(element_name){
+            let element = document.getElementById(String(element_name));
+            if(element.style.display == "none"){
+                element.style.display = "block";
             }
             else{
-                roadRulesDiv.style.display = "none";
+                element.style.display = "none";
             }
+        }
+    </script>
+
+    <script type="text/javascript">
+        document.getElementById("caseID").addEventListener("keydown", function(e) {
+            if (e.keyCode == 13) { fillComplaintData(this.value); }
+        }, false);
+
+        let suspectCulpritTable = document.getElementById("suspectCulpritTable");
+
+        function fillComplaintData(case_id){
+            let comp_id = document.getElementById("comp_id");
+            let comp_date = document.getElementById("comp_date");
+            let plantiff_nic = document.getElementById("plantiff_nic");
+            let plantiff_name = document.getElementById("plantiff_name");
+            let comp_category = document.getElementById("comp_category");
+            let comp_title = document.getElementById("comp_title");
+            let comp_desc = document.getElementById("comp_desc");
+            let emp_id = document.getElementById("emp_id");
+            let emp_name = document.getElementById("emp_name");
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function (){
+                if(this.readyState == 4 && this.status == 200){
+                    var obj = JSON.parse(this.responseText);
+                    comp_id.value = obj[0][0];
+                    comp_date.value = obj[0][1];
+                    plantiff_nic.value = obj[0][2];
+                    plantiff_name.value = obj[0][3];
+                    comp_category.value = obj[0][4];
+                    comp_title.value = obj[0][5];
+                    comp_desc.value = obj[0][6];
+                    emp_id.value = obj[0][7];
+                    emp_name.value = obj[0][8];
+
+                    let suspectCulpritArray = obj[1][0];
+                    for (let i=0; i<suspectCulpritArray.length; i++){
+
+                        let form = document.createElement("form");
+                        form.setAttribute("method", "POST");
+                        form.setAttribute("action", "scripts/fill-complaint-study.php");
+                        
+                        let row = document.createElement("tr");
+
+                        let cell1 = document.createElement("td");
+                        let cell2 = document.createElement("td");
+                        let cell3 = document.createElement("td");
+                        let cell4 = document.createElement("td");
+                        let cell5 = document.createElement("td");
+                        let cell6 = document.createElement("td");
+                        let cell7 = document.createElement("td");
+                        let cell8 = document.createElement("td");
+
+                        let cell9 = document.createElement("td");
+                        cell9.setAttribute("colspan", "8");
+                        
+                        let select = document.createElement("SELECT"); // Suspect/ Culprit
+                        select.setAttribute("id", "suspectCulprit");
+                        select.setAttribute("name", "suspectCulprit");
+
+                        let option1 = document.createElement("option");
+                        option1.setAttribute("value", "Suspect");
+                        let option1Text = document.createTextNode("Suspect");
+                        option1.appendChild(option1Text);
+
+                        let option2 = document.createElement("option");
+                        option2.setAttribute("value", "Culprit");
+                        let option2Text = document.createTextNode("Culprit");
+                        option2.appendChild(option2Text);
+
+                        select.classList.add("form-control");
+                        select.appendChild(option1);
+                        select.appendChild(option2);
+
+                        let text1 = document.createElement("INPUT"); //NIC
+                        text1.setAttribute("name", "suspectCulpritNIC");
+                        text1.setAttribute("type", "text");
+                        text1.setAttribute("value", suspectCulpritArray[i]["nic"]);
+                        text1.classList.add("form-control");
+                        
+                        let text2 = document.createElement("INPUT"); // Name
+                        text2.setAttribute("name", "suspectCulpritName");
+                        text2.setAttribute("type", "text");
+                        text2.setAttribute("value", suspectCulpritArray[i]["name"]);
+                        text2.classList.add("form-control");
+                        
+                        let text3 = document.createElement("INPUT"); //Address
+                        text3.setAttribute("name", "suspectCulpritAddress");
+                        text3.setAttribute("type", "text");
+                        text3.setAttribute("value", suspectCulpritArray[i]["address"]);
+                        text3.classList.add("form-control");
+                        
+                        let text4 = document.createElement("INPUT"); //Contact
+                        text4.setAttribute("name", "suspectCulpritContact");
+                        text4.setAttribute("type", "text");
+                        text4.setAttribute("value", suspectCulpritArray[i]["contact"]);
+                        text4.classList.add("form-control");
+                        
+                        let text5 = document.createElement("INPUT"); //Email 
+                        text5.setAttribute("name", "suspectCulpritEmail");
+                        text5.setAttribute("type", "text");
+                        text5.setAttribute("value", suspectCulpritArray[i]["email"]);
+                        text5.classList.add("form-control");
+                        
+                        let updateBtn = document.createElement("INPUT");
+                        updateBtn.setAttribute("type", "submit");
+                        updateBtn.setAttribute("name", "update");
+                        updateBtn.setAttribute("value", "Update");
+                        updateBtn.classList.add("btn");
+                        updateBtn.classList.add("btn-info");
+
+                        let deleteBtn = document.createElement("INPUT");
+                        deleteBtn.setAttribute("type", "submit");
+                        deleteBtn.setAttribute("name", "delete");
+                        deleteBtn.setAttribute("value", "Delete");
+                        deleteBtn.classList.add("btn");
+                        deleteBtn.classList.add("btn-danger");
+
+                        cell1.appendChild(select);
+                        cell2.appendChild(text1); 
+                        cell3.appendChild(text2);
+                        cell4.appendChild(text3);
+                        cell5.appendChild(text4);
+                        cell6.appendChild(text5);
+                        cell7.appendChild(updateBtn);
+                        cell8.appendChild(deleteBtn);
+                        
+                        form.appendChild(cell1);
+                        form.appendChild(cell2);
+                        form.appendChild(cell3);
+                        form.appendChild(cell4);
+                        form.appendChild(cell5);
+                        form.appendChild(cell6);
+                        form.appendChild(cell7);
+                        form.appendChild(cell8);
+
+                        cell9.appendChild(form)
+                        row.appendChild(cell9);
+                        suspectCulpritTable.getElementsByTagName("tbody")[0].appendChild(row);
+                    }
+
+                    document.getElementById("alertMsg").style.display = "none";
+                }
+                else{
+                    comp_id.value = "";
+                    comp_date.value = "";
+                    plantiff_nic.value = "";
+                    plantiff_name.value = "";
+                    comp_category.value = "";
+                    comp_title.value = "";
+                    comp_desc.value = "";
+                    emp_id.value = "";
+                    emp_name.value = "";
+
+                    let rows = suspectCulpritTable.rows.length;
+                    if(rows > 2){
+                        for (let i=0; i < rows-2; i++){
+                            suspectCulpritTable.deleteRow(2);
+                        }
+                    }
+
+                    document.getElementById("alertMsg").style.display = "block";
+                }
+            };
+            xmlhttp.open("GET", "./scripts/fill-complaint-study.php?comp_id=" + String(case_id), true);
+            xmlhttp.send();
         }
     </script>
 

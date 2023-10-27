@@ -5,8 +5,14 @@ namespace classes;
 use PDO;
 use PDOException;
 
-require_once "./classes/class-db-connector.php";
+require_once("includes/PHPMailer.php");#  ./includes/PHPMailer.php
+require_once("includes/SMTP.php");#./includes/SMTP.php
+require_once("includes/Exception.php"); #./includes/Exception.php
+require_once("class-db-connector.php"); #./class-db-connector.php
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 use classes\DBConnector;
 
 class Employee
@@ -26,6 +32,7 @@ class Employee
     private $appointment_date;
     private $retired_status;
     private $username;
+    private $password;
 
     public function __construct($empID, $nic, $first_name, $last_name, $dob, $gender, $tel_no, $email, $address, $marital_status, $rank, $appointment_date, $retired_status, $username)
     {
@@ -41,30 +48,74 @@ class Employee
         $this->marital_status = $marital_status;
         $this->rank = $rank;
         $this->appointment_date = $appointment_date;
-        if($retired_status == "Yes"){
+        if ($retired_status == "Yes") {
             $this->retired_status = "1";
-        }
-        else{
+        } else {
             $this->retired_status = "0";
         }
         $this->username = $username;
     }
+
+    // SETTERS
+    public function setEmpID($emp_id){
+        $this->empID = $emp_id;
+    }
+
+    // GETTERS
+    public function getName(){
+        return $this->first_name. " ". $this->last_name;
+    }
+
+    public function initEmployee(){
+        $dbcon = new DBConnector();
+        $con = $dbcon->getConnection();
+
+        try{
+            $query1 = "SELECT * FROM employee WHERE empID=?";
+            $pstmt1 = $con->prepare($query1);
+            $pstmt1->bindValue(1, $this->empID);
+            $a = $pstmt1->execute();
+            if($a > 0){
+                $row = $pstmt1->fetch(PDO::FETCH_NUM);
+
+                $this->empID = $row[0];
+                $this->first_name = $row[1];
+                $this->last_name = $row[2];
+                $this->dob = $row[3];
+                $this->gender = $row[4];
+                $this->tel_no = $row[5];
+                $this->email = $row[6];
+                $this->address = $row[7];
+                $this->marital_status = $row[8];
+                $this->rank = $row[9];
+                $this->appointment_date = $row[10];
+                $this->retired_status = $row[11];
+                $this->username = $row[12];
+
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        catch(PDOException $e){
+            die("An Error Occured: ". $e->getMessage());
+        }
+    }
+
     public function register()
     {      
-
        $length = 12;
        $randomPassword=0;
 
-            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()-_+=<>?';
-            $charCount = strlen($characters);
-            $password = '';
-            for ($i = 0; $i < $length; $i++) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()-_+=<>?';
+        $charCount = strlen($characters);
+        for ($i = 0; $i < $length; $i++) {
 
-                $index = random_int(0, $charCount - 1);
-                $password .= $characters[$index];
-            }
-        
-        $randomPassword = password_hash($password, PASSWORD_BCRYPT);   
+            $index = random_int(0, $charCount - 1);
+            $this->password .= $characters[$index];
+        }
+        $randomPassword = password_hash($this->password, PASSWORD_BCRYPT);
 
         $dbcon = new DBConnector();
         $con = $dbcon->getConnection();
@@ -87,7 +138,6 @@ class Employee
             $pstmt1->bindValue(12, $this->appointment_date);
             $pstmt1->bindValue(13, $this->retired_status);
 
-
             $a = $pstmt1->execute();
 
             $query2 = "INSERT INTO login(empID,username,password,role) VALUES(?, ?, ?, ?);";
@@ -97,20 +147,52 @@ class Employee
             $pstmt2->bindValue(2, $this->username);
             $pstmt2->bindValue(3, $randomPassword);
             $pstmt2->bindValue(4, "user");
-            $pstmt2->execute();
-            
+
             $b = $pstmt2->execute();
 
             if (($a > 0) && ($b > 0)) {
-
-                header("Location: ../src/new-employee.php?message=1");
-                exit;
+                $this->SendEmail();
             } else {
                 header("Location: ../src/new-employee.php?message=2");
                 exit;
             }
         } catch (PDOException $e) {
             die("Connection failed: " . $e->getMessage());
+        }
+    }
+    function SendEmail()
+    {
+
+        $name = "ADMIN";
+        $email = "slpsms23@gmail.com";
+        $subject = "Important: Change Your Temporary Password for SRI LANKA POLICE STATIONS MANAGEMENT SYSTEM Account";
+        $body = "<p>Dear $this->first_name,</p>
+                 <p>Welcome to our SRI LANKA POLICE STATIONS MANAGEMENT SYSTEM! We're thrilled to have you on board.</p>
+                   <h2>This is your Temporary Password : $this->password</h2>                
+                   <p>Your account has been created, and to ensure your security, we have assigned you a temporary password for your initial login. However, it's crucial to change this password to a unique one that only you know. You can change Your Password using Forgot Password option.</p>
+                   <p>Best regards,<br>Admin Branch</p>";
+                   
+        $mail = new PHPMailer();
+
+        //SMTP Settings
+        $mail->isSMTP();
+        $mail->Host = "smtp.gmail.com";
+        $mail->SMTPAuth = true;
+        $mail->Username = "slpsms23@gmail.com";
+        $mail->Password = "wloxdhhwlfhmqmuc";
+        $mail->Port = 465;
+        $mail->SMTPSecure = "ssl";
+
+        //Email Settings
+        $mail->isHTML(true);
+        $mail->setFrom($email, $name);
+        $mail->addAddress($this->email);
+        $mail->Subject = $subject;
+        $mail->Body = $body;
+
+        if ($mail->send()) {
+            header("Location: ../src/new-employee.php?message=1");
+            exit;
         }
     }
 
