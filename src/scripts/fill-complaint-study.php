@@ -30,7 +30,40 @@ function fillSuspectsCulprits($complaint_id){
 }
 
 if(isset($_POST["addNew"])){
-    echo $_POST["new_nic"];
+    if(isset($_POST["new_role"], $_POST["new_nic"], $_POST["new_name"], $_POST["new_address"], $_POST["new_contact"], $_POST["new_email"])){
+        if(!empty($_POST["new_nic"]) || !empty($_POST["new_name"]) || !empty($_POST["new_address"]) || !empty($_POST["new_contact"]) || !empty($_POST["new_email"])){
+
+            $complaint_id = $_POST["new_comp_id"];
+            $new_role = $_POST["new_role"];
+            $new_nic = $_POST["new_nic"];
+            $new_name = $_POST["new_name"];
+            $new_address = $_POST["new_address"];
+            $new_contact = $_POST["new_contact"];
+            $new_email = $_POST["new_email"];
+
+            $person = new People($new_nic, $new_name, $new_address, $new_contact, $new_email);
+            $complaint = new Complaints();
+            
+            try{
+                $dbcon = new DBConnector();
+                $con = $dbcon->getConnection();
+
+                $person->setCon($con);
+                $status1 = $person->addPerson();
+
+                $complaint->setCon($con);
+                $complaint->setComplaintID($complaint_id);
+                $status2 = $complaint->addRoleInCase($new_nic, $new_role);
+
+                if($status1 && $status2){
+                    
+                }
+            }
+            catch(PDOException $e){
+                die("Error occured: ".$e->getMessage());
+            }
+        }
+    }
 }
 
 if(isset($_POST["update"])){

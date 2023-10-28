@@ -16,6 +16,18 @@
 
     <title>Complaint Study</title>
     <link rel="icon" type="image/png" href="../assets/logo.png">
+
+    <style>
+        .btn{
+            background-color: #101D6B;
+            color: #fff;
+        }
+
+        .btn:hover{
+            background-color: #101D6B;
+            color: #ffffff;
+        }
+    </style>
 </head>
 
 <body>
@@ -93,7 +105,7 @@
                         <p>Complaint in Words</p>
                     </div>
                     <div class="col-8">
-                        <textarea class="mb-3 w-100" rows="10" name="comp_desc" id="comp_desc">
+                        <textarea class="mb-3 w-100" rows="5" name="comp_desc" id="comp_desc">
                         </textarea>
                     </div>
                 </div>
@@ -118,7 +130,7 @@
                     <legend class="small font-weight-bold">Manage Suspects/ Culprits</legend>
                     <div class="row">
                         <div class="col d-flex justify-content-center">
-                            <button class="btn btn-info h-100 w-50" onclick="showHide('suspectCulpritCol')">Manage Suspects/ Culprits</button>
+                            <button class="btn h-100 w-50" onclick="showHide('suspectCulpritCol')">Manage Suspects/ Culprits</button>
                         </div>
                     </div>
                     <div class="row">
@@ -137,8 +149,9 @@
                                 <tbody>                                
                                     <tr>
                                         <form method="POST" action="scripts/fill-complaint-study.php" name="newSuspectCulprit">
+                                            <input type="hidden" id="new_comp_id" name="new_comp_id" value=""/>
                                             <td>
-                                                <select class="form-control" id="role" name="role">
+                                                <select class="form-control" id="role" name="new_role">
                                                     <option value="Suspect">Suspect</option>
                                                     <option value="Culprit">Culprit</option>
                                                 </select>
@@ -282,6 +295,8 @@
                         let form = document.createElement("form");
                         form.setAttribute("method", "POST");
                         form.setAttribute("action", "scripts/fill-complaint-study.php");
+
+                        document.getElementById("new_comp_id").value = case_id;
                         
                         let row = document.createElement("tr");
 
@@ -296,7 +311,8 @@
 
                         let cell9 = document.createElement("td");
                         cell9.setAttribute("colspan", "8");
-                        
+                        cell9.style.padding = "0";
+
                         let select = document.createElement("SELECT"); // Suspect/ Culprit
                         select.setAttribute("id", "suspectCulprit");
                         select.setAttribute("name", "suspectCulprit");
@@ -350,15 +366,13 @@
                         updateBtn.setAttribute("name", "update");
                         updateBtn.setAttribute("value", "Update");
                         updateBtn.classList.add("btn");
-                        updateBtn.classList.add("btn-info");
-
+                        
                         let deleteBtn = document.createElement("INPUT");
                         deleteBtn.setAttribute("type", "submit");
                         deleteBtn.setAttribute("name", "delete");
                         deleteBtn.setAttribute("value", "Delete");
                         deleteBtn.classList.add("btn");
-                        deleteBtn.classList.add("btn-danger");
-
+                        
                         cell1.appendChild(select);
                         cell2.appendChild(text1); 
                         cell3.appendChild(text2);
