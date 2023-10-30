@@ -15,7 +15,7 @@ function fillSuspectsCulprits($complaint_id){
         $dbcon = new DBConnector();
         $con = $dbcon->getConnection();
 
-        $query = "SELECT * FROM `role_in_case` INNER JOIN people WHERE role_in_case.nic = people.nic AND complaint_id=?";
+        $query = "SELECT * FROM role_in_case INNER JOIN people WHERE role_in_case.nic = people.nic AND complaint_id=? AND role_in_case.role_in_case != 'Plantiff'";
         $pstmt = $con->prepare($query);
         $pstmt->bindValue(1, $complaint_id);
         $pstmt->execute();
@@ -76,16 +76,16 @@ if(isset($_POST["addNew"])){
 }
 
 elseif(isset($_POST["update"])){
-    if(isset($_POST["suspectCulprit"], $_POST["suspectCulpritNIC"], $_POST["suspectCulpritName"], $_POST["suspectCulpritAddress"], $_POST["suspectCulpritContact"], $_POST["suspectCulpritEmail"])){
-        if(!empty($_POST["comp_id"]) || !empty($_POST["suspectCulpritNIC"]) || !empty($_POST["suspectCulpritName"]) || !empty($_POST["suspectCulpritAddress"]) || !empty($_POST["suspectCulpritContact"]) || !empty($_POST["suspectCulpritEmail"])){
+    if(isset($_POST["role"], $_POST["personNIC"], $_POST["personName"], $_POST["personAddress"], $_POST["personContact"], $_POST["personEmail"])){
+        if(!empty($_POST["comp_id"]) || !empty($_POST["personNIC"]) || !empty($_POST["personName"]) || !empty($_POST["personAddress"]) || !empty($_POST["personContact"]) || !empty($_POST["personEmail"])){
 
             $complaint_id = $_POST["comp_id"];
-            $role = $_POST["suspectCulprit"];
-            $nic = $_POST["suspectCulpritNIC"];
-            $name = $_POST["suspectCulpritName"];
-            $address = $_POST["suspectCulpritAddress"];
-            $contact = $_POST["suspectCulpritContact"];
-            $email = $_POST["suspectCulpritEmail"];
+            $role = $_POST["role"];
+            $nic = $_POST["personNIC"];
+            $name = $_POST["personName"];
+            $address = $_POST["personAddress"];
+            $contact = $_POST["personContact"];
+            $email = $_POST["personEmail"];
 
             $person = new People($nic, $name, $address, $contact, $email);
             $complaint = new Complaints();
@@ -99,10 +99,10 @@ elseif(isset($_POST["update"])){
 
                 $complaint->setCon($con);
                 $complaint->setComplaintID($complaint_id);
-                $status2 = $complaint->updateRoleInCase($nic, $role);
+                $status2 = $complaint->updateRoleInCase($role, $nic);
 
                 if($status1 && $status2){
-                    header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
+                    header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id&role=$role");
                 }
                 else{
                     header("Location: ../complaint-study.php?status=false");
@@ -122,11 +122,11 @@ elseif(isset($_POST["update"])){
 }
 
 elseif(isset($_POST["delete"])){
-    if(isset($_POST["suspectCulpritNIC"])){
-        if(!empty($_POST["comp_id"]) || !empty($_POST["suspectCulpritNIC"])){
+    if(isset($_POST["personNIC"])){
+        if(!empty($_POST["comp_id"]) || !empty($_POST["personNIC"])){
 
             $complaint_id = $_POST["comp_id"];
-            $nic = $_POST["suspectCulpritNIC"];
+            $nic = $_POST["personNIC"];
             
             $complaint = new Complaints();
             
