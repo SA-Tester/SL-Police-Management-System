@@ -1,7 +1,9 @@
 <?php
 require "./classes/class-db-connector.php";
+require "./classes/class-leave.php";
 
 use classes\DBConnector;
+use classes\Leave;
 
 $dbcon = new DBConnector();
 
@@ -57,6 +59,8 @@ $con = $dbcon->getConnection();
                         echo "<div class='error'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>There are empty fields. Please try again.</strong></div>";
                      } elseif ($_GET["message"] == 6) {
                         echo "<div class='error'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>Please upload your medical report</strong></div>";
+                     } elseif ($_GET["message"] == 7) {
+                        echo "<div class='error'><span class='closebtn' onclick='this.parentElement.style.display=`none`;'>&times;</span><strong>Your Application is currently in process. Please try again later!</strong></div>";
                      }
                 }
                 ?>
@@ -114,7 +118,7 @@ $con = $dbcon->getConnection();
                                 <select id="reason_type" name="reason_type" required>
                                     <option value="Personal">Personal</option>
                                     <option value="Health">Health</option>
-                                    <option value="Other">Other</option>
+                                    <option value="Vacation">Vacation</option>
                                 </select>
                             </div>
                         </div>
@@ -153,6 +157,7 @@ $con = $dbcon->getConnection();
                                     <th>Start Date</th>
                                     <th>End Date</th>
                                     <th>Duration (Days)</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -177,17 +182,24 @@ $con = $dbcon->getConnection();
                                 $pstmt2 = $con->prepare($query2);
                                 $pstmt2->execute();
                                 $rs = $pstmt2->fetchAll(PDO::FETCH_OBJ);
-                                foreach ($rs as $emplyee){
-                                    if($emplyee->empID==$emp_id){
-                                        $start_date = date_create($emplyee->leave_start);
-                                        $end_date = date_create($emplyee->leave_end);
-                                        $difference = date_diff($start_date, $end_date);
-                                        $duration = $difference->d;
+                                foreach ($rs as $employee){
+                                    if($employee->empID==$emp_id){
+                                        $leaveObject = new Leave(NULL, $employee->leave_start, $employee->leave_end, NULL, NULL, NULL);
+                                        $leaveObject->setCon($con);
+                                        $duration = $leaveObject->durationCal();
+                                        if ($employee->status==0){
+                                            $status = "Rejected";
+                                        } elseif($employee->status==1){
+                                            $status = "Accepted";
+                                        } else{
+                                            $status = "Pending";
+                                        }
                                 ?>
                                 <tr>
-                                    <td><?php echo $emplyee->leave_start; ?></td>
-                                    <td><?php echo $emplyee->leave_end; ?></td>
+                                    <td><?php echo $employee->leave_start; ?></td>
+                                    <td><?php echo $employee->leave_end; ?></td>
                                     <td><?php echo $duration ?></td>
+                                    <td><?php echo $status ?></td>
                                 </tr>        
                                 <?php
                                     }
