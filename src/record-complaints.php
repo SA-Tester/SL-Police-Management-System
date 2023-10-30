@@ -393,7 +393,7 @@
                         <table class="table table-primary table-striped-columns" id="comp-table">
                             <thead>
                                 <tr>
-                                    <th>Row</th>
+                                    <th>Complaint ID</th>
                                     <th>Date</th>
                                     <th>Complaint Category</th>
                                     <th>Name</th>
@@ -443,7 +443,7 @@
                                                 const cell6 = document.createElement("td");
                                                 const cell7 = document.createElement("td");
 
-                                                const cell1Text = document.createTextNode(i+1);
+                                                const cell1Text = document.createTextNode(obj[i][0]);
                                                 const cell2Text = document.createTextNode(obj[i][1]);
                                                 const cell3Text = document.createTextNode(obj[i][2]);
                                                 const cell4Text = document.createTextNode(obj[i][4]);
