@@ -56,25 +56,109 @@ if(isset($_POST["addNew"])){
                 $status2 = $complaint->addRoleInCase($new_nic, $new_role);
 
                 if($status1 && $status2){
-                    
+                    header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
+                }
+                else{
+                    header("Location: ../complaint-study.php?status=false");
                 }
             }
             catch(PDOException $e){
                 die("Error occured: ".$e->getMessage());
             }
         }
+        else{
+            header("Location: ../complaint-study.php?status=false");
+        }
+    }
+    else{
+        header("Location: ../complaint-study.php?status=false");
     }
 }
 
-if(isset($_POST["update"])){
-    echo $_POST["suspectCulpritNIC"];
+elseif(isset($_POST["update"])){
+    if(isset($_POST["suspectCulprit"], $_POST["suspectCulpritNIC"], $_POST["suspectCulpritName"], $_POST["suspectCulpritAddress"], $_POST["suspectCulpritContact"], $_POST["suspectCulpritEmail"])){
+        if(!empty($_POST["comp_id"]) || !empty($_POST["suspectCulpritNIC"]) || !empty($_POST["suspectCulpritName"]) || !empty($_POST["suspectCulpritAddress"]) || !empty($_POST["suspectCulpritContact"]) || !empty($_POST["suspectCulpritEmail"])){
+
+            $complaint_id = $_POST["comp_id"];
+            $role = $_POST["suspectCulprit"];
+            $nic = $_POST["suspectCulpritNIC"];
+            $name = $_POST["suspectCulpritName"];
+            $address = $_POST["suspectCulpritAddress"];
+            $contact = $_POST["suspectCulpritContact"];
+            $email = $_POST["suspectCulpritEmail"];
+
+            $person = new People($nic, $name, $address, $contact, $email);
+            $complaint = new Complaints();
+            
+            try{
+                $dbcon = new DBConnector();
+                $con = $dbcon->getConnection();
+
+                $person->setCon($con);
+                $status1 = $person->updatePerson();
+
+                $complaint->setCon($con);
+                $complaint->setComplaintID($complaint_id);
+                $status2 = $complaint->updateRoleInCase($nic, $role);
+
+                if($status1 && $status2){
+                    header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
+                }
+                else{
+                    header("Location: ../complaint-study.php?status=false");
+                }
+            }
+            catch(PDOException $e){
+                die("Error occured: ".$e->getMessage());
+            }
+        }
+        else{
+            header("Location: ../complaint-study.php?status=false");
+        }
+    }
+    else{
+        header("Location: ../complaint-study.php?status=false");
+    }
 }
 
-if(isset($_POST["delete"])){
-    echo $_POST["suspectCulpritNIC"];
+elseif(isset($_POST["delete"])){
+    if(isset($_POST["suspectCulpritNIC"])){
+        if(!empty($_POST["comp_id"]) || !empty($_POST["suspectCulpritNIC"])){
+
+            $complaint_id = $_POST["comp_id"];
+            $nic = $_POST["suspectCulpritNIC"];
+            
+            $complaint = new Complaints();
+            
+            try{
+                $dbcon = new DBConnector();
+                $con = $dbcon->getConnection();
+
+                $complaint->setCon($con);
+                $complaint->setComplaintID($complaint_id);
+                $status1 = $complaint->deleteFromRoleInCase($nic);
+
+                if($status1){
+                    header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
+                }
+                else{
+                    header("Location: ../complaint-study.php?status=false");
+                }
+            }
+            catch(PDOException $e){
+                die("Error occured: ".$e->getMessage());
+            }
+        }
+        else{
+            header("Location: ../complaint-study.php?status=false");
+        }
+    }
+    else{
+        header("Location: ../complaint-study.php?status=false");
+    }
 }
 
-if(isset($_REQUEST["comp_id"]) && !empty($_REQUEST["comp_id"])){
+elseif(isset($_REQUEST["comp_id"]) && !empty($_REQUEST["comp_id"])){
     $dbcon = new DBConnector();
     $con = $dbcon->getConnection();
 

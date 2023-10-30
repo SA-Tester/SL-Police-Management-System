@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
 
     <title>Complaint Study</title>
-    <link rel="icon" type="image/png" href="../assets/logo.png">
+    <link rel="icon" type="image/png" href="../assets/logo.png" />
 
     <style>
         .btn{
@@ -38,18 +38,17 @@
     ?>
     <!---------------------------------------------------->
 
-    <div class="container-lg" style="height: 10pt;"></div>
+    <div class="container-lg" style="height: 40pt;"></div>
 
     <div class="container-lg mt-5">
         <div class="row d-flex justify-content-center mt-5">
             <label for="caseID" class="mr-3 mt-5">Enter Case ID: </label>
-            <input type="text" id="caseID" name="caseID" class="w-50 mt-5 form-group" placeholder="Enter Case ID"/>
+            <input type="text" id="caseID" name="caseID" class="mt-5 w-50 form-group" placeholder="Enter Case ID"/>
             <button class="mt-5 form-group" onclick="fillComplaintData(document.getElementById('caseID').value)"><i class="fas fa-search"></i></button>
         </div>
 
-        <div class="alert alert-danger mt-3 mb-3" role="alert" id="alertMsg" style="display: none;">
-            Complaint Not Found
-        </div>
+        <div class="alert mt-3 mb-3" role="alert" id="alertMsg"></div>
+        <div class="alert mt-3 mb-3" role="alert" id="recordsMsg"></div>
 
         <div class="row d-flex mt-4">
             <fieldset class="form-group border p-4 w-100">
@@ -59,7 +58,7 @@
                         <p>Complaint ID</p>
                     </div>
                     <div class="col-8">
-                        <input type="text" name="comp_id" id="comp_id" class="form-group w-100"/>
+                        <input type="text" name="comp_id" id="comp_id" class="form-group w-100" readonly/>
                     </div>
                 </div>
 
@@ -68,7 +67,7 @@
                         <p>Date Recorded</p>
                     </div>
                     <div class="col-8">
-                        <input type="text" name="comp_date" id="comp_date" class="form-group w-100"/>
+                        <input type="text" name="comp_date" id="comp_date" class="form-group w-100" readonly/>
                     </div>
                 </div>
 
@@ -77,8 +76,8 @@
                         <p>Plantiff (NIC - Name)</p>
                     </div>
                     <div class="col-8">
-                        <input type="text" name="plantiff_nic" id="plantiff_nic" class="form-group mr-3"/>
-                        <input type="text" name="plantiff_name" id="plantiff_name" class="form-group w-50"/>
+                        <input type="text" name="plantiff_nic" id="plantiff_nic" class="form-group mr-3" readonly/>
+                        <input type="text" name="plantiff_name" id="plantiff_name" class="form-group w-50" readonly/>
                     </div>
                 </div>
                          
@@ -87,7 +86,7 @@
                         <p>Complaint Type</p>
                     </div>
                     <div class="col-8">
-                        <input type="text" name="comp_category" id="comp_category" class="form-group w-100"/>
+                        <input type="text" name="comp_category" id="comp_category" class="form-group w-100" readonly/>
                     </div>
                 </div>
 
@@ -96,7 +95,7 @@
                         <p>Complaint Title</p>
                     </div>
                     <div class="col-8">
-                        <input type="text" name="comp_title" id="comp_title" class="form-group w-100"/>
+                        <input type="text" name="comp_title" id="comp_title" class="form-group w-100"readonly/>
                     </div>
                 </div>
                 
@@ -105,7 +104,7 @@
                         <p>Complaint in Words</p>
                     </div>
                     <div class="col-8">
-                        <textarea class="mb-3 w-100" rows="5" name="comp_desc" id="comp_desc">
+                        <textarea class="mb-3 w-100" rows="5" name="comp_desc" id="comp_desc" readonly>
                         </textarea>
                     </div>
                 </div>
@@ -115,8 +114,8 @@
                         <p>Recorded By (EMP ID - Name)</p>
                     </div>
                     <div class="col-8">
-                        <input type="text" name="emp_id" id="emp_id" class="form-group mr-3"/>
-                        <input type="text" name="emp_name" id="emp_name" class="form-group w-50"/>
+                        <input type="text" name="emp_id" id="emp_id" class="form-group mr-3" readonly/>
+                        <input type="text" name="emp_name" id="emp_name" class="form-group w-50" readonly/>
                     </div>
                 </div>               
             </fieldset>
@@ -148,7 +147,7 @@
                                 </thead>
                                 <tbody>                                
                                     <tr>
-                                        <form method="POST" action="scripts/fill-complaint-study.php" name="newSuspectCulprit">
+                                        <form method="POST" action="scripts/fill-complaint-study.php" name="newSuspectCulprit" onsubmit="return confirm('Are you sure you want to proceed ?')">
                                             <input type="hidden" id="new_comp_id" name="new_comp_id" value=""/>
                                             <td>
                                                 <select class="form-control" id="role" name="new_role">
@@ -157,22 +156,22 @@
                                                 </select>
                                             </td>
                                             <td>
-                                                <input type="text" name="new_nic" id="new_nic" class="form-control"/>
+                                                <input type="text" name="new_nic" id="new_nic" class="form-control" required/>
                                             </td>
                                             <td>
-                                                <input type="text" name="new_name" id="new_name" class="form-control"/>
+                                                <input type="text" name="new_name" id="new_name" class="form-control" required/>
                                             </td>
                                             <td>
-                                                <input type="text" name="new_address" id="new_address" class="form-control"/>
+                                                <input type="text" name="new_address" id="new_address" class="form-control" required/>
                                             </td>
                                             <td>
-                                                <input type="text" name="new_contact" id="new_contact" class="form-control"/>
+                                                <input type="text" name="new_contact" id="new_contact" class="form-control" required/>
                                             </td>
                                             <td>
                                                 <input type="text" name="new_email" id="new_email" class="form-control"/>
                                             </td>
                                             <td colspan="2">
-                                                <button type="submit" name="addNew" class="btn btn-success">Add</button>
+                                                <input type="submit" name="addNew" class="btn" value="Add">
                                             </td>
                                         </form>
                                     </tr>
@@ -275,128 +274,143 @@
             let emp_id = document.getElementById("emp_id");
             let emp_name = document.getElementById("emp_name");
 
+            document.getElementById("new_comp_id").value = case_id;
+
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function (){
                 if(this.readyState == 4 && this.status == 200){
-                    var obj = JSON.parse(this.responseText);
-                    comp_id.value = obj[0][0];
-                    comp_date.value = obj[0][1];
-                    plantiff_nic.value = obj[0][2];
-                    plantiff_name.value = obj[0][3];
-                    comp_category.value = obj[0][4];
-                    comp_title.value = obj[0][5];
-                    comp_desc.value = obj[0][6];
-                    emp_id.value = obj[0][7];
-                    emp_name.value = obj[0][8];
 
-                    let suspectCulpritArray = obj[1][0];
-                    for (let i=0; i<suspectCulpritArray.length; i++){
+                    if(this.responseText != ""){
+                        var obj = JSON.parse(this.responseText);
+                        comp_id.value = obj[0][0];
+                        comp_date.value = obj[0][1];
+                        plantiff_nic.value = obj[0][2];
+                        plantiff_name.value = obj[0][3];
+                        comp_category.value = obj[0][4];
+                        comp_title.value = obj[0][5];
+                        comp_desc.value = obj[0][6];
+                        emp_id.value = obj[0][7];
+                        emp_name.value = obj[0][8];
 
-                        let form = document.createElement("form");
-                        form.setAttribute("method", "POST");
-                        form.setAttribute("action", "scripts/fill-complaint-study.php");
+                        let suspectCulpritArray = obj[1][0];
+                        for (let i=0; i<suspectCulpritArray.length; i++){
 
-                        document.getElementById("new_comp_id").value = case_id;
-                        
-                        let row = document.createElement("tr");
+                            let form = document.createElement("form");
+                            form.setAttribute("method", "POST");
+                            form.setAttribute("action", "scripts/fill-complaint-study.php");
+                            form.setAttribute("onsubmit", "return confirm('Are you sure you want to proceed ?')");
+                            
+                            let row = document.createElement("tr");
 
-                        let cell1 = document.createElement("td");
-                        let cell2 = document.createElement("td");
-                        let cell3 = document.createElement("td");
-                        let cell4 = document.createElement("td");
-                        let cell5 = document.createElement("td");
-                        let cell6 = document.createElement("td");
-                        let cell7 = document.createElement("td");
-                        let cell8 = document.createElement("td");
+                            let complaint_id = document.createElement("INPUT");
+                            complaint_id.setAttribute("type", "hidden");
+                            complaint_id.setAttribute("id", "comp_id");
+                            complaint_id.setAttribute("name", "comp_id");
+                            complaint_id.setAttribute("value", case_id);
 
-                        let cell9 = document.createElement("td");
-                        cell9.setAttribute("colspan", "8");
-                        cell9.style.padding = "0";
+                            let cell1 = document.createElement("td");
+                            let cell2 = document.createElement("td");
+                            let cell3 = document.createElement("td");
+                            let cell4 = document.createElement("td");
+                            let cell5 = document.createElement("td");
+                            let cell6 = document.createElement("td");
+                            let cell7 = document.createElement("td");
+                            let cell8 = document.createElement("td");
 
-                        let select = document.createElement("SELECT"); // Suspect/ Culprit
-                        select.setAttribute("id", "suspectCulprit");
-                        select.setAttribute("name", "suspectCulprit");
+                            let cell9 = document.createElement("td");
+                            cell9.setAttribute("colspan", "8");
+                            cell9.style.padding = "0";
 
-                        let option1 = document.createElement("option");
-                        option1.setAttribute("value", "Suspect");
-                        let option1Text = document.createTextNode("Suspect");
-                        option1.appendChild(option1Text);
+                            let select = document.createElement("SELECT"); // Suspect/ Culprit
+                            select.setAttribute("id", "suspectCulprit");
+                            select.setAttribute("name", "suspectCulprit");
 
-                        let option2 = document.createElement("option");
-                        option2.setAttribute("value", "Culprit");
-                        let option2Text = document.createTextNode("Culprit");
-                        option2.appendChild(option2Text);
+                            let option1 = document.createElement("option");
+                            option1.setAttribute("value", "Suspect");
+                            let option1Text = document.createTextNode("Suspect");
+                            option1.appendChild(option1Text);
 
-                        select.classList.add("form-control");
-                        select.appendChild(option1);
-                        select.appendChild(option2);
+                            let option2 = document.createElement("option");
+                            option2.setAttribute("value", "Culprit");
+                            let option2Text = document.createTextNode("Culprit");
+                            option2.appendChild(option2Text);
 
-                        let text1 = document.createElement("INPUT"); //NIC
-                        text1.setAttribute("name", "suspectCulpritNIC");
-                        text1.setAttribute("type", "text");
-                        text1.setAttribute("value", suspectCulpritArray[i]["nic"]);
-                        text1.classList.add("form-control");
-                        
-                        let text2 = document.createElement("INPUT"); // Name
-                        text2.setAttribute("name", "suspectCulpritName");
-                        text2.setAttribute("type", "text");
-                        text2.setAttribute("value", suspectCulpritArray[i]["name"]);
-                        text2.classList.add("form-control");
-                        
-                        let text3 = document.createElement("INPUT"); //Address
-                        text3.setAttribute("name", "suspectCulpritAddress");
-                        text3.setAttribute("type", "text");
-                        text3.setAttribute("value", suspectCulpritArray[i]["address"]);
-                        text3.classList.add("form-control");
-                        
-                        let text4 = document.createElement("INPUT"); //Contact
-                        text4.setAttribute("name", "suspectCulpritContact");
-                        text4.setAttribute("type", "text");
-                        text4.setAttribute("value", suspectCulpritArray[i]["contact"]);
-                        text4.classList.add("form-control");
-                        
-                        let text5 = document.createElement("INPUT"); //Email 
-                        text5.setAttribute("name", "suspectCulpritEmail");
-                        text5.setAttribute("type", "text");
-                        text5.setAttribute("value", suspectCulpritArray[i]["email"]);
-                        text5.classList.add("form-control");
-                        
-                        let updateBtn = document.createElement("INPUT");
-                        updateBtn.setAttribute("type", "submit");
-                        updateBtn.setAttribute("name", "update");
-                        updateBtn.setAttribute("value", "Update");
-                        updateBtn.classList.add("btn");
-                        
-                        let deleteBtn = document.createElement("INPUT");
-                        deleteBtn.setAttribute("type", "submit");
-                        deleteBtn.setAttribute("name", "delete");
-                        deleteBtn.setAttribute("value", "Delete");
-                        deleteBtn.classList.add("btn");
-                        
-                        cell1.appendChild(select);
-                        cell2.appendChild(text1); 
-                        cell3.appendChild(text2);
-                        cell4.appendChild(text3);
-                        cell5.appendChild(text4);
-                        cell6.appendChild(text5);
-                        cell7.appendChild(updateBtn);
-                        cell8.appendChild(deleteBtn);
-                        
-                        form.appendChild(cell1);
-                        form.appendChild(cell2);
-                        form.appendChild(cell3);
-                        form.appendChild(cell4);
-                        form.appendChild(cell5);
-                        form.appendChild(cell6);
-                        form.appendChild(cell7);
-                        form.appendChild(cell8);
+                            select.classList.add("form-control");
+                            select.appendChild(option1);
+                            select.appendChild(option2);
 
-                        cell9.appendChild(form)
-                        row.appendChild(cell9);
-                        suspectCulpritTable.getElementsByTagName("tbody")[0].appendChild(row);
-                    }
+                            let text1 = document.createElement("INPUT"); //NIC
+                            text1.setAttribute("name", "suspectCulpritNIC");
+                            text1.setAttribute("type", "text");
+                            text1.setAttribute("value", suspectCulpritArray[i]["nic"]);
+                            text1.setAttribute("required", "")
+                            text1.setAttribute("readonly", "")
+                            text1.classList.add("form-control");
+                            
+                            let text2 = document.createElement("INPUT"); // Name
+                            text2.setAttribute("name", "suspectCulpritName");
+                            text2.setAttribute("type", "text");
+                            text2.setAttribute("value", suspectCulpritArray[i]["name"]);
+                            text2.setAttribute("required", "")
+                            text2.classList.add("form-control");
+                            
+                            let text3 = document.createElement("INPUT"); //Address
+                            text3.setAttribute("name", "suspectCulpritAddress");
+                            text3.setAttribute("type", "text");
+                            text3.setAttribute("value", suspectCulpritArray[i]["address"]);
+                            text3.setAttribute("required", "")
+                            text3.classList.add("form-control");
+                            
+                            let text4 = document.createElement("INPUT"); //Contact
+                            text4.setAttribute("name", "suspectCulpritContact");
+                            text4.setAttribute("type", "text");
+                            text4.setAttribute("value", suspectCulpritArray[i]["contact"]);
+                            text4.setAttribute("required", "")
+                            text4.classList.add("form-control");
+                            
+                            let text5 = document.createElement("INPUT"); //Email 
+                            text5.setAttribute("name", "suspectCulpritEmail");
+                            text5.setAttribute("type", "text");
+                            text5.setAttribute("value", suspectCulpritArray[i]["email"]);
+                            text5.classList.add("form-control");
+                            
+                            let updateBtn = document.createElement("INPUT");
+                            updateBtn.setAttribute("type", "submit");
+                            updateBtn.setAttribute("name", "update");
+                            updateBtn.setAttribute("value", "Update");
+                            updateBtn.classList.add("btn");
+                            
+                            let deleteBtn = document.createElement("INPUT");
+                            deleteBtn.setAttribute("type", "submit");
+                            deleteBtn.setAttribute("name", "delete");
+                            deleteBtn.setAttribute("value", "Delete");
+                            deleteBtn.classList.add("btn");
+                            
+                            cell1.appendChild(select);
+                            cell2.appendChild(text1); 
+                            cell3.appendChild(text2);
+                            cell4.appendChild(text3);
+                            cell5.appendChild(text4);
+                            cell6.appendChild(text5);
+                            cell7.appendChild(updateBtn);
+                            cell8.appendChild(deleteBtn);
+                            
+                            form.appendChild(complaint_id)
+                            form.appendChild(cell1);
+                            form.appendChild(cell2);
+                            form.appendChild(cell3);
+                            form.appendChild(cell4);
+                            form.appendChild(cell5);
+                            form.appendChild(cell6);
+                            form.appendChild(cell7);
+                            form.appendChild(cell8);
 
-                    document.getElementById("alertMsg").style.display = "none";
+                            cell9.appendChild(form)
+                            row.appendChild(cell9);
+                            suspectCulpritTable.getElementsByTagName("tbody")[0].appendChild(row);
+                        }
+                        document.getElementById("alertMsg").style.display = "none";
+                    }                 
                 }
                 else{
                     comp_id.value = "";
@@ -415,7 +429,8 @@
                             suspectCulpritTable.deleteRow(2);
                         }
                     }
-
+                    document.getElementById("alertMsg").classList.add("alert-danger");
+                    document.getElementById("alertMsg").textContent = "Complaint Not Found";
                     document.getElementById("alertMsg").style.display = "block";
                 }
             };
@@ -423,6 +438,33 @@
             xmlhttp.send();
         }
     </script>
+
+    <?php
+        if(isset($_GET["status"])){
+            if($_GET["status"] == "true"){
+                $complaint_id = $_GET["comp_id"];
+                ?>
+                <script type="text/javascript">
+                    document.getElementById("caseID").value = "<?php echo $complaint_id; ?>";
+                    fillComplaintData(<?php echo $complaint_id; ?>);
+
+                    document.getElementById("recordsMsg").classList.add("alert-success");
+                    document.getElementById("recordsMsg").textContent = "Records updated successfully";
+                    document.getElementById("recordsMsg").style.display = "block";
+                </script>
+                <?php
+            }
+            elseif($_GET["status"] == "false"){
+                ?>
+                <script type="text/javascript">
+                    document.getElementById("recordsMsg").classList.add("alert-danger");
+                    document.getElementById("recordsMsg").textContent = "Record update failed";
+                    document.getElementById("recordsMsg").style.display = "block";
+                </script>
+                <?php
+            }
+        }
+    ?>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>

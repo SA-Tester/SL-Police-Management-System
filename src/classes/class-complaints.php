@@ -582,4 +582,25 @@ class Complaints{
             echo $e->getMessage();
         }
     }
+
+    public function deleteFromRoleInCase($nic){
+        $query = "DELETE FROM role_in_case WHERE complaint_id=? AND nic=?"; 
+        try{
+            $pstmt = $this->con->prepare($query);
+            $pstmt->bindValue(1, $this->complaint_id);
+            $pstmt->bindValue(2, $nic);
+        
+            $a = $pstmt->execute();
+            if($a > 0){
+                return true;
+            }
+            else{
+                return false;
+                die("An error occured: Role in Case Table<br>");
+            }
+        }
+        catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
 }
