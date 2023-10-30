@@ -16,6 +16,7 @@ if(isset($_REQUEST["element"])){
                     complaint.complaint_status, complaint.empID 
                 FROM ((people INNER JOIN role_in_case ON people.nic = role_in_case.nic) 
                 INNER JOIN complaint ON role_in_case.complaint_id = complaint.complaint_id) 
+                WHERE role_in_case.role_in_case != 'Witness' AND role_in_case.role_in_case != 'Suspect'
                 ORDER BY complaint.complaint_id;";
     
                 break;
@@ -25,6 +26,7 @@ if(isset($_REQUEST["element"])){
                     complaint.complaint_status, complaint.empID 
                 FROM ((people INNER JOIN role_in_case ON people.nic = role_in_case.nic) 
                 INNER JOIN complaint ON role_in_case.complaint_id = complaint.complaint_id) 
+                WHERE role_in_case.role_in_case != 'Witness' AND role_in_case.role_in_case != 'Suspect'
                 ORDER BY complaint.complaint_type;";
                 break;
     
@@ -33,6 +35,7 @@ if(isset($_REQUEST["element"])){
                     complaint.complaint_status, complaint.empID 
                 FROM ((people INNER JOIN role_in_case ON people.nic = role_in_case.nic) 
                 INNER JOIN complaint ON role_in_case.complaint_id = complaint.complaint_id) 
+                WHERE role_in_case.role_in_case != 'Witness' AND role_in_case.role_in_case != 'Suspect'
                 ORDER BY complaint.date;";
                 break;
             
@@ -41,6 +44,7 @@ if(isset($_REQUEST["element"])){
                     complaint.complaint_status, complaint.empID 
                 FROM ((people INNER JOIN role_in_case ON people.nic = role_in_case.nic) 
                 INNER JOIN complaint ON role_in_case.complaint_id = complaint.complaint_id) 
+                WHERE role_in_case.role_in_case != 'Witness' AND role_in_case.role_in_case != 'Suspect'
                 ORDER BY complaint.empID;";
                 break;
         }
@@ -50,6 +54,7 @@ if(isset($_REQUEST["element"])){
             role_in_case.role_in_case, complaint.complaint_status, complaint.empID 
         FROM ((people INNER JOIN role_in_case ON people.nic = role_in_case.nic) 
         INNER JOIN complaint ON role_in_case.complaint_id = complaint.complaint_id) WHERE 
+        role_in_case.role_in_case != 'Witness' AND role_in_case.role_in_case != 'Suspect' AND
         complaint.complaint_id LIKE '%$selection%' OR
         year(complaint.date) LIKE '%$selection%' OR MONTHNAME(complaint.date) LIKE '$selection' OR day(complaint.date) LIKE '$selection' OR
         complaint.complaint_type LIKE '%$selection%' OR
