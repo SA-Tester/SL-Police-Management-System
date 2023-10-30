@@ -54,24 +54,23 @@ $dbcon = new DBConnector();
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3"><label class="form-label" for="empID"><strong>Employee
-                                                ID</strong></label></div> 
+                                                ID</strong></label></div>
                                     <select id="empID" name="empID" class="form-control" required>
                                         <?php
-                                            try{
-                                                $query = "SELECT empID FROM employee where retired_status=?";
-                                                $pstmt = $dbcon->getConnection()->prepare($query);
-                                                $pstmt->bindValue(1, "0");
-                                                $pstmt->execute();
-                                                $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
+                                        try {
+                                            $query = "SELECT empID FROM employee ";
+                                            $pstmt = $dbcon->getConnection()->prepare($query);
+                                            $pstmt->execute();
+                                            $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
 
-                                                foreach($rows as $row){
-                                                    ?>
-                                                    <option value="<?php echo $row["empID"]; ?>"><?php echo $row["empID"]; ?></option>
-                                                    <?php
-                                                }
-                                            }catch(PDOException $e){
-                                                echo $e->getMessage();
+                                            foreach ($rows as $row) {
+                                        ?>
+                                                <option value="<?php echo $row["empID"]; ?>"><?php echo $row["empID"]; ?></option>
+                                        <?php
                                             }
+                                        } catch (PDOException $e) {
+                                            echo $e->getMessage();
+                                        }
                                         ?>
                                     </select>
                                 </div>
@@ -88,7 +87,7 @@ $dbcon = new DBConnector();
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3"><label class="form-label"><strong>Duty cause</strong></label></div>
-                                    <input list="duty_causes" name="duty_cause" id="duty_cause" class="form-control" required/>
+                                    <input list="duty_causes" name="duty_cause" id="duty_cause" class="form-control" required />
                                     <datalist id="duty_causes">
                                         <option value="Independence Day Parade"></option>
                                         <option value="Religious Function"></option>
@@ -116,27 +115,35 @@ $dbcon = new DBConnector();
                             </div>
                         </div>
                     </form>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col">
-                                <button class="Submit-Btn" type="submit">Send email</button>
-                            </div>
-                            <div class="col">
-                                <button class="Submit-Btn" type="submit">Cancel</button>
+                    <form>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <button class="Submit-Btn" type="submit">Cancel</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <br><br><br><br>
             <div class="col-md-6">
+                <?php
+                if (isset($_GET["mail"])) {
+                    if ($_GET["mail"] == 1) {
+                        echo "Successfully send emails!";
+                    } elseif ($_GET["mail"] == 2) {
+                        echo "Error Occurred!";
+                    }
+                }
+                ?>
                 <h2 style="color: darkblue; text-align: center;">Special Duty</h2>
                 <div class="card shadow mb-3">
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Select All</th>
+                                    <th>Delete</th>
                                     <th>Employee ID</th>
                                     <th>Duty type</th>
                                     <th>Duty cause</th>
@@ -153,11 +160,7 @@ $dbcon = new DBConnector();
                                     foreach ($rs as $user) {
                                 ?>
                                         <tr>
-                                            <td style="text-align: center;">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                                </div>
-                                            </td>
+                                            <td><a href="../src/deleteSpecialDuty.php?empID=<?php echo $user->empID; ?>">Delete</a></td>
                                             <td><?php echo $user->empID; ?></td>
                                             <td><?php echo $user->duty_type; ?></td>
                                             <td><?php echo $user->duty_cause; ?></td>
@@ -171,7 +174,11 @@ $dbcon = new DBConnector();
                             </tbody>
                         </table>
                     </div>
+
                 </div>
+                <form method="post" action="Special-sendEmail.php">
+                    <button type="submit" class="btn btn-primary" name="submit">Send emails</button>
+                </form>
             </div>
         </div>
     </div>

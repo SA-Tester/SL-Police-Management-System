@@ -15,12 +15,12 @@ $dbcon = new DBConnector();
         $empID=$_GET["empID"];
         try {
                 $con = $dbcon->getConnection();
-                $query = "DELETE FROM employee WHERE `employee`.`empID` = ?";
+                $query = "DELETE FROM duty WHERE `duty`.`empID` = ?";
                 $pstmt = $con->prepare($query);
                 $pstmt->bindValue(1, $empID);
                 $pstmt->execute();
                 if($pstmt->rowCount() > 0){
-                    header("Location: new-employee.php");
+                    header("Location: special-duty.php");
                     
                 }
             } catch (PDOException $exc) {
