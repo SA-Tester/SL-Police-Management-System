@@ -85,7 +85,11 @@ $dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
     renderNavBar();
     ?>
     <!---------------------------------------------------->
+    
+
+
     <div class="container">
+   
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -145,7 +149,9 @@ $dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
             <tr>
                 <td colspan="9">
                     <div class="btn-group">
-                        <button class="btn btn-primary mr-4" data-toggle="modal" data-target="#emailModal">Send Email</button>
+                    <form method="post" action="send-email.php">
+                    <button type="submit" class="btn btn-primary" name="submit">Send emails</button>
+                </form>
                         <form action="update-button-data-people.php" method="post">
                         <button type="submit" class="btn btn-secondary" name="updateButton" id="updateButton">Update Data</button>
                         </form>
@@ -157,44 +163,7 @@ $dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
     </div>
 
 
-    <!-- Adding modal for email sending -->
-    <div class="modal fade" id="emailModal" tabindex="-1" role="dialog" aria-labelledby="emailModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="emailModalLabel">Send Email</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="emailForm">
-                        <div class="form-group">
-                            <label for="recipientEmail">Recipient Email:</label>
-                            <input type="email" class="form-control" id="recipientEmail" name="recipientEmail" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="recipientName">Recipient Name:</label>
-                            <input type="text" class="form-control" id="recipientName" name="recipientName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="emailSubject">Subject:</label>
-                            <input type="text" class="form-control" id="emailSubject" name="emailSubject" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="emailBody">Message:</label>
-                            <textarea class="form-control" id="emailBody" name="emailBody" rows="4" required></textarea>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="sendEmailButton">Send Email</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
+
     <button class="btn btn-success" id="generateReportButton">Generate Report</button>  
 
     <footer class="py-5 mt-5" style="background-color: #101D6B;">
@@ -302,72 +271,6 @@ $dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
     });
 });
 
-
-        $(document).ready(function() {
-            // Handle click event of the "Send Email" button
-            $("#sendEmailButton").on("click", function() {
-                var recipientEmail = $("#recipientEmail").val();
-                var emailSubject = $("#emailSubject").val();
-                var emailBody = $("#emailBody").val();
-
-                // Perform AJAX request to check if the email exists in the database
-                $.ajax({
-                    type: "POST",
-                    url: "send_email.php", // PHP script to check if email exists in the database
-                    data: {
-                        recipientEmail: recipientEmail
-                    },
-                    success: function(response) {
-                        if (response === "email_exists") {
-                            // The email exists in the database, so proceed to send the email
-                            sendEmail(recipientEmail, emailSubject, emailBody);
-                        } else {
-                            // The email does not exist in the database, show an error message
-                            $(".modal-body").html('<div class="alert alert-danger" role="alert">The email address you provided does not exist in our records.</div>');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        // Show error message in the modal body
-                        $(".modal-body").html('<div class="alert alert-danger" role="alert">Failed to check email. Please try again later.</div>');
-                    }
-                });
-            });
-
-            // Function to send the email after checking recipient email in the database
-            function sendEmail(recipientEmail, emailSubject, emailBody) {
-                // Perform AJAX request to send the email
-                $.ajax({
-                    type: "POST",
-                    url: "send_email.php", // PHP script to send the email
-                    data: {
-                        recipientEmail: recipientEmail,
-                        emailSubject: emailSubject,
-                        emailBody: emailBody
-                    },
-                    success: function(response) {
-                        // Show success message in the modal body
-                        $(".modal-body").html('<div class="alert alert-success" role="alert">Email sent successfully!</div>');
-                        // Clear the email form after sending the email
-                        $("#recipientEmail").val('');
-                        $("#recipientName").val('');
-                        $("#emailSubject").val('');
-                        $("#emailBody").val('');
-                        // Hide the "Send Email" button
-                        $("#sendEmailButton").hide();
-                    },
-                    error: function(xhr, status, error) {
-                        // Show error message in the modal body
-                        $(".modal-body").html('<div class="alert alert-danger" role="alert">Failed to send email. Please try again later.</div>');
-                    }
-                });
-            }
-
-            // Clear the modal content when the modal is closed
-            $("#emailModal").on("hidden.bs.modal", function() {
-                $(".modal-body").html(""); // Clear the modal body content
-                $("#sendEmailButton").show(); // Show the "Send Email" button again if it was hidden
-            });
-        });
 
     //Generate report
     $(document).ready(function() {
