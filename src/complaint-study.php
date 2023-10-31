@@ -148,7 +148,7 @@
                                 <tbody>                                
                                     <tr>
                                         <form method="POST" action="scripts/fill-complaint-study.php" name="newPerson" onsubmit="return confirm('Are you sure you want to proceed ?')">
-                                            <input type="hidden" id="new_comp_id" name="new_comp_id" value=""/>
+                                            <input type="hidden" id="comp_id" name="comp_id" class="comp_id" value=""/>
                                             <td>
                                                 <select class="form-control" id="role" name="new_role">
                                                     <option value="Suspect">Suspect</option>
@@ -169,10 +169,10 @@
                                                 <input type="text" name="new_contact" id="new_contact" class="form-control" required/>
                                             </td>
                                             <td>
-                                                <input type="text" name="new_email" id="new_email" class="form-control"/>
+                                                <input type="email" name="new_email" id="new_email" class="form-control"/>
                                             </td>
                                             <td colspan="2">
-                                                <input type="submit" name="addNew" class="btn w-100" value="Add">
+                                                <input type="submit" name="addPerson" class="btn w-100" value="Add">
                                             </td>
                                         </form>
                                     </tr>
@@ -183,15 +183,15 @@
                 </fieldset>
 
                 <fieldset class="form-group border p-4">
-                    <legend class="small font-weight-bold">Eyewitness Descriptions</legend>
+                    <legend class="small font-weight-bold">Witness Descriptions</legend>
                     <div class="row">
                         <div class="col d-flex justify-content-center">
-                            <button class="btn h-100 w-50" onclick="showHide('eyewitnessCol')">Manage Eye Witnesses</button>
+                            <button class="btn h-100 w-50" onclick="showHide('witnessCol')">Manage Witnesses</button>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col" name="eyewitnessCol" id="eyewitnessCol" style="display: none;">
-                            <table class="table mt-4 w-100" name="eyewitnessTable" id="eyewitnessTable">
+                        <div class="col" name="witnessCol" id="witnessCol" style="display: none;">
+                            <table class="table mt-4 w-100" name="witnessTable" id="witnessTable">
                                 <thead>
                                     <th>NIC</th>
                                     <th>Description</th>
@@ -200,19 +200,16 @@
                                 </thead>
                                 <tbody>                                
                                     <tr>
-                                        <form method="POST" action="scripts/fill-complaint-study.php" name="newEyeWitness" onsubmit="return confirm('Are you sure you want to proceed ?')">
-                                            <input type="hidden" id="new_comp_id" name="new_comp_id" value=""/>
+                                        <form method="POST" action="scripts/fill-complaint-study.php" name="newWitness" onsubmit="return confirm('Are you sure you want to proceed ?')">
+                                            <input type="hidden" id="comp_id" name="comp_id" class="comp_id" value=""/>
                                             <td>
-                                                <select class="form-control" id="nic" name="nic">
-                                                    <option value="nic1">NIC 1</option>
-                                                    <option value="nic2">NIC 2</option>
-                                                </select>
+                                                <select class="form-control" id="witness_nics" name="witness_nics"></select>
                                             </td>
                                             <td>
                                                 <textarea name="description" id="description" class="form-control" rows="4"></textarea>
                                             </td>
                                             <td colspan="2">
-                                                <input type="submit" name="addNew" class="btn w-75" value="Add">
+                                                <input type="submit" name="addWitness" class="btn w-75" value="Add">
                                             </td>
                                         </form>
                                     </tr>
@@ -291,8 +288,10 @@
         }, false);
 
         let peopleTable = document.getElementById("peopleTable");
+        let witnessTable = document.getElementById("witnessTable");
 
         function fillComplaintData(case_id){
+            // Data for Case Summary
             let comp_id = document.getElementById("comp_id");
             let comp_date = document.getElementById("comp_date");
             let plantiff_nic = document.getElementById("plantiff_nic");
@@ -303,13 +302,19 @@
             let emp_id = document.getElementById("emp_id");
             let emp_name = document.getElementById("emp_name");
 
-            document.getElementById("new_comp_id").value = case_id;
+            // From Manage Witnesses
+            let witness_nics = [];
+
+            for (let n=0; n<document.querySelectorAll(".comp_id").length; n++){
+                document.querySelectorAll(".comp_id")[n].value = case_id;
+            }
 
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function (){
                 if(this.readyState == 4 && this.status == 200){
 
                     if(this.responseText != ""){
+                        // FILL OUT CASE SUMMARY =======================================================================
                         var obj = JSON.parse(this.responseText);
                         comp_id.value = obj[0][0];
                         comp_date.value = obj[0][1];
@@ -320,10 +325,12 @@
                         comp_desc.value = obj[0][6];
                         emp_id.value = obj[0][7];
                         emp_name.value = obj[0][8];
+                        // ==============================================================================================
 
+                        // MANAGE PEOPLE ASSOCIATED WITH THE CASE =======================================================
                         if(obj[1][0] != null){
                             let peopleArray = obj[1][0];
-
+                            
                             for (let i=0; i<peopleArray.length; i++){
                                 let form = document.createElement("form");
                                 form.setAttribute("method", "POST");
@@ -383,6 +390,9 @@
                                 text1.setAttribute("required", "")
                                 text1.setAttribute("readonly", "")
                                 text1.classList.add("form-control");
+                                if(peopleArray[i]['role_in_case'] == "Witness"){
+                                    witness_nics.push(peopleArray[i]["nic"]);
+                                }
                                 
                                 let text2 = document.createElement("INPUT"); // Name
                                 text2.setAttribute("name", "personName");
@@ -407,19 +417,19 @@
                                 
                                 let text5 = document.createElement("INPUT"); //Email 
                                 text5.setAttribute("name", "personEmail");
-                                text5.setAttribute("type", "text");
+                                text5.setAttribute("type", "email");
                                 text5.setAttribute("value", peopleArray[i]["email"]);
                                 text5.classList.add("form-control");
                                 
                                 let updateBtn = document.createElement("INPUT");
                                 updateBtn.setAttribute("type", "submit");
-                                updateBtn.setAttribute("name", "update");
+                                updateBtn.setAttribute("name", "updatePerson");
                                 updateBtn.setAttribute("value", "Update");
                                 updateBtn.classList.add("btn");
                                 
                                 let deleteBtn = document.createElement("INPUT");
                                 deleteBtn.setAttribute("type", "submit");
-                                deleteBtn.setAttribute("name", "delete");
+                                deleteBtn.setAttribute("name", "deletePerson");
                                 deleteBtn.setAttribute("value", "Delete");
                                 deleteBtn.classList.add("btn");
                                 
@@ -432,7 +442,7 @@
                                 cell7.appendChild(updateBtn);
                                 cell8.appendChild(deleteBtn);
                                 
-                                form.appendChild(complaint_id)
+                                form.appendChild(complaint_id);
                                 form.appendChild(cell1);
                                 form.appendChild(cell2);
                                 form.appendChild(cell3);
@@ -446,8 +456,96 @@
                                 row.appendChild(cell9);
                                 peopleTable.getElementsByTagName("tbody")[0].appendChild(row);
                             }
-                        }                
-                        document.getElementById("alertMsg").style.display = "none";       
+                        }
+                        // ==============================================================================================   
+                        
+                        // MANAGE WITNESSES ==========================================================================
+                        nic_list = document.getElementById("witness_nics");
+
+                        for(let i=0; i < witness_nics.length; i++){
+                            let option = document.createElement("OPTION");
+                            option.setAttribute("value", witness_nics[i]);
+                            let optionText = document.createTextNode(witness_nics[i]);
+                            option.appendChild(optionText);
+                            nic_list.appendChild(option);
+                        }
+
+                        if(obj.length > 2){
+                            if(obj[2][0] != null){
+                                let witnessArray = obj[2][0];
+
+                                for(let i=0; i < witnessArray.length; i++){
+
+                                    let form = document.createElement("form");
+                                    form.setAttribute("method", "POST");
+                                    form.setAttribute("action", "scripts/fill-complaint-study.php");
+                                    form.setAttribute("onsubmit", "return confirm('Are you sure you want to proceed ?')");
+                                    
+                                    let row = document.createElement("tr");
+
+                                    let complaint_id = document.createElement("INPUT");
+                                    complaint_id.setAttribute("type", "hidden");
+                                    complaint_id.setAttribute("id", "comp_id");
+                                    complaint_id.setAttribute("name", "comp_id");
+                                    complaint_id.setAttribute("value", case_id);
+
+                                    let cell1 = document.createElement("td");
+                                    let cell2 = document.createElement("td");
+                                    let cell3 = document.createElement("td");
+                                    let cell4 = document.createElement("td");
+
+                                    let cellRow = document.createElement("td");
+                                    cellRow.setAttribute("colspan", "4");
+                                    cellRow.style.padding = "0";
+
+                                    let text1 = document.createElement("INPUT"); // NIC
+                                    text1.setAttribute("name", "nic");
+                                    text1.setAttribute("type", "text");
+                                    text1.setAttribute("value", witnessArray[i]["nic"]);
+                                    text1.setAttribute("required", "");
+                                    text1.setAttribute("readonly", "");
+                                    text1.classList.add("form-control");
+
+                                    let text2 = document.createElement("textarea"); // Description
+                                    text2.setAttribute("name", "description");
+                                    text2.setAttribute("rows", "4");
+                                    text2.setAttribute("cols", "50");
+                                    textDesc = document.createTextNode(witnessArray[i]["witness_description"]);
+                                    text2.appendChild(textDesc);
+                                    text2.classList.add("form-control");
+
+                                    let updateBtn = document.createElement("INPUT");
+                                    updateBtn.setAttribute("type", "submit");
+                                    updateBtn.setAttribute("name", "updateWitness");
+                                    updateBtn.setAttribute("value", "Update");
+                                    updateBtn.classList.add("btn");
+                                    
+                                    let deleteBtn = document.createElement("INPUT");
+                                    deleteBtn.setAttribute("type", "submit");
+                                    deleteBtn.setAttribute("name", "deleteWitness");
+                                    deleteBtn.setAttribute("value", "Delete");
+                                    deleteBtn.classList.add("btn");
+
+                                    cell1.appendChild(text1);
+                                    cell2.appendChild(text2);
+                                    cell3.appendChild(updateBtn);
+                                    cell4.appendChild(deleteBtn);
+
+                                    form.appendChild(cell1);
+                                    form.appendChild(cell2);
+                                    form.appendChild(cell3);
+                                    form.appendChild(cell4);
+                                    form.appendChild(complaint_id);
+
+                                    cellRow.appendChild(form);
+                                    row.appendChild(cellRow);
+                                    witnessTable.getElementsByTagName("tbody")[0].appendChild(row);
+                                }
+                            }
+                        }
+                        // ==============================================================================================
+
+                        document.getElementById("alertMsg").style.display = "none"; // Hide the "Complaint Not Found Messgae if response if not null"      
                     }                 
                 }
                 else{
@@ -461,12 +559,26 @@
                     emp_id.value = "";
                     emp_name.value = "";
 
-                    let rows = peopleTable.rows.length;
-                    if(rows > 2){
-                        for (let i=0; i < rows-2; i++){
+                    // Remove rows of people table upon each new complaint search
+                    let rows1 = peopleTable.rows.length;
+                    if(rows1 > 2){
+                        for (let i=0; i < rows1-2; i++){
                             peopleTable.deleteRow(2);
                         }
                     }
+
+                    // Remove the Elements of the NICs select upon each new complaint search
+                    for (let i=0; i<document.getElementById("witness_nics").length; i++){
+                        document.getElementById("witness_nics").remove(document.getElementById("witness_nics")[i]);
+                    }
+
+                    let rows2 = witnessTable.rows.length;                  
+                    if(rows2 >= 2){
+                        for (let i=0; i < rows2-2; i++){
+                            witnessTable.deleteRow(2);
+                        }
+                    }
+
                     document.getElementById("alertMsg").classList.add("alert-danger");
                     document.getElementById("alertMsg").textContent = "Complaint Not Found";
                     document.getElementById("alertMsg").style.display = "block";
