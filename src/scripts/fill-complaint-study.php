@@ -47,7 +47,13 @@ function fillFingerprints($complaint_id){
     return $rows;
 }
 
-function fillPhotos(){}
+function fillPhotos($complaint_id){
+    $dbcon = new DBConnector();
+    $con = $dbcon->getConnection();
+    $witnesses = new Evidence();
+    $rows = $witnesses->getPhotos($con, $complaint_id);
+    return $rows;
+}
 
 function fillCourtMedicalReports(){}
 
@@ -340,13 +346,13 @@ elseif(isset($_POST["addFingerprint"])){
 
             $oldFileName = $fingerprint["name"];
             $newFileName = $complaint_id. "F". $evidence->getFingerPrintCount($con, $complaint_id) + 1;
-            echo "Hello". $complaint_id;
+
             $temp = explode(".", $oldFileName);
             $fileExtension = ".". end($temp);
 
             $path = "uploads/fingerprints/";
             $filePath = $path. $newFileName. $fileExtension;
-            move_uploaded_file($fingerprint["tmp_name"], $filePath);
+            move_uploaded_file($fingerprint["tmp_name"], "../../". $filePath);
 
             try{    
                 $evidence->setFingerprintDescription($filePath);
@@ -388,6 +394,89 @@ elseif(isset($_POST["deleteFingerprint"])){
                 $status = $evidence->recordEvidence($con, "delete", "fingerprint", $complaint_id);
 
                 if($status){
+                    unlink("../../".$fingerprint);
+                    header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
+                }
+                else{
+                    header("Location: ../complaint-study.php?status=false");
+                }
+            }
+            catch(PDOException $e){
+                die("Error Occured: ".$e->getMessage());
+            }
+        }
+        else{
+            header("Location: ../complaint-study.php?status=false");
+        }
+    }
+    else{
+        header("Location: ../complaint-study.php?status=false");
+    }
+}
+
+elseif(isset($_POST["addPhoto"])){
+    if(isset($_FILES["photoFile"], $_POST["comp_id"]) && !empty($_POST["comp_id"])){
+        $photo = $_FILES["photoFile"];
+        $complaint_id = $_POST["comp_id"];
+
+        $status = checkFileUploads($photo, array("png", "jpeg", "jpg"), 5000000);
+
+        if($status == ""){
+            $dbcon = new DBConnector();
+            $con = $dbcon->getConnection();
+            $evidence = new Evidence();
+
+            $oldFileName = $photo["name"];
+            $newFileName = $complaint_id. "P". $evidence->getPhotoCount($con, $complaint_id) + 1;
+
+            $temp = explode(".", $oldFileName);
+            $fileExtension = ".". end($temp);
+
+            $path = "uploads/case-imagery/";
+            $filePath = $path. $newFileName. $fileExtension;
+            move_uploaded_file($photo["tmp_name"], "../../". $filePath);
+
+            try{    
+                $evidence->setPhotoDescription($filePath);
+                $status = $evidence->recordEvidence($con, "add", "photo", $complaint_id);
+
+                if($status){
+                    header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
+                }
+                else{
+                    header("Location: ../complaint-study.php?status=false");
+                }
+            }
+            catch(PDOException $e){
+                die("Error Occured: ".$e->getMessage());
+            }
+        }
+        else{
+            header("Location: ../complaint-study.php?status=false&msg=$status");
+        }
+    }
+    else{
+        header("Location: ../complaint-study.php?status=false");
+    }
+}
+
+elseif(isset($_POST["deletePhoto"])){
+    if(isset($_POST["comp_id"]) && isset($_POST["photo"])){
+        if(!empty($_POST["comp_id"]) || !empty($_POST["photo"])){
+
+            $complaint_id = $_POST["comp_id"];
+            $photo = $_POST["photo"];
+
+            try{    
+                $dbcon = new DBConnector();
+                $con = $dbcon->getConnection();
+
+                $evidence = new Evidence();
+                $evidence->setPhotoDescription($photo);
+                $status = $evidence->recordEvidence($con, "delete", "photo", $complaint_id);
+
+                if($status){
+                    unlink("../../".$photo);
                     header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
                 }
                 else{
@@ -459,7 +548,10 @@ elseif(isset($_REQUEST["complaint_id"]) && !empty($_REQUEST["complaint_id"])){
         // Data of Fingerprints
         $array4 = array(fillFingerprints($complaint_id));
 
-        $response = array($array1, $array2, $array3, $array4);
+        // Case Imagery
+        $array5 = array(fillPhotos($complaint_id));
+
+        $response = array($array1, $array2, $array3, $array4, $array5);
         $json = json_encode($response);
         echo $json;
     }

@@ -241,9 +241,11 @@ require_once("./scripts/fill-complaint-study.php");
                         <div class="row">
                                 <div class="col" name="fingerprintCol" id="fingerprintCol">
                                     <form method="POST" action="scripts/fill-complaint-study.php" enctype="multipart/form-data">
-                                        <label for="fingerprintFile">Choose a File (png, jpeg, pdf): </label>
                                         <input type="hidden" id="comp_id" name="comp_id" class="comp_id" value="" />
-                                        <input type="file" id="fingerprintFile" name="fingerprintFile" accept="image/png, image/jpeg, .pdf">
+                                        
+                                        <label for="fingerprintFile">Choose a File (png, jpeg, pdf): </label>
+                                        <input type="file" id="fingerprintFile" name="fingerprintFile" accept="image/png, image/jpeg, image/jpg, .pdf">
+                                        
                                         <input type="submit" name="addFingerprint" class="btn" value="Add"/>
                                     </form>
 
@@ -262,7 +264,11 @@ require_once("./scripts/fill-complaint-study.php");
                         <div class="row">
                             <div class="col" name="photoCol" id="photoCol">
                                 <form method="POST" action="scripts/fill-complaint-study.php" enctype="multipart/form-data">
-                                    <input type="file">
+                                    <input type="hidden" id="comp_id" name="comp_id" class="comp_id" value="" />
+
+                                    <label for="photoFile">Choose a File (png, jpeg, pdf): </label>         
+                                    <input type="file" id="photoFile" name="photoFile" accept="image/png, image/jpg, image/jpeg">
+
                                     <input type="submit" name="addPhoto" class="btn" value="Add"/>
                                 </form>
 
@@ -329,6 +335,7 @@ require_once("./scripts/fill-complaint-study.php");
         let peopleTable = document.getElementById("peopleTable");
         let witnessTable = document.getElementById("witnessTable");
         let fingerprintTable = document.getElementById("fingerprintTable");
+        let photoTable = document.getElementById("photoTable");
 
         function fillComplaintData(case_id) {
             // Data for Case Summary
@@ -652,6 +659,68 @@ require_once("./scripts/fill-complaint-study.php");
                         }
                         // ==============================================================================================
 
+                        // MANAGE PHOTOS ================================================================================
+                        if (obj.length > 4) {
+                            
+                            if (obj[4][0] != null) {
+                                let photoArray = obj[4][0];
+
+                                for(let i=0; i < photoArray.length; i++){
+                                    let form = document.createElement("form");
+                                    form.setAttribute("method", "POST");
+                                    form.setAttribute("action", "scripts/fill-complaint-study.php");
+                                    form.setAttribute("onsubmit", "return confirm('Are you sure you want to proceed ?')");
+
+                                    let row = document.createElement("tr");
+
+                                    let complaint_id = document.createElement("INPUT");
+                                    complaint_id.setAttribute("type", "hidden");
+                                    complaint_id.setAttribute("id", "comp_id");
+                                    complaint_id.setAttribute("name", "comp_id");
+                                    complaint_id.setAttribute("value", case_id);
+
+                                    let photo = document.createElement("INPUT");
+                                    photo.setAttribute("type", "hidden");
+                                    photo.setAttribute("id", "photo");
+                                    photo.setAttribute("name", "photo");
+                                    photo.setAttribute("value", photoArray[i][0]);
+
+                                    let cell1 = document.createElement("td");
+                                    let cell2 = document.createElement("td");
+
+                                    let cellRow = document.createElement("td");
+                                    cellRow.setAttribute("colspan", "2");
+                                    cellRow.style.padding = "0";
+
+                                    let link = document.createElement("a");
+                                    link.setAttribute("href", "../" + photoArray[i][0]);
+                                    link.setAttribute("target", "blank");
+                                    link.style.paddingRight = "30vw";
+                                    linkText = document.createTextNode("Image  " + (i+1));
+                                    link.appendChild(linkText);
+
+                                    let deleteBtn = document.createElement("INPUT");
+                                    deleteBtn.setAttribute("type", "submit");
+                                    deleteBtn.setAttribute("name", "deletePhoto");
+                                    deleteBtn.setAttribute("value", "Delete");
+                                    deleteBtn.classList.add("btn");
+
+                                    cell1.appendChild(link);
+                                    cell2.appendChild(deleteBtn);
+
+                                    form.appendChild(complaint_id);
+                                    form.appendChild(photo);
+                                    form.appendChild(cell1);
+                                    form.appendChild(cell2);
+
+                                    cellRow.appendChild(form);
+                                    row.appendChild(cellRow);
+                                    photoTable.getElementsByTagName("tbody")[0].appendChild(row);
+                                }
+                            }
+                        }
+                        // ==============================================================================================
+
                         document.getElementById("alertMsg").style.display = "none"; // Hide the "Complaint Not Found Messgae if response if not null"      
                     }
                 } else {
@@ -691,6 +760,14 @@ require_once("./scripts/fill-complaint-study.php");
                     if(rows3 >= 2){
                         for (let i = 0; i < rows3 - 1; i++) {
                             fingerprintTable.deleteRow(1);
+                        }
+                    }
+
+                    // Remove rows of photo table upon each new complaint search
+                    let rows4 = photoTable.rows.length;
+                    if(rows4 >= 2){
+                        for (let i = 0; i < rows4 - 1; i++) {
+                            photoTable.deleteRow(1);
                         }
                     }
 
