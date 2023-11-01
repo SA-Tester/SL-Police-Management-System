@@ -1,5 +1,5 @@
 <?php
-require_once("./scripts/fill-complaint-study.php");
+    require_once("./scripts/fill-complaint-study.php");
 ?>
 
 <!DOCTYPE html>
@@ -181,7 +181,8 @@ require_once("./scripts/fill-complaint-study.php");
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <input type="text" name="new_nic" id="new_nic" class="form-control" required />
+                                                    <input list="nics" name="new_nic" id="new_nic" class="form-control" required />
+                                                    <datalist id="nics"></datalist>
                                                 </td>
                                                 <td>
                                                     <input type="text" name="new_name" id="new_name" class="form-control" required />
@@ -929,6 +930,47 @@ require_once("./scripts/fill-complaint-study.php");
             xmlhttp.open("GET", "./scripts/fill-complaint-study.php?complaint_id=" + String(case_id), true);
             xmlhttp.send();
         }
+    </script>
+
+    <script type="text/javascript">
+        let selected_nic = document.getElementById("new_nic");
+        let name = document.getElementById("new_name");
+        let address = document.getElementById("new_address");
+        let contact = document.getElementById("new_contact");
+        let email = document.getElementById("new_email");
+
+        let datalist = document.getElementById("nics");
+
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function(){
+            if(this.readyState == 4 && this.status == 200){
+
+                if(this.responseText != ""){
+                    let array = JSON.parse(this.responseText);
+
+                    for(let i=0; i<array.length; i++){
+                        option = document.createElement("option");
+                        option.setAttribute("value", array[i][0]);
+                        datalist.appendChild(option);
+                    }
+
+                    selected_nic.addEventListener("change", function(){
+                        var selected = selected_nic.value;
+
+                        for(let i=0; i<array.length; i++){
+                            if(array[i][0] == selected){
+                                name.value = array[i][1];
+                                address.value = array[i][2];
+                                contact.value = array[i][3];
+                                email.value = array[i][4];
+                            }
+                        }
+                    });
+                }
+            }
+        }
+        xhr.open("GET", "./scripts/fill-complaint-study.php?request=people_nics", true);
+        xhr.send();
     </script>
 
     <?php

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 01, 2023 at 08:47 PM
+-- Generation Time: Nov 01, 2023 at 09:02 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -152,7 +152,6 @@ INSERT INTO `employee` (`empID`, `first_name`, `last_name`, `dob`, `email`, `tel
 --
 
 CREATE TABLE `evidence` (
-  `id` int(11) NOT NULL,
   `complaint_id` int(11) NOT NULL,
   `nic` varchar(15) DEFAULT NULL,
   `witness_description` varchar(500) DEFAULT NULL,
@@ -166,14 +165,14 @@ CREATE TABLE `evidence` (
 -- Dumping data for table `evidence`
 --
 
-INSERT INTO `evidence` (`id`, `complaint_id`, `nic`, `witness_description`, `fingerprint_description`, `photo_description`, `court_medical_reports`, `accident_chart`) VALUES
-(4, 1, '199923100023', 'I am the secretary of the above spoken principal. He threatened me to help in bribe committed otherwise I\'ll loose my job. This is not the first time he has committed such acts. This has happened around 3 times during my course of work, which is currently about 1 year (I started the job on 4th July 2022). He used fake projects to collect the funds, such as building fund, sports fund etc.', NULL, NULL, NULL, NULL),
-(5, 40, NULL, NULL, 'uploads/fingerprints/40F1.jpg', NULL, NULL, NULL),
-(7, 40, '199845299989', 'My niece aged 10 was subjected to this harassment. The robber tried to use my daughter as a hostage to scare us and runaway from the scene.', NULL, NULL, NULL, NULL),
-(13, 31, NULL, NULL, NULL, 'uploads/case-imagery/31P1.png', NULL, NULL),
-(17, 31, NULL, NULL, NULL, 'uploads/case-imagery/31P2.jpeg', NULL, NULL),
-(18, 26, NULL, NULL, NULL, NULL, 'uploads/court-medicals/26MR1.jpg', NULL),
-(22, 22, NULL, NULL, NULL, NULL, NULL, 'uploads/accident-charts/22A1.png');
+INSERT INTO `evidence` (`complaint_id`, `nic`, `witness_description`, `fingerprint_description`, `photo_description`, `court_medical_reports`, `accident_chart`) VALUES
+(1, '199923100023', 'I am the secretary of the above spoken principal. He threatened me to help in bribe committed otherwise I\'ll loose my job. This is not the first time he has committed such acts. This has happened around 3 times during my course of work, which is currently about 1 year (I started the job on 4th July 2022). He used fake projects to collect the funds, such as building fund, sports fund etc.', NULL, NULL, NULL, NULL),
+(40, NULL, NULL, 'uploads/fingerprints/40F1.jpg', NULL, NULL, NULL),
+(40, '199845299989', 'My niece aged 10 was subjected to this harassment. The robber tried to use my daughter as a hostage to scare us and runaway from the scene.', NULL, NULL, NULL, NULL),
+(31, NULL, NULL, NULL, 'uploads/case-imagery/31P1.png', NULL, NULL),
+(31, NULL, NULL, NULL, 'uploads/case-imagery/31P2.jpeg', NULL, NULL),
+(26, NULL, NULL, NULL, NULL, 'uploads/court-medicals/26MR1.jpg', NULL),
+(22, NULL, NULL, NULL, NULL, NULL, 'uploads/accident-charts/22A1.png');
 
 -- --------------------------------------------------------
 
@@ -425,7 +424,6 @@ ALTER TABLE `employee`
 -- Indexes for table `evidence`
 --
 ALTER TABLE `evidence`
-  ADD PRIMARY KEY (`id`),
   ADD KEY `complaint_id` (`complaint_id`),
   ADD KEY `nic` (`nic`);
 
@@ -484,12 +482,6 @@ ALTER TABLE `salary`
 --
 ALTER TABLE `complaint`
   MODIFY `complaint_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
-
---
--- AUTO_INCREMENT for table `evidence`
---
-ALTER TABLE `evidence`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `leaves`

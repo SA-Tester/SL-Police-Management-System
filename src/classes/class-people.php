@@ -122,4 +122,22 @@ class People {
             echo $e->getMessage();
         }
     }
+
+    public function getPeopleData(){
+        $query = "SELECT * FROM people";
+        try{
+            $pstmt = $this->con->prepare($query);
+            if($pstmt->execute() > 0){
+                $rows = $pstmt->fetchAll(PDO::FETCH_NUM);
+                return $rows;
+            }
+            else{
+                return false;
+                die("Update Failed: People Table <br>");
+            }
+        }
+        catch(PDOException $e){
+            echo $e->getMessage();
+        }
+    }
 }

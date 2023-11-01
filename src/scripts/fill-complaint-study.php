@@ -672,6 +672,23 @@ elseif(isset($_POST["deleteAccidentChart"])){
     }
 }
 
+elseif(isset($_REQUEST["request"])){
+    $people_nics = $_REQUEST["request"];
+
+    if($people_nics == "people_nics"){
+        $dbcon = new DBConnector();
+        $con = $dbcon->getConnection();
+
+        $person = new People("", "", "", "", "", "",);
+        $person->setCon($con);
+        $rows = $person->getPeopleData();
+
+        $response = $rows;
+        $json = json_encode($response);
+        echo $json;
+    }
+}
+
 elseif(isset($_REQUEST["complaint_id"]) && !empty($_REQUEST["complaint_id"])){
     $dbcon = new DBConnector();
     $con = $dbcon->getConnection();
