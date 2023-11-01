@@ -30,12 +30,17 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
             $applyLeaveObject = new Leave($emp_id, $from_date, $to_date, $reason_type, $reason_desc, $upload_medical);
             $applyLeaveObject->setCon($con);
 
-            if($applyLeaveObject->applyLeave()){
-                move_uploaded_file($upload_medical_tem_name, $upload_medical_folder);
-                header("Location: submit-leave-medical.php?message=1");
-                exit;
+            if(!$applyLeaveObject->checkPendingApplication()){
+                if($applyLeaveObject->applyLeave()){
+                    move_uploaded_file($upload_medical_tem_name, $upload_medical_folder);
+                    header("Location: submit-leave-medical.php?message=1");
+                    exit;
+                } else{
+                    header("Location: submit-leave-medical.php?message=2");
+                    exit;
+                }
             } else{
-                header("Location: submit-leave-medical.php?message=2");
+                header("Location: submit-leave-medical.php?message=7");
                 exit;
             }
         }

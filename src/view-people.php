@@ -147,7 +147,7 @@ $dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
                     <div class="btn-group">
                         <button class="btn btn-primary mr-4" data-toggle="modal" data-target="#emailModal">Send Email</button>
                         <form action="update-button-data-people.php" method="post">
-                            <button type="submit" class="btn btn-secondary" name="updateButton">Update Data</button>
+                        <button type="submit" class="btn btn-secondary" name="updateButton" id="updateButton">Update Data</button>
                         </form>
                     </div>
                 </td>
@@ -194,6 +194,8 @@ $dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
             </div>
         </div>
     </div>
+    
+    <button class="btn btn-success" id="generateReportButton">Generate Report</button>  
 
     <footer class="py-5 mt-5" style="background-color: #101D6B;">
         <div class="container text-light text-center">
@@ -271,6 +273,37 @@ $dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
         });
 
         $(document).ready(function() {
+    // handle the "Update Data" button click
+    $("#updateButton").on("click", function(e) {
+        e.preventDefault(); // Prevent the default form submission behavior
+
+        // Make an AJAX request to the backend to update data
+        $.ajax({
+            type: "POST",
+            url: "update-button-data-people.php", 
+            data: {
+                // Provide any data needed for the update
+            },
+            success: function(response) {
+                // Handle the response here, update the table, and display the message
+                if (response.message) {
+                    alert(response.message);
+                }
+                if (response.insertedRows) {
+                    // Update the table with the inserted rows
+                    
+                }
+            },
+            error: function(xhr, status, error) {
+                // Handle the error here
+                console.error(error);
+            }
+        });
+    });
+});
+
+
+        $(document).ready(function() {
             // Handle click event of the "Send Email" button
             $("#sendEmailButton").on("click", function() {
                 var recipientEmail = $("#recipientEmail").val();
@@ -335,6 +368,33 @@ $dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
                 $("#sendEmailButton").show(); // Show the "Send Email" button again if it was hidden
             });
         });
+
+    //Generate report
+    $(document).ready(function() {
+     // Handle the "Generate Report" button click
+      $("#generateReportButton").on("click", function() {
+    // Make an AJAX request to the PHP script for report generation
+      $.ajax({
+      type: "GET", 
+      url: "reportPeople.php", 
+      success: function(response) {
+        // Create a new browser window or tab to display the report
+        var reportWindow = window.open();
+        reportWindow.document.write(response);
+      },
+      error: function(xhr, status, error) {
+        // Handle the error 
+        console.error(error);
+      }
+    });
+  });
+});
+
+
+
+
+
+
     </script>
 </body>
 
