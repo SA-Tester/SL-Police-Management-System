@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 03, 2023 at 06:25 PM
+-- Generation Time: Nov 01, 2023 at 08:47 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -45,17 +45,18 @@ CREATE TABLE `complaint` (
 
 INSERT INTO `complaint` (`complaint_id`, `date`, `complaint_type`, `complaint_title`, `audio_src`, `complaint_text`, `complaint_status`, `empID`, `location_id`) VALUES
 (1, '2023-06-14', 'Bribery and Corruption', 'An attempted bribe during school admission', '../uploads/complaint-recordings/Rec-1.mp3', 'An amount of 500000 LKR was requested as bribe during my daughter\'s admission to XYZ girls\' school in Badulla.', 'Ongoing', 'EMP0001', 2),
-(2, '2023-07-03', 'Traffic & Road Safety', 'Committed road rule violation on Road B67', '', 'Ignored the police stop sign and continued to drive.', 'Ongoing', 'EMP0002', NULL),
-(15, '2023-07-22', 'Appreciation', 'Appreciating Service', '', 'Appreciating service of the traffic officer assigned near Uva College.', 'Ongoing', 'EMP0002', NULL),
-(16, '2023-07-22', 'Cybercrime', 'Cyberbullying ', '', '16 year old girl is subjected to serious cyberbullying from a 21 year old male, who claims to be one of her brother\'s friends. ', 'Ongoing', 'EMP0002', 25),
-(22, '2023-07-22', 'Traffic & Road Safety', 'Not obeying the traffic light signals', '', 'The suspect did not stop at the \"Red\" colour light. Instead he sped up causing a possible threat to pedestrians.', 'Resolved', 'EMP0001', NULL),
-(25, '2023-07-22', 'Traffic & Road Safety', 'Honking near a hospital ignoring police warnings.', '', 'The suspect honked loud ignoring the warning and the advices of the police officer near the Badulla general hospital.', 'Ongoing', 'EMP0001', 13),
+(2, '2023-07-03', 'Traffic & Road Safety', 'Committed road rule violation on Road B67', NULL, 'Ignored the police stop sign and continued to drive.', 'Ongoing', 'EMP0002', NULL),
+(15, '2023-07-22', 'Appreciation', 'Appreciating Service', NULL, 'Appreciating service of the traffic officer assigned near Uva College.', 'Ongoing', 'EMP0002', NULL),
+(16, '2023-07-22', 'Cybercrime', 'Cyberbullying ', NULL, '16 year old girl is subjected to serious cyberbullying from a 21 year old male, who claims to be one of her brother\'s friends. ', 'Ongoing', 'EMP0002', 25),
+(22, '2023-07-22', 'Traffic & Road Safety', 'Not obeying the traffic light signals', NULL, 'The suspect did not stop at the \"Red\" colour light. Instead he sped up causing a possible threat to pedestrians.', 'Resolved', 'EMP0001', NULL),
+(25, '2023-07-22', 'Traffic & Road Safety', 'Honking near a hospital ignoring police warnings.', NULL, 'The suspect honked loud ignoring the warning and the advices of the police officer near the Badulla general hospital.', 'Ongoing', 'EMP0001', 13),
 (26, '2023-07-24', 'Foreign Employment Issue', 'House maid harresment in Saudi Arabia', '../uploads/complaint-recordings/Rec-26.mp3', 'Mrs K.D Samanthi, my wife, is being harassed in Saudi Arabia. She was sent to that country during last September (2022) . She is currently being subjected to severe domestic violence and the agency is not taking necessary actions to bring her back to this country.', 'Ongoing', 'EMP0002', 14),
 (27, '2023-07-24', 'Illegal Mining', 'Illegal Mining site in Badulu Oya valley', '../uploads/complaint-recordings/Rec-27.mp3', 'An illegal mining site was found in Badulu Oya, 2-3 km upper in the Bandarapura Road, near the old bridge.', 'Ongoing', 'EMP0001', 15),
 (29, '2023-07-23', 'Information', 'Misuse of office information', NULL, 'Mr K.B Kumara, a minor staff member of Sena Holdings is suspected with handing over office secrets to potential competitors of the business.', 'Ongoing', 'EMP0001', 20),
 (31, '2023-07-25', 'House Breaking', 'A house breaking reported in Bibilegama', NULL, 'The house number 44, Badulla Rd, Bibilegama has subjected to house breaking on 24th July 2023. Most of the house property has been misplaced after the theft.', 'Ongoing', 'EMP0001', 21),
 (32, '2023-07-25', 'Exchange Fault', 'Used a devalued rate for a dollar exchange', '../uploads/complaint-recordings/Rec-32.mp3', 'The exchange unit of ABC Bank used a devalued rate to exchange the foreign currencies which is very much lower than that what is recommended from the central bank.', 'Ongoing', 'EMP0002', 22),
-(33, '2023-07-24', 'Intellectual Property Dispute', 'Suspected plagiarism is a popular song', NULL, 'The song ABC is published by an unknown user in all major streaming platform without any permission from the original artist.', 'Ongoing', 'EMP0002', NULL);
+(33, '2023-07-24', 'Intellectual Property Dispute', 'Suspected plagiarism is a popular song', NULL, 'The song ABC is published by an unknown user in all major streaming platform without any permission from the original artist.', 'Ongoing', 'EMP0002', NULL),
+(40, '2023-09-05', 'Criminal Offence', 'Attempted crime in a house robbery', '../uploads/complaint-recordings/Rec-40.mp3', 'An attempt to commit a child harassment during a house robbery was reported in Damanwara, Badulla.', 'Ongoing', 'EMP0004', 40);
 
 -- --------------------------------------------------------
 
@@ -106,7 +107,10 @@ INSERT INTO `duty` (`empID`, `duty_type`, `duty_cause`, `start`, `end`, `locatio
 ('EMP0001', 'Emergency', 'Drugs/ Explosives', '2023-07-30 08:00:00', '2023-07-30 15:00:00', 37),
 ('EMP0001', 'General', 'Traffic', '2023-09-04 08:10:00', '2023-09-04 15:10:00', 2),
 ('EMP0004', 'Special', 'Religious Function', '2023-09-13 21:46:00', '2023-09-19 21:46:00', 3),
-('EMP0002', 'Emergency', 'Robbery', '2023-09-03 21:48:00', '2023-09-04 21:48:00', 39);
+('EMP0002', 'Emergency', 'Robbery', '2023-09-03 21:48:00', '2023-09-04 21:48:00', 39),
+('EMP0002', 'General', 'Office Duty', '2023-09-04 08:00:00', '2023-09-04 10:00:00', 2),
+('EMP0004', 'Special', 'Special Parade Request', '2023-09-12 07:00:00', '2023-09-14 07:00:00', 3),
+('EMP0001', 'Emergency', 'Drugs/ Explosives', '2023-09-05 15:00:00', '2023-09-05 19:00:00', 42);
 
 -- --------------------------------------------------------
 
@@ -148,9 +152,10 @@ INSERT INTO `employee` (`empID`, `first_name`, `last_name`, `dob`, `email`, `tel
 --
 
 CREATE TABLE `evidence` (
+  `id` int(11) NOT NULL,
   `complaint_id` int(11) NOT NULL,
-  `nic` varchar(15) NOT NULL,
-  `eyewitness_description` varchar(500) DEFAULT NULL,
+  `nic` varchar(15) DEFAULT NULL,
+  `witness_description` varchar(500) DEFAULT NULL,
   `fingerprint_description` varchar(500) DEFAULT NULL,
   `photo_description` varchar(500) DEFAULT NULL,
   `court_medical_reports` varchar(500) DEFAULT NULL,
@@ -161,8 +166,14 @@ CREATE TABLE `evidence` (
 -- Dumping data for table `evidence`
 --
 
-INSERT INTO `evidence` (`complaint_id`, `nic`, `eyewitness_description`, `fingerprint_description`, `photo_description`, `court_medical_reports`, `accident_chart`) VALUES
-(1, '198044377789', NULL, NULL, '../uploads/case-imagery/1-1.jpg', NULL, NULL);
+INSERT INTO `evidence` (`id`, `complaint_id`, `nic`, `witness_description`, `fingerprint_description`, `photo_description`, `court_medical_reports`, `accident_chart`) VALUES
+(4, 1, '199923100023', 'I am the secretary of the above spoken principal. He threatened me to help in bribe committed otherwise I\'ll loose my job. This is not the first time he has committed such acts. This has happened around 3 times during my course of work, which is currently about 1 year (I started the job on 4th July 2022). He used fake projects to collect the funds, such as building fund, sports fund etc.', NULL, NULL, NULL, NULL),
+(5, 40, NULL, NULL, 'uploads/fingerprints/40F1.jpg', NULL, NULL, NULL),
+(7, 40, '199845299989', 'My niece aged 10 was subjected to this harassment. The robber tried to use my daughter as a hostage to scare us and runaway from the scene.', NULL, NULL, NULL, NULL),
+(13, 31, NULL, NULL, NULL, 'uploads/case-imagery/31P1.png', NULL, NULL),
+(17, 31, NULL, NULL, NULL, 'uploads/case-imagery/31P2.jpeg', NULL, NULL),
+(18, 26, NULL, NULL, NULL, NULL, 'uploads/court-medicals/26MR1.jpg', NULL),
+(22, 22, NULL, NULL, NULL, NULL, NULL, 'uploads/accident-charts/22A1.png');
 
 -- --------------------------------------------------------
 
@@ -203,18 +214,20 @@ CREATE TABLE `leaves` (
   `leave_end` date NOT NULL,
   `reason_type` varchar(50) NOT NULL,
   `reason` varchar(500) DEFAULT NULL,
-  `medical` varchar(500) DEFAULT NULL
+  `medical` varchar(500) DEFAULT NULL,
+  `status` int(11) NOT NULL DEFAULT 2
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `leaves`
 --
 
-INSERT INTO `leaves` (`leaveID`, `empID`, `leave_start`, `leave_end`, `reason_type`, `reason`, `medical`) VALUES
-(1, 'EMP0001', '2023-07-25', '2023-07-27', 'Personal', 'Will be going out of town for a personal matter.', NULL),
-(2, 'EMP0002', '2023-07-16', '2023-07-17', 'Health', 'Medical clinic', '../uploads/medicals/EMP0002.pdf'),
-(3, 'EMP0002', '2023-09-07', '2023-09-10', 'Personal', 'To go home', 'Algorithms Roadmap.png'),
-(4, 'EMP0002', '2023-09-13', '2023-09-17', 'Health', 'Sick', 'Algorithms Roadmap.png');
+INSERT INTO `leaves` (`leaveID`, `empID`, `leave_start`, `leave_end`, `reason_type`, `reason`, `medical`, `status`) VALUES
+(1, 'EMP0001', '2023-07-25', '2023-07-27', 'Personal', 'Will be going out of town for a personal matter.', NULL, 2),
+(2, 'EMP0002', '2023-07-16', '2023-07-17', 'Health', 'Medical clinic', '../uploads/medicals/EMP0002.pdf', 2),
+(3, 'EMP0002', '2023-09-07', '2023-09-10', 'Personal', 'To go home', 'Algorithms Roadmap.png', 2),
+(4, 'EMP0002', '2023-09-13', '2023-09-17', 'Health', 'Sick', 'Algorithms Roadmap.png', 2),
+(5, 'EMP0001', '2023-09-08', '2023-09-11', 'Personal', 'To attend my child&#39;s new school admission procedures', 'Algorithms Roadmap.png', 2);
 
 -- --------------------------------------------------------
 
@@ -251,7 +264,10 @@ INSERT INTO `location` (`location_id`, `location_name`, `district`, `city`, `lat
 (36, 'Crime Scene', 'Monaragala', 'Bibile', 6.86086, 81.3503),
 (37, 'Crime Scene', 'Badulla', 'Galporuyaya', 7.42852, 81.0368),
 (38, 'Crime Scene', 'Badulla', 'Ambagasdowa', 6.92807, 80.8966),
-(39, 'Crime Scene', 'Monaragala', 'Buttala', 6.75892, 81.2491);
+(39, 'Crime Scene', 'Monaragala', 'Buttala', 6.75892, 81.2491),
+(40, 'Case Location', 'Badulla', 'Dambana', 7.41362, 81.1083),
+(41, 'Case Location', 'Badulla', 'Dambana', 7.41362, 81.1083),
+(42, 'Crime Scene', 'Badulla', 'Bandarawela', 6.82588, 80.9982);
 
 -- --------------------------------------------------------
 
@@ -297,6 +313,8 @@ CREATE TABLE `people` (
 
 INSERT INTO `people` (`nic`, `name`, `address`, `contact`, `email`) VALUES
 ('197089678833', 'K. Priyantha', 'No 12/5, Malwatte Rd, Pitamaruwa ', '0782323211', ''),
+('197567342345', 'A.B Rodrigo', 'No 5, Raja Mawatha, Dambana, Badulla.', '0771223345', ''),
+('197578678890', 'A. Lopez', '14, ABC Rd, Kadana', '0789988765', ''),
 ('197789234564', 'A. A Kamalan', 'No 1A, Malwatte Rd, Arawa', '0765654332', 'kamalana@gmail.com'),
 ('197867466678', 'C.K Sandamali', 'No 34/1, Passara Rd, Badulla', '0788978666', 'ksandamali@gmail.com'),
 ('197867567889', 'A.B Herath', 'No 13, Old Cross Street, Badulla', '0712345234', ''),
@@ -304,8 +322,12 @@ INSERT INTO `people` (`nic`, `name`, `address`, `contact`, `email`) VALUES
 ('198077665823', 'A.B Silva', 'No 3, Temple Rd, Kendagolla', '0712334456', ''),
 ('198234355534', 'L.L Marasinghe', '1/B, Badulla Rd, Kalupahana.', '0764545667', 'marasinghe@senaholdings.lk'),
 ('198567342212', 'J.K Murugan', 'No 12, Pansalwatte Road, Baduluoya', '0556778774', ''),
-('199078675523', 'M.N.N Karunaratne', 'No 8/1 C, Polwatte Road, Lunugala', '0713423288', ''),
-('199578678900', 'J M Jayaratne', 'No 4, Passara Road, Arawa', '0782323222', 'jayaratne95@gmail.com');
+('199078675523', 'M.N.N Karunaratne', 'No 8/1 C, Polwatte Road, Lunugala', '0759997788', 'mayanthakaru@yahoo.net'),
+('199123341234', 'A. Kumara', 'No 5/1 C, Polwatte Road, Lunugala', '0712312222', ''),
+('199389782290', 'Thilini Kumarasiri', 'No 34, Sring Vally Mw, Badulla', '0778978777', 'thilinikumarasiri@gmail.com'),
+('199578678900', 'J M Jayaratne', 'No 4, Passara Road, Arawa', '0782323222', 'jayaratne95@gmail.com'),
+('199845299989', 'K.G Samanthi', 'No 17, Marabedda Road, Badulla', '0775645333', ''),
+('199923100023', 'K. Kumari Dharmaratne', 'No 22, Udayaya Road, Spirng Valley', '0712233231', '');
 
 -- --------------------------------------------------------
 
@@ -337,7 +359,10 @@ INSERT INTO `role_in_case` (`row_no`, `nic`, `role_in_case`, `complaint_id`) VAL
 (18, '198234355534', 'Plantiff', 29),
 (20, '198234355534', 'Plantiff', 31),
 (21, '198077665823', 'Plantiff', 32),
-(22, '197867466678', 'Plantiff', 33);
+(22, '197867466678', 'Plantiff', 33),
+(35, '199923100023', 'Witness', 1),
+(36, '199578678900', 'Plantiff', 40),
+(38, '199845299989', 'Witness', 40);
 
 -- --------------------------------------------------------
 
@@ -400,6 +425,7 @@ ALTER TABLE `employee`
 -- Indexes for table `evidence`
 --
 ALTER TABLE `evidence`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `complaint_id` (`complaint_id`),
   ADD KEY `nic` (`nic`);
 
@@ -457,25 +483,31 @@ ALTER TABLE `salary`
 -- AUTO_INCREMENT for table `complaint`
 --
 ALTER TABLE `complaint`
-  MODIFY `complaint_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `complaint_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+
+--
+-- AUTO_INCREMENT for table `evidence`
+--
+ALTER TABLE `evidence`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `leaves`
 --
 ALTER TABLE `leaves`
-  MODIFY `leaveID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `leaveID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `location`
 --
 ALTER TABLE `location`
-  MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `role_in_case`
 --
 ALTER TABLE `role_in_case`
-  MODIFY `row_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `row_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- Constraints for dumped tables

@@ -63,7 +63,13 @@ function fillCourtMedicalReports($complaint_id){
     return $rows;
 }
 
-function fillAccidentCharts(){}
+function fillAccidentCharts($complaint_id){
+    $dbcon = new DBConnector();
+    $con = $dbcon->getConnection();
+    $witnesses = new Evidence();
+    $rows = $witnesses->getAccidentCharts($con, $complaint_id);
+    return $rows;
+}
 
 function checkFileUploads($file, $expectedTypes, $maxSize){
     $errorMsg = "";
@@ -584,6 +590,88 @@ elseif(isset($_POST["deleteMedical"])){
     }
 }
 
+elseif(isset($_POST["addAccidentChart"])){
+    if(isset($_FILES["accidentFile"], $_POST["comp_id"]) && !empty($_POST["comp_id"])){
+        $accidentChart = $_FILES["accidentFile"];
+        $complaint_id = $_POST["comp_id"];
+
+        $status = checkFileUploads($accidentChart, array("png", "jpeg", "jpg", "pdf"), 5000000);
+
+        if($status == ""){
+            $dbcon = new DBConnector();
+            $con = $dbcon->getConnection();
+            $evidence = new Evidence();
+
+            $oldFileName = $accidentChart["name"];
+            $newFileName = $complaint_id. "A". $evidence->getAccidentChartCount($con, $complaint_id) + 1;
+
+            $temp = explode(".", $oldFileName);
+            $fileExtension = ".". end($temp);
+
+            $path = "uploads/accident-charts/";
+            $filePath = $path. $newFileName. $fileExtension;
+
+            try{    
+                $evidence->setAccidentChart($filePath);
+                $status = $evidence->recordEvidence($con, "add", "accident_chart", $complaint_id);
+                move_uploaded_file($accidentChart["tmp_name"], "../../". $filePath);
+
+                if($status){
+                    header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
+                }
+                else{
+                    header("Location: ../complaint-study.php?status=false");
+                }
+            }
+            catch(Exception $e){
+                die("Error Occured: ".$e->getMessage());
+            }
+        }
+        else{
+            header("Location: ../complaint-study.php?status=false&msg=$status");
+        }
+    }
+    else{
+        header("Location: ../complaint-study.php?status=false");
+    }
+}
+
+elseif(isset($_POST["deleteAccidentChart"])){
+    if(isset($_POST["comp_id"]) && isset($_POST["accidentChart"])){
+        if(!empty($_POST["comp_id"]) || !empty($_POST["accidentChart"])){
+
+            $complaint_id = $_POST["comp_id"];
+            $accidentChart = $_POST["accidentChart"];
+
+            try{    
+                $dbcon = new DBConnector();
+                $con = $dbcon->getConnection();
+
+                $evidence = new Evidence();
+                $evidence->setAccidentChart($accidentChart);
+                $status = $evidence->recordEvidence($con, "delete", "accident_chart", $complaint_id);
+
+                if($status){
+                    unlink("../../".$accidentChart);
+                    header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
+                }
+                else{
+                    header("Location: ../complaint-study.php?status=false");
+                }
+            }
+            catch(PDOException $e){
+                die("Error Occured: ".$e->getMessage());
+            }
+        }
+        else{
+            header("Location: ../complaint-study.php?status=false");
+        }
+    }
+    else{
+        header("Location: ../complaint-study.php?status=false");
+    }
+}
+
 elseif(isset($_REQUEST["complaint_id"]) && !empty($_REQUEST["complaint_id"])){
     $dbcon = new DBConnector();
     $con = $dbcon->getConnection();
@@ -642,7 +730,10 @@ elseif(isset($_REQUEST["complaint_id"]) && !empty($_REQUEST["complaint_id"])){
         // Court Medical Reports
         $array6 = array(fillCourtMedicalReports($complaint_id));
 
-        $response = array($array1, $array2, $array3, $array4, $array5, $array6);
+        // Accident Charts
+        $array7 = array(fillAccidentCharts($complaint_id));
+
+        $response = array($array1, $array2, $array3, $array4, $array5, $array6, $array7);
         $json = json_encode($response);
         echo $json;
     }

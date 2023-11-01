@@ -114,7 +114,24 @@ class Evidence{
         }
     }
 
-    public function getAccidentCharts($con, $complaint_id){}
+    public function getAccidentCharts($con, $complaint_id){
+        try{
+            $query = "SELECT accident_chart FROM evidence WHERE complaint_id=? AND accident_chart IS NOT NULL";
+
+            $pstmt = $con->prepare($query);
+            $pstmt->bindValue(1, $complaint_id);
+            if($pstmt->execute()){
+                $rows = $pstmt->fetchAll(PDO::FETCH_NUM);
+                return $rows;
+            }
+            else{
+                return "";
+            }
+        }
+        catch(PDOException $e){
+            die("Error Occured: ".$e->getMessage());
+        }
+    }
 
     public function getFingerPrintCount($con, $complaint_id){
         try{
@@ -151,6 +168,22 @@ class Evidence{
     public function getMedicalCount($con, $complaint_id){
         try{
             $query = "SELECT COUNT(court_medical_reports) FROM evidence WHERE complaint_id=?";
+
+            $pstmt = $con->prepare($query);
+            $pstmt->bindValue(1, $complaint_id);
+            if($pstmt->execute()){
+                $row = $pstmt->fetch(PDO::FETCH_NUM);
+                return $row[0];
+            }
+        }
+        catch(PDOException $e){
+            die("Error Occured: ".$e->getMessage());
+        }
+    }
+
+    public function getAccidentChartCount($con, $complaint_id){
+        try{
+            $query = "SELECT COUNT(accident_chart) FROM evidence WHERE complaint_id=?";
 
             $pstmt = $con->prepare($query);
             $pstmt->bindValue(1, $complaint_id);
@@ -228,10 +261,10 @@ class Evidence{
                         $code = "DM";
                         break;
         
-                    /*case "accident_chart":
-                        $query = "INSERT INTO evidence (complaint_id, accident_chart) VALUES(?, ?)";
-                        $code = "A";
-                        break;*/
+                    case "accident_chart":
+                        $query = "DELETE FROM evidence WHERE accident_chart=?";
+                        $code = "DA";
+                        break;
 
                     default:
                         break;
@@ -291,6 +324,13 @@ class Evidence{
 
                         case "DM":
                             $pstmt->bindValue(1, $this->court_medical_report);
+                            break;
+                        
+                        case "DA":
+                            $pstmt->bindValue(1, $this->accident_chart);
+                            break;
+
+                        default:
                             break;
                     }
                 }

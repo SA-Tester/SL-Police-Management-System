@@ -310,7 +310,11 @@ require_once("./scripts/fill-complaint-study.php");
                         <div class="row">
                             <div class="col" name="accidentCol" id="accidentCol">
                                 <form method="POST" action="scripts/fill-complaint-study.php" enctype="multipart/form-data">
-                                    <input type="file">
+                                    <input type="hidden" id="comp_id" name="comp_id" class="comp_id" value="" />
+
+                                    <label for="accidentFile">Choose a File (png, jpg, jpeg, pdf): </label>         
+                                    <input type="file" id="accidentFile" name="accidentFile" accept="image/png, image/jpg, image/jpeg, .pdf">
+
                                     <input type="submit" name="addAccidentChart" class="btn" value="Add"/>
                                 </form>
 
@@ -340,7 +344,8 @@ require_once("./scripts/fill-complaint-study.php");
         let witnessTable = document.getElementById("witnessTable");
         let fingerprintTable = document.getElementById("fingerprintTable");
         let photoTable = document.getElementById("photoTable");
-        let courtMedicalTable = document.getElementById("courtMedicalTable");
+        let courtMedicalTable = document.getElementById("courtMedicalTable"); 
+        let accidentTable = document.getElementById("accidentTable");
 
         function fillComplaintData(case_id) {
             // Data for Case Summary
@@ -788,6 +793,68 @@ require_once("./scripts/fill-complaint-study.php");
                         }
                         // ==============================================================================================
 
+                        // MANAGE ACCIDENT CHARTS =======================================================================
+                        if (obj.length > 6) {
+                            
+                            if (obj[6][0] != null) {
+                                let accidentArray = obj[6][0];
+
+                                for(let i=0; i < accidentArray.length; i++){
+                                    let form = document.createElement("form");
+                                    form.setAttribute("method", "POST");
+                                    form.setAttribute("action", "scripts/fill-complaint-study.php");
+                                    form.setAttribute("onsubmit", "return confirm('Are you sure you want to proceed ?')");
+
+                                    let row = document.createElement("tr");
+
+                                    let complaint_id = document.createElement("INPUT");
+                                    complaint_id.setAttribute("type", "hidden");
+                                    complaint_id.setAttribute("id", "comp_id");
+                                    complaint_id.setAttribute("name", "comp_id");
+                                    complaint_id.setAttribute("value", case_id);
+
+                                    let accidentChart = document.createElement("INPUT");
+                                    accidentChart.setAttribute("type", "hidden");
+                                    accidentChart.setAttribute("id", "accidentChart");
+                                    accidentChart.setAttribute("name", "accidentChart");
+                                    accidentChart.setAttribute("value", accidentArray[i][0]);
+
+                                    let cell1 = document.createElement("td");
+                                    let cell2 = document.createElement("td");
+
+                                    let cellRow = document.createElement("td");
+                                    cellRow.setAttribute("colspan", "2");
+                                    cellRow.style.padding = "0";
+
+                                    let link = document.createElement("a");
+                                    link.setAttribute("href", "../" + accidentArray[i][0]);
+                                    link.setAttribute("target", "blank");
+                                    link.style.paddingRight = "30vw";
+                                    linkText = document.createTextNode("Report  " + (i+1));
+                                    link.appendChild(linkText);
+
+                                    let deleteBtn = document.createElement("INPUT");
+                                    deleteBtn.setAttribute("type", "submit");
+                                    deleteBtn.setAttribute("name", "deleteAccidentChart");
+                                    deleteBtn.setAttribute("value", "Delete");
+                                    deleteBtn.classList.add("btn");
+
+                                    cell1.appendChild(link);
+                                    cell2.appendChild(deleteBtn);
+
+                                    form.appendChild(complaint_id);
+                                    form.appendChild(accidentChart);
+                                    form.appendChild(cell1);
+                                    form.appendChild(cell2);
+
+                                    cellRow.appendChild(form);
+                                    row.appendChild(cellRow);
+                                    accidentTable.getElementsByTagName("tbody")[0].appendChild(row);
+                                }
+                            }
+                        }
+                        // ==============================================================================================
+
                         document.getElementById("alertMsg").style.display = "none"; // Hide the "Complaint Not Found Messgae if response if not null"      
                     }
                 } else {
@@ -843,6 +910,14 @@ require_once("./scripts/fill-complaint-study.php");
                     if(rows5 >= 2){
                         for (let i = 0; i < rows5 - 1; i++) {
                             courtMedicalTable.deleteRow(1);
+                        }
+                    }
+
+                    // Remove rows of accidents table upon each new complaint search
+                    let rows6 = accidentTable.rows.length;
+                    if(rows6 >= 2){
+                        for (let i = 0; i < rows6 - 1; i++) {
+                            accidentTable.deleteRow(1);
                         }
                     }
 
