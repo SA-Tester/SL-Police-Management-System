@@ -243,7 +243,7 @@ require_once("./scripts/fill-complaint-study.php");
                                     <form method="POST" action="scripts/fill-complaint-study.php" enctype="multipart/form-data">
                                         <input type="hidden" id="comp_id" name="comp_id" class="comp_id" value="" />
                                         
-                                        <label for="fingerprintFile">Choose a File (png, jpeg, pdf): </label>
+                                        <label for="fingerprintFile">Choose a File (png, jpg, jpeg, pdf): </label>
                                         <input type="file" id="fingerprintFile" name="fingerprintFile" accept="image/png, image/jpeg, image/jpg, .pdf">
                                         
                                         <input type="submit" name="addFingerprint" class="btn" value="Add"/>
@@ -266,7 +266,7 @@ require_once("./scripts/fill-complaint-study.php");
                                 <form method="POST" action="scripts/fill-complaint-study.php" enctype="multipart/form-data">
                                     <input type="hidden" id="comp_id" name="comp_id" class="comp_id" value="" />
 
-                                    <label for="photoFile">Choose a File (png, jpeg, pdf): </label>         
+                                    <label for="photoFile">Choose a File (png, jpg, jpeg, pdf): </label>         
                                     <input type="file" id="photoFile" name="photoFile" accept="image/png, image/jpg, image/jpeg">
 
                                     <input type="submit" name="addPhoto" class="btn" value="Add"/>
@@ -287,7 +287,11 @@ require_once("./scripts/fill-complaint-study.php");
                         <div class="row">
                             <div class="col" name="courtMedicalCol" id="courtMedicalCol">
                                 <form method="POST" action="scripts/fill-complaint-study.php" enctype="multipart/form-data">
-                                    <input type="file">
+                                    <input type="hidden" id="comp_id" name="comp_id" class="comp_id" value="" />
+
+                                    <label for="medicalFile">Choose a File (png, jpg, jpeg, pdf): </label>         
+                                    <input type="file" id="medicalFile" name="medicalFile" accept="image/png, image/jpg, image/jpeg, .pdf">
+
                                     <input type="submit" name="addMedical" class="btn" value="Add"/>
                                 </form>
 
@@ -336,6 +340,7 @@ require_once("./scripts/fill-complaint-study.php");
         let witnessTable = document.getElementById("witnessTable");
         let fingerprintTable = document.getElementById("fingerprintTable");
         let photoTable = document.getElementById("photoTable");
+        let courtMedicalTable = document.getElementById("courtMedicalTable");
 
         function fillComplaintData(case_id) {
             // Data for Case Summary
@@ -721,6 +726,68 @@ require_once("./scripts/fill-complaint-study.php");
                         }
                         // ==============================================================================================
 
+                        // MANAGE COURT MEDICALS ========================================================================
+                        if (obj.length > 5) {
+                            
+                            if (obj[5][0] != null) {
+                                let medicalArray = obj[5][0];
+
+                                for(let i=0; i < medicalArray.length; i++){
+                                    let form = document.createElement("form");
+                                    form.setAttribute("method", "POST");
+                                    form.setAttribute("action", "scripts/fill-complaint-study.php");
+                                    form.setAttribute("onsubmit", "return confirm('Are you sure you want to proceed ?')");
+
+                                    let row = document.createElement("tr");
+
+                                    let complaint_id = document.createElement("INPUT");
+                                    complaint_id.setAttribute("type", "hidden");
+                                    complaint_id.setAttribute("id", "comp_id");
+                                    complaint_id.setAttribute("name", "comp_id");
+                                    complaint_id.setAttribute("value", case_id);
+
+                                    let medical = document.createElement("INPUT");
+                                    medical.setAttribute("type", "hidden");
+                                    medical.setAttribute("id", "medical");
+                                    medical.setAttribute("name", "medical");
+                                    medical.setAttribute("value", medicalArray[i][0]);
+
+                                    let cell1 = document.createElement("td");
+                                    let cell2 = document.createElement("td");
+
+                                    let cellRow = document.createElement("td");
+                                    cellRow.setAttribute("colspan", "2");
+                                    cellRow.style.padding = "0";
+
+                                    let link = document.createElement("a");
+                                    link.setAttribute("href", "../" + medicalArray[i][0]);
+                                    link.setAttribute("target", "blank");
+                                    link.style.paddingRight = "30vw";
+                                    linkText = document.createTextNode("Report  " + (i+1));
+                                    link.appendChild(linkText);
+
+                                    let deleteBtn = document.createElement("INPUT");
+                                    deleteBtn.setAttribute("type", "submit");
+                                    deleteBtn.setAttribute("name", "deleteMedical");
+                                    deleteBtn.setAttribute("value", "Delete");
+                                    deleteBtn.classList.add("btn");
+
+                                    cell1.appendChild(link);
+                                    cell2.appendChild(deleteBtn);
+
+                                    form.appendChild(complaint_id);
+                                    form.appendChild(medical);
+                                    form.appendChild(cell1);
+                                    form.appendChild(cell2);
+
+                                    cellRow.appendChild(form);
+                                    row.appendChild(cellRow);
+                                    courtMedicalTable.getElementsByTagName("tbody")[0].appendChild(row);
+                                }
+                            }
+                        }
+                        // ==============================================================================================
+
                         document.getElementById("alertMsg").style.display = "none"; // Hide the "Complaint Not Found Messgae if response if not null"      
                     }
                 } else {
@@ -768,6 +835,14 @@ require_once("./scripts/fill-complaint-study.php");
                     if(rows4 >= 2){
                         for (let i = 0; i < rows4 - 1; i++) {
                             photoTable.deleteRow(1);
+                        }
+                    }
+
+                    // Remove rows of court medicals table upon each new complaint search
+                    let rows5 = courtMedicalTable.rows.length;
+                    if(rows5 >= 2){
+                        for (let i = 0; i < rows5 - 1; i++) {
+                            courtMedicalTable.deleteRow(1);
                         }
                     }
 

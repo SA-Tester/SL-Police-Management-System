@@ -55,7 +55,13 @@ function fillPhotos($complaint_id){
     return $rows;
 }
 
-function fillCourtMedicalReports(){}
+function fillCourtMedicalReports($complaint_id){
+    $dbcon = new DBConnector();
+    $con = $dbcon->getConnection();
+    $witnesses = new Evidence();
+    $rows = $witnesses->getCourtMedicalReports($con, $complaint_id);
+    return $rows;
+}
 
 function fillAccidentCharts(){}
 
@@ -352,11 +358,11 @@ elseif(isset($_POST["addFingerprint"])){
 
             $path = "uploads/fingerprints/";
             $filePath = $path. $newFileName. $fileExtension;
-            move_uploaded_file($fingerprint["tmp_name"], "../../". $filePath);
 
             try{    
                 $evidence->setFingerprintDescription($filePath);
                 $status = $evidence->recordEvidence($con, "add", "fingerprint", $complaint_id);
+                move_uploaded_file($fingerprint["tmp_name"], "../../". $filePath);
 
                 if($status){
                     header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
@@ -365,7 +371,7 @@ elseif(isset($_POST["addFingerprint"])){
                     header("Location: ../complaint-study.php?status=false");
                 }
             }
-            catch(PDOException $e){
+            catch(Exception $e){
                 die("Error Occured: ".$e->getMessage());
             }
         }
@@ -434,11 +440,11 @@ elseif(isset($_POST["addPhoto"])){
 
             $path = "uploads/case-imagery/";
             $filePath = $path. $newFileName. $fileExtension;
-            move_uploaded_file($photo["tmp_name"], "../../". $filePath);
 
             try{    
                 $evidence->setPhotoDescription($filePath);
                 $status = $evidence->recordEvidence($con, "add", "photo", $complaint_id);
+                move_uploaded_file($photo["tmp_name"], "../../". $filePath);
 
                 if($status){
                     header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
@@ -447,7 +453,7 @@ elseif(isset($_POST["addPhoto"])){
                     header("Location: ../complaint-study.php?status=false");
                 }
             }
-            catch(PDOException $e){
+            catch(Exception $e){
                 die("Error Occured: ".$e->getMessage());
             }
         }
@@ -477,6 +483,88 @@ elseif(isset($_POST["deletePhoto"])){
 
                 if($status){
                     unlink("../../".$photo);
+                    header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
+                }
+                else{
+                    header("Location: ../complaint-study.php?status=false");
+                }
+            }
+            catch(PDOException $e){
+                die("Error Occured: ".$e->getMessage());
+            }
+        }
+        else{
+            header("Location: ../complaint-study.php?status=false");
+        }
+    }
+    else{
+        header("Location: ../complaint-study.php?status=false");
+    }
+}
+
+elseif(isset($_POST["addMedical"])){
+    if(isset($_FILES["medicalFile"], $_POST["comp_id"]) && !empty($_POST["comp_id"])){
+        $medical = $_FILES["medicalFile"];
+        $complaint_id = $_POST["comp_id"];
+
+        $status = checkFileUploads($medical, array("png", "jpeg", "jpg", "pdf"), 5000000);
+
+        if($status == ""){
+            $dbcon = new DBConnector();
+            $con = $dbcon->getConnection();
+            $evidence = new Evidence();
+
+            $oldFileName = $medical["name"];
+            $newFileName = $complaint_id. "MR". $evidence->getMedicalCount($con, $complaint_id) + 1;
+
+            $temp = explode(".", $oldFileName);
+            $fileExtension = ".". end($temp);
+
+            $path = "uploads/court-medicals/";
+            $filePath = $path. $newFileName. $fileExtension;
+
+            try{    
+                $evidence->setCourtMedicalReport($filePath);
+                $status = $evidence->recordEvidence($con, "add", "court_medical", $complaint_id);
+                move_uploaded_file($medical["tmp_name"], "../../". $filePath);
+
+                if($status){
+                    header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
+                }
+                else{
+                    header("Location: ../complaint-study.php?status=false");
+                }
+            }
+            catch(Exception $e){
+                die("Error Occured: ".$e->getMessage());
+            }
+        }
+        else{
+            header("Location: ../complaint-study.php?status=false&msg=$status");
+        }
+    }
+    else{
+        header("Location: ../complaint-study.php?status=false");
+    }
+}
+
+elseif(isset($_POST["deleteMedical"])){
+    if(isset($_POST["comp_id"]) && isset($_POST["medical"])){
+        if(!empty($_POST["comp_id"]) || !empty($_POST["medical"])){
+
+            $complaint_id = $_POST["comp_id"];
+            $medical = $_POST["medical"];
+
+            try{    
+                $dbcon = new DBConnector();
+                $con = $dbcon->getConnection();
+
+                $evidence = new Evidence();
+                $evidence->setCourtMedicalReport($medical);
+                $status = $evidence->recordEvidence($con, "delete", "court_medical", $complaint_id);
+
+                if($status){
+                    unlink("../../".$medical);
                     header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
                 }
                 else{
@@ -551,7 +639,10 @@ elseif(isset($_REQUEST["complaint_id"]) && !empty($_REQUEST["complaint_id"])){
         // Case Imagery
         $array5 = array(fillPhotos($complaint_id));
 
-        $response = array($array1, $array2, $array3, $array4, $array5);
+        // Court Medical Reports
+        $array6 = array(fillCourtMedicalReports($complaint_id));
+
+        $response = array($array1, $array2, $array3, $array4, $array5, $array6);
         $json = json_encode($response);
         echo $json;
     }

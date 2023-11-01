@@ -95,7 +95,24 @@ class Evidence{
         }
     }
 
-    public function getCourtMedicalReports($con, $complaint_id){}
+    public function getCourtMedicalReports($con, $complaint_id){
+        try{
+            $query = "SELECT court_medical_reports FROM evidence WHERE complaint_id=? AND court_medical_reports IS NOT NULL";
+
+            $pstmt = $con->prepare($query);
+            $pstmt->bindValue(1, $complaint_id);
+            if($pstmt->execute()){
+                $rows = $pstmt->fetchAll(PDO::FETCH_NUM);
+                return $rows;
+            }
+            else{
+                return "";
+            }
+        }
+        catch(PDOException $e){
+            die("Error Occured: ".$e->getMessage());
+        }
+    }
 
     public function getAccidentCharts($con, $complaint_id){}
 
@@ -118,6 +135,22 @@ class Evidence{
     public function getPhotoCount($con, $complaint_id){
         try{
             $query = "SELECT COUNT(photo_description) FROM evidence WHERE complaint_id=?";
+
+            $pstmt = $con->prepare($query);
+            $pstmt->bindValue(1, $complaint_id);
+            if($pstmt->execute()){
+                $row = $pstmt->fetch(PDO::FETCH_NUM);
+                return $row[0];
+            }
+        }
+        catch(PDOException $e){
+            die("Error Occured: ".$e->getMessage());
+        }
+    }
+
+    public function getMedicalCount($con, $complaint_id){
+        try{
+            $query = "SELECT COUNT(court_medical_reports) FROM evidence WHERE complaint_id=?";
 
             $pstmt = $con->prepare($query);
             $pstmt->bindValue(1, $complaint_id);
@@ -190,12 +223,12 @@ class Evidence{
                         $code = "DP";
                         break;
         
-                    /*case "court_medical":
-                        $query = "INSERT INTO evidence (complaint_id, court_medical_reports) VALUES(?, ?)";
-                        $code = "C";
+                    case "court_medical":
+                        $query = "DELETE FROM evidence WHERE court_medical_reports=?";
+                        $code = "DM";
                         break;
         
-                    case "accident_chart":
+                    /*case "accident_chart":
                         $query = "INSERT INTO evidence (complaint_id, accident_chart) VALUES(?, ?)";
                         $code = "A";
                         break;*/
@@ -254,6 +287,10 @@ class Evidence{
 
                         case "DP":
                             $pstmt->bindValue(1, $this->photo_description);
+                            break;
+
+                        case "DM":
+                            $pstmt->bindValue(1, $this->court_medical_report);
                             break;
                     }
                 }
