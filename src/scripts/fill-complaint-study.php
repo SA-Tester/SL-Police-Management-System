@@ -1,16 +1,18 @@
 <?php
 
-require_once("/Applications/XAMPP/xamppfiles/htdocs/sl-police/src/classes/class-db-connector.php");
-require_once("/Applications/XAMPP/xamppfiles/htdocs/sl-police/src/classes/class-complaints.php");
-require_once("/Applications/XAMPP/xamppfiles/htdocs/sl-police/src/classes/class-people.php");
-require_once("/Applications/XAMPP/xamppfiles/htdocs/sl-police/src/classes/class-employee.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/sl-police/src/classes/class-db-connector.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/sl-police/src/classes/class-complaints.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/sl-police/src/classes/class-people.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/sl-police/src/classes/class-employee.php");
+require_once($_SERVER['DOCUMENT_ROOT']."/sl-police/src/classes/class-evidence.php");
 
 use classes\DBConnector;
 use classes\Complaints;
 use classes\People;
 use classes\Employee;
+use classes\Evidence;
 
-function fillSuspectsCulprits($complaint_id){
+function fillPeople($complaint_id){
     try{
         $dbcon = new DBConnector();
         $con = $dbcon->getConnection();
@@ -29,11 +31,76 @@ function fillSuspectsCulprits($complaint_id){
     }
 }
 
-if(isset($_POST["addNew"])){
+function fillWitnesses($complaint_id){
+    $dbcon = new DBConnector();
+    $con = $dbcon->getConnection();
+    $witnesses = new Evidence();
+    $rows = $witnesses->getWinesses($con, $complaint_id);
+    return $rows;
+}
+
+function fillFingerprints($complaint_id){
+    $dbcon = new DBConnector();
+    $con = $dbcon->getConnection();
+    $witnesses = new Evidence();
+    $rows = $witnesses->getFingerprints($con, $complaint_id);
+    return $rows;
+}
+
+function fillPhotos($complaint_id){
+    $dbcon = new DBConnector();
+    $con = $dbcon->getConnection();
+    $witnesses = new Evidence();
+    $rows = $witnesses->getPhotos($con, $complaint_id);
+    return $rows;
+}
+
+function fillCourtMedicalReports(){}
+
+function fillAccidentCharts(){}
+
+function checkFileUploads($file, $expectedTypes, $maxSize){
+    $errorMsg = "";
+    $temp = explode(".", $file["name"]);
+    $fileType = end($temp);
+
+    // CHECK FOR UPLOAD ERRORS
+    switch ($file['error']) {
+        case UPLOAD_ERR_OK:
+            // CHECK FILE SIZE
+            if($file["size"] <= $maxSize){
+
+                // CHECK WHETHER THE UPLOADED FILE MATHCES WITH EXPECTED TYPES
+                if(in_array($fileType, $expectedTypes)){
+                    $errorMsg = "";
+                    break;
+                } 
+                else{
+                    $errorMsg = "File type doesn't match the specified";
+                    break;
+                }
+            }
+            else{
+                $errorMsg = "File size exceeds the limit";
+                break;
+            }
+
+        case UPLOAD_ERR_NO_FILE:
+            $errorMsg = 'No file sent';
+            break;
+
+        default:
+            $errorMsg = 'Unknown errors';
+    }
+
+    return $errorMsg;
+}
+
+if(isset($_POST["addPerson"])){
     if(isset($_POST["new_role"], $_POST["new_nic"], $_POST["new_name"], $_POST["new_address"], $_POST["new_contact"], $_POST["new_email"])){
         if(!empty($_POST["new_nic"]) || !empty($_POST["new_name"]) || !empty($_POST["new_address"]) || !empty($_POST["new_contact"]) || !empty($_POST["new_email"])){
 
-            $complaint_id = $_POST["new_comp_id"];
+            $complaint_id = $_POST["comp_id"];
             $new_role = $_POST["new_role"];
             $new_nic = $_POST["new_nic"];
             $new_name = $_POST["new_name"];
@@ -49,13 +116,13 @@ if(isset($_POST["addNew"])){
                 $con = $dbcon->getConnection();
 
                 $person->setCon($con);
-                $status1 = $person->addPerson();
+                $person->addPerson();
 
                 $complaint->setCon($con);
                 $complaint->setComplaintID($complaint_id);
-                $status2 = $complaint->addRoleInCase($new_nic, $new_role);
+                $status = $complaint->addRoleInCase($new_nic, $new_role);
 
-                if($status1 && $status2){
+                if($status){
                     header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
                 }
                 else{
@@ -75,7 +142,7 @@ if(isset($_POST["addNew"])){
     }
 }
 
-elseif(isset($_POST["update"])){
+elseif(isset($_POST["updatePerson"])){
     if(isset($_POST["role"], $_POST["personNIC"], $_POST["personName"], $_POST["personAddress"], $_POST["personContact"], $_POST["personEmail"])){
         if(!empty($_POST["comp_id"]) || !empty($_POST["personNIC"]) || !empty($_POST["personName"]) || !empty($_POST["personAddress"]) || !empty($_POST["personContact"]) || !empty($_POST["personEmail"])){
 
@@ -121,7 +188,7 @@ elseif(isset($_POST["update"])){
     }
 }
 
-elseif(isset($_POST["delete"])){
+elseif(isset($_POST["deletePerson"])){
     if(isset($_POST["personNIC"])){
         if(!empty($_POST["comp_id"]) || !empty($_POST["personNIC"])){
 
@@ -158,11 +225,282 @@ elseif(isset($_POST["delete"])){
     }
 }
 
-elseif(isset($_REQUEST["comp_id"]) && !empty($_REQUEST["comp_id"])){
+elseif(isset($_POST["addWitness"])){
+    if(isset($_POST["comp_id"]) && isset($_POST["witness_nics"]) && isset($_POST["description"])){
+        if(!empty($_POST["comp_id"]) || !empty($_POST["description"])){
+
+            $complaint_id = $_POST["comp_id"];
+            $nic = $_POST["witness_nics"];
+            $description = $_POST["description"];
+
+            try{    
+                $dbcon = new DBConnector();
+                $con = $dbcon->getConnection();
+
+                $evidence = new Evidence();
+                $evidence->setWitnessNIC($nic);
+                $evidence->setWitnessDescription($description);
+                $status = $evidence->recordEvidence($con, "add", "witness", $complaint_id);
+                if($status){
+                    header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
+                }
+                else{
+                    header("Location: ../complaint-study.php?status=false");
+                }
+            }
+            catch(PDOException $e){
+                die("Error Occured: ".$e->getMessage());
+            }
+        }
+        else{
+            header("Location: ../complaint-study.php?status=false");
+        }
+    }
+    else{
+        header("Location: ../complaint-study.php?status=false");
+    }
+}
+
+elseif(isset($_POST["updateWitness"])){
+    if(isset($_POST["comp_id"]) && isset($_POST["nic"]) && isset($_POST["description"])){
+        if(!empty($_POST["comp_id"]) || !empty($_POST["nic"]) || !empty($_POST["description"])){
+
+            $complaint_id = $_POST["comp_id"];
+            $nic = $_POST["nic"];
+            $description = $_POST["description"];
+
+            try{    
+                $dbcon = new DBConnector();
+                $con = $dbcon->getConnection();
+
+                $evidence = new Evidence();
+                $evidence->setWitnessNIC($nic);
+                $evidence->setWitnessDescription($description);
+                $status = $evidence->recordEvidence($con, "update", "witness", $complaint_id);
+                if($status){
+                    header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
+                }
+                else{
+                    header("Location: ../complaint-study.php?status=false");
+                }
+            }
+            catch(PDOException $e){
+                die("Error Occured: ".$e->getMessage());
+            }
+        }
+        else{
+            header("Location: ../complaint-study.php?status=false");
+        }
+    }
+    else{
+        header("Location: ../complaint-study.php?status=false");
+    }
+}
+
+elseif(isset($_POST["deleteWitness"])){
+    if(isset($_POST["comp_id"]) && isset($_POST["description"])){
+        if(!empty($_POST["comp_id"]) || !empty($_POST["description"])){
+
+            $complaint_id = $_POST["comp_id"];
+            $description = $_POST["description"];
+
+            try{    
+                $dbcon = new DBConnector();
+                $con = $dbcon->getConnection();
+
+                $evidence = new Evidence();
+                $evidence->setWitnessDescription($description);
+                $status = $evidence->recordEvidence($con, "delete", "witness", $complaint_id);
+                if($status){
+                    header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
+                }
+                else{
+                    header("Location: ../complaint-study.php?status=false");
+                }
+            }
+            catch(PDOException $e){
+                die("Error Occured: ".$e->getMessage());
+            }
+        }
+        else{
+            header("Location: ../complaint-study.php?status=false");
+        }
+    }
+    else{
+        header("Location: ../complaint-study.php?status=false");
+    }
+}
+
+elseif(isset($_POST["addFingerprint"])){
+    
+    if(isset($_FILES["fingerprintFile"], $_POST["comp_id"]) && !empty($_POST["comp_id"])){
+        $fingerprint = $_FILES["fingerprintFile"];
+        $complaint_id = $_POST["comp_id"];
+
+        $status = checkFileUploads($fingerprint, array("png", "jpeg", "jpg", "pdf"), 5000000);
+
+        if($status == ""){
+            $dbcon = new DBConnector();
+            $con = $dbcon->getConnection();
+            $evidence = new Evidence();
+
+            $oldFileName = $fingerprint["name"];
+            $newFileName = $complaint_id. "F". $evidence->getFingerPrintCount($con, $complaint_id) + 1;
+
+            $temp = explode(".", $oldFileName);
+            $fileExtension = ".". end($temp);
+
+            $path = "uploads/fingerprints/";
+            $filePath = $path. $newFileName. $fileExtension;
+            move_uploaded_file($fingerprint["tmp_name"], "../../". $filePath);
+
+            try{    
+                $evidence->setFingerprintDescription($filePath);
+                $status = $evidence->recordEvidence($con, "add", "fingerprint", $complaint_id);
+
+                if($status){
+                    header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
+                }
+                else{
+                    header("Location: ../complaint-study.php?status=false");
+                }
+            }
+            catch(PDOException $e){
+                die("Error Occured: ".$e->getMessage());
+            }
+        }
+        else{
+            header("Location: ../complaint-study.php?status=false&msg=$status");
+        }
+    }
+    else{
+        header("Location: ../complaint-study.php?status=false");
+    }
+}
+
+elseif(isset($_POST["deleteFingerprint"])){
+    if(isset($_POST["comp_id"]) && isset($_POST["fingerprint"])){
+        if(!empty($_POST["comp_id"]) || !empty($_POST["fingerprint"])){
+
+            $complaint_id = $_POST["comp_id"];
+            $fingerprint = $_POST["fingerprint"];
+
+            try{    
+                $dbcon = new DBConnector();
+                $con = $dbcon->getConnection();
+
+                $evidence = new Evidence();
+                $evidence->setFingerprintDescription($fingerprint);
+                $status = $evidence->recordEvidence($con, "delete", "fingerprint", $complaint_id);
+
+                if($status){
+                    unlink("../../".$fingerprint);
+                    header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
+                }
+                else{
+                    header("Location: ../complaint-study.php?status=false");
+                }
+            }
+            catch(PDOException $e){
+                die("Error Occured: ".$e->getMessage());
+            }
+        }
+        else{
+            header("Location: ../complaint-study.php?status=false");
+        }
+    }
+    else{
+        header("Location: ../complaint-study.php?status=false");
+    }
+}
+
+elseif(isset($_POST["addPhoto"])){
+    if(isset($_FILES["photoFile"], $_POST["comp_id"]) && !empty($_POST["comp_id"])){
+        $photo = $_FILES["photoFile"];
+        $complaint_id = $_POST["comp_id"];
+
+        $status = checkFileUploads($photo, array("png", "jpeg", "jpg"), 5000000);
+
+        if($status == ""){
+            $dbcon = new DBConnector();
+            $con = $dbcon->getConnection();
+            $evidence = new Evidence();
+
+            $oldFileName = $photo["name"];
+            $newFileName = $complaint_id. "P". $evidence->getPhotoCount($con, $complaint_id) + 1;
+
+            $temp = explode(".", $oldFileName);
+            $fileExtension = ".". end($temp);
+
+            $path = "uploads/case-imagery/";
+            $filePath = $path. $newFileName. $fileExtension;
+            move_uploaded_file($photo["tmp_name"], "../../". $filePath);
+
+            try{    
+                $evidence->setPhotoDescription($filePath);
+                $status = $evidence->recordEvidence($con, "add", "photo", $complaint_id);
+
+                if($status){
+                    header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
+                }
+                else{
+                    header("Location: ../complaint-study.php?status=false");
+                }
+            }
+            catch(PDOException $e){
+                die("Error Occured: ".$e->getMessage());
+            }
+        }
+        else{
+            header("Location: ../complaint-study.php?status=false&msg=$status");
+        }
+    }
+    else{
+        header("Location: ../complaint-study.php?status=false");
+    }
+}
+
+elseif(isset($_POST["deletePhoto"])){
+    if(isset($_POST["comp_id"]) && isset($_POST["photo"])){
+        if(!empty($_POST["comp_id"]) || !empty($_POST["photo"])){
+
+            $complaint_id = $_POST["comp_id"];
+            $photo = $_POST["photo"];
+
+            try{    
+                $dbcon = new DBConnector();
+                $con = $dbcon->getConnection();
+
+                $evidence = new Evidence();
+                $evidence->setPhotoDescription($photo);
+                $status = $evidence->recordEvidence($con, "delete", "photo", $complaint_id);
+
+                if($status){
+                    unlink("../../".$photo);
+                    header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
+                }
+                else{
+                    header("Location: ../complaint-study.php?status=false");
+                }
+            }
+            catch(PDOException $e){
+                die("Error Occured: ".$e->getMessage());
+            }
+        }
+        else{
+            header("Location: ../complaint-study.php?status=false");
+        }
+    }
+    else{
+        header("Location: ../complaint-study.php?status=false");
+    }
+}
+
+elseif(isset($_REQUEST["complaint_id"]) && !empty($_REQUEST["complaint_id"])){
     $dbcon = new DBConnector();
     $con = $dbcon->getConnection();
 
-    $complaint_id = $_REQUEST["comp_id"];
+    $complaint_id = $_REQUEST["complaint_id"];
 
     $complaint = new Complaints();
     $person = new People("", "", "", "", "");
@@ -198,9 +536,22 @@ elseif(isset($_REQUEST["comp_id"]) && !empty($_REQUEST["comp_id"])){
             $employee_name = $employee->getName();
         }
 
+        // Data for Case Summary
         $array1 = array($complaint_id, $date, $category, $plantiff_nic, $plantiff_name, $title, $description, $employee_id, $employee_name);
-        $array2 = array(fillSuspectsCulprits($complaint_id));
-        $response = array($array1, $array2);
+        
+        // Data for People Involved in a Case for Manage People Table
+        $array2 = array(fillPeople($complaint_id));
+
+        // Data of Witnesses
+        $array3 = array(fillWitnesses($complaint_id));
+
+        // Data of Fingerprints
+        $array4 = array(fillFingerprints($complaint_id));
+
+        // Case Imagery
+        $array5 = array(fillPhotos($complaint_id));
+
+        $response = array($array1, $array2, $array3, $array4, $array5);
         $json = json_encode($response);
         echo $json;
     }
