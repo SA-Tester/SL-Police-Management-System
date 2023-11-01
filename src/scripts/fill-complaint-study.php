@@ -39,6 +39,57 @@ function fillWitnesses($complaint_id){
     return $rows;
 }
 
+function fillFingerprints($complaint_id){
+    $dbcon = new DBConnector();
+    $con = $dbcon->getConnection();
+    $witnesses = new Evidence();
+    $rows = $witnesses->getFingerprints($con, $complaint_id);
+    return $rows;
+}
+
+function fillPhotos(){}
+
+function fillCourtMedicalReports(){}
+
+function fillAccidentCharts(){}
+
+function checkFileUploads($file, $expectedTypes, $maxSize){
+    $errorMsg = "";
+    $temp = explode(".", $file["name"]);
+    $fileType = end($temp);
+
+    // CHECK FOR UPLOAD ERRORS
+    switch ($file['error']) {
+        case UPLOAD_ERR_OK:
+            // CHECK FILE SIZE
+            if($file["size"] <= $maxSize){
+
+                // CHECK WHETHER THE UPLOADED FILE MATHCES WITH EXPECTED TYPES
+                if(in_array($fileType, $expectedTypes)){
+                    $errorMsg = "";
+                    break;
+                } 
+                else{
+                    $errorMsg = "File type doesn't match the specified";
+                    break;
+                }
+            }
+            else{
+                $errorMsg = "File size exceeds the limit";
+                break;
+            }
+
+        case UPLOAD_ERR_NO_FILE:
+            $errorMsg = 'No file sent';
+            break;
+
+        default:
+            $errorMsg = 'Unknown errors';
+    }
+
+    return $errorMsg;
+}
+
 if(isset($_POST["addPerson"])){
     if(isset($_POST["new_role"], $_POST["new_nic"], $_POST["new_name"], $_POST["new_address"], $_POST["new_contact"], $_POST["new_email"])){
         if(!empty($_POST["new_nic"]) || !empty($_POST["new_name"]) || !empty($_POST["new_address"]) || !empty($_POST["new_contact"]) || !empty($_POST["new_email"])){
@@ -169,7 +220,7 @@ elseif(isset($_POST["deletePerson"])){
 }
 
 elseif(isset($_POST["addWitness"])){
-    if(isset($_POST["comp_id"]) || isset($_POST["witness_nics"]) || isset($_POST["description"])){
+    if(isset($_POST["comp_id"]) && isset($_POST["witness_nics"]) && isset($_POST["description"])){
         if(!empty($_POST["comp_id"]) || !empty($_POST["description"])){
 
             $complaint_id = $_POST["comp_id"];
@@ -192,7 +243,6 @@ elseif(isset($_POST["addWitness"])){
                 }
             }
             catch(PDOException $e){
-                echo $complaint_id;
                 die("Error Occured: ".$e->getMessage());
             }
         }
@@ -206,7 +256,7 @@ elseif(isset($_POST["addWitness"])){
 }
 
 elseif(isset($_POST["updateWitness"])){
-    if(isset($_POST["comp_id"]) || isset($_POST["nic"]) || isset($_POST["description"])){
+    if(isset($_POST["comp_id"]) && isset($_POST["nic"]) && isset($_POST["description"])){
         if(!empty($_POST["comp_id"]) || !empty($_POST["nic"]) || !empty($_POST["description"])){
 
             $complaint_id = $_POST["comp_id"];
@@ -229,7 +279,6 @@ elseif(isset($_POST["updateWitness"])){
                 }
             }
             catch(PDOException $e){
-                echo $complaint_id;
                 die("Error Occured: ".$e->getMessage());
             }
         }
@@ -243,14 +292,126 @@ elseif(isset($_POST["updateWitness"])){
 }
 
 elseif(isset($_POST["deleteWitness"])){
+    if(isset($_POST["comp_id"]) && isset($_POST["description"])){
+        if(!empty($_POST["comp_id"]) || !empty($_POST["description"])){
 
+            $complaint_id = $_POST["comp_id"];
+            $description = $_POST["description"];
+
+            try{    
+                $dbcon = new DBConnector();
+                $con = $dbcon->getConnection();
+
+                $evidence = new Evidence();
+                $evidence->setWitnessDescription($description);
+                $status = $evidence->recordEvidence($con, "delete", "witness", $complaint_id);
+                if($status){
+                    header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
+                }
+                else{
+                    header("Location: ../complaint-study.php?status=false");
+                }
+            }
+            catch(PDOException $e){
+                die("Error Occured: ".$e->getMessage());
+            }
+        }
+        else{
+            header("Location: ../complaint-study.php?status=false");
+        }
+    }
+    else{
+        header("Location: ../complaint-study.php?status=false");
+    }
 }
 
-elseif(isset($_REQUEST["comp_id"]) && !empty($_REQUEST["comp_id"])){
+elseif(isset($_POST["addFingerprint"])){
+    
+    if(isset($_FILES["fingerprintFile"], $_POST["comp_id"]) && !empty($_POST["comp_id"])){
+        $fingerprint = $_FILES["fingerprintFile"];
+        $complaint_id = $_POST["comp_id"];
+
+        $status = checkFileUploads($fingerprint, array("png", "jpeg", "jpg", "pdf"), 5000000);
+
+        if($status == ""){
+            $dbcon = new DBConnector();
+            $con = $dbcon->getConnection();
+            $evidence = new Evidence();
+
+            $oldFileName = $fingerprint["name"];
+            $newFileName = $complaint_id. "F". $evidence->getFingerPrintCount($con, $complaint_id) + 1;
+            echo "Hello". $complaint_id;
+            $temp = explode(".", $oldFileName);
+            $fileExtension = ".". end($temp);
+
+            $path = "uploads/fingerprints/";
+            $filePath = $path. $newFileName. $fileExtension;
+            move_uploaded_file($fingerprint["tmp_name"], $filePath);
+
+            try{    
+                $evidence->setFingerprintDescription($filePath);
+                $status = $evidence->recordEvidence($con, "add", "fingerprint", $complaint_id);
+
+                if($status){
+                    header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
+                }
+                else{
+                    header("Location: ../complaint-study.php?status=false");
+                }
+            }
+            catch(PDOException $e){
+                die("Error Occured: ".$e->getMessage());
+            }
+        }
+        else{
+            header("Location: ../complaint-study.php?status=false&msg=$status");
+        }
+    }
+    else{
+        header("Location: ../complaint-study.php?status=false");
+    }
+}
+
+elseif(isset($_POST["deleteFingerprint"])){
+    if(isset($_POST["comp_id"]) && isset($_POST["fingerprint"])){
+        if(!empty($_POST["comp_id"]) || !empty($_POST["fingerprint"])){
+
+            $complaint_id = $_POST["comp_id"];
+            $fingerprint = $_POST["fingerprint"];
+
+            try{    
+                $dbcon = new DBConnector();
+                $con = $dbcon->getConnection();
+
+                $evidence = new Evidence();
+                $evidence->setFingerprintDescription($fingerprint);
+                $status = $evidence->recordEvidence($con, "delete", "fingerprint", $complaint_id);
+
+                if($status){
+                    header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
+                }
+                else{
+                    header("Location: ../complaint-study.php?status=false");
+                }
+            }
+            catch(PDOException $e){
+                die("Error Occured: ".$e->getMessage());
+            }
+        }
+        else{
+            header("Location: ../complaint-study.php?status=false");
+        }
+    }
+    else{
+        header("Location: ../complaint-study.php?status=false");
+    }
+}
+
+elseif(isset($_REQUEST["complaint_id"]) && !empty($_REQUEST["complaint_id"])){
     $dbcon = new DBConnector();
     $con = $dbcon->getConnection();
 
-    $complaint_id = $_REQUEST["comp_id"];
+    $complaint_id = $_REQUEST["complaint_id"];
 
     $complaint = new Complaints();
     $person = new People("", "", "", "", "");
@@ -295,7 +456,10 @@ elseif(isset($_REQUEST["comp_id"]) && !empty($_REQUEST["comp_id"])){
         // Data of Witnesses
         $array3 = array(fillWitnesses($complaint_id));
 
-        $response = array($array1, $array2, $array3);
+        // Data of Fingerprints
+        $array4 = array(fillFingerprints($complaint_id));
+
+        $response = array($array1, $array2, $array3, $array4);
         $json = json_encode($response);
         echo $json;
     }

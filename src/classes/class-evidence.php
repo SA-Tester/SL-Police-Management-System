@@ -39,11 +39,8 @@ class Evidence{
     // ===================================================================================
 
     public function getWinesses($con, $complaint_id){
-        $dbcon = new DBConnector();
-        $con = $dbcon->getConnection();
-
         try{
-            $query = "SELECT nic, witness_description FROM evidence WHERE complaint_id=?";
+            $query = "SELECT nic, witness_description FROM evidence WHERE complaint_id=? AND witness_description IS NOT NULL";
 
             $pstmt = $con->prepare($query);
             $pstmt->bindValue(1, $complaint_id);
@@ -60,12 +57,53 @@ class Evidence{
         }
     }
 
+    public function getFingerprints($con, $complaint_id){
+        try{
+            $query = "SELECT fingerprint_description FROM evidence WHERE complaint_id=? AND fingerprint_description IS NOT NULL";
+
+            $pstmt = $con->prepare($query);
+            $pstmt->bindValue(1, $complaint_id);
+            if($pstmt->execute()){
+                $rows = $pstmt->fetchAll(PDO::FETCH_NUM);
+                return $rows;
+            }
+            else{
+                return "";
+            }
+        }
+        catch(PDOException $e){
+            die("Error Occured: ".$e->getMessage());
+        }
+    }
+
+    public function getPhotos($con, $complaint_id){}
+
+    public function getCourtMedicalReports($con, $complaint_id){}
+
+    public function getAccidentCharts($con, $complaint_id){}
+
+    public function getFingerPrintCount($con, $complaint_id){
+        try{
+            $query = "SELECT COUNT(fingerprint_description) FROM evidence WHERE complaint_id=?";
+
+            $pstmt = $con->prepare($query);
+            $pstmt->bindValue(1, $complaint_id);
+            if($pstmt->execute()){
+                $row = $pstmt->fetch(PDO::FETCH_NUM);
+                return $row[0];
+            }
+        }
+        catch(PDOException $e){
+            die("Error Occured: ".$e->getMessage());
+        }
+    }
+
     public function recordEvidence($con, $command, $evidenceType, $complaint_id){
         $query = "";
         $code = "";
 
         if($command != ""){
-            if($command = "add"){
+            if($command == "add"){
                 switch($evidenceType){
                     case "witness":
                         $query = "INSERT INTO evidence (complaint_id, nic, witness_description) VALUES(?, ?, ?)";
@@ -91,15 +129,48 @@ class Evidence{
                         $query = "INSERT INTO evidence (complaint_id, accident_chart) VALUES(?, ?)";
                         $code = "A";
                         break;
+
+                    default:
+                        break;
                 }
             }
 
             elseif($command == "update"){
                 // Only Witness descriptions can be updated. Others are file paths.
-                $query = "UPDATE evidence SET witness_description = ? WHERE complaint_id=? AND nic=?";
+                $query = "UPDATE evidence SET witness_description=? WHERE complaint_id=? AND nic=?";
             }
     
-            elseif($command == "delete"){}
+            elseif($command == "delete"){
+                switch($evidenceType){
+                    case "witness":
+                        $query = "DELETE FROM evidence WHERE witness_description=?";
+                        $code = "DW";
+                        break;
+                    
+                    case "fingerprint":
+                        $query = "DELETE FROM evidence WHERE fingerprint_description=?";
+                        $code = "DF";
+                        break;
+        
+                    /*case "photo":
+                        $query = "INSERT INTO evidence (complaint_id, photo_description) VALUES(?, ?)";
+                        $code = "P";
+                        break;
+        
+                    case "court_medical":
+                        $query = "INSERT INTO evidence (complaint_id, court_medical_reports) VALUES(?, ?)";
+                        $code = "C";
+                        break;
+        
+                    case "accident_chart":
+                        $query = "INSERT INTO evidence (complaint_id, accident_chart) VALUES(?, ?)";
+                        $code = "A";
+                        break;*/
+
+                    default:
+                        break;
+                }
+            }
     
             try{
                 $pstmt = $con->prepare($query);
@@ -137,9 +208,20 @@ class Evidence{
                     $pstmt->bindValue(2, $complaint_id);
                     $pstmt->bindValue(3, $this->witness_nic);
                 }
-    
-                $a = $pstmt->execute();
-                if($a){
+
+                elseif($command == "delete"){
+                    switch($code){
+                        case "DW":
+                            $pstmt->bindValue(1, $this->witness_description);
+                            break;
+
+                        case "DF":
+                            $pstmt->bindValue(1, $this->fingerprint_description);
+                            break;
+                    }
+                }
+
+                if($pstmt->execute()){
                     return true;
                 }
                 else{
