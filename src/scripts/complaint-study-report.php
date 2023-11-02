@@ -336,7 +336,7 @@ if (isset($_POST["generateReport"], $_POST["comp_id"]) && !empty($_POST["comp_id
     ob_end_clean(); 
 
     // Close and output PDF document 
-    $pdf->Output('test.pdf', 'I');
+    $pdf->Output("Report of Complaint $complaint_id.pdf", 'I');
 
 } else {
     header("Location: ../complaint-study.php?status=false&msg=Report Generation Failed");
