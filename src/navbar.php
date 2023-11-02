@@ -59,7 +59,8 @@ function renderNavBar()
                           <div class="dropdown-menu" aria-labelledby="employeeDropdown">
                             <a class="dropdown-item" href="new-employee.php" style="color:#101D6B"><b>Add New Employee</b></a>
                             <a class="dropdown-item" href="check-avalability.php" style="color:#101D6B"><b>Check Employee Avalability</b></a>
-                          </div>
+                            <a class="dropdown-item" href="generateEmployeeReport.php" style="color:#101D6B"><b>Employee Report</b></a>
+                            </div>
                         </li>
                         <li class="nav-item">
                           <a class="nav-link" href="payroll.php" style="color:#101D6B">Salary</a>
@@ -77,7 +78,7 @@ function renderNavBar()
           </div>';
         }elseif ($_SESSION['role'] === 'user') {
           
-          if($_SESSION['user_id'] === 'EMP0003'){
+          if($_SESSION['user_id'] === 'EMP0004'){
             echo '<div class="container">
             <div class="row">
               <div class="col-md-12">
