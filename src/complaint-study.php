@@ -39,8 +39,7 @@
             background-color: #808080;
         }
 
-        .nav-pills .nav-link.active,
-        .nav-pills .show>.nav-link {
+        .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
             color: #ffffff;
             background-color: #101D6B;
         }
@@ -58,20 +57,29 @@
     <div class="container-lg" style="height: 40pt;"></div>
 
     <div class="containter-md ml-5 mr-5">
-        <div class="row">
-            <div class="col d-flex justify-content-center">
-                <label for="caseID" class="mr-3 mt-5">Enter Case ID: </label>
-                <input type="text" id="caseID" name="caseID" class="mt-5 w-50 form-group" placeholder="Enter Case ID" />
-                <button class="mt-5 form-group" onclick="fillComplaintData(document.getElementById('caseID').value)"><i class="fas fa-search"></i></button>
+            <div class="row">
+                <div class="col d-flex justify-content-center">
+                    <label for="caseID" class="mr-3 mt-5">Enter Case ID: </label>
+                    <input type="text" id="caseID" name="caseID" class="mt-5 w-50 form-group" placeholder="Enter Case ID"/>
+                    <button class="mt-5 form-group" onclick="fillComplaintData(document.getElementById('caseID').value)"><i class="fas fa-search"></i></button>
+                </div>
             </div>
-        </div>
+
+            <div class="row">
+                <div class="col-md d-flex justify-content-center mt-4 mb-4">
+                    <form method="POST" action="./scripts/complaint-study-report.php">
+                        <input type="hidden" name="comp_id" class="comp_id" value="" />
+                        <input type="submit" name="generateReport" value="Generate Report" class="btn w-100"/>
+                    </form>
+                </div>
+            </div>
 
         <div class="alert mt-3 mb-3" role="alert" id="alertMsg" style="display: none;"></div>
         <div class="alert mt-3 mb-3" role="alert" id="recordsMsg" style="display: none;"></div>
 
         <div class="row mt-4">
-            <div class="col-3">
-                <div class="nav flex-column nav-pills text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <div class="col-md-3">
+                <div class="nav flex-column nav-pills text-center mb-5" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                     <a class="nav-link active" data-toggle="tab" id="v-pills-link1-tab" data-mdb-toggle="pill" href="#link1" role="tab" aria-controls="v-pills-link1" aria-selected="true">Case Summary</a>
                     <a class="nav-link" data-toggle="tab" id="v-pills-link2-tab" data-mdb-toggle="pill" href="#link2" role="tab" aria-controls="v-pills-link2" aria-selected="false">Manage Associated People</a>
                     <a class="nav-link" data-toggle="tab" id="v-pills-link3-tab" data-mdb-toggle="pill" href="#link3" role="tab" aria-controls="v-pills-link3" aria-selected="false">Witnesses Descriptions</a>
@@ -82,7 +90,7 @@
                 </div>
             </div>
 
-            <div class="col-9">
+            <div class="col-md-9 col-sm-2">
                 <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="link1" role="tabpanel" aria-labelledby="v-pills-link1-tab">
                         <fieldset class="form-group border p-4 w-100">
@@ -92,7 +100,7 @@
                                     <p>Complaint ID</p>
                                 </div>
                                 <div class="col-8">
-                                    <input type="text" name="comp_id" id="comp_id" class="form-group w-100" readonly />
+                                    <input type="text" id="comp_id" name="comp_id" class="form-group w-100" readonly />
                                 </div>
                             </div>
 
@@ -106,10 +114,10 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-md-4">
                                     <p>Plantiff (NIC - Name)</p>
                                 </div>
-                                <div class="col-8">
+                                <div class="col-md-8">
                                     <input type="text" name="plantiff_nic" id="plantiff_nic" class="form-group mr-3" readonly />
                                     <input type="text" name="plantiff_name" id="plantiff_name" class="form-group w-50" readonly />
                                 </div>
@@ -144,10 +152,10 @@
                             </div>
 
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-md-4">
                                     <p>Recorded By (EMP ID - Name)</p>
                                 </div>
-                                <div class="col-8">
+                                <div class="col-md-8">
                                     <input type="text" name="emp_id" id="emp_id" class="form-group mr-3" readonly />
                                     <input type="text" name="emp_name" id="emp_name" class="form-group w-50" readonly />
                                 </div>
@@ -158,7 +166,7 @@
                     <div class="tab-pane fade" id="link2" role="tabpanel" aria-labelledby="v-pills-link2-tab">
                         <div class="row">
                             <div class="col" name="peopleCol" id="peopleCol">
-                                <table class="table mt-4 w-100" name="peopleTable" id="peopleTable">
+                                <table class="table table-responsive mt-4 w-100" name="peopleTable" id="peopleTable">
                                     <thead>
                                         <th>Role in Case</th>
                                         <th>NIC</th>
@@ -210,7 +218,7 @@
                     <div class="tab-pane fade" id="link3" role="tabpanel" aria-labelledby="v-pills-link3-tab">
                         <div class="row">
                             <div class="col" name="witnessCol" id="witnessCol">
-                                <table class="table mt-4" name="witnessTable" id="witnessTable">
+                                <table class="table table-responsive mt-4" name="witnessTable" id="witnessTable">
                                     <thead>
                                         <th>NIC</th>
                                         <th>Description</th>
@@ -244,8 +252,8 @@
                                     <form method="POST" action="scripts/fill-complaint-study.php" enctype="multipart/form-data">
                                         <input type="hidden" id="comp_id" name="comp_id" class="comp_id" value="" />
                                         
-                                        <label for="fingerprintFile">Choose a File (png, jpg, jpeg, pdf): </label>
-                                        <input type="file" id="fingerprintFile" name="fingerprintFile" accept="image/png, image/jpeg, image/jpg, .pdf">
+                                        <label for="fingerprintFile">Choose a File (png, jpg, jpeg): </label>
+                                        <input type="file" id="fingerprintFile" name="fingerprintFile" accept="image/png, image/jpeg, image/jpg">
                                         
                                         <input type="submit" name="addFingerprint" class="btn" value="Add"/>
                                     </form>
@@ -267,7 +275,7 @@
                                 <form method="POST" action="scripts/fill-complaint-study.php" enctype="multipart/form-data">
                                     <input type="hidden" id="comp_id" name="comp_id" class="comp_id" value="" />
 
-                                    <label for="photoFile">Choose a File (png, jpg, jpeg, pdf): </label>         
+                                    <label for="photoFile">Choose a File (png, jpg, jpeg): </label>         
                                     <input type="file" id="photoFile" name="photoFile" accept="image/png, image/jpg, image/jpeg">
 
                                     <input type="submit" name="addPhoto" class="btn" value="Add"/>
@@ -290,8 +298,8 @@
                                 <form method="POST" action="scripts/fill-complaint-study.php" enctype="multipart/form-data">
                                     <input type="hidden" id="comp_id" name="comp_id" class="comp_id" value="" />
 
-                                    <label for="medicalFile">Choose a File (png, jpg, jpeg, pdf): </label>         
-                                    <input type="file" id="medicalFile" name="medicalFile" accept="image/png, image/jpg, image/jpeg, .pdf">
+                                    <label for="medicalFile">Choose a File (png, jpg, jpeg): </label>         
+                                    <input type="file" id="medicalFile" name="medicalFile" accept="image/png, image/jpg, image/jpeg">
 
                                     <input type="submit" name="addMedical" class="btn" value="Add"/>
                                 </form>
@@ -313,8 +321,8 @@
                                 <form method="POST" action="scripts/fill-complaint-study.php" enctype="multipart/form-data">
                                     <input type="hidden" id="comp_id" name="comp_id" class="comp_id" value="" />
 
-                                    <label for="accidentFile">Choose a File (png, jpg, jpeg, pdf): </label>         
-                                    <input type="file" id="accidentFile" name="accidentFile" accept="image/png, image/jpg, image/jpeg, .pdf">
+                                    <label for="accidentFile">Choose a File (png, jpg, jpeg): </label>         
+                                    <input type="file" id="accidentFile" name="accidentFile" accept="image/png, image/jpg, image/jpeg">
 
                                     <input type="submit" name="addAccidentChart" class="btn" value="Add"/>
                                 </form>
