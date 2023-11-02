@@ -79,289 +79,294 @@
         </div>
     </div>
 
-    <div class="containter-md d-flex justify-content-center ml-4 mr-4 mt-3">
+    <div class="containter-md"><!--d-flex justify-content-center ml-4 mr-4 mt-3-->
         <div class="row">
-            <div class="col-md-5 w-100">
+            <div class="col-md ml-3 mr-3">
                 <h3 class="h3 mt-5 mb-4 ml-5">New Complaint</h3>
                 <form method="POST" action="process-complaints.php" enctype="multipart/form-data" onsubmit="return confirm('Are you sure you want to proceed ?')">
-                    <table class="ml-3 w-100">
-                        <thead></thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <label for="date">Date</label>
-                                </td>
-                                <td>
-                                    <input type="date" id="date" name="date" class="mb-4 w-100 form-control" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="category" class="mr-4">Complaint Category</label>
-                                </td>
-                                <td>
-                                    <select id="category" name="category" class="mb-4 w-100 form-control">
-                                        <option value="1">Abuse of Women or Children</option>
-                                        <option value="2">Appreciation</option>
-                                        <option value="3">Archeological Issue</option>
-                                        <option value="4">Assault</option>
-                                        <option value="5">Bribery and Corruption</option>
-                                        <option value="6">Complaint against Police</option>
-                                        <option value="7">Criminal Offence</option>
-                                        <option value="8">Cybercrime</option>
-                                        <option value="9">Demonstration / Protest / Strike</option>
-                                        <option value="10">Environmental Issue</option>
-                                        <option value="11">Exchange Fault</option>
-                                        <option value="12">Foreign Employment Issue</option>
-                                        <option value="13">Frauds / Cheating</option>
-                                        <option value="14">House Breaking</option>
-                                        <option value="15">Illegal Mining</option>
-                                        <option value="16">Industrial / Labour Dispute</option>
-                                        <option value="17">Information</option>
-                                        <option value="18">Intellectual Property Dispute</option>
-                                        <option value="19">Miscellaneous</option>
-                                        <option value="20">Mischief / Sabotage</option>
-                                        <option value="21">Murder</option>
-                                        <option value="22">Narcotics / Dangerous Drugs </option>
-                                        <option value="23">National Security</option>
-                                        <option value="24">Natural Disaster</option>
-                                        <option value="25">Offence / Act against Public Health</option>
-                                        <option value="26">Offence against Public Property</option>
-                                        <option value="27">Organized Crime</option>
-                                        <option value="28">Personal Complaint</option>
-                                        <option value="29">Police Clearance</option>
-                                        <option value="30">Property Disputes</option>
-                                        <option value="31">Robbery</option>
-                                        <option value="32">Sexual Offences</option>
-                                        <option value="33">Suggestion</option>
-                                        <option value="34">Terrorism Related</option>
-                                        <option value="35">Theft</option>
-                                        <option value="36">Threat &amp; Intimidation</option>
-                                        <option value="37">Tourist Harassment</option>
-                                        <option value="38">Traffic &amp; Road Safety</option>
-                                        <option value="39">Treasure Hunting</option>
-                                        <option value="40">Vice Related</option>
-                                        <option value="41">Violation of Immigration Laws</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="title">Complaint Title</label>
-                                </td>
-                                <td>
-                                    <input type="text" id="title" name="title" class="mb-4 w-100 form-control" placeholder="Enter Complaint Title"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="start-recording">Record Complaint</label>
-                                </td>
-                                <td>
-                                    <button name="start-recording" id="start-recording" class="btn-danger mb-4">Start
-                                        Recording</button>
-                                    <button name="stop-recording" id="stop-recording" class="btn-dark mb-4">Stop
-                                        Recording</button>
-                                    <p id="isRecording">Click start to button to record</p>
-                                    <audio src="" name="recording" id="audioElement" class="mb-4" controls></audio>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="comp_desc">Complaint In Text</label>
-                                </td>
-                                <td>
-                                    <!--button name="start-speech" id="start-speech" class="btn-danger mb-2" disabled>Start</button>
-                                    <button name="stop-speech" id="stop-speech" class="btn-dark mb-2" disabled>Stop</button-->
-                                    <textarea id="comp_desc" name="comp_desc" rows="10" cols="40" class="mb-4 form-control" placeholder="Type the complaint in text"></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="people_type">Type</label>
-                                </td>
-                                <td>
-                                    <select name="people_type" id="people_type" class="mb-4 w-100 form-control">
-                                        <option value="Plantiff">Plantiff</option>
-                                        <option value="Suspect">Suspect</option>
-                                        <option value="Culprit">Culprit</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="people_nic">NIC</label>
-                                </td>
-                                <td>
-                                    <input list="people_nics" name="people_nic" id="people_nic" class="mb-4 w-100 form-control" placeholder="Person's NIC" onchange="fillDetails(this.value)" value="">
-                                    <datalist id="people_nics" name="people_nics" class="mb-4 w-100">     
-                                        <?php 
-                                            try{
-                                                $query = "SELECT nic FROM people";
-                                                $pstmt = $con->prepare($query);
-                                                $pstmt->execute();
-                                                $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
+                    <div class="row">
+                        <div class="col-sm">
+                            <label for="date">Date</label>
+                        </div>
+                        <div class="col-sm">
+                            <input type="date" id="date" name="date" class="mb-4 w-100 form-control" />
+                        </div>
+                    </div>
 
-                                                foreach($rows as $row){
-                                                    ?>
-                                                    <option value="<?php echo $row["nic"]; ?>"></option>
-                                                    <?php
-                                                }
-                                            }catch(PDOException $e){}
+                    <div class="row">
+                        <div class="col-sm">
+                            <label for="category" class="mr-4">Complaint Category</label>
+                        </div>
+                        <div class="col-sm">
+                            <select id="category" name="category" class="mb-4 w-100 form-control">
+                                <option value="1">Abuse of Women or Children</option>
+                                <option value="2">Appreciation</option>
+                                <option value="3">Archeological Issue</option>
+                                <option value="4">Assault</option>
+                                <option value="5">Bribery and Corruption</option>
+                                <option value="6">Complaint against Police</option>
+                                <option value="7">Criminal Offence</option>
+                                <option value="8">Cybercrime</option>
+                                <option value="9">Demonstration / Protest / Strike</option>
+                                <option value="10">Environmental Issue</option>
+                                <option value="11">Exchange Fault</option>
+                                <option value="12">Foreign Employment Issue</option>
+                                <option value="13">Frauds / Cheating</option>
+                                <option value="14">House Breaking</option>
+                                <option value="15">Illegal Mining</option>
+                                <option value="16">Industrial / Labour Dispute</option>
+                                <option value="17">Information</option>
+                                <option value="18">Intellectual Property Dispute</option>
+                                <option value="19">Miscellaneous</option>
+                                <option value="20">Mischief / Sabotage</option>
+                                <option value="21">Murder</option>
+                                <option value="22">Narcotics / Dangerous Drugs </option>
+                                <option value="23">National Security</option>
+                                <option value="24">Natural Disaster</option>
+                                <option value="25">Offence / Act against Public Health</option>
+                                <option value="26">Offence against Public Property</option>
+                                <option value="27">Organized Crime</option>
+                                <option value="28">Personal Complaint</option>
+                                <option value="29">Police Clearance</option>
+                                <option value="30">Property Disputes</option>
+                                <option value="31">Robbery</option>
+                                <option value="32">Sexual Offences</option>
+                                <option value="33">Suggestion</option>
+                                <option value="34">Terrorism Related</option>
+                                <option value="35">Theft</option>
+                                <option value="36">Threat &amp; Intimidation</option>
+                                <option value="37">Tourist Harassment</option>
+                                <option value="38">Traffic &amp; Road Safety</option>
+                                <option value="39">Treasure Hunting</option>
+                                <option value="40">Vice Related</option>
+                                <option value="41">Violation of Immigration Laws</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <label for="title">Complaint Title</label>
+                        </div>
+                        <div class="col-sm">
+                            <input type="text" id="title" name="title" class="mb-4 w-100 form-control" placeholder="Enter Complaint Title"/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <label for="start-recording">Record Complaint</label>
+                        </div>
+                        <div class="col-sm">
+                            <button name="start-recording" id="start-recording" class="btn-danger mb-4">Start
+                                Recording</button>
+                            <button name="stop-recording" id="stop-recording" class="btn-dark mb-4">Stop
+                                Recording</button>
+                            <p id="isRecording">Click start to button to record</p>
+                            <audio src="" name="recording" id="audioElement" class="mb-4" controls></audio>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <label for="comp_desc">Complaint In Text</label>
+                        </div>
+                        <div class="col-sm">
+                            <!--button name="start-speech" id="start-speech" class="btn-danger mb-2" disabled>Start</button>
+                            <button name="stop-speech" id="stop-speech" class="btn-dark mb-2" disabled>Stop</button-->
+                            <textarea id="comp_desc" name="comp_desc" rows="10" cols="40" class="mb-4 form-control" placeholder="Type the complaint in text"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <label for="people_type">Type</label>
+                        </div>
+                        <div class="col-sm">
+                            <select name="people_type" id="people_type" class="mb-4 w-100 form-control">
+                                <option value="Plantiff">Plantiff</option>
+                                <option value="Suspect">Suspect</option>
+                                <option value="Culprit">Culprit</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <label for="people_nic">NIC</label>
+                        </div>
+                        <div class="col-sm">
+                            <input list="people_nics" name="people_nic" id="people_nic" class="mb-4 w-100 form-control" placeholder="Person's NIC" onchange="fillDetails(this.value)" value="">
+                            <datalist id="people_nics" name="people_nics" class="mb-4 w-100">     
+                                <?php 
+                                    try{
+                                        $query = "SELECT nic FROM people";
+                                        $pstmt = $con->prepare($query);
+                                        $pstmt->execute();
+                                        $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
+
+                                        foreach($rows as $row){
+                                            ?>
+                                            <option value="<?php echo $row["nic"]; ?>"></option>
+                                            <?php
+                                        }
+                                    }catch(PDOException $e){}
+                                ?>
+                            </datalist>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <label for="people_name">Name</label>
+                        </div>
+                        <div class="col-sm">
+                            <input type="text" id="people_name" name="people_name" class="mb-4 w-100 form-control" placeholder="Person's Name" value=""/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <label for="people_address">Address</label>
+                        </div>
+                        <div class="col-sm">
+                        <input type="text" id="people_address" name="people_address" class="mb-4 w-100 form-control" placeholder="Person's Address" value=""/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <label for="people_contact">Contact</label>
+                        </div>
+                        <div class="col-sm">
+                            <input type="text" id="people_contact" name="people_contact" class="mb-4 w-100 form-control" placeholder="Person's Contact" value=""/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <label for="people_email">Email</label>
+                        </div>
+                        <div class="col-sm">
+                            <input type="email" id="people_email" name="people_email" class="mb-4 w-100 form-control" placeholder="Person's Email" value=""/>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <label for="location">Location</label>
+                        </div>
+                        <div class="col-sm">
+                            <input type="hidden" name="selectedCity" id="selectedCity" value=""/>
+                            <input type="hidden" name="selectedLat" id="selectedLat" value=""/>
+                            <input type="hidden" name="selectedLon" id="selectedLon" value=""/>
+                            <select id="city" name="city" class="mb-4 w-100 form-control"></select>       
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <label for="comp_status">Complaint Status</label>
+                        </div>
+                        <div class="col-sm">
+                            <select name="comp_status" id="comp_status" class="mb-4 w-100 form-control">
+                                <option value="Ongoing">Ongoing</option>
+                                <option value="Resolved">Resolved</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <label for="emp_id">Recorded By</label>
+                        </div>
+                        <div class="col-sm">
+                            <select id="emp_id" name="emp_id" class="mb-4 w-100 form-control">     
+                                <?php
+                                    $query2 = "SELECT empID FROM employee WHERE retired_status=?";
+                                    $pstmt2 = $con->prepare($query2);
+                                    $pstmt2->bindValue(1,0);
+                                    $pstmt2->execute();
+                                    $rows2 = $pstmt2->fetchAll(PDO::FETCH_ASSOC);
+                                    foreach($rows2 as $row){
                                         ?>
-                                    </datalist>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="people_name">Name</label>
-                                </td>
-                                <td>
-                                    <input type="text" id="people_name" name="people_name" class="mb-4 w-100 form-control" placeholder="Person's Name" value=""/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="people_address">Address</label>
-                                </td>
-                                <td>
-                                    <input type="text" id="people_address" name="people_address" class="mb-4 w-100 form-control" placeholder="Person's Address" value=""/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="people_contact">Contact</label>
-                                </td>
-                                <td>
-                                    <input type="text" id="people_contact" name="people_contact" class="mb-4 w-100 form-control" placeholder="Person's Contact" value=""/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="people_email">Email</label>
-                                </td>
-                                <td>
-                                    <input type="email" id="people_email" name="people_email" class="mb-4 w-100 form-control" placeholder="Person's Email" value=""/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="location">Location</label>
-                                </td>
-                                <td>
-                                    <input type="hidden" name="selectedCity" id="selectedCity" value=""/>
-                                    <input type="hidden" name="selectedLat" id="selectedLat" value=""/>
-                                    <input type="hidden" name="selectedLon" id="selectedLon" value=""/>
-                                    <select id="city" name="city" class="mb-4 w-100 form-control"></select>                           
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="comp_status">Complaint Status</label>
-                                </td>
-                                <td>
-                                    <select name="comp_status" id="comp_status" class="mb-4 w-100 form-control">
-                                        <option value="Ongoing">Ongoing</option>
-                                        <option value="Resolved">Resolved</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="emp_id">Recorded By</label>
-                                </td>
-                                <td>                
-                                    <select id="emp_id" name="emp_id" class="mb-4 w-100 form-control">     
+                                        <option value="<?php echo $row["empID"]; ?>"><?php echo $row["empID"]; ?></option>
                                         <?php
-                                            $query2 = "SELECT empID FROM employee WHERE retired_status=?";
-                                            $pstmt2 = $con->prepare($query2);
-                                            $pstmt2->bindValue(1,0);
-                                            $pstmt2->execute();
-                                            $rows2 = $pstmt2->fetchAll(PDO::FETCH_ASSOC);
-                                            foreach($rows2 as $row){
-                                                ?>
-                                                <option value="<?php echo $row["empID"]; ?>"><?php echo $row["empID"]; ?></option>
-                                                <?php
-                                            }
-                                        ?>
-                                    </select>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
 
-                    <table class="ml-3 w-100 traffic">
-                        <thead></thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <label for="vehicle_number">Vehicle Number</label>
-                                </td>
-                                <td>
-                                    <input type="text" id="vehicle_number" name="vehicle_number" class="mb-4 w-100 form-control" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="temp_start" class="mr-4">Temporary License Start Date</label>
-                                </td>
-                                <td>
-                                    <input type="date" id="temp_start" name="temp_start" class="mb-4 w-100 form-control" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="temp_end">Temporary License End Date</label>
-                                </td>
-                                <td>
-                                    <input type="date" id="temp_end" name="temp_end" class="mb-4 w-100 form-control" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="fine_amount">Fine Amount</label>
-                                </td>
-                                <td>
-                                    <input type="text" id="fine_amount" name="fine_amount" class="mb-4 w-100 form-control" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="fine_status">Fine Status</label>
-                                </td>
-                                <td>
-                                    <select name="fine_status" id="fine_status" class="mb-4 w-100 form-control">
-                                        <option value="0">Unpaid</option>    
-                                        <option value="1">Paid</option>
-                                    </select>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="license_issued">Fine Status</label>
-                                </td>
-                                <td>
-                                    <select name="license_issued" id="license_issued" class="mb-4 w-100 form-control">
-                                        <option value="0">Not Issued</option>    
-                                        <option value="1">Issued</option>
-                                    </select>
-                                </td>
-                            </tr>
-                         </tbody>
-                    </table>
+                    <div class="traffic">
+                        <div class="row">
+                            <div class="col-sm">
+                                <label for="vehicle_number">Vehicle Number</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="text" id="vehicle_number" name="vehicle_number" class="mb-4 w-100 form-control" />
+                            </div>
+                        </div>
 
-                    <table class="ml-3 w-100">
-                        <thead></thead>
-                        <tbody>
-                            <tr>
-                                <td class="text-center">
-                                    <input type="submit" name="add" value="Add New" class="btn-primary mb-4 w-25">
-                                    <input type="submit" name="update" value="Update" class="btn-warning mb-4 w-25">
-                                    <input type="reset" name="reset" value="Reset" class="btn-dark mb-4 w-25">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                        <div class="row">
+                            <div class="col-sm">
+                                <label for="temp_start" class="mr-4">Temporary License Start Date</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="date" id="temp_start" name="temp_start" class="mb-4 w-100 form-control" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm">
+                                <label for="temp_end">Temporary License End Date</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="date" id="temp_end" name="temp_end" class="mb-4 w-100 form-control" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm">
+                                <label for="fine_amount">Fine Amount</label>
+                            </div>
+                            <div class="col-sm">
+                                <input type="text" id="fine_amount" name="fine_amount" class="mb-4 w-100 form-control" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm">
+                                <label for="fine_status">Fine Status</label>
+                            </div>
+                            <div class="col-sm">
+                                <select name="fine_status" id="fine_status" class="mb-4 w-100 form-control">
+                                    <option value="0">Unpaid</option>    
+                                    <option value="1">Paid</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm">
+                                <label for="license_issued">License Issued</label>
+                            </div>
+                            <div class="col-sm">
+                                <select name="license_issued" id="license_issued" class="mb-4 w-100 form-control">
+                                    <option value="0">Not Issued</option>    
+                                    <option value="1">Issued</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm">
+                            <input type="submit" name="add" value="Add New" class="btn-primary mb-4 w-25">
+                            <input type="submit" name="update" value="Update" class="btn-warning mb-4 w-25">
+                            <input type="reset" name="reset" value="Reset" class="btn-dark mb-4 w-25">
+                        </div>
+                    </div>
                     
                     <!-- SAVE THE SELECTED COMPLAINT ID AND NIC ONCLICK (Included here to be sumbitted when update is clicked) -->
                     <input type="hidden" name="selected_row_id" id="selected_row_id" value=""/>
@@ -370,10 +375,10 @@
                 </form>
             </div>
 
-            <div class="col-md ml-4 mt-5">
+            <div class="col-md ml-3 mr-3 mt-5">
                 <h3 class="h3 mb-4">Complaint History</h3>
                 <div class="row mb-4">
-                    <div class="col-md">
+                    <div class="col-sm">
                         <label for="sort_type" class="mr-3">Sort By</label>
                         <select name="sort_type" id="sort_type" onchange="fillTable(this.value)" selected="id" class="form-control">
                             <option value="id">Complaint ID</option>
@@ -382,14 +387,14 @@
                             <option value="emp">Employee</option>
                         </select>
                     </div>
-                    <div class="col-md">
+                    <div class="col-sm">
                         <label for="search" class="mr-3">Search</label>
                         <input type="text" id="search" name="search" placeholder="Enter Text to Search" onchange="fillTable(this.value)" class="form-control">
                     </div>
-                </div>
+                </div> 
 
                 <div class="row">
-                    <div class="col-md mr-3">
+                    <div class="col-sm mr-3 table-responsive">
                         <table class="table table-primary table-striped-columns" id="comp-table">
                             <thead>
                                 <tr>
