@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 01, 2023 at 09:02 PM
+-- Generation Time: Nov 02, 2023 at 09:29 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -167,12 +167,13 @@ CREATE TABLE `evidence` (
 
 INSERT INTO `evidence` (`complaint_id`, `nic`, `witness_description`, `fingerprint_description`, `photo_description`, `court_medical_reports`, `accident_chart`) VALUES
 (1, '199923100023', 'I am the secretary of the above spoken principal. He threatened me to help in bribe committed otherwise I\'ll loose my job. This is not the first time he has committed such acts. This has happened around 3 times during my course of work, which is currently about 1 year (I started the job on 4th July 2022). He used fake projects to collect the funds, such as building fund, sports fund etc.', NULL, NULL, NULL, NULL),
-(40, NULL, NULL, 'uploads/fingerprints/40F1.jpg', NULL, NULL, NULL),
 (40, '199845299989', 'My niece aged 10 was subjected to this harassment. The robber tried to use my daughter as a hostage to scare us and runaway from the scene.', NULL, NULL, NULL, NULL),
-(31, NULL, NULL, NULL, 'uploads/case-imagery/31P1.png', NULL, NULL),
-(31, NULL, NULL, NULL, 'uploads/case-imagery/31P2.jpeg', NULL, NULL),
-(26, NULL, NULL, NULL, NULL, 'uploads/court-medicals/26MR1.jpg', NULL),
-(22, NULL, NULL, NULL, NULL, NULL, 'uploads/accident-charts/22A1.png');
+(31, NULL, NULL, NULL, 'uploads/case-imagery/31P1698953401.jpeg', NULL, NULL),
+(31, NULL, NULL, NULL, 'uploads/case-imagery/31P1698953524.jpeg', NULL, NULL),
+(27, NULL, NULL, NULL, 'uploads/case-imagery/27P1698953865.jpeg', NULL, NULL),
+(26, NULL, NULL, NULL, NULL, 'uploads/court-medicals/26F1698954522.jpeg', NULL),
+(22, NULL, NULL, NULL, NULL, NULL, 'uploads/accident-charts/22P1698954690.jpeg'),
+(40, NULL, NULL, 'uploads/fingerprints/40F1698955857.jpeg', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -499,7 +500,7 @@ ALTER TABLE `location`
 -- AUTO_INCREMENT for table `role_in_case`
 --
 ALTER TABLE `role_in_case`
-  MODIFY `row_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `row_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- Constraints for dumped tables
