@@ -12,11 +12,48 @@ use classes\People;
 use classes\Employee;
 use classes\Evidence;
 
-function fillPeople($complaint_id){
-    try{
-        $dbcon = new DBConnector();
-        $con = $dbcon->getConnection();
+function fillComplaintSummary($con, $complaint_id){
+    $complaint = new Complaints();
+    $person = new People("", "", "", "", "");
+    $employee = new Employee("", "", "", "", "", "", "", "", "", "", "", "", "", "");
 
+    $complaint->setCon($con);
+    $complaint->setComplaintID($complaint_id);
+
+    if($complaint->initComplaint()){
+        $date = $complaint->getDate();
+
+        $plantiff_nic = $complaint->getPersonNIC("Plantiff");
+        if(!empty($plantiff_nic)){
+            $person->setCon($con);
+            $person->setNIC($plantiff_nic);
+    
+            if($person->initPerson()){
+                $plantiff_name = $person->getName();
+            }
+        }
+        else{
+            $plantiff_nic = "NA";
+            $plantiff_name = "NA";
+        }
+    
+        $category = $complaint->getCategory();
+        $title = $complaint->getTitle();
+        $description = $complaint->getDescription();
+        
+        $employee_id = $complaint->getEmpID();
+        $employee->setEmpID($employee_id);
+        if($employee->initEmployee()){
+            $employee_name = $employee->getName();
+        }
+
+        $array1 = array($complaint_id, $date, $category, $plantiff_nic, $plantiff_name, $title, $description, $employee_id, $employee_name);
+    }
+    return $array1;
+}
+
+function fillPeople($con, $complaint_id){
+    try{
         $query = "SELECT * FROM role_in_case INNER JOIN people WHERE role_in_case.nic = people.nic AND complaint_id=? AND role_in_case.role_in_case != 'Plantiff'";
         $pstmt = $con->prepare($query);
         $pstmt->bindValue(1, $complaint_id);
@@ -31,41 +68,31 @@ function fillPeople($complaint_id){
     }
 }
 
-function fillWitnesses($complaint_id){
-    $dbcon = new DBConnector();
-    $con = $dbcon->getConnection();
+function fillWitnesses($con, $complaint_id){
     $witnesses = new Evidence();
     $rows = $witnesses->getWinesses($con, $complaint_id);
     return $rows;
 }
 
-function fillFingerprints($complaint_id){
-    $dbcon = new DBConnector();
-    $con = $dbcon->getConnection();
+function fillFingerprints($con, $complaint_id){
     $witnesses = new Evidence();
     $rows = $witnesses->getFingerprints($con, $complaint_id);
     return $rows;
 }
 
-function fillPhotos($complaint_id){
-    $dbcon = new DBConnector();
-    $con = $dbcon->getConnection();
+function fillPhotos($con, $complaint_id){
     $witnesses = new Evidence();
     $rows = $witnesses->getPhotos($con, $complaint_id);
     return $rows;
 }
 
-function fillCourtMedicalReports($complaint_id){
-    $dbcon = new DBConnector();
-    $con = $dbcon->getConnection();
+function fillCourtMedicalReports($con, $complaint_id){
     $witnesses = new Evidence();
     $rows = $witnesses->getCourtMedicalReports($con, $complaint_id);
     return $rows;
 }
 
-function fillAccidentCharts($complaint_id){
-    $dbcon = new DBConnector();
-    $con = $dbcon->getConnection();
+function fillAccidentCharts($con, $complaint_id){
     $witnesses = new Evidence();
     $rows = $witnesses->getAccidentCharts($con, $complaint_id);
     return $rows;
@@ -106,6 +133,12 @@ function checkFileUploads($file, $expectedTypes, $maxSize){
     }
 
     return $errorMsg;
+}
+
+function convertImageToJPEG($originalImage, $outputImage, $quality){
+    $binary = imagecreatefromstring(file_get_contents($originalImage));
+    imageJpeg($binary, $outputImage, $quality);
+    return 'test.'."jpeg";
 }
 
 if(isset($_POST["addPerson"])){
@@ -349,7 +382,7 @@ elseif(isset($_POST["addFingerprint"])){
         $fingerprint = $_FILES["fingerprintFile"];
         $complaint_id = $_POST["comp_id"];
 
-        $status = checkFileUploads($fingerprint, array("png", "jpeg", "jpg", "pdf"), 5000000);
+        $status = checkFileUploads($fingerprint, array("png", "jpeg", "jpg"), 5000000);
 
         if($status == ""){
             $dbcon = new DBConnector();
@@ -357,18 +390,15 @@ elseif(isset($_POST["addFingerprint"])){
             $evidence = new Evidence();
 
             $oldFileName = $fingerprint["name"];
-            $newFileName = $complaint_id. "F". $evidence->getFingerPrintCount($con, $complaint_id) + 1;
-
-            $temp = explode(".", $oldFileName);
-            $fileExtension = ".". end($temp);
+            $newFileName = $complaint_id. "F". time();
 
             $path = "uploads/fingerprints/";
-            $filePath = $path. $newFileName. $fileExtension;
+            $newFilePath = $path. $newFileName. ".jpeg";
 
             try{    
-                $evidence->setFingerprintDescription($filePath);
+                $evidence->setFingerprintDescription($newFilePath);
                 $status = $evidence->recordEvidence($con, "add", "fingerprint", $complaint_id);
-                move_uploaded_file($fingerprint["tmp_name"], "../../". $filePath);
+                convertImageToJPEG($fingerprint["tmp_name"], "../../". $newFilePath, 100);
 
                 if($status){
                     header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
@@ -439,18 +469,15 @@ elseif(isset($_POST["addPhoto"])){
             $evidence = new Evidence();
 
             $oldFileName = $photo["name"];
-            $newFileName = $complaint_id. "P". $evidence->getPhotoCount($con, $complaint_id) + 1;
-
-            $temp = explode(".", $oldFileName);
-            $fileExtension = ".". end($temp);
+            $newFileName = $complaint_id. "P". time();
 
             $path = "uploads/case-imagery/";
-            $filePath = $path. $newFileName. $fileExtension;
+            $newFilePath = $path. $newFileName. ".jpeg";
 
             try{    
-                $evidence->setPhotoDescription($filePath);
+                $evidence->setPhotoDescription($newFilePath);
                 $status = $evidence->recordEvidence($con, "add", "photo", $complaint_id);
-                move_uploaded_file($photo["tmp_name"], "../../". $filePath);
+                convertImageToJPEG($photo["tmp_name"], "../../". $newFilePath, 100);
 
                 if($status){
                     header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
@@ -521,18 +548,15 @@ elseif(isset($_POST["addMedical"])){
             $evidence = new Evidence();
 
             $oldFileName = $medical["name"];
-            $newFileName = $complaint_id. "MR". $evidence->getMedicalCount($con, $complaint_id) + 1;
-
-            $temp = explode(".", $oldFileName);
-            $fileExtension = ".". end($temp);
+            $newFileName = $complaint_id. "M". time();
 
             $path = "uploads/court-medicals/";
-            $filePath = $path. $newFileName. $fileExtension;
+            $newFilePath = $path. $newFileName. ".jpeg";
 
             try{    
-                $evidence->setCourtMedicalReport($filePath);
+                $evidence->setCourtMedicalReport($newFilePath);
                 $status = $evidence->recordEvidence($con, "add", "court_medical", $complaint_id);
-                move_uploaded_file($medical["tmp_name"], "../../". $filePath);
+                convertImageToJPEG($medical["tmp_name"], "../../". $newFilePath, 100);
 
                 if($status){
                     header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
@@ -603,18 +627,15 @@ elseif(isset($_POST["addAccidentChart"])){
             $evidence = new Evidence();
 
             $oldFileName = $accidentChart["name"];
-            $newFileName = $complaint_id. "A". $evidence->getAccidentChartCount($con, $complaint_id) + 1;
-
-            $temp = explode(".", $oldFileName);
-            $fileExtension = ".". end($temp);
+            $newFileName = $complaint_id. "A". time();
 
             $path = "uploads/accident-charts/";
-            $filePath = $path. $newFileName. $fileExtension;
+            $newFilePath = $path. $newFileName. ".jpeg";
 
             try{    
-                $evidence->setAccidentChart($filePath);
+                $evidence->setAccidentChart($newFilePath);
                 $status = $evidence->recordEvidence($con, "add", "accident_chart", $complaint_id);
-                move_uploaded_file($accidentChart["tmp_name"], "../../". $filePath);
+                convertImageToJPEG($accidentChart["tmp_name"], "../../". $newFilePath, 100);
 
                 if($status){
                     header("Location: ../complaint-study.php?status=true&comp_id=$complaint_id");
@@ -690,68 +711,33 @@ elseif(isset($_REQUEST["request"])){
 }
 
 elseif(isset($_REQUEST["complaint_id"]) && !empty($_REQUEST["complaint_id"])){
+    $complaint_id = strip_tags($_REQUEST["complaint_id"]);
+
     $dbcon = new DBConnector();
     $con = $dbcon->getConnection();
 
-    $complaint_id = $_REQUEST["complaint_id"];
-
-    $complaint = new Complaints();
-    $person = new People("", "", "", "", "");
-    $employee = new Employee("", "", "", "", "", "", "", "", "", "", "", "", "", "");
-
-    $complaint->setCon($con);
-    $complaint->setComplaintID($complaint_id);
-
-    if($complaint->initComplaint()){
-        $date = $complaint->getDate();
-
-        $plantiff_nic = $complaint->getPersonNIC("Plantiff");
-        if(!empty($plantiff_nic)){
-            $person->setCon($con);
-            $person->setNIC($plantiff_nic);
+    // Data for Case Summary
+    $array1 = fillComplaintSummary($con, $complaint_id);
     
-            if($person->initPerson()){
-                $plantiff_name = $person->getName();
-            }
-        }
-        else{
-            $plantiff_nic = "NA";
-            $plantiff_name = "NA";
-        }
-    
-        $category = $complaint->getCategory();
-        $title = $complaint->getTitle();
-        $description = $complaint->getDescription();
-        
-        $employee_id = $complaint->getEmpID();
-        $employee->setEmpID($employee_id);
-        if($employee->initEmployee()){
-            $employee_name = $employee->getName();
-        }
+    // Data for People Involved in a Case for Manage People Table
+    $array2 = array(fillPeople($con, $complaint_id));
 
-        // Data for Case Summary
-        $array1 = array($complaint_id, $date, $category, $plantiff_nic, $plantiff_name, $title, $description, $employee_id, $employee_name);
-        
-        // Data for People Involved in a Case for Manage People Table
-        $array2 = array(fillPeople($complaint_id));
+    // Data of Witnesses
+    $array3 = array(fillWitnesses($con, $complaint_id));
 
-        // Data of Witnesses
-        $array3 = array(fillWitnesses($complaint_id));
+    // Data of Fingerprints
+    $array4 = array(fillFingerprints($con, $complaint_id));
 
-        // Data of Fingerprints
-        $array4 = array(fillFingerprints($complaint_id));
+    // Case Imagery
+    $array5 = array(fillPhotos($con, $complaint_id));
 
-        // Case Imagery
-        $array5 = array(fillPhotos($complaint_id));
+    // Court Medical Reports
+    $array6 = array(fillCourtMedicalReports($con, $complaint_id));
 
-        // Court Medical Reports
-        $array6 = array(fillCourtMedicalReports($complaint_id));
+    // Accident Charts
+    $array7 = array(fillAccidentCharts($con, $complaint_id));
 
-        // Accident Charts
-        $array7 = array(fillAccidentCharts($complaint_id));
-
-        $response = array($array1, $array2, $array3, $array4, $array5, $array6, $array7);
-        $json = json_encode($response);
-        echo $json;
-    }
+    $response = array($array1, $array2, $array3, $array4, $array5, $array6, $array7);
+    $json = json_encode($response);
+    echo $json;   
 }
