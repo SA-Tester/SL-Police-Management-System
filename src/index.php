@@ -152,6 +152,14 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card border-0"><a href="leaveManagement.php" class="disabled emp1-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/Submit_leves.png" alt="Card Image"></a>
+                    <br>
+                    <div class="card-body text-center">
+                        <h5><a href="leaveManagement.php" style="color:darkblue" class="disabled emp1-link">Manage Leaves</a></h5>
+                    </div>
+                </div>
+            </div>
             <!--div class="col-md-6 col-lg-4">
               <div class="card border-0"><a href="#"><img class="card-img-top zoomUp" style="width:25%"src="../assets/Medical.png" alt="Card Image"></a>
                  <br>
@@ -182,6 +190,14 @@
                     <br>
                     <div class="card-body text-center">
                         <h5><a href="check-avalability.php" style="color:darkblue" class="disabled emp3-link">Check Employee Availability</a></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card border-0"><a href="generateEmployeeReport.php" class="disabled admin-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
+                    <br>
+                    <div class="card-body text-center">
+                        <h5><a href="generateEmployeeReport.php" style="color:darkblue" class="disabled admin-link">Employee Report</a></h5>
                     </div>
                 </div>
             </div>

@@ -51,6 +51,7 @@ function renderNavBar()
                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#101D6B">Leaves</a>
                           <div class="dropdown-menu" aria-labelledby="leavesDropdown">
                             <a class="dropdown-item" href="submit-leave-medical.php" style="color:#101D6B"><b>Submit Leaves</b></a>
+                            <a class="dropdown-item" href="leaveManagement.php" style="color:#101D6B"><b>Manage Leaves</b></a>
                           </div>
                         </li>
                         <li class="nav-item dropdown">
@@ -181,6 +182,7 @@ function renderNavBar()
                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#101D6B">Leaves</a>
                           <div class="dropdown-menu" aria-labelledby="leavesDropdown">
                             <a class="dropdown-item" href="submit-leave-medical.php" style="color:#101D6B"><b>Submit Leaves</b></a>
+                            <a class="dropdown-item" href="leaveManagement.php" style="color:#101D6B"><b>Manage Leaves</b></a>
                           </div>
                         </li>
                         <li class="nav-item">
