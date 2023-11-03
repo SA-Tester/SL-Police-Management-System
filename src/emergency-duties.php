@@ -72,7 +72,7 @@ $con = $dbcon->getConnection();
                                     <label for="emp_id">Employee ID</label>
                                 </td>
                                 <td>
-                                    <select id="emp_id" name="emp_id" class="mb-4 w-75">
+                                    <select id="emp_id" name="emp_id" class="mb-4 w-75 form-control">
                                         <?php
                                             try{
                                                 $query = "SELECT empID FROM employee where retired_status=?";
@@ -98,7 +98,7 @@ $con = $dbcon->getConnection();
                                     <label for="duty_cause">Duty Cause</label>
                                 </td>
                                 <td>
-                                    <select id="duty_cause" name="duty_cause" class="mb-4 w-75">
+                                    <select id="duty_cause" name="duty_cause" class="mb-4 w-75 form-control">
                                         <option value="Crime">Crime</option>
                                         <option value="Accident">Road Accident</option>
                                         <option value="Robbery">Robbery</option>
@@ -112,7 +112,7 @@ $con = $dbcon->getConnection();
                                     <label for="start">Start Time</label>
                                 </td>
                                 <td>
-                                    <input type="datetime-local" id="start" name="start" class="mb-4 w-75" />
+                                    <input type="datetime-local" id="start" name="start" class="mb-4 w-75 form-control" />
                                 </td>
                             </tr>
                             <tr>
@@ -120,7 +120,7 @@ $con = $dbcon->getConnection();
                                     <label for="end">End Time</label>
                                 </td>
                                 <td>
-                                    <input type="datetime-local" id="end" name="end" class="mb-4 w-75" />
+                                    <input type="datetime-local" id="end" name="end" class="mb-4 w-75 form-control" />
                                 </td>
                             </tr>
                             <tr>
@@ -128,7 +128,7 @@ $con = $dbcon->getConnection();
                                     <label for="district">District</label>
                                 </td>
                                 <td>
-                                    <select name="district" id="district" class="mb-4 w-75">
+                                    <select name="district" id="district" class="mb-4 w-75 form-control">
                                         <option value="">--None--</option>
 
                                         <option value="colombo">Colombo</option>
@@ -172,7 +172,7 @@ $con = $dbcon->getConnection();
                                     <label for="city">City</label>
                                 </td>
                                 <td>
-                                    <select name="city" id="city" class="mb-4 w-75"><!-- AUTO FILLED WHEN A DISTRICT IS SELECTED --></select>
+                                    <select name="city" id="city" class="mb-4 w-75 form-control"><!-- AUTO FILLED WHEN A DISTRICT IS SELECTED --></select>
                                 </td>
                             </tr>
                             <tr>
@@ -180,7 +180,7 @@ $con = $dbcon->getConnection();
                                     <label for="lat">Scence Latitude </label>
                                 </td>
                                 <td>
-                                    <input type="text" name="lat" id="lat" class="mb-4 w-75" readonly/>
+                                    <input type="text" name="lat" id="lat" class="mb-4 w-75 form-control" readonly/>
                                 </td>
                             </tr>
                             <tr>
@@ -188,12 +188,12 @@ $con = $dbcon->getConnection();
                                     <label for="lon">Scence Longitude </label>
                                 </td>
                                 <td>
-                                    <input type="text" name="lon" id="lon" class="mb-4 w-75" readonly/>
+                                    <input type="text" name="lon" id="lon" class="mb-4 w-75 form-control" readonly/>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <input type="submit" name="assign" value="Assign" class="btn-danger mb-4 w-75 ml-3"/>
+                                    <input type="submit" name="assign" value="Assign" class="btn btn-danger mb-4 w-75 ml-3"/>
                                 </td>
                             </tr>
                         </tbody>

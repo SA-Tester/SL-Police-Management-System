@@ -15,7 +15,7 @@ try {
 
     $telNumbers = $stmt->fetchAll(PDO::FETCH_COLUMN);
 } catch (PDOException $e) {
-    // Handle errors if needed
+    
     $telNumbers = [];
 }
 ?>
@@ -353,12 +353,22 @@ try {
     
     <form class="contact" method="POST" action="general-email.php">
     <!-- Name -->
-    <h1 class="title text-center mb-4">FOR CHANGE DUTIES</h1>  
+    <h1 class="title text-center mb-4">FOR Assigning DUTIES</h1>  
+
+    <?php
+                if (isset($_GET["status"])) {
+                    if ($_GET["status"] == 1) {
+                        echo "Successfully send emails of Duty assigned!";
+                    } elseif ($_GET["status"] == 2) {
+                        echo "Error Occurred Try again!";
+                    }
+                }
+                ?>
     <div class="form-group position-relative">
         <label for="formName" class="d-block">
             <i class="icon" data-feather="user"></i>
         </label>
-        <input type="text" id="formName" class="form-control form-control-lg thick" placeholder="Name" name="name">
+        <input type="text" id="formName" class="form-control form-control-lg thick" placeholder="Name of duty assining officer" name="name">
     </div>
 
     <!-- E-mail -->
@@ -375,9 +385,9 @@ try {
     </div>
 
     <!-- Submit btn -->
-    <div class="text-center">
-        <button type="submit" class="btn btn-primary" tabIndex="-1">Send message</button>
-    </div>
+    <form method="post" action="general-email.php">
+                    <button type="submit" class="btn btn-primary" name="submit">Send emails</button>
+                </form>
 </form>
 </div>
     
@@ -437,32 +447,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-  const form = document.querySelector(".contact");
-  const responseMessage = document.querySelector("#response-message");
-
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
-
-    const formData = new FormData(form);
-
-    try {
-      const response = await fetch("general-email.php", {
-        method: "POST",
-        body: formData,
-      });
-      const data = await response.text();
-
-      // Update the response message container with the response
-      responseMessage.innerHTML = data;
-
-      // Clear the form fields
-      form.reset();
-    } catch (error) {
-      console.error("Error sending form data:", error);
-    }
-  });
-});
 
 </script>
 
