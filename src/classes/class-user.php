@@ -56,21 +56,21 @@ class User{
             $db_password = $rs->password;
 
             if(!empty($rs)){
-                //for hashed password
-                /*if(password_verify($this->password, $db_password)){ 
-                    $this->empID = $rs->empID;
-                    $this->username = $rs->username;
-                    $this->role = $rs->role;
-                    $this->password = null;
-                    return true;
-                }*/
-                if($this->password === $db_password){
+                
+                if(password_verify($this->password, $db_password)){ 
                     $this->empID = $rs->empID;
                     $this->username = $rs->username;
                     $this->role = $rs->role;
                     $this->password = null;
                     return true;
                 }
+                /*if($this->password === $db_password){
+                    $this->empID = $rs->empID;
+                    $this->username = $rs->username;
+                    $this->role = $rs->role;
+                    $this->password = null;
+                    return true;
+                }*/
                 else{
                     return false;
                 }

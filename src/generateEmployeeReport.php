@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require './classes/class-db-connector.php';
 require './pdf-library/TCPDF-main/tcpdf.php';
@@ -114,6 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
         $message = "<h6 class='text-danger'>Required value is not submitted.</h6>";
     }
 }
+if(isset($_SESSION['user_id'])){
 ?>
 
 <!doctype html>
@@ -233,3 +235,9 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
 </body>
 
 </html>
+<?php
+}
+else{
+    header("Location: loginForm.php");
+}
+?>

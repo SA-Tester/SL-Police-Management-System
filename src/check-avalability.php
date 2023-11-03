@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require './classes/class-db-connector.php';
 require './classes/class-employee.php';
 
@@ -7,9 +9,8 @@ use classes\Employee;
 
 $employee = new Employee("","","","","","","","","","","","","","");
 
+if(isset($_SESSION['user_id'])){
 ?>
-
-
 
 <!doctype html>
 <html lang="en">
@@ -92,3 +93,9 @@ $employee = new Employee("","","","","","","","","","","","","","");
 </body>
 
 </html>
+<?php
+}
+else{
+    header("Location: loginForm.php");
+}
+?>
