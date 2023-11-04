@@ -244,14 +244,14 @@ $dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
                 filterTableByRole(selectedRole);
             });
         });
-        
+
 
         $("#updateButton").on("click", function(e) {
             e.preventDefault(); 
             // Make an AJAX request to the backend to update data
             $.ajax({
                 type: "POST",
-                url: "update-button-data-people.php", // Replace with the correct backend URL
+                url: "update-button-data-people.php", 
                 data: {
                     // Provide any data needed for the update (if necessary)
                 },
