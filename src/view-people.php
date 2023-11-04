@@ -178,6 +178,10 @@ $dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+
+
+
+
         // $(document).ready(function() {
         $('.dropdown-toggle').on('click', function() {
             $(this).siblings('.dropdown-menu').toggle();
@@ -240,36 +244,36 @@ $dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
                 filterTableByRole(selectedRole);
             });
         });
+        
 
-        $(document).ready(function() {
-    // handle the "Update Data" button click
-    $("#updateButton").on("click", function(e) {
-        e.preventDefault(); // Prevent the default form submission behavior
-
-        // Make an AJAX request to the backend to update data
-        $.ajax({
-            type: "POST",
-            url: "update-button-data-people.php", 
-            data: {
-                // Provide any data needed for the update
-            },
-            success: function(response) {
-                // Handle the response here, update the table, and display the message
-                if (response.message) {
-                    alert(response.message);
-                }
-                if (response.insertedRows) {
-                    // Update the table with the inserted rows
+        $("#updateButton").on("click", function(e) {
+            e.preventDefault(); 
+            // Make an AJAX request to the backend to update data
+            $.ajax({
+                type: "POST",
+                url: "update-button-data-people.php", // Replace with the correct backend URL
+                data: {
+                    // Provide any data needed for the update (if necessary)
+                },
+                success: function(response) {
+                    // Handle the response here, update the table, and display the messages
+                    if (response.message) {
+                        alert(response.message);
+                    }
+                    if (response.insertedRows) {
+                        // Update the table with the inserted rows (if needed)
+                    }
+                    if (response.updateMessages) {
+                        alert(response.updateMessages.join("\n"));
+                    }
+                },
+                error: function(xhr, status, error) {
                     
+                    console.error(error);
                 }
-            },
-            error: function(xhr, status, error) {
-                // Handle the error here
-                console.error(error);
-            }
+            });
         });
-    });
-});
+       
 
 
     //Generate report
