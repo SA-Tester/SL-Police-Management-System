@@ -14,6 +14,7 @@
   <li>Assign employees duties and display their current location in case of an emergency</li>
   <li>Calculate and send salaries to employees each month</li>
   <li>Enhanced security through restricted access privileges</li>
+  <li>UI/ UX Customizations</li>
 </ol>
 
 <h3>Technologies Used</h3>
