@@ -204,7 +204,7 @@ class Employee
         $dbcon = new DBConnector();
         try {
             $con = $dbcon->getConnection();
-            $employeeQuery = "SELECT empID, first_name, last_name, tel_no FROM employee";
+            $employeeQuery = "SELECT empID, first_name, last_name, tel_no FROM employee WHERE retired_status = 0";
             $epstmt = $con->prepare($employeeQuery);
             $epstmt->execute();
 
