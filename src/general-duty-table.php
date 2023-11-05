@@ -273,7 +273,7 @@
                 <td>${data[i].duty_cause}</td>
                 <td>${data[i].start}</td>
                 <td>${data[i].end}</td>
-                <td>${data[i].location_id}</td>
+                <td>${data[i].district}, ${data[i].city}</td>
                 <td><input type="checkbox" data-emp-id="${data[i].empID}"></td>
             `);
             tableBody.append(newRow);
