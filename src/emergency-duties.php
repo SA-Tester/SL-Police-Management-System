@@ -1,10 +1,12 @@
 <?php
+session_start();
+
 require "./classes/class-db-connector.php";
 use classes\DBConnector;
 
-$dbcon = new DBConnector();
-$con = $dbcon->getConnection();
-
+if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && $_SESSION["role"] == "admin"){
+    $dbcon = new DBConnector();
+    $con = $dbcon->getConnection();
 ?>
 
 <!DOCTYPE html>
@@ -36,6 +38,22 @@ $con = $dbcon->getConnection();
                             ?>
                             <div class="alert alert-success w-100 mt-5" role="alert">
                                 Record inserted succesfully!
+                            </div>
+                            <div class="alert alert-info w-100 mt-3" role="alert">
+                                <?php
+                                    $empID = $_GET["emp"];
+                                    try{
+                                        $query = "SELECT first_name, last_name, tel_no FROM employee WHERE empID=?";
+                                        $pstmt = $con->prepare($query);
+                                        $pstmt->bindValue(1, $empID);
+                                        $pstmt->execute();
+                                        $row = $pstmt->fetch(PDO::FETCH_ASSOC);
+                                    }catch(PDOException $e){
+                                        echo $e->getMessage();
+                                    }
+                                ?>
+                                <p class="bold">Call <?php echo $row[0]. " " . $row[1]?></p>
+                                <p class="bold">Contact <?php echo $row[2] ?></p>
                             </div>
                             <?php
                         }
@@ -69,13 +87,13 @@ $con = $dbcon->getConnection();
                         <tbody>
                             <tr>
                                 <td class="w-25">
-                                    <label for="emp_id">Employee ID</label>
+                                    <label for="emp_id">Employee</label>
                                 </td>
                                 <td>
                                     <select id="emp_id" name="emp_id" class="mb-4 w-75 form-control">
                                         <?php
                                             try{
-                                                $query = "SELECT empID FROM employee where retired_status=?";
+                                                $query = "SELECT empID, first_name, last_name FROM employee WHERE retired_status=?";
                                                 $pstmt = $con->prepare($query);
                                                 $pstmt->bindValue(1, "0");
                                                 $pstmt->execute();
@@ -83,7 +101,7 @@ $con = $dbcon->getConnection();
 
                                                 foreach($rows as $row){
                                                     ?>
-                                                    <option value="<?php echo $row["empID"]; ?>"><?php echo $row["empID"]; ?></option>
+                                                    <option value="<?php echo $row["empID"]; ?>"><?php echo $row["first_name"]. " ". $row["last_name"]; ?></option>
                                                     <?php
                                                 }
                                             }catch(PDOException $e){
@@ -222,3 +240,9 @@ $con = $dbcon->getConnection();
     crossorigin="anonymous"></script>    
 </body>
 </html>
+<?php
+}
+else{
+    header("Location: loginForm.php");
+}
+?>

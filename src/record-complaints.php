@@ -1,7 +1,10 @@
 <?php
-    require_once "./classes/class-db-connector.php";
-    use classes\DBConnector;
+session_start();
 
+require_once "./classes/class-db-connector.php";
+use classes\DBConnector;
+
+if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
     $dbcon = new DBConnector();
     $con = $dbcon->getConnection();
 ?>
@@ -674,3 +677,9 @@
     <script src="../js/complaint-recorder.js"></script>
 </body>
 </html>
+<?php
+}
+else{
+    header("Location: loginForm.php");
+}
+?>

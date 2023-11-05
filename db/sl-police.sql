@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 02, 2023 at 09:29 PM
+-- Generation Time: Nov 05, 2023 at 09:20 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -287,11 +287,11 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`empID`, `username`, `password`, `role`) VALUES
-('EMP0001', 'U0001', '1234', 'user'),
-('EMP0002', 'A0003', '1234', 'admin'),
-('EMP0003', 'U0003', '1234', 'user'),
-('EMP0004', 'gimhani', '1234', 'user'),
-('EMP0005', 'bodhika', '+HBuOoor5E-t', 'user');
+('EMP0001', 'U0001', '$2y$10$R/CFWJmz6EzGLmNoqbMTVOu9TRiQIyTOekggnSFpWFA.DT2RYsRVi', 'accountant_officer'),
+('EMP0002', 'A0003', '$2y$10$5BeGZ8eWpQ9KVBCUS2G4hehZn8grMHnLjx5XGTl0gwRl0lBEKNbSq', 'admin'),
+('EMP0003', 'U0003', '$2y$10$Ihqden1I7OSy6/fYz9ngie/aFDoLroRjNH3hnP3r01kDzmhliakpi', 'user'),
+('EMP0004', 'gimhani', '$2y$10$gWd70I49j/STaZHqcTCydewxORLXuCQIzA9ANGab0ACi4Oek6PIN.', 'external_ officer'),
+('EMP0005', 'bodhika', '$2y$10$NFdZ7L3V4cOJmIl91Vxh3.WjpLOiqtiX/4LvNlHHMNG8ub3kKgZ6S', 'user');
 
 -- --------------------------------------------------------
 
