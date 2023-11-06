@@ -92,10 +92,10 @@
                         <label for="dropdown2">Duty Place</label><br>
                         <select name="location_id" id="dropdown2" aria-labelledby="dropdown2" class="form-control">
                         <?php
-                            $query = "SELECT location_id, location_name, city FROM location";
+                            $query = "SELECT DISTINCT location_id, location_name, city FROM location";
                             $pstmt = $con->prepare($query);
                             $pstmt->execute();
-                            $rows = $pstmt->fetchAll();
+                            $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
                             foreach($rows as $row){
                                 ?>
                                 <option class="dropdown-item" value="<?php echo $row["location_id"]; ?>"><?php echo $row["location_name"]." - ".$row["city"] ?></option>
