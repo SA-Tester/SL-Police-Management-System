@@ -9,7 +9,7 @@ use classes\Employee;
 
 $employee = new Employee("","","","","","","","","","","","","","");
 
-if(isset($_SESSION['user_id'])){
+if(isset($_SESSION['user_id'],$_SESSION['role'],$_SESSION['username']) && ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'external_ officer')){
 ?>
 
 <!doctype html>
