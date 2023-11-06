@@ -1,6 +1,7 @@
-<?php 
+<?php
 
 namespace classes;
+
 use PDOException;
 use PDO;
 
@@ -13,7 +14,8 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
 
-class CalculateSalary{
+class CalculateSalary
+{
     private $emp_id;
     private $base_salary;
     private $con;
@@ -22,23 +24,26 @@ class CalculateSalary{
     private $bartar_amount;
     private $pension;
 
-    public function __construct($emp_id, $base_salary){
+    public function __construct($emp_id, $base_salary)
+    {
         $this->emp_id = $emp_id;
         $this->base_salary = $base_salary;
     }
 
-    public function setCon($con){
+    public function setCon($con)
+    {
         $this->con = $con;
     }
 
-    public function setServiceYears(){
+    public function setServiceYears()
+    {
         $query = "SELECT empID, appointment_date FROM employee";
         $pstmt = $this->con->prepare($query);
         $pstmt->execute();
         $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach($rows as $row){
-            if($row['empID']==$this->emp_id){
+        foreach ($rows as $row) {
+            if ($row['empID'] == $this->emp_id) {
                 $appointment_date = $row['appointment_date'];
             }
         }
@@ -50,56 +55,61 @@ class CalculateSalary{
         $this->service_years = $difference->y;
     }
 
-    public function calculateSalary(){
+    public function calculateSalary()
+    {
         $this->total_salary = ($this->base_salary + $this->service_years * 1000);
     }
 
-    public function setBartar(){
+    public function setBartar()
+    {
         $query = "SELECT empID, rank FROM employee";
-        $pstmt = $this->con->prepare($query);;
+        $pstmt = $this->con->prepare($query);
+        ;
         $pstmt->execute();
         $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach($rows as $row){
-            if($row['empID']==$this->emp_id){
+        foreach ($rows as $row) {
+            if ($row['empID'] == $this->emp_id) {
                 $rank = $row['rank'];
             }
         }
 
-        if($rank == "PC" || $rank == "WPC"){
+        if ($rank == "PC" || $rank == "WPC") {
             $this->bartar_amount = 12000;
-        } else if($rank == "PS" || $rank == "WPS"){
+        } else if ($rank == "PS" || $rank == "WPS") {
             $this->bartar_amount = 15000;
-        } else if ($rank == "SI" || $rank == "IP" || $rank == "ASP"){
+        } else if ($rank == "SI" || $rank == "IP" || $rank == "ASP") {
             $this->bartar_amount = 20000;
-        } else{
+        } else {
             $this->bartar_amount = 25000;
         }
     }
 
-    public function setPension(){
-        if($this->service_years >= 30){
-            $this->pension = $this->base_salary * 80/100;
-        } else if($this->service_years >= 25){
-            $this->pension = $this->base_salary * 75/100;
-        } else{
-            $this->pension = $this->base_salary * 70/100;
+    public function setPension()
+    {
+        if ($this->service_years >= 30) {
+            $this->pension = $this->base_salary * 80 / 100;
+        } else if ($this->service_years >= 25) {
+            $this->pension = $this->base_salary * 75 / 100;
+        } else {
+            $this->pension = $this->base_salary * 70 / 100;
         }
     }
 
-    public function addEmployee(){
+    public function addEmployee()
+    {
         $query = "SELECT empID, retired_status FROM employee";
         $pstmt = $this->con->prepare($query);
         $pstmt->execute();
         $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach($rows as $row){
-            if($row['empID']==$this->emp_id){
+        foreach ($rows as $row) {
+            if ($row['empID'] == $this->emp_id) {
                 $retired_status = $row['retired_status'];
             }
         }
 
-        if(!$retired_status){
+        if (!$retired_status) {
             $query = "INSERT INTO salary (empID, base_salary, service_years, bartar_amount, total_salary, pension_amount) VALUES (?, ?, ?, ?, ?, ?)";
             try {
                 $pstmt = $this->con->prepare($query);
@@ -110,10 +120,10 @@ class CalculateSalary{
                 $pstmt->bindValue(5, $this->total_salary);
                 $pstmt->bindValue(6, NULL);
                 $pstmt->execute();
-                if($pstmt->rowCount() > 0){
+                if ($pstmt->rowCount() > 0) {
                     header("Location: payroll.php?message=1");
                     exit;
-                } else{
+                } else {
                     header("Location: payroll.php?message=2");
                     exit;
                 }
@@ -121,7 +131,7 @@ class CalculateSalary{
             } catch (PDOException $exc) {
                 echo $exc->getMessage();
             }
-        } else{
+        } else {
             $query = "INSERT INTO salary (empID, base_salary, service_years, bartar_amount, total_salary, pension_amount) VALUES (?, ?, ?, ?, ?, ?)";
             try {
                 $pstmt = $this->con->prepare($query);
@@ -132,10 +142,10 @@ class CalculateSalary{
                 $pstmt->bindValue(5, NULL);
                 $pstmt->bindValue(6, $this->pension);
                 $pstmt->execute();
-                if($pstmt->rowCount() > 0){
+                if ($pstmt->rowCount() > 0) {
                     header("Location: payroll.php?message=1");
                     exit;
-                } else{
+                } else {
                     header("Location: payroll.php?message=2");
                     exit;
                 }
@@ -145,16 +155,17 @@ class CalculateSalary{
             }
         }
 
-        
+
     }
 
-    public function removeEmployee(){
+    public function removeEmployee()
+    {
         $query = "DELETE from salary WHERE empID=?";
         try {
             $pstmt = $this->con->prepare($query);
             $pstmt->bindValue(1, $this->emp_id);
             $pstmt->execute();
-            if ($pstmt->rowCount() > 0){
+            if ($pstmt->rowCount() > 0) {
                 return true;
             }
         } catch (PDOException $exc) {
@@ -162,7 +173,8 @@ class CalculateSalary{
         }
     }
 
-    public function retiredEmployee(){
+    public function retiredEmployee()
+    {
         $query = "UPDATE salary SET bartar_amount=?, total_salary=?, pension_amount=? WHERE empID=?";
         try {
             $pstmt = $this->con->prepare($query);
@@ -177,7 +189,8 @@ class CalculateSalary{
         }
     }
 
-    public function reset(){
+    public function reset()
+    {
         $query = "UPDATE salary SET bartar_amount=?, total_salary=?, pension_amount=? WHERE empID=?";
         try {
             $pstmt = $this->con->prepare($query);
@@ -192,7 +205,8 @@ class CalculateSalary{
         }
     }
 
-    public function refersh(){
+    public function refersh()
+    {
         $query = "UPDATE salary SET service_years=?, bartar_amount=?, total_salary=? WHERE empID=?";
         try {
             $pstmt = $this->con->prepare($query);
@@ -206,7 +220,8 @@ class CalculateSalary{
         }
     }
 
-    public function sendSalarySheet(){
+    public function sendSalarySheet()
+    {
         $mail = new PHPMailer();
         $mail->isSMTP();
         $mail->Host = "smtp.gmail.com";
@@ -220,14 +235,15 @@ class CalculateSalary{
         return $mail;
     }
 
-    public function checkEmployee(){
+    public function checkEmployee()
+    {
         $query = "SELECT * FROM salary";
         $pstmt = $this->con->prepare($query);
         $pstmt->execute();
         $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach($rows as $row){
-            if($row['empID']==$this->emp_id){
+        foreach ($rows as $row) {
+            if ($row['empID'] == $this->emp_id) {
                 return true;
             }
         }

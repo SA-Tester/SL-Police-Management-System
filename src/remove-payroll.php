@@ -11,8 +11,8 @@ $emp_id = $_POST["empID"];
 $con = $dbcon->getConnection();
 $addEmployee = new CalculateSalary($emp_id, 0);
 $addEmployee->setCon($con);
-if($addEmployee->removeEmployee()){
-    header("Location: payroll.php?message=7"); 
+if ($addEmployee->removeEmployee()) {
+    header("Location: payroll.php?message=7");
 }
 
 ?>

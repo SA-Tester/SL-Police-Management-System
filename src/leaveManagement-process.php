@@ -7,30 +7,30 @@ use classes\Leave;
 
 $dbcon = new DBConnector();
 
-if($_SERVER['REQUEST_METHOD'] === "POST"){
-    if(isset($_POST["status"])){
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
+    if (isset($_POST["status"])) {
         $empID = $_POST["emp_id"];
-        if($_POST["status"] == "ACCEPT"){
+        if ($_POST["status"] == "ACCEPT") {
             $status = 1;
-        } else{
+        } else {
             $status = 0;
         }
-        
+
         $con = $dbcon->getConnection();
         $leaveObject = new Leave($empID, NULL, NULL, NULL, NULL, NULL);
         $leaveObject->setCon($con);
 
-        if($leaveObject->updateStatus($status)){
+        if ($leaveObject->updateStatus($status)) {
             header("Location: leaveManagement.php?message=1");
             exit;
-        } else{
+        } else {
             header("Location: leaveManagement.php?message=2");
             exit;
         }
 
-    } else{
+    } else {
         header("Location: leaveManagement.php");
     }
-} else{
+} else {
     header("Location: leaveManagement.php");
 }

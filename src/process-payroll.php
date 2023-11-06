@@ -7,7 +7,7 @@ use classes\CalculateSalary;
 
 $dbcon = new DBConnector();
 
-if(isset($_POST["add"])){
+if (isset($_POST["add"])) {
 
     $con = $dbcon->getConnection();
 
@@ -16,9 +16,9 @@ if(isset($_POST["add"])){
     $addEmployee = new CalculateSalary($emp_id, $base_salary);
     $addEmployee->setCon($con);
 
-    if($addEmployee->checkEmployee()){
+    if ($addEmployee->checkEmployee()) {
         header("Location: payroll.php?message=6");
-    } else{
+    } else {
         $addEmployee->setServiceYears();
         $addEmployee->calculateSalary();
         $addEmployee->setBartar();
@@ -26,33 +26,33 @@ if(isset($_POST["add"])){
         $addEmployee->addEmployee();
     }
 
-    
+
 }
 
-if(isset($_POST["refresh"])){
+if (isset($_POST["refresh"])) {
     $con = $dbcon->getConnection();
     $query = "SELECT * FROM salary";
     $pstmt = $con->prepare($query);
     $pstmt->execute();
     $rs = $pstmt->fetchAll(PDO::FETCH_OBJ);
-    foreach ($rs as $employee){
+    foreach ($rs as $employee) {
         $emp_id = $employee->empID;
         $base_salary = $employee->base_salary;
-        if($employee->pension_amount==NULL){
+        if ($employee->pension_amount == NULL) {
             $addEmployee = new CalculateSalary($emp_id, $base_salary);
             $addEmployee->setCon($con);
             $addEmployee->setServiceYears();
             $addEmployee->calculateSalary();
             $addEmployee->setBartar();
             $addEmployee->reset();
-        } else{
+        } else {
             header("Location: payroll.php");
         }
 
     }
 }
 
-if(isset($_POST["send"])){
+if (isset($_POST["send"])) {
     $con = $dbcon->getConnection();
 
     $subject = $_POST['subject'];
@@ -62,10 +62,10 @@ if(isset($_POST["send"])){
     $pstmt = $con->prepare($query);
     $pstmt->execute();
     $rs = $pstmt->fetchAll(PDO::FETCH_OBJ);
-    foreach ($rs as $employee){
+    foreach ($rs as $employee) {
         $addEmployee = new CalculateSalary($employee->empID, 0);
         $addEmployee->setCon($con);
-        $mail=$addEmployee->sendSalarySheet();
+        $mail = $addEmployee->sendSalarySheet();
         $mail->addAddress($employee->email);
         $mail->Subject = $subject;
         $mail->Body = $message;
