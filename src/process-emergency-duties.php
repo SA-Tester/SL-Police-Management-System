@@ -13,7 +13,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $con = $dbcon->getConnection();
 
     if(isset($_POST["assign"])){
-        if(empty($_POST["start"]) || empty($_POST["end"])|| empty($_POST["district"]) || empty($_POST["city"])){
+        if(empty($_POST["start"]) || empty($_POST["end"]) || empty($_POST["district"]) || empty($_POST["city"])){
             header("Location: emergency-duties.php?status=2");
         }
         else{
@@ -40,7 +40,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $status = $dutyObj->addDuty();
     
             if($status){
-                header("Location: emergency-duties.php?status=0");
+                header("Location: emergency-duties.php?status=0&emp=$empID");
             }
             else{
                 header("Location: emergency-duties.php?status=1");
