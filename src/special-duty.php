@@ -58,8 +58,9 @@ $dbcon = new DBConnector();
                                     <select id="empID" name="empID" class="form-control" required>
                                         <?php
                                         try {
-                                            $query = "SELECT empID FROM employee ";
+                                            $query = "SELECT empID FROM employee WHERE retired_status=?";
                                             $pstmt = $dbcon->getConnection()->prepare($query);
+                                            $pstmt->bindValue(1, 0);
                                             $pstmt->execute();
                                             $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
 
