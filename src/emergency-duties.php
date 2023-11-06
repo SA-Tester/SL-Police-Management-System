@@ -39,21 +39,26 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && $_SE
                             <div class="alert alert-success w-100 mt-5" role="alert">
                                 Record inserted succesfully!
                             </div>
-                            <div class="alert alert-info w-100 mt-3" role="alert">
-                                <?php
-                                    $empID = $_GET["emp"];
-                                    try{
-                                        $query = "SELECT first_name, last_name, tel_no FROM employee WHERE empID=?";
-                                        $pstmt = $con->prepare($query);
-                                        $pstmt->bindValue(1, $empID);
-                                        $pstmt->execute();
-                                        $row = $pstmt->fetch(PDO::FETCH_ASSOC);
-                                    }catch(PDOException $e){
-                                        echo $e->getMessage();
-                                    }
-                                ?>
-                                <p class="bold">Call <?php echo $row[0]. " " . $row[1]?></p>
-                                <p class="bold">Contact <?php echo $row[2] ?></p>
+                            <div class="d-flex justify-content-center">
+                                <div class="alert alert-info w-75 mt-3" role="alert">
+                                    <?php
+                                        $empID = $_GET["emp"];
+                                        try{
+                                            $query = "SELECT first_name, last_name, tel_no FROM employee WHERE empID=?";
+                                            $pstmt = $con->prepare($query);
+                                            $pstmt->bindValue(1, $empID);
+                                            $pstmt->execute();
+                                            $row = $pstmt->fetch(PDO::FETCH_NUM);
+                                            ?>
+                                            <p class="text-center font-weight-bold">Inform Employee</p>
+                                            <p class="text-center font-weight-bold">Name: <?php echo $row[0]. " " . $row[1]?></p> 
+                                            <p class="text-center font-weight-bold">Contact: <?php echo $row[2] ?></p>
+                                            <?php
+                                        }catch(PDOException $e){
+                                            echo $e->getMessage();
+                                        }
+                                    ?>
+                                </div>
                             </div>
                             <?php
                         }
