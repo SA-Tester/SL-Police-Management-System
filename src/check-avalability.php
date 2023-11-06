@@ -64,7 +64,8 @@ if(isset($_SESSION['user_id'])){
                                     <th scope="col">Name</th>
                                     <th scope="col">Contact Number</th>
                                     <th scope="col">Duty</th>
-                                    <th scope="col">Avalability</th>
+                                    <th scope="col">Duty End</th>
+                                    <th scope="col">Is On Leave</th>
                                 </tr>
                             </thead>
 

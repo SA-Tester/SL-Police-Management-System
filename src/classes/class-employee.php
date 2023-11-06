@@ -199,7 +199,7 @@ class Employee
     function viewEmployeeAvalability()
     {
         date_default_timezone_set('Asia/Colombo');
-        $currentDate = date("Y-m-d");
+        $currentDate = date("Y-m-d H:i:s");
 
         $dbcon = new DBConnector();
         try {
@@ -223,7 +223,7 @@ class Employee
                     echo '<td data-title="Contact Number">' . $empContactNo . '</td>';
 
                     //duty
-                    $dutyQuery = "SELECT duty_type FROM duty WHERE empID = ? AND start <= ? AND end >= ?";
+                    $dutyQuery = "SELECT duty_type, end FROM duty WHERE empID = ? AND start <= ? AND end >= ?";
                     $dpstmt = $con->prepare($dutyQuery);
                     $dpstmt->bindValue(1, $empID);
                     $dpstmt->bindValue(2, $currentDate);
@@ -243,20 +243,31 @@ class Employee
                     $isOnDuty = $dpstmt->rowCount() > 0;
                     $isOnLeave = $lpstmt->rowCount() > 0;
 
+                    $dutyEnd = "";
                     echo '<td data-title="Duty">';
                     if ($isOnDuty) {
-                        $dutyType = $dpstmt->fetch(PDO::FETCH_ASSOC)['duty_type'];
+                        $row = $dpstmt->fetch(PDO::FETCH_ASSOC);
+                        $dutyType = $row["duty_type"];
+                        $dutyEnd = $row['end'];
                         echo $dutyType;
                     } else {
                         echo 'No Duty';
                     }
                     echo '</td>';
 
+                    echo '<td data-title="Duty End">';
+                    if ($isOnDuty) {
+                        echo $dutyEnd;
+                    } else {
+                        echo 'None';
+                    }
+                    echo '</td>';
+
                     echo '<td data-title="Avalability">';
                     if ($isOnLeave) {
-                        echo 'Not Available(On Leave)';
+                        echo 'Yes';
                     } else {
-                        echo 'Available';
+                        echo 'No';
                     }
                     echo '</td>';
 
