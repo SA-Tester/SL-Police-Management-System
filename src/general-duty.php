@@ -118,7 +118,7 @@ try {
                             </div>
                             <div class="media-body text-right">
                                 <h3>423</h3>
-                                <span>Traffics</span>
+                                <span>Traffic</span>
                             </div>
                         </div>
                     </div>

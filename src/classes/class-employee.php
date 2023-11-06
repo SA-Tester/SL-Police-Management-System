@@ -222,8 +222,8 @@ class Employee
                     echo '<td data-title="Name">' . $empName . '</td>';
                     echo '<td data-title="Contact Number">' . $empContactNo . '</td>';
 
-                    //duty
-                    $dutyQuery = "SELECT duty_type, end FROM duty WHERE empID = ? AND start <= ? AND end >= ?";
+                    //duty 
+                    $dutyQuery = "SELECT duty_type, end, location.city FROM duty, location WHERE empID = ? AND start <= ? AND end >= ? AND location.location_id = duty.location_id";
                     $dpstmt = $con->prepare($dutyQuery);
                     $dpstmt->bindValue(1, $empID);
                     $dpstmt->bindValue(2, $currentDate);
@@ -238,26 +238,32 @@ class Employee
                     $lpstmt->bindValue(3, $currentDate);
                     $lpstmt->execute();
 
-
-
                     $isOnDuty = $dpstmt->rowCount() > 0;
                     $isOnLeave = $lpstmt->rowCount() > 0;
 
-                    $dutyEnd = "";
+                    $row = $dpstmt->fetch(PDO::FETCH_ASSOC);
                     echo '<td data-title="Duty">';
                     if ($isOnDuty) {
-                        $row = $dpstmt->fetch(PDO::FETCH_ASSOC);
                         $dutyType = $row["duty_type"];
-                        $dutyEnd = $row['end'];
                         echo $dutyType;
                     } else {
-                        echo 'No Duty';
+                        echo 'Not on Duty';
                     }
                     echo '</td>';
 
                     echo '<td data-title="Duty End">';
                     if ($isOnDuty) {
+                        $dutyEnd = $row['end'];
                         echo $dutyEnd;
+                    } else {
+                        echo 'None';
+                    }
+                    echo '</td>';
+
+                    echo '<td data-title="Duty Location">';
+                    if ($isOnDuty) {
+                        $city = $row['city'];
+                        echo $city;
                     } else {
                         echo 'None';
                     }
