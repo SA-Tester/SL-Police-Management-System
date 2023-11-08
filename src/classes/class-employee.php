@@ -199,7 +199,7 @@ class Employee
     function viewEmployeeAvalability()
     {
         date_default_timezone_set('Asia/Colombo');
-        $currentDate = date("Y-m-d");
+        $currentDate = date("Y-m-d H:i:s");
 
         $dbcon = new DBConnector();
         try {
@@ -222,8 +222,8 @@ class Employee
                     echo '<td data-title="Name">' . $empName . '</td>';
                     echo '<td data-title="Contact Number">' . $empContactNo . '</td>';
 
-                    //duty
-                    $dutyQuery = "SELECT duty_type FROM duty WHERE empID = ? AND start <= ? AND end >= ?";
+                    //duty 
+                    $dutyQuery = "SELECT duty_type, end, location.city FROM duty, location WHERE empID = ? AND start <= ? AND end >= ? AND location.location_id = duty.location_id";
                     $dpstmt = $con->prepare($dutyQuery);
                     $dpstmt->bindValue(1, $empID);
                     $dpstmt->bindValue(2, $currentDate);
@@ -238,25 +238,42 @@ class Employee
                     $lpstmt->bindValue(3, $currentDate);
                     $lpstmt->execute();
 
-
-
                     $isOnDuty = $dpstmt->rowCount() > 0;
                     $isOnLeave = $lpstmt->rowCount() > 0;
 
+                    $row = $dpstmt->fetch(PDO::FETCH_ASSOC);
                     echo '<td data-title="Duty">';
                     if ($isOnDuty) {
-                        $dutyType = $dpstmt->fetch(PDO::FETCH_ASSOC)['duty_type'];
+                        $dutyType = $row["duty_type"];
                         echo $dutyType;
                     } else {
-                        echo 'No Duty';
+                        echo 'Not on Duty';
+                    }
+                    echo '</td>';
+
+                    echo '<td data-title="Duty End">';
+                    if ($isOnDuty) {
+                        $dutyEnd = $row['end'];
+                        echo $dutyEnd;
+                    } else {
+                        echo 'None';
+                    }
+                    echo '</td>';
+
+                    echo '<td data-title="Duty Location">';
+                    if ($isOnDuty) {
+                        $city = $row['city'];
+                        echo $city;
+                    } else {
+                        echo 'None';
                     }
                     echo '</td>';
 
                     echo '<td data-title="Avalability">';
                     if ($isOnLeave) {
-                        echo 'Not Available(On Leave)';
+                        echo 'Yes';
                     } else {
-                        echo 'Available';
+                        echo 'No';
                     }
                     echo '</td>';
 

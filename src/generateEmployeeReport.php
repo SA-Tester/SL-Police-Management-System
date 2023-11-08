@@ -115,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] === 'POST') {
         $message = "<h6 class='text-danger'>Required value is not submitted.</h6>";
     }
 }
-if(isset($_SESSION['user_id'])){
+if(isset($_SESSION['user_id'],$_SESSION['role'],$_SESSION['username']) && $_SESSION['role'] === 'admin'){
 ?>
 
 <!doctype html>

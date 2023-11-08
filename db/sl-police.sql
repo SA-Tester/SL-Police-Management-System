@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 05, 2023 at 09:20 AM
+-- Generation Time: Nov 07, 2023 at 04:13 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -47,7 +47,6 @@ INSERT INTO `complaint` (`complaint_id`, `date`, `complaint_type`, `complaint_ti
 (1, '2023-06-14', 'Bribery and Corruption', 'An attempted bribe during school admission', '../uploads/complaint-recordings/Rec-1.mp3', 'An amount of 500000 LKR was requested as bribe during my daughter\'s admission to XYZ girls\' school in Badulla.', 'Ongoing', 'EMP0001', 2),
 (2, '2023-07-03', 'Traffic & Road Safety', 'Committed road rule violation on Road B67', NULL, 'Ignored the police stop sign and continued to drive.', 'Ongoing', 'EMP0002', NULL),
 (15, '2023-07-22', 'Appreciation', 'Appreciating Service', NULL, 'Appreciating service of the traffic officer assigned near Uva College.', 'Ongoing', 'EMP0002', NULL),
-(16, '2023-07-22', 'Cybercrime', 'Cyberbullying ', NULL, '16 year old girl is subjected to serious cyberbullying from a 21 year old male, who claims to be one of her brother\'s friends. ', 'Ongoing', 'EMP0002', 25),
 (22, '2023-07-22', 'Traffic & Road Safety', 'Not obeying the traffic light signals', NULL, 'The suspect did not stop at the \"Red\" colour light. Instead he sped up causing a possible threat to pedestrians.', 'Resolved', 'EMP0001', NULL),
 (25, '2023-07-22', 'Traffic & Road Safety', 'Honking near a hospital ignoring police warnings.', NULL, 'The suspect honked loud ignoring the warning and the advices of the police officer near the Badulla general hospital.', 'Ongoing', 'EMP0001', 13),
 (26, '2023-07-24', 'Foreign Employment Issue', 'House maid harresment in Saudi Arabia', '../uploads/complaint-recordings/Rec-26.mp3', 'Mrs K.D Samanthi, my wife, is being harassed in Saudi Arabia. She was sent to that country during last September (2022) . She is currently being subjected to severe domestic violence and the agency is not taking necessary actions to bring her back to this country.', 'Ongoing', 'EMP0002', 14),
@@ -86,6 +85,7 @@ INSERT INTO `court_order` (`complaint_id`, `nic`, `next_court_date`, `previous_c
 --
 
 CREATE TABLE `duty` (
+  `id` int(11) NOT NULL,
   `empID` varchar(10) NOT NULL,
   `duty_type` varchar(40) NOT NULL,
   `duty_cause` varchar(30) DEFAULT NULL,
@@ -98,19 +98,18 @@ CREATE TABLE `duty` (
 -- Dumping data for table `duty`
 --
 
-INSERT INTO `duty` (`empID`, `duty_type`, `duty_cause`, `start`, `end`, `location_id`) VALUES
-('EMP0001', 'General', NULL, '2023-07-18 06:30:00', '2023-07-18 17:30:00', 3),
-('EMP0002', 'Special', 'Special Office Request', '2023-07-23 06:00:00', '2023-07-24 06:00:00', NULL),
-('EMP0001', 'Emergency', 'Crime', '2023-07-19 10:30:00', '2023-07-19 13:30:00', 1),
-('EMP0002', 'Emergency', 'Robbery', '2023-07-21 12:00:00', '2023-07-21 17:00:00', NULL),
-('EMP0002', 'Emergency', '119', '2023-07-29 13:00:00', '2023-07-29 17:00:00', 36),
-('EMP0001', 'Emergency', 'Drugs/ Explosives', '2023-07-30 08:00:00', '2023-07-30 15:00:00', 37),
-('EMP0001', 'General', 'Traffic', '2023-09-04 08:10:00', '2023-09-04 15:10:00', 2),
-('EMP0004', 'Special', 'Religious Function', '2023-09-13 21:46:00', '2023-09-19 21:46:00', 3),
-('EMP0002', 'Emergency', 'Robbery', '2023-09-03 21:48:00', '2023-09-04 21:48:00', 39),
-('EMP0002', 'General', 'Office Duty', '2023-09-04 08:00:00', '2023-09-04 10:00:00', 2),
-('EMP0004', 'Special', 'Special Parade Request', '2023-09-12 07:00:00', '2023-09-14 07:00:00', 3),
-('EMP0001', 'Emergency', 'Drugs/ Explosives', '2023-09-05 15:00:00', '2023-09-05 19:00:00', 42);
+INSERT INTO `duty` (`id`, `empID`, `duty_type`, `duty_cause`, `start`, `end`, `location_id`) VALUES
+(1, 'EMP0001', 'General', NULL, '2023-07-18 06:30:00', '2023-07-18 17:30:00', 3),
+(2, 'EMP0002', 'Special', 'Special Office Request', '2023-07-23 06:00:00', '2023-07-24 06:00:00', NULL),
+(4, 'EMP0002', 'Emergency', 'Robbery', '2023-07-21 12:00:00', '2023-07-21 17:00:00', NULL),
+(7, 'EMP0001', 'General', 'Traffic', '2023-09-04 08:10:00', '2023-09-04 15:10:00', 2),
+(8, 'EMP0004', 'Special', 'Religious Function', '2023-09-13 21:46:00', '2023-09-19 21:46:00', 3),
+(10, 'EMP0002', 'General', 'Office Duty', '2023-09-04 08:00:00', '2023-09-04 10:00:00', 2),
+(11, 'EMP0004', 'Special', 'Special Parade Request', '2023-09-12 07:00:00', '2023-09-14 07:00:00', 3),
+(36, 'EMP0001', 'General', 'Office Duty', '2023-11-06 12:00:00', '2023-11-06 13:00:00', 3),
+(37, 'EMP0001', 'Emergency', 'Crime', '2023-11-06 13:00:00', '2023-11-06 15:00:00', 77),
+(38, 'EMP0001', 'Special', 'Civil Unrest', '2023-11-06 15:00:00', '2023-11-07 15:00:00', 3),
+(39, 'EMP0002', 'General', 'Investigation', '2023-11-06 14:45:00', '2023-11-06 18:00:00', 13);
 
 -- --------------------------------------------------------
 
@@ -249,7 +248,6 @@ CREATE TABLE `location` (
 --
 
 INSERT INTO `location` (`location_id`, `location_name`, `district`, `city`, `latitude`, `longitude`) VALUES
-(1, 'Crime Scene', 'Badulla', 'Mawanagama', 7.59698, 81.1527),
 (2, 'Case Location', 'Badulla', 'Hali Ela', 6.95553, 81.0314),
 (3, 'Office', 'Badulla', 'Badulla', 6.9934, 81.055),
 (13, 'Case Location', 'Badulla', 'Arawa', 7.16667, 81.0833),
@@ -258,16 +256,14 @@ INSERT INTO `location` (`location_id`, `location_name`, `district`, `city`, `lat
 (20, 'Case Location', 'Badulla', 'Kalupahana', 6.79101, 80.8454),
 (21, 'Case Location', 'Badulla', 'Bibilegama', 6.89617, 81.1403),
 (22, 'Case Location', 'Badulla', 'Kendagolla', 6.99276, 81.1085),
-(25, 'Case Location', 'Badulla', 'Passara', 6.93491, 81.1527),
-(26, 'Crime Scene', 'Badulla', 'Malgoda', 6.98189, 81.0763),
-(27, 'Crime Scene', 'Badulla', 'Ella', 6.8667, 81.0466),
-(36, 'Crime Scene', 'Monaragala', 'Bibile', 6.86086, 81.3503),
-(37, 'Crime Scene', 'Badulla', 'Galporuyaya', 7.42852, 81.0368),
-(38, 'Crime Scene', 'Badulla', 'Ambagasdowa', 6.92807, 80.8966),
-(39, 'Crime Scene', 'Monaragala', 'Buttala', 6.75892, 81.2491),
 (40, 'Case Location', 'Badulla', 'Dambana', 7.41362, 81.1083),
-(41, 'Case Location', 'Badulla', 'Dambana', 7.41362, 81.1083),
-(42, 'Crime Scene', 'Badulla', 'Bandarawela', 6.82588, 80.9982);
+(62, 'Crime Scene', 'Monaragala', 'Pitakumbura', 7.17869, 81.2931),
+(72, 'Crime Scene', 'Badulla', 'Ambadandegama', 6.81901, 81.0561),
+(73, 'Crime Scene', 'Badulla', 'Kalugahakandura', 7.12267, 81.0948),
+(74, 'Crime Scene', 'Badulla', 'Arawakumbura', 7.08739, 81.1996),
+(75, 'Crime Scene', 'Badulla', 'Kahataruppa', 6.98189, 81.0763),
+(76, 'Crime Scene', 'Monaragala', 'Nilgala', 7.19334, 81.3964),
+(77, 'Crime Scene', 'Badulla', 'Lunuwatta', 6.95572, 80.9194);
 
 -- --------------------------------------------------------
 
@@ -336,33 +332,31 @@ INSERT INTO `people` (`nic`, `name`, `address`, `contact`, `email`) VALUES
 --
 
 CREATE TABLE `role_in_case` (
-  `row_no` int(11) NOT NULL,
+  `complaint_id` int(11) NOT NULL,
   `nic` varchar(15) NOT NULL,
-  `role_in_case` varchar(30) NOT NULL,
-  `complaint_id` int(11) NOT NULL
+  `role_in_case` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `role_in_case`
 --
 
-INSERT INTO `role_in_case` (`row_no`, `nic`, `role_in_case`, `complaint_id`) VALUES
-(1, '198044377789', 'Plantiff', 1),
-(2, '199078675523', 'Culprit', 2),
-(3, '199078675523', 'Suspect', 1),
-(6, '197867567889', 'Plantiff', 15),
-(7, '197867466678', 'Plantiff', 16),
-(13, '197789234564', 'Suspect', 22),
-(15, '199578678900', 'Suspect', 25),
-(16, '197089678833', 'Plantiff', 26),
-(17, '198567342212', 'Plantiff', 27),
-(18, '198234355534', 'Plantiff', 29),
-(20, '198234355534', 'Plantiff', 31),
-(21, '198077665823', 'Plantiff', 32),
-(22, '197867466678', 'Plantiff', 33),
-(35, '199923100023', 'Witness', 1),
-(36, '199578678900', 'Plantiff', 40),
-(38, '199845299989', 'Witness', 40);
+INSERT INTO `role_in_case` (`complaint_id`, `nic`, `role_in_case`) VALUES
+(1, '198044377789', 'Plantiff'),
+(2, '199078675523', 'Culprit'),
+(1, '199078675523', 'Suspect'),
+(15, '197867567889', 'Plantiff'),
+(22, '197789234564', 'Suspect'),
+(25, '199578678900', 'Suspect'),
+(26, '197089678833', 'Plantiff'),
+(27, '198567342212', 'Plantiff'),
+(29, '198234355534', 'Plantiff'),
+(31, '198234355534', 'Plantiff'),
+(32, '198077665823', 'Plantiff'),
+(33, '197867466678', 'Plantiff'),
+(1, '199923100023', 'Witness'),
+(40, '199578678900', 'Plantiff'),
+(40, '199845299989', 'Witness');
 
 -- --------------------------------------------------------
 
@@ -412,6 +406,7 @@ ALTER TABLE `court_order`
 -- Indexes for table `duty`
 --
 ALTER TABLE `duty`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `empID` (`empID`),
   ADD KEY `location_id` (`location_id`);
 
@@ -464,7 +459,6 @@ ALTER TABLE `people`
 -- Indexes for table `role_in_case`
 --
 ALTER TABLE `role_in_case`
-  ADD PRIMARY KEY (`row_no`),
   ADD KEY `complaint_id` (`complaint_id`),
   ADD KEY `nic` (`nic`);
 
@@ -485,6 +479,12 @@ ALTER TABLE `complaint`
   MODIFY `complaint_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
+-- AUTO_INCREMENT for table `duty`
+--
+ALTER TABLE `duty`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+--
 -- AUTO_INCREMENT for table `leaves`
 --
 ALTER TABLE `leaves`
@@ -494,13 +494,7 @@ ALTER TABLE `leaves`
 -- AUTO_INCREMENT for table `location`
 --
 ALTER TABLE `location`
-  MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
-
---
--- AUTO_INCREMENT for table `role_in_case`
---
-ALTER TABLE `role_in_case`
-  MODIFY `row_no` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
 
 --
 -- Constraints for dumped tables
