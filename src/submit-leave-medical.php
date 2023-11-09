@@ -10,7 +10,7 @@ $dbcon = new DBConnector();
 
 $con = $dbcon->getConnection();
 
-if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])) {
+if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && ($_SESSION["role"] != "external_ officer")) {
 
     ?>
 
@@ -78,11 +78,7 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])) {
                                 <div class="col-75">
                                     <select id="emp_id" name="emp_id" required>
                                         <?php
-                                        if (isset($_SESSION['user_id'])) {
-                                            $emp_id = $_SESSION['user_id'];
-                                        } else {
-                                            $emp_id = "";
-                                        }
+                                        $emp_id = $_SESSION['user_id'];
                                         ?>
                                         <option value="<?php echo $emp_id; ?>">
                                             <?php echo $emp_id; ?>
