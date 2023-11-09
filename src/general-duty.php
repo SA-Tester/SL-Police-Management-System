@@ -3,8 +3,9 @@ namespace classes;
 
 use PDOException;
 use PDO;
+session_start();
 require_once './classes/class-db-connector.php';
-
+if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && $_SESSION["role"] == "admin"){
 $dbConnector = new DBConnector();
 $con = $dbConnector->getConnection();
 
@@ -452,3 +453,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </body>
 </html>
+<?php
+}
+else{
+    header("Location: loginForm.php");
+}
+?>

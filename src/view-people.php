@@ -1,4 +1,17 @@
 <?php
+session_start();
+
+
+require_once "./classes/class-db-connector.php";
+use classes\DBConnector;
+
+if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
+    $dbcon = new DBConnector();
+    $con = $dbcon->getConnection();
+
+
+
+
 require_once 'fetch-people-data.php';
 
 // Create an instance of DataFetcher
@@ -309,3 +322,9 @@ $dataComplaint = $dataFetcherComplaint->getComplaintData();
 </body>
 
 </html>
+<?php
+}
+else{
+    header("Location: loginForm.php");
+}
+?>
