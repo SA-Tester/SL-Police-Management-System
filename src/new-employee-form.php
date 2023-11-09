@@ -4,7 +4,7 @@ use classes\Employee;
 
 require_once './classes/class-employee.php';
 
-if (isset($_POST['empID'], $_POST['nic'], $_POST['first_name'], $_POST['last_name'], $_POST['dob'], $_POST['gender'], $_POST['tel_no'], $_POST['email'], $_POST['address'], $_POST['marital_status'], $_POST['rank'], $_POST['appointment_date'], $_POST['retired_status'],$_POST['username'])) {
+if (isset($_POST['empID'], $_POST['nic'], $_POST['first_name'], $_POST['last_name'], $_POST['dob'], $_POST['gender'], $_POST['tel_no'], $_POST['email'], $_POST['address'], $_POST['marital_status'], $_POST['rank'], $_POST['appointment_date'], $_POST['retired_status'],$_POST['username'],$_POST['role'])) {
 
     $empID = strip_tags($_POST['empID']);
     $nic = strip_tags($_POST['nic']);
@@ -20,7 +20,7 @@ if (isset($_POST['empID'], $_POST['nic'], $_POST['first_name'], $_POST['last_nam
     $appointment_date = strip_tags($_POST['appointment_date']);
     $retired_status = strip_tags($_POST['retired_status']);
     $username = strip_tags($_POST['username']);
-
-    $register = new Employee($empID, $nic, $first_name, $last_name, $dob, $gender, $tel_no, $email, $address, $marital_status, $rank, $appointment_date, $retired_status, $username);
+    $role = strip_tags($_POST['role']);
+    $register = new Employee($empID, $nic, $first_name, $last_name, $dob, $gender, $tel_no, $email, $address, $marital_status, $rank, $appointment_date, $retired_status, $username, $role);
     $register->register();
 }

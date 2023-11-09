@@ -1,8 +1,9 @@
 <?php
+session_start();
 require_once "./classes/class-db-connector.php";
 
 use classes\DBConnector;
-
+if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && $_SESSION["role"] == "admin"){
 $dbcon = new DBConnector();
 ?>
 
@@ -214,6 +215,17 @@ $dbcon = new DBConnector();
                                         <div class="col">
                                             <div class="mb-3"><label class="form-label"><strong>User Name</strong></label></div><input class="form-control" type="text" id="username" name="username" required>
                                         </div>
+                                        <div class="col">
+                                            <div class="mb-3"><label class="form-label"><strong>Role</strong></label></div>
+                                            <select class="form-select" id="role" name="role" required>
+                                                <optgroup>
+                                                    <option value="admin" selected="">admin</option>
+                                                    <option value="accountant_officer">accountant_officer</option>
+                                                    <option value="external_officer">external_officer</option>
+                                                    <option value="user">user</option>                                                    
+                                                </optgroup>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -267,3 +279,9 @@ $dbcon = new DBConnector();
 </body>
 
 </html>
+<?php
+}
+else{
+    header("Location: loginForm.php");
+}
+?>

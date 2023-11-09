@@ -32,9 +32,10 @@ class Employee
     private $appointment_date;
     private $retired_status;
     private $username;
+    private $role;
     private $password;
 
-    public function __construct($empID, $nic, $first_name, $last_name, $dob, $gender, $tel_no, $email, $address, $marital_status, $rank, $appointment_date, $retired_status, $username)
+    public function __construct($empID, $nic, $first_name, $last_name, $dob, $gender, $tel_no, $email, $address, $marital_status, $rank, $appointment_date, $retired_status, $username, $role)
     {
         $this->empID = $empID;
         $this->nic = $nic;
@@ -54,6 +55,7 @@ class Employee
             $this->retired_status = "0";
         }
         $this->username = $username;
+        $this->role = $role;
     }
 
     // SETTERS
@@ -146,7 +148,7 @@ class Employee
             $pstmt2->bindValue(1, $this->empID);
             $pstmt2->bindValue(2, $this->username);
             $pstmt2->bindValue(3, $randomPassword);
-            $pstmt2->bindValue(4, "user");
+            $pstmt2->bindValue(4, $this->role);
 
             $b = $pstmt2->execute();
 
