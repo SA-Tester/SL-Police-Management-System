@@ -8,7 +8,7 @@ class DataFetcher
 
     public function __construct()
     {
-        $this->db = new DbConnector();
+        $this->db = new DBConnector();
     }
 
    public function getPeopleData()
@@ -24,11 +24,12 @@ class DataFetcher
         }
     }
 
-    public function getRoleInCaseData()
+    public function getRoleInCaseData($nic)
     {
         try {
-            $query = "SELECT role_in_case , complaint_id  FROM role_in_case";
+            $query = "SELECT role_in_case, complaint_id FROM role_in_case WHERE nic = :nic";
             $pstmt = $this->db->getConnection()->prepare($query);
+            $pstmt->bindParam(':nic', $nic);
             $pstmt->execute();
             return $pstmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -50,11 +51,12 @@ class DataFetcher
         }
     }
 
-   public function getFineData()
+   public function getFineData($nic)
 {
     try {
-        $query = "SELECT fine_amount FROM fine"; 
+        $query = "SELECT fine_amount, temp_license_end_date FROM fine WHERE nic = :nic"; 
         $pstmt = $this->db->getConnection()->prepare($query);
+        $pstmt->bindParam(':nic', $nic);
         $pstmt->execute();
         $data = $pstmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -66,18 +68,21 @@ class DataFetcher
 }
 
 
-    public function getCourtOrderData()
-    {
-        try {
-            $query = "SELECT next_court_date FROM court_order";
-            $pstmt = $this->db->getConnection()->prepare($query);
-            $pstmt->execute();
-            return $pstmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            echo "Error fetching data from 'court_order' table: " . $e->getMessage();
-            return array();
-        }
+public function getCourtOrderData($nic)
+{
+    try {
+        $query = "SELECT next_court_date FROM court_order WHERE nic = :nic";
+        $pstmt = $this->db->getConnection()->prepare($query);
+        $pstmt->bindParam(':nic', $nic);
+        $pstmt->execute();
+        $data = $pstmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $data;
+    } catch (PDOException $e) {
+        echo "Error fetching data from 'court_order' table: " . $e->getMessage();
+        return array();
     }
+}
     
   public function getEvidenceDataForNIC($nic)
     {
