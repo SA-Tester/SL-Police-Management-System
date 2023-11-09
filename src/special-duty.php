@@ -1,8 +1,9 @@
 <?php
+session_start();
 require "./classes/class-db-connector.php";
 
 use classes\DBConnector;
-
+if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && $_SESSION["role"] == ("admin" || "external_officer")){
 $dbcon = new DBConnector();
 ?>
 <!doctype html>
@@ -205,3 +206,9 @@ $dbcon = new DBConnector();
 </body>
 
 </html>
+<?php
+}
+else{
+    header("Location: loginForm.php");
+}
+?>
