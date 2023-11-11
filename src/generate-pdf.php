@@ -14,10 +14,8 @@ if (isset($_GET['generate-pdf']) && $_GET['generate-pdf'] == 'true') {
 
     // Fetch data from the tables
     $dataPeople = $dataFetcher->getPeopleData();
-    $dataRoleInCase = $dataFetcher->getRoleInCaseData();
     $dataComplaint = $dataFetcher->getComplaintData();
-    $dataFine = $dataFetcher->getFineData();
-    $dataCourtOrder = $dataFetcher->getCourtOrderData();
+    
 
     // Create a new PDF document
     $pdf = new TCPDF();
@@ -55,17 +53,26 @@ $html .= '</tr>';
 
 // Fetch data from the tables and add it to the PDF
 foreach ($dataPeople as $index => $row) {
+    $nic = isset($row['nic']) ? $row['nic'] : 'N/A';
+    $roleInCaseData = $dataFetcher->getRoleInCaseData($nic);
+    $courtOrderData = $dataFetcher->getCourtOrderData($nic);
+    $dataFineData = $dataFetcher->getFineData($nic);
+
     $html .= '<tr>';
     $html .= '<td>' . (isset($row['nic']) ? $row['nic'] : 'N/A') . '</td>';
     $html .= '<td>' . (isset($row['name']) ? $row['name'] : 'N/A') . '</td>';
-    $html .= '<td>' . (isset($dataRoleInCase[$index]['complaint_id']) ? $dataRoleInCase[$index]['complaint_id'] : 'N/A') . '</td>';
-    $html .= '<td>' . (isset($dataRoleInCase[$index]['role_in_case']) ? $dataRoleInCase[$index]['role_in_case'] : 'N/A') . '</td>';
+    $html .= '<td>' . (isset($roleInCaseData[0]['complaint_id']) ? $roleInCaseData[0]['complaint_id'] : 'N/A') . '</td>';
+    $html .= '<td>' . (isset($roleInCaseData[0]['role_in_case']) ? $roleInCaseData[0]['role_in_case'] : 'N/A') . '</td>';
     $html .= '<td>' . (isset($dataComplaint[$index]['complaint_type']) ? $dataComplaint[$index]['complaint_type'] : 'N/A') . '</td>';
-    $html .= '<td>' . (isset($dataFine[$index]['fine_amount']) ? $dataFine[$index]['fine_amount'] : 'N/A') . '</td>';
-    $html .= '<td>' . (isset($dataFine[$index]['fine_deadline']) ? $dataFine[$index]['fine_deadline'] : 'N/A') . '</td>';
-    $html .= '<td>' . (isset($dataCourtOrder[$index]['next_court_date']) ? $dataCourtOrder[$index]['next_court_date'] : 'N/A') . '</td>';
+    $html .= '<td>' . (isset($dataFineData[0]['fine_amount']) ? $dataFineData[0]['fine_amount'] : 'N/A') . '</td>';
+    $html .= '<td>' . (isset($dataFineData[0]['temp_license_end_date']) ? $dataFineData[0]['temp_license_end_date'] : 'N/A') . '</td>';
+    $html .= '<td>' . (isset($courtOrderData[0]['next_court_date']) ? $courtOrderData[0]['next_court_date'] : 'N/A') . '</td>';
+
+   
     $html .= '</tr>';
 }
+
+
 
 $html .= '</table>';
 

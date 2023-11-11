@@ -1,4 +1,17 @@
 <?php
+session_start();
+
+
+require_once "./classes/class-db-connector.php";
+use classes\DBConnector;
+
+if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
+    $dbcon = new DBConnector();
+    $con = $dbcon->getConnection();
+
+
+
+
 require_once 'fetch-people-data.php';
 
 // Create an instance of DataFetcher
@@ -12,10 +25,8 @@ $dataFetcherCourtOrder = new DataFetcher();
 
 // Fetch data from each table
 $dataPeople = $dataFetcherPeople->getPeopleData();
-$dataRoleInCase = $dataFetcherRoleInCase->getRoleInCaseData();
 $dataComplaint = $dataFetcherComplaint->getComplaintData();
-$dataFine = $dataFetcherFine->getFineData();
-$dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
+
 
 ?>
 <!DOCTYPE html>
@@ -124,25 +135,30 @@ $dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
                     <th>Com_ID</th>
                     <th>Role-In-Case<br>(Plantit/Victim/Suspect)</th>
                     <th>Com_Type</th>
-                    <th>If Traffic On Click</th>
+                   
                     <th>Fine<br>(Paid/NotPaid/N/A)</th>
                     <th>Fine Deadline<br>Date/N/A</th>
                     <th>Next Coming Date</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- dataPeople if not defined --> 
-                <?php foreach ($dataPeople as $index => $row) : ?>
+            
+            <?php foreach ($dataPeople as $index => $row) : ?>
+                    <?php
+                    $nic = isset($row['nic']) ? $row['nic'] : 'N/A';
+                    $roleInCaseData = $dataFetcherRoleInCase->getRoleInCaseData($nic);
+                    $courtOrderData = $dataFetcherCourtOrder->getCourtOrderData($nic);
+                    $dataFineData = $dataFetcherFine->getFineData($nic);
+                    ?>
                     <tr>
-                        <td><?php echo isset($row['nic']) ? $row['nic'] : 'N/A'; ?></td>
+                        <td><?php echo $nic; ?></td>
                         <td><?php echo isset($row['name']) ? $row['name'] : 'N/A'; ?></td>
-                        <td><?php echo isset($dataRoleInCase[$index]['complaint_id']) ? $dataRoleInCase[$index]['complaint_id'] : 'N/A'; ?></td>
-                        <td><?php echo isset($dataRoleInCase[$index]['role_in_case']) ? $dataRoleInCase[$index]['role_in_case'] : 'N/A'; ?></td>
+                        <td><?php echo isset($roleInCaseData[0]['complaint_id']) ? $roleInCaseData[0]['complaint_id'] : 'N/A'; ?></td>
+                        <td><?php echo isset($roleInCaseData[0]['role_in_case']) ? $roleInCaseData[0]['role_in_case'] : 'N/A'; ?></td>
                         <td><?php echo isset($dataComplaint[$index]['complaint_type']) ? $dataComplaint[$index]['complaint_type'] : 'N/A'; ?></td>
-                        <td>N/A</td><!-- have to update -->
-                        <td><?php echo isset($dataFine[$index]['fine_amount']) ? $dataFine[$index]['fine_amount'] : 'N/A'; ?></td>
-                        <td><?php echo isset($dataFine[$index]['fine_deadline']) ? $dataFine[$index]['fine_deadline'] : 'N/A'; ?></td>
-                        <td><?php echo isset($dataCourtOrder[$index]['next_court_date']) ? $dataCourtOrder[$index]['next_court_date'] : 'N/A'; ?></td>
+                        <td><?php echo isset($dataFineData[0]['fine_amount']) ? $dataFineData[0]['fine_amount'] : 'N/A'; ?></td>
+                        <td><?php echo isset($dataFineData[0]['temp_license_end_date']) ? $dataFineData[0]['temp_license_end_date'] : 'N/A'; ?></td>
+                        <td><?php echo isset($courtOrderData[0]['next_court_date']) ? $courtOrderData[0]['next_court_date'] : 'N/A'; ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -306,3 +322,9 @@ $dataCourtOrder = $dataFetcherCourtOrder->getCourtOrderData();
 </body>
 
 </html>
+<?php
+}
+else{
+    header("Location: loginForm.php");
+}
+?>
