@@ -88,7 +88,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                 <h3 class="h3 mt-5 mb-4 ml-5">New Complaint</h3>
                 <form method="POST" action="process-complaints.php" enctype="multipart/form-data" onsubmit="return confirm('Are you sure you want to proceed ?')">
                     <div class="row">
-                        <div class="col-sm">
+                        <div class="col-sm-4">
                             <label for="date">Date</label>
                         </div>
                         <div class="col-sm">
@@ -97,7 +97,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                     </div>
 
                     <div class="row">
-                        <div class="col-sm">
+                        <div class="col-sm-4">
                             <label for="category" class="mr-4">Complaint Category</label>
                         </div>
                         <div class="col-sm">
@@ -148,7 +148,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                     </div>
 
                     <div class="row">
-                        <div class="col-sm">
+                        <div class="col-sm-4">
                             <label for="title">Complaint Title</label>
                         </div>
                         <div class="col-sm">
@@ -157,7 +157,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                     </div>
 
                     <div class="row">
-                        <div class="col-sm">
+                        <div class="col-sm-4">
                             <label for="start-recording">Record Complaint</label>
                         </div>
                         <div class="col-sm">
@@ -171,7 +171,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                     </div>
 
                     <div class="row">
-                        <div class="col-sm">
+                        <div class="col-sm-4">
                             <label for="comp_desc">Complaint In Text</label>
                         </div>
                         <div class="col-sm">
@@ -182,7 +182,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                     </div>
 
                     <div class="row">
-                        <div class="col-sm">
+                        <div class="col-sm-4">
                             <label for="people_type">Type</label>
                         </div>
                         <div class="col-sm">
@@ -195,7 +195,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                     </div>
 
                     <div class="row">
-                        <div class="col-sm">
+                        <div class="col-sm-4">
                             <label for="people_nic">NIC</label>
                         </div>
                         <div class="col-sm">
@@ -220,7 +220,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                     </div>
 
                     <div class="row">
-                        <div class="col-sm">
+                        <div class="col-sm-4">
                             <label for="people_name">Name</label>
                         </div>
                         <div class="col-sm">
@@ -229,7 +229,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                     </div>
 
                     <div class="row">
-                        <div class="col-sm">
+                        <div class="col-sm-4">
                             <label for="people_address">Address</label>
                         </div>
                         <div class="col-sm">
@@ -238,7 +238,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                     </div>
 
                     <div class="row">
-                        <div class="col-sm">
+                        <div class="col-sm-4">
                             <label for="people_contact">Contact</label>
                         </div>
                         <div class="col-sm">
@@ -247,7 +247,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                     </div>
 
                     <div class="row">
-                        <div class="col-sm">
+                        <div class="col-sm-4">
                             <label for="people_email">Email</label>
                         </div>
                         <div class="col-sm">
@@ -256,7 +256,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                     </div>
 
                     <div class="row">
-                        <div class="col-sm">
+                        <div class="col-sm-4">
                             <label for="location">Location</label>
                         </div>
                         <div class="col-sm">
@@ -268,7 +268,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                     </div>
 
                     <div class="row">
-                        <div class="col-sm">
+                        <div class="col-sm-4">
                             <label for="comp_status">Complaint Status</label>
                         </div>
                         <div class="col-sm">
@@ -280,7 +280,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                     </div>
 
                     <div class="row">
-                        <div class="col-sm">
+                        <div class="col-sm-4">
                             <label for="emp_id">Recorded By</label>
                         </div>
                         <div class="col-sm">
@@ -303,7 +303,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
 
                     <div class="traffic">
                         <div class="row">
-                            <div class="col-sm">
+                            <div class="col-sm-4">
                                 <label for="vehicle_number">Vehicle Number</label>
                             </div>
                             <div class="col-sm">
@@ -312,7 +312,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                         </div>
 
                         <div class="row">
-                            <div class="col-sm">
+                            <div class="col-sm-4">
                                 <label for="temp_start" class="mr-4">Temporary License Start Date</label>
                             </div>
                             <div class="col-sm">
@@ -321,7 +321,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                         </div>
 
                         <div class="row">
-                            <div class="col-sm">
+                            <div class="col-sm-4">
                                 <label for="temp_end">Temporary License End Date</label>
                             </div>
                             <div class="col-sm">
@@ -330,7 +330,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                         </div>
 
                         <div class="row">
-                            <div class="col-sm">
+                            <div class="col-sm-4">
                                 <label for="fine_amount">Fine Amount</label>
                             </div>
                             <div class="col-sm">
@@ -339,7 +339,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                         </div>
 
                         <div class="row">
-                            <div class="col-sm">
+                            <div class="col-sm-4">
                                 <label for="fine_status">Fine Status</label>
                             </div>
                             <div class="col-sm">
@@ -351,7 +351,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                         </div>
 
                         <div class="row">
-                            <div class="col-sm">
+                            <div class="col-sm-4">
                                 <label for="license_issued">License Issued</label>
                             </div>
                             <div class="col-sm">
@@ -381,7 +381,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
             <div class="col-md ml-3 mr-3 mt-5">
                 <h3 class="h3 mb-4">Complaint History</h3>
                 <div class="row mb-4">
-                    <div class="col-sm">
+                    <div class="col-sm-12">
                         <label for="sort_type" class="mr-3">Sort By</label>
                         <select name="sort_type" id="sort_type" onchange="fillTable(this.value)" selected="id" class="form-control">
                             <option value="id">Complaint ID</option>
@@ -390,7 +390,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                             <option value="emp">Employee</option>
                         </select>
                     </div>
-                    <div class="col-sm">
+                    <div class="col-sm-12">
                         <label for="search" class="mr-3">Search</label>
                         <input type="text" id="search" name="search" placeholder="Enter Text to Search" onchange="fillTable(this.value)" class="form-control">
                     </div>
