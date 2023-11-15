@@ -15,7 +15,7 @@ use classes\Evidence;
 function fillComplaintSummary($con, $complaint_id){
     $complaint = new Complaints();
     $person = new People("", "", "", "", "");
-    $employee = new Employee("", "", "", "", "", "", "", "", "", "", "", "", "", "");
+    $employee = new Employee("", "", "", "", "", "", "", "", "", "", "", "", "", "","");
 
     $complaint->setCon($con);
     $complaint->setComplaintID($complaint_id);
