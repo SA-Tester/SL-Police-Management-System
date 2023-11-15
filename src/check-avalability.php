@@ -7,7 +7,7 @@ require './classes/class-employee.php';
 use classes\DBConnector;
 use classes\Employee;
 
-$employee = new Employee("","","","","","","","","","","","","","");
+$employee = new Employee("","","","","","","","","","","","","","","");
 
 if(isset($_SESSION['user_id'],$_SESSION['role'],$_SESSION['username']) && ($_SESSION['role'] === 'admin' || $_SESSION['role'] === 'external_ officer')){
 ?>
