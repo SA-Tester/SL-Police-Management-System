@@ -1,21 +1,29 @@
 <?php
+session_start();
+$reset_code = $_SESSION['reset_code'];
 
 $message = null;
 
-if(isset($_GET["status"])){
-    
-    $status = $_GET["status"];
-    
-    if($status == 0){
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    if (isset($_POST["resetcode"])) {
+        if (empty($_POST["resetcode"])) {
+            $message = "<h6 class='text-danger'>Please provide your reset code to proceed.</h6>";
+        } else {
+            $input_resetCode = trim($_POST["resetcode"]);
+            if ($input_resetCode === $reset_code) {
+                header("Location: fp3.php");
+            } else {
+                $message = "<h6 class='text-danger'>Invalid reset code. Please try again.</h6>";
+            }
+        }
+    } else {
         $message = "<h6 class='text-danger'>Required values were not submitted.</h6>";
-    }elseif($status == 1){
-        $message = "<h6 class='text-danger'>Please provide your username and password to proceed. Both fields are required for access.</h6>";        
-    }else{
-        $message = "<h6 class='text-danger'>The entered username and password are incorrect. Please try again.</h6>"; 
     }
 }
 
+
 ?>
+
 <!doctype html>
 <html lang="en">
 
@@ -36,40 +44,80 @@ if(isset($_GET["status"])){
     <!--icon css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Login</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #101D6B;
+        }
+
+        form {
+            width: 30%;
+            background-color: white;
+            padding: 50px;
+            border-radius: 20px;
+            margin: 0 auto;
+            margin-top: 75px;
+            margin-bottom: 40px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            border: none;
+            border-radius: 50px;
+            background: #101D6B;
+        }
+
+        .btn-primary:hover {
+            color: #101D6B;
+            background: white;
+            border: 1px solid #101D6B;
+        }
+
+        .form-control {
+            color: rgba(0, 0, 0, 0.87);
+            border-bottom-color: rgba(0, 0, 0, 0.42);
+            box-shadow: none !important;
+            border: none;
+            border-bottom: 1px solid;
+            border-radius: 4px 4px 0 0;
+        }
+
+        h4 {
+            font-size: 2rem !important;
+            font-weight: 700;
+        }
+
+        @media only screen and (max-width:750px) {
+            form {
+                width: 90% !important;
+            }
+        }
+    </style>
+    <title>Forgot Password</title>
 </head>
 
 <body>
-    <div class="container-fluid">
-        <form action="login.php" method="POST">
-            <h4 class="text-center">Login</h4>
-            
-            <?= $message ?>
-            
-            <div class="form-group mb-3 mt-5">
-                <label for="username">Username</label>
-                <input type="text" name="username" class="form-control" id="username" aria-describedby="emailHelp">
-            </div>
-            <div class="form-group mb-3">
-                <label for="exampleInputPassword1">Password</label>
-                <div class="input-group">
-                    <input type="password" name="password" class="form-control" id="exampleInputPassword1">
-                    <div class="input-group-append">
-                        <button class="btn eye-btn" type="button" id="toggleVisibility">
-                            <i class="fa-solid fa-eye-slash" id="eyeIcon"></i>
-                        </button>
-                    </div>
-                </div>
-                <small id="emailHelp" class="form-text text-muted mt-3 centered-text">Forgot password? <a href="fp1.php" style="color:#146C94;text-decoration: none;"><b>Click here</b></a></small>
 
+    <div class="container-fluid">
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
+            <h4 class="text-center">Forgot your password?</h4>
+            <?= $message ?>
+            <div class="form-group mb-3 mt-5">
+                <label for="username">Enter the code</label>
+                <input type="text" name="resetcode" class="form-control" id="resetcode" aria-describedby="emailHelp">
             </div>
-            <button type="submit" class="btn btn-primary mt-4">Login </button>
+            <button type="submit" class="btn btn-primary mt-4">Next</button>
         </form>
     </div>
 
 
 
-   <script src="../js/login.js"></script>
+    <script src="../js/login.js"></script>
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
