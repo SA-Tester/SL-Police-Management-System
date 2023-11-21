@@ -107,7 +107,7 @@ class Duties{
             }
             else{
                 return false;
-                die("An error occured");
+                die("Employee is already on duty");
             }
         }
         catch(PDOException $e){

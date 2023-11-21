@@ -68,6 +68,14 @@ class Employee
         return $this->first_name. " ". $this->last_name;
     }
 
+    public function getRank(){
+        return $this->rank;
+    }
+
+    public function getTelephone(){
+        return $this->tel_no;
+    }
+
     public function initEmployee(){
         $dbcon = new DBConnector();
         $con = $dbcon->getConnection();
@@ -84,15 +92,15 @@ class Employee
                 $this->first_name = $row[1];
                 $this->last_name = $row[2];
                 $this->dob = $row[3];
-                $this->gender = $row[4];
+                $this->email = $row[4];
                 $this->tel_no = $row[5];
-                $this->email = $row[6];
-                $this->address = $row[7];
-                $this->marital_status = $row[8];
-                $this->rank = $row[9];
-                $this->appointment_date = $row[10];
-                $this->retired_status = $row[11];
-                $this->username = $row[12];
+                $this->address = $row[6];
+                $this->nic = $row[7];
+                $this->gender = $row[8];
+                $this->appointment_date = $row[9];
+                $this->marital_status = $row[10];
+                $this->rank = $row[11];
+                $this->retired_status = $row[12];
 
                 return true;
             }
