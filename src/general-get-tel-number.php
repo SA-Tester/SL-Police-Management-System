@@ -1,5 +1,7 @@
 <?php
 namespace classes;
+use PDO;
+use PDOException;
 
 require_once './classes/class-db-connector.php';
 class TelephoneNumberFetcher {

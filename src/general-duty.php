@@ -1,461 +1,289 @@
 <?php
-namespace classes;
-
-use PDOException;
-use PDO;
-session_start();
-require_once './classes/class-db-connector.php';
-if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && $_SESSION["role"] == "admin"){
-$dbConnector = new DBConnector();
-$con = $dbConnector->getConnection();
-
-try {
-    $sql = "SELECT tel_no FROM employee ";
-    $stmt = $con->prepare($sql);
-    $stmt->execute();
-
-    $telNumbers = $stmt->fetchAll(PDO::FETCH_COLUMN);
-} catch (PDOException $e) {
+    require "./classes/class-db-connector.php";
+    use classes\DBConnector;
     
-    $telNumbers = [];
-}
+    $dbcon = new DBConnector();
+    $con = $dbcon->getConnection();
 ?>
 
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>General Duties</title>
     <link rel="icon" type="image/png" href="../assets/logo.png" />
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+    <style>
+        .container {
+            margin-top: 40px;
+        }
 
-    <link rel="stylesheet" type="text/css" href="../css/general-duty.css"/>
+        .thead {
+            background-color: rgb(141, 141, 237);
+
+        }
+
+        .navbar {
+            position: relative;
+        }
+    </style>
 </head>
 
 <body>
     <!------------------navbar---------------------------->
     <?php
-        include 'navbar.php';
-        renderNavBar();
+    include 'navbar.php';
+    renderNavBar();
     ?>
     <!---------------------------------------------------->
 
-
     <div class="container">
-        <div class="col-12  mb-1">
-            <h4 class="text-uppercase">General Duties of the Week</h4>
-            <p>Statistics Showing</p>
-        </div>
-    </div>
+        <div class="row">
+            <div class="col-md-6">
+            <form action="#" method="post" id="assignment-form">
+                    <div class="form-group">
+                        <label for="text1">Select Employee</label>
+                        <select class="form-control" id="text1" name="empID">
+                            <?php
+                                try{
+                                    $query = "SELECT empID FROM employee where retired_status=?";
+                                    $pstmt = $con->prepare($query);
+                                    $pstmt->bindValue(1, "0");
+                                    $pstmt->execute();
+                                    $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
 
-    <div class="row">
-        <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-body">
-                        <div class="media d-flex">
-                            <div class="align-self-center">
-                                <i class="icon-pencil primary font-large-2 float-left"></i>
-                            </div>
-                            <div class="media-body text-right">
-                                <h3>278</h3>
-                                <span>Investigation</span>
-                            </div>
-                        </div>
+                                    foreach($rows as $row){
+                                        ?>
+                                        <option value="<?php echo $row["empID"]; ?>"><?php echo $row["empID"]; ?></option>
+                                        <?php
+                                    }
+                                }catch(PDOException $e){
+                                    echo $e->getMessage();
+                                }
+                            ?>
+                        </select>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-body">
-                        <div class="media d-flex">
-                            <div class="align-self-center">
-                                <i class="icon-speech warning font-large-2 float-left"></i>
-                            </div>
-                            <div class="media-body text-right">
-                                <h3>156</h3>
-                                <span>Office Duty</span>
-                            </div>
-                        </div>
+                    <div class="form-group">
+                                <label for="text2">Enter Duty Type</label>
+                                <input type="text" class="form-control" id="text2" name="duty_type" placeholder="Enter text" readonly="" value="General">
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-body">
-                        <div class="media d-flex">
-                            <div class="align-self-center">
-                                <i class="icon-graph success font-large-2 float-left"></i>
-                            </div>
-                            <div class="media-body text-right">
-                                <h3>64.89 %</h3>
-                                <span>Night Duty</span>
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label for="dropdown1">Duty Cause</label>
+                        <select id="dropdown1" name="duty_cause" class="form-control">
+                            <option value="Investigation">Investigation</option>
+                            <option value="Traffic">Traffic</option>
+                            <option value="Office Duty">Office Duty</option>
+                            <option value="Night Duty">Night Duty</option>
+                        </select>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-body">
-                        <div class="media d-flex">
-                            <div class="align-self-center">
-                                <i class="icon-pointer danger font-large-2 float-left"></i>
-                            </div>
-                            <div class="media-body text-right">
-                                <h3>423</h3>
-                                <span>Traffic</span>
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label for="text3">Duty Start Time</label>
+                        <input type="datetime-local" class="form-control" id="text3" name="start"  placeholder="Enter text">
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-body">
-                        <div class="media d-flex">
-                            <div class="media-body text-left">
-                                <h3 class="danger">278</h3>
-                                <span>Investigation</span>
-                            </div>
-                            <div class="align-self-center">
-                                <i class="icon-rocket danger font-large-2 float-right"></i>
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label for="text4">Duty End Time</label>
+                        <input type="datetime-local" class="form-control" id="text4" name="end" placeholder="Enter text">
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-body">
-                        <div class="media d-flex">
-                            <div class="media-body text-left">
-                                <h3 class="success">156</h3>
-                                <span>Office Duty</span>
-                            </div>
-                            <div class="align-self-center">
-                                <i class="icon-user success font-large-2 float-right"></i>
-                            </div>
-                        </div>
+                    
+                    <div class="form-group">
+                        <label for="dropdown2">Duty Place</label><br>
+                        <select name="location_id" id="dropdown2" aria-labelledby="dropdown2" class="form-control">
+                        <?php
+                            $query = "SELECT DISTINCT location_id, location_name, city FROM location";
+                            $pstmt = $con->prepare($query);
+                            $pstmt->execute();
+                            $rows = $pstmt->fetchAll(PDO::FETCH_ASSOC);
+                            foreach($rows as $row){
+                                ?>
+                                <option class="dropdown-item" value="<?php echo $row["location_id"]; ?>"><?php echo $row["location_name"]." - ".$row["city"] ?></option>
+                                <?php
+                            }
+                        ?>
+                        </select>
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-body">
-                        <div class="media d-flex">
-                            <div class="media-body text-left">
-                                <h3 class="warning">64.89 %</h3>
-                                <span>Night Duty</span>
-                            </div>
-                            <div class="align-self-center">
-                                <i class="icon-pie-chart warning font-large-2 float-right"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-body">
-                        <div class="media d-flex">
-                            <div class="media-body text-left">
-                                <h3 class="primary">423</h3>
-                                <span>Traffics</span>
-                            </div>
-                            <div class="align-self-center">
-                                <i class="icon-support primary font-large-2 float-right"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-body">
-                        <div class="media d-flex">
-                            <div class="media-body text-left">
-                                <h3 class="primary">278</h3>
-                                <span>Investigation</span>
-                            </div>
-                            <div class="align-self-center">
-                                <i class="icon-book-open primary font-large-2 float-right"></i>
-                            </div>
-                        </div>
-                        <div class="progress mt-1 mb-0" style="height: 7px;">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 80%"
-                                aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-body">
-                        <div class="media d-flex">
-                            <div class="media-body text-left">
-                                <h3 class="warning">156</h3>
-                                <span>Office Duty</span>
-                            </div>
-                            <div class="align-self-center">
-                                <i class="icon-bubbles warning font-large-2 float-right"></i>
-                            </div>
-                        </div>
-                        <div class="progress mt-1 mb-0" style="height: 7px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 35%"
-                                aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-body">
-                        <div class="media d-flex">
-                            <div class="media-body text-left">
-                                <h3 class="success">64.89 %</h3>
-                                <span>Night Duty</span>
-                            </div>
-                            <div class="align-self-center">
-                                <i class="icon-cup success font-large-2 float-right"></i>
-                            </div>
-                        </div>
-                        <div class="progress mt-1 mb-0" style="height: 7px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 60%"
-                                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-body">
-                        <div class="media d-flex">
-                            <div class="media-body text-left">
-                                <h3 class="danger">423</h3>
-                                <span>Traffics</span>
-                            </div>
-                            <div class="align-self-center">
-                                <i class="icon-direction danger font-large-2 float-right"></i>
-                            </div>
-                        </div>
-                        <div class="progress mt-1 mb-0" style="height: 7px;">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: 40%" aria-valuenow="40"
-                                aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </section>
-
-
-    <div class="row ">
-        <!-- Profile Card -->
-        <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-                <!-- Profile Card Content -->
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex flex-column align-items-center text-center">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin"
-                                class="rounded-circle" width="150">
-                            <div class="mt-3">
-                                <h4>Mr.Ambewela</h4>
-                                <p class="text-secondary mb-1">Duty in charge offiser</p>
-                                <p class="text-muted font-size-sm">Colombo Road,7</p>
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#contactModal" name="btn-primary">Contact Other Officers</button>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-        <!-- Duty Card -->
-
-        <div class="col-xl-5 col-sm-6 col-12">
-            <h1>General Duties</h1>
-
-            <!-- Button to trigger modal -->
-            <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal"
-                data-bs-target="#addAssignmentModal" onclick="location.href = 'general-duty-table.php'">
-                Add Duty
-            </button>
-
-            <!-- Table to display Duty -->
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Officer Name</th>
-                        <th>Assignment</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>John Doe</td>
-                        <td>Patrol</td>
-                    </tr>
-                    <tr>
-                        <td>Jane Smith</td>
-                        <td>Traffic</td>
-                    </tr>
-
-                </tbody>
-            </table>
-</div>
-
-           
-<div class="col-xl-4 col-sm-6 col-12">
-   <div id="response-message"></div>
-    
-    <form class="contact" method="POST" action="general-email.php">
-    <!-- Name -->
-    <h1 class="title text-center mb-4">FOR Assigning DUTIES</h1>  
-
-    <?php
-                if (isset($_GET["status"])) {
-                    if ($_GET["status"] == 1) {
-                        echo "Successfully send emails of Duty assigned!";
-                    } elseif ($_GET["status"] == 2) {
-                        echo "Error Occurred Try again!";
-                    }
-                }
-                ?>
-    <div class="form-group position-relative">
-        <label for="formName" class="d-block">
-            <i class="icon" data-feather="user"></i>
-        </label>
-        <input type="text" id="formName" class="form-control form-control-lg thick" placeholder="Name of duty assining officer" name="name">
-    </div>
-
-    <!-- E-mail -->
-    <div class="form-group position-relative">
-        <label for="formEmail" class="d-block">
-            <i class="icon" data-feather="mail"></i>
-        </label>
-        <input type="email" id="formEmail" class="form-control form-control-lg thick" placeholder="E-mail" name="email">
-    </div>
-
-    <!-- Message -->
-    <div class="form-group message">
-        <textarea id="formMessage" class="form-control form-control-lg" rows="7" placeholder="Message" name="message"></textarea>
-    </div>
-
-    <!-- Submit btn -->
-    <form method="post" action="general-email.php">
-                    <button type="submit" class="btn btn-primary" name="submit">Send emails</button>
+                    <button type="submit" class="btn btn-primary" id="assign-btn" >Assign</button>
+                    <button type="button" class="btn btn-secondary" id="remove-btn">Remove</button>
                 </form>
-</form>
-</div>
-    
-</div>
-</div>
-  
-  
+            </div>
+            <div class="col-md-6">
+                <table class="table table-bordered">
+                    <thead class="thead">
+                        <tr>
+                            <th>Emp ID</th>
+                            <th>Duty Type</th>
+                            <th>Duty Cause</th>
+                            <th>Duty Start Time</th>
+                            <th>Duty End Time</th>
+                            <th>Duty Place</th>
+                            <th> Remove Duty</th>
+                           
 
-<!-- Contact Modal -->
-<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="contactModalLabel">Contact Information</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-    <div class="modal-body">
-  <p><strong>Telephone Numbers:</strong></p>
-  <ul>
-    <?php foreach ($telNumbers as $telNumber): ?>
-      <li><?php echo $telNumber; ?></li>
-    <?php endforeach; ?>
-  </ul>
-</div>
+                        </tr>
+                    </thead>
+                    <tbody id="employeeTableBody">
+                                    <!-- Add more rows dinamically -->
+                    </tbody>
+                    </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<!-- Include Bootstrap JS library -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <footer class="py-5 mt-5" style="background-color: #101D6B;">
+        <div class="container text-light text-center">
+            <p class="display-5 mb-3">Sri Lanka Police</p>
+            <small class="text-white-50">&copy; Copyright. All right reserved</small>
+        </div>
+    </footer>
 
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const contactButton = document.querySelector(".btn-primary");
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.10.2/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      $(document).ready(function () {
+    function handleDropdown(dropdown) {
+        $(dropdown).siblings('.dropdown-menu').toggle();
+    }
 
-    contactButton.addEventListener("click", () => {
-        const xhr = new XMLHttpRequest();
-        xhr.open("GET", "general-get-tel-number.php", true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                try {
-                    const data = JSON.parse(xhr.responseText);
-                    if (data.success) {
-                        const telNumbers = data.telNumbers;
-                        const telNumberList = telNumbers.join(', ');
-                        document.querySelector("#telNumber").textContent = telNumberList;
-                        const contactModal = new bootstrap.Modal(document.getElementById('contactModal'));
-                        contactModal.show();
-                    } else {
-                        console.error("Failed to fetch telephone numbers:", data.error);
-                    }
-                } catch (error) {
-                    console.error("Error parsing JSON:", error);
-                }
-            }
-        };
-        xhr.send();
+    function handleDropdownItem(dropdown, item) {
+        var text = $(item).text().trim();
+        $(dropdown).text(text);
+        $(dropdown).siblings('.dropdown-menu').toggle();
+    }
+
+    $('.dropdown-toggle').click(function () {
+        handleDropdown(this);
     });
+
+    $('.dropdown-item').click(function (event) {
+        event.stopPropagation();
+        var dropdownToggle = $(this).closest('.dropdown').find('.dropdown-toggle');
+        handleDropdownItem(dropdownToggle, this);
+
+        // Update the corresponding hidden input field with the selected value
+        var inputField = $(dropdownToggle).siblings('input[type="hidden"]');
+        inputField.val($(this).text().trim());
+    });
+
+    $('#assign-btn').click(function () {
+        // Get the form data
+        var formData = {
+            empID: $('#text1').val(),
+            duty_type: $('#text2').val(),
+            duty_cause: $('#dropdown1').val(),
+            start: $('#text3').val(),
+            end: $('#text4').val(),
+            location_id: $('#dropdown2').val()
+        };
+
+        // Validate the empID field
+        if (formData.empID === "") {
+            alert('Employee ID is required.');
+            return; // Stop the form submission if empID is empty
+        }
+
+        // Send the form data to the server using AJAX
+        $.ajax({
+            type: 'POST',
+            url: 'submit-general-duty-table.php',
+            data: formData,
+            dataType: 'json',
+            success: function (data) {
+                // Handle the server response here
+                if (data.status === 'success') {
+                    // The form was successfully submitted, update the table with the new data
+                    updateTable(data);
+                    alert('Form submitted successfully!');
+                } else {
+                    console.error('Server returned an error: ' + data.message);
+                    alert('Error submitting the form. Please check the console for details.');
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('AJAX Error: ' + status, error);
+                alert('Done and Assigned data');
+            }
+        });
+    });
+
+    // Handle the Remove button click event
+    $('#remove-btn').click(function () {
+        var selectedRows = $('#employeeTableBody input[type="checkbox"]:checked');
+
+        if (selectedRows.length === 0) {
+            alert('Select one or more rows to remove.');
+        } else {
+            if (confirm('Are you sure you want to remove the selected rows?')) {
+                selectedRows.each(function () {
+                    var empID = $(this).data('emp-id');
+
+                    // Send a request to remove the row with empID
+                    $.ajax({
+                        type: 'POST',
+                        url: 'remove-duty.php',
+                        data: { empID: empID },
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data.status === 'success') {
+                                // Remove the row from the table if removal was successful
+                                $(this).closest('tr').remove();
+                            } else {
+                                console.error('Server returned an error: ' + data.message);
+                                alert('Error removing the row. Please check the console for details.');
+                            }
+                        }.bind(this), 
+                        error: function (xhr, status, error) {
+                            console.error('AJAX Error: ' + status, error);
+                            alert('Error removing the row. Please check the console for details.');
+                        }
+                    });
+                });
+            }
+        }
+    });
+
+    function fetchTableData() {
+        $.ajax({
+            url: 'fetch-data-general-duty-table.php',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                updateTable(data);
+            },
+            error: function () {
+                console.error('Error fetching data from the server.');
+            }
+        });
+    }
+
+    function updateTable(data) {
+        const tableBody = $('#employeeTableBody');
+        tableBody.empty();
+
+        for (let i = 0; i < data.length; i++) {
+            const newRow = $('<tr>');
+            newRow.html(`
+                <td>${data[i].empID}</td>
+                <td>${data[i].duty_type}</td>
+                <td>${data[i].duty_cause}</td>
+                <td>${data[i].start}</td>
+                <td>${data[i].end}</td>
+                <td>${data[i].district}, ${data[i].city}</td>
+                <td><input type="checkbox" data-emp-id="${data[i].empID}"></td>
+            `);
+            tableBody.append(newRow);
+        }
+    }
+
+    fetchTableData();
 });
 
+    </script>
+    </body>
 
-</script>
-
-</body>
 </html>
-<?php
-}
-else{
-    header("Location: loginForm.php");
-}
-?>
