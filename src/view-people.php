@@ -9,9 +9,6 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
     $dbcon = new DBConnector();
     $con = $dbcon->getConnection();
 
-
-
-
 require_once 'fetch-people-data.php';
 
 // Create an instance of DataFetcher
@@ -132,13 +129,13 @@ $dataComplaint = $dataFetcherComplaint->getComplaintData();
                 <tr>
                     <th>NIC</th>
                     <th>Name</th>
-                    <th>Com_ID</th>
-                    <th>Role-In-Case<br>(Plantit/Victim/Suspect)</th>
-                    <th>Com_Type</th>
+                    <th>Complaint ID</th>
+                    <th>Role-In-Case</th>
+                    <th>Complaint Type</th>
                    
-                    <th>Fine<br>(Paid/NotPaid/N/A)</th>
-                    <th>Fine Deadline<br>Date/N/A</th>
-                    <th>Next Coming Date</th>
+                    <th>Fine Information</th>
+                    <th>Fine Deadline</th>
+                    <th>Next Court Date</th>
                 </tr>
             </thead>
             <tbody>
