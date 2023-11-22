@@ -183,6 +183,12 @@ $_SESSION['empID'] = $oldDetails['empID'];
             </div>
         </div>
     </div>
+    <footer class="py-5 mt-5" style="background-color: #101D6B;">
+        <div class="container text-light text-center">
+            <p class="display-5 mb-3">Sri Lanka Police</p>
+            <small class="text-white-50">&copy; Copyright. All right reserved</small>
+        </div>
+    </footer>
 
     <!-- BOOTSTRAP -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

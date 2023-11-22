@@ -11,7 +11,7 @@ function renderNavBar()
       echo '<div class="container">
             <div class="row">
               <div class="col-md-12">
-                  <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white m-0 mt-0 mb-0" >
+                  <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white m-0 mt-0 mb-0" style="box-shadow: 0 2px 2px -2px #101D6B;">
                     <a class="navbar-brand" href="index.php">
                       <div class="d-flex align-items-center">
                         <img src="../assets/logo.png" width="70" height="70" alt="logo">
@@ -60,7 +60,7 @@ function renderNavBar()
                           <a class="nav-link dropdown-toggle" href="#" id="employeeDropdown" role="button"
                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#101D6B">Employee</a>
                           <div class="dropdown-menu" aria-labelledby="employeeDropdown">
-                            <a class="dropdown-item" href="checkDuty.php" style="color:#101D6B"><b>Check Duty</b></a>
+                            <a class="dropdown-item" href="checkDuty.php" style="color:#101D6B"><b>Check Duty Assignment</b></a>
                             <a class="dropdown-item" href="new-employee.php" style="color:#101D6B"><b>Add New Employee</b></a>
                             <a class="dropdown-item" href="check-avalability.php" style="color:#101D6B"><b>Check Employee Avalability</b></a>
                             <a class="dropdown-item" href="generateEmployeeReport.php" style="color:#101D6B"><b>Employee Report</b></a>
@@ -74,7 +74,7 @@ function renderNavBar()
                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#101D6B">Settings</a>
                           <div class="dropdown-menu" aria-labelledby="settingsDropdown">
                             <a class="dropdown-item" href="fp1.php" style="color:#101D6B"><b>Change Password</b></a>
-                            <a class="dropdown-item" href="index.php" style="color:#101D6B"><b>Update Personal Details</b></a>
+                            <a class="dropdown-item" href="update-personal-details.php" style="color:#101D6B"><b>Edit Profile</b></a>
                           </div>
                         </li>
                         <form class="form-inline my-2 my-lg-0"  action="logout.php" method="get">
@@ -89,7 +89,7 @@ function renderNavBar()
       echo '<div class="container">
             <div class="row">
               <div class="col-md-12">
-                  <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white m-0 mt-0 mb-0">
+                  <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white m-0 mt-0 mb-0" style="box-shadow: 0 2px 2px -2px #101D6B;">
                     <a class="navbar-brand" href="index.php">
                       <div class="d-flex align-items-center">
                         <img src="../assets/logo.png" width="70" height="70" alt="logo">
@@ -124,6 +124,13 @@ function renderNavBar()
                             <a class="dropdown-item" href="submit-leave-medical.php" style="color:#101D6B"><b>Submit Leaves</b></a>
                           </div>
                         </li>
+                        <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="employeeDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#101D6B">Employee</a>
+                        <div class="dropdown-menu" aria-labelledby="employeeDropdown">
+                          <a class="dropdown-item" href="checkDuty.php" style="color:#101D6B"><b>Check Duty Assignment</b></a>
+                          </div>
+                      </li>   
                         <li class="nav-item">
                           <a class="nav-link" href="payroll.php" style="color:#101D6B">Salary</a>
                         </li>
@@ -132,7 +139,7 @@ function renderNavBar()
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#101D6B">Settings</a>
                         <div class="dropdown-menu" aria-labelledby="settingsDropdown">
                           <a class="dropdown-item" href="fp1.php" style="color:#101D6B"><b>Change Password</b></a>
-                          <a class="dropdown-item" href="index.php" style="color:#101D6B"><b>Edit Profile</b></a>
+                          <a class="dropdown-item" href="update-personal-details.php" style="color:#101D6B"><b>Edit Profile</b></a>
                         </div>
                       </li>
                         <form class="form-inline my-2 my-lg-0"  action="logout.php" method="get">
@@ -147,7 +154,7 @@ function renderNavBar()
       echo '<div class="container">
             <div class="row">
               <div class="col-md-12">
-                  <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white m-0 mt-0 mb-0">
+                  <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white m-0 mt-0 mb-0" style="box-shadow: 0 2px 2px -2px #101D6B;">
                     <a class="navbar-brand" href="index.php">
                       <div class="d-flex align-items-center">
                         <img src="../assets/logo.png" width="70" height="70" alt="logo">
@@ -183,7 +190,7 @@ function renderNavBar()
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#101D6B">Settings</a>
                         <div class="dropdown-menu" aria-labelledby="settingsDropdown">
                           <a class="dropdown-item" href="fp1.php" style="color:#101D6B"><b>Change Password</b></a>
-                          <a class="dropdown-item" href="index.php" style="color:#101D6B"><b>Edit Profile</b></a>
+                          <a class="dropdown-item" href="update-personal-details.php" style="color:#101D6B"><b>Edit Profile</b></a>
                         </div>
                       </li>
                         <form class="form-inline my-2 my-lg-0"  action="logout.php" method="get">
@@ -198,7 +205,7 @@ function renderNavBar()
       echo '<div class="container">
             <div class="row">
               <div class="col-md-12">
-                  <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white m-0 mt-0 mb-0">
+                  <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white m-0 mt-0 mb-0" style="box-shadow: 0 2px 2px -2px #101D6B;">
                     <a class="navbar-brand" href="index.php">
                       <div class="d-flex align-items-center">
                         <img src="../assets/logo.png" width="70" height="70" alt="logo">
@@ -234,11 +241,18 @@ function renderNavBar()
                         </div>
                         </li>
                         <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="employeeDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#101D6B">Employee</a>
+                        <div class="dropdown-menu" aria-labelledby="employeeDropdown">
+                          <a class="dropdown-item" href="checkDuty.php" style="color:#101D6B"><b>Check Duty Assignment</b></a>
+                          </div>
+                      </li>     
+                        <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="settingsDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#101D6B">Settings</a>
                         <div class="dropdown-menu" aria-labelledby="settingsDropdown">
                           <a class="dropdown-item" href="fp1.php" style="color:#101D6B"><b>Change Password</b></a>
-                          <a class="dropdown-item" href="index.php" style="color:#101D6B"><b>Edit Profile</b></a>
+                          <a class="dropdown-item" href="update-personal-details.php" style="color:#101D6B"><b>Edit Profile</b></a>
                         </div>
                       </li>
                         <form class="form-inline my-2 my-lg-0"  action="logout.php" method="get">

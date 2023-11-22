@@ -213,7 +213,12 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && $_SE
             </div>
         </div>
     </div>
-
+    <footer class="py-5 mt-5" style="background-color: #101D6B;">
+        <div class="container text-light text-center">
+            <p class="display-5 mb-3">Sri Lanka Police</p>
+            <small class="text-white-50">&copy; Copyright. All right reserved</small>
+        </div>
+    </footer>
     <script src="../js/fill-city.js" type="module"></script>
 
     <script src="https://files.worldwind.arc.nasa.gov/artifactory/web/0.9.0/worldwind.min.js" type="text/javascript"></script>

@@ -90,7 +90,7 @@ function showAlert($message)
 
     <link rel="stylesheet" type="text/css" href="../css/checkDuty.css">
 
-    <title>Check Avalability</title>
+    <title>Check Duty</title>
     <link rel="icon" type="image/png" href="../assets/logo.png" />
 </head>
 
@@ -105,23 +105,45 @@ function showAlert($message)
         <div class="container-fluid heading">
             <div class="row mt-3">
                 <div class="col-md-12">
-                    <h3 style="color:#101D6B" class="h3"><b>Check Duty Assignment:
-                            <span class="date">
-                                <?php
-                                date_default_timezone_set('Asia/Colombo');
-                                echo date("Y-m-d")
-                                ?>
-                            </span>
-                        </b></h3>
+                    <?php
+                    $dbcon = new DBConnector();
+                    $con = $dbcon->getConnection();
+                    $id = $_SESSION['user_id'];
+                    try {
+                        $dquery = "SELECT * FROM employee WHERE empID = ?";
+                        $dpstmt = $con->prepare($dquery);
+                        $dpstmt->bindValue(1, $id);
+                        $dpstmt->execute();
+                        $row = $dpstmt->fetch(PDO::FETCH_ASSOC);
+                        $name = $row['first_name'] . " " . $row['last_name'];
+                    } catch (PDOException $ex) {
+                        die("Error inserting duty status: " . $ex->getMessage());
+                    }
+                    ?>
+                    <h3 style="color:#101D6B" class="h3"><b>Hello <?= $name ?>,</b></h3>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row mt-5">
+                <div class="col-md-12">
+                    <h4 style="color:#101D6B" class="h5">Duty Assignment:
+                        <span class="date">
+                            <?php
+                            date_default_timezone_set('Asia/Colombo');
+                            echo date("Y-m-d")
+                            ?>
+                        </span>
+                    </h4>
                 </div>
             </div>
         </div>
 
         <div class="container-fluid">
-            <div class="row">
+            <div class="row mt-2">
                 <div class="col-md-12">
                     <div class="table-responsive" id="avalability-table">
-                        <table class="table mt-4">
+                        <table class="table mt-3">
                             <thead class="thead-edit">
                                 <tr>
                                     <th scope="col">Duty Type</th>
@@ -193,20 +215,23 @@ function showAlert($message)
                 </div>
             </div>
         </div>
-        <div class="container-fluid">
+
+        <hr class="my-4">
+
+        <div class="container-fluid ">
             <div class="row">
                 <div class="col-md-12">
-                    <h4 style="color:#101D6B" class="h4"><b>Leave History:
-                        </b></h4>
+                    <h4 style="color:#101D6B" class="h5">Duty History:
+                    </h4>
                 </div>
             </div>
         </div>
 
         <div class="container-fluid">
-            <div class="row">
+            <div class="row mt-3">
                 <div class="col-md-12">
                     <div class="table-responsive" id="avalability-table">
-                        <table class="table mt-4">
+                        <table class="table mt-">
                             <thead class="thead-edit">
                                 <tr>
                                     <th scope="col">#</th>
@@ -216,7 +241,7 @@ function showAlert($message)
                                     <th scope="col">Start Time</th>
                                     <th scope="col">End Time</th>
                                     <th scope="col">Location</th>
-                                    <th scope="col">Accepted/Rejected</th>
+                                    <th scope="col">Duty Status</th>
                                 </tr>
                             </thead>
 
@@ -230,25 +255,9 @@ function showAlert($message)
                                     $employee_id = $_SESSION['user_id'];
 
                                     try {
-                                        //$hquery = "SELECT id,duty_type,duty_cause,start,end,location.district,location.city FROM duty LEFT JOIN location ON location.location_id = duty.location_id WHERE empID = ?";
                                         $hquery = "SELECT
-                                        d.id,
-                                        d.duty_type,
-                                        d.duty_cause,
-                                        d.start,
-                                        d.end,
-                                        l.district,
-                                        l.city,
-                                        dc.status
-                                    FROM
-                                        duty d
-                                    LEFT JOIN
-                                        location l ON l.location_id = d.location_id
-                                    LEFT JOIN
-                                        duty_feedback dc ON dc.duty_id = d.id
-                                    WHERE
-                                        d.empID = ?;
-                                    ";
+                                        d.id,d.duty_type,d.duty_cause,d.start,d.end,l.district,l.city,dc.status FROM duty d
+                                    LEFT JOIN location l ON l.location_id = d.location_id LEFT JOIN duty_feedback dc ON dc.duty_id = d.id WHERE d.empID = ?;";
                                         $hpstmt = $con->prepare($hquery);
                                         $hpstmt->bindValue(1, $employee_id);
                                         $hpstmt->execute();
@@ -260,7 +269,13 @@ function showAlert($message)
                                                 echo '<th scope="row">' . $count . '</th>';
                                                 echo '<td data-title="Duty ID">' . $employee_row["id"] . '</td>';
                                                 echo '<td data-title="Duty Type">' . $employee_row["duty_type"] . '</td>';
-                                                echo '<td data-title="Duty Cause">' . $employee_row["duty_cause"] . '</td>';
+                                                echo '<td data-title="Duty Cause">';
+                                                if ($employee_row["duty_cause"] !== null) {
+                                                    echo $employee_row["duty_cause"];
+                                                } else {
+                                                    echo 'No specific cause provided';
+                                                }
+                                                echo '</td>';
                                                 echo '<td data-title="Start Time">' . $employee_row["start"] . '</td>';
                                                 echo '<td data-title="End Time">' . $employee_row["end"] . '</td>';
                                                 echo '<td data-title="Location">';
@@ -269,13 +284,20 @@ function showAlert($message)
                                                 } else {
                                                     echo 'No location';
                                                 }
-                                                echo '<td data-title="Accepted/Rejected">' . $employee_row["status"] . '</td>';
+                                                echo '</td>';
+                                                echo '<td data-title="Duty Status">';
+                                                $status = $employee_row["status"];
+                                                if ($status === 1) {
+                                                    echo "Accepted";
+                                                } elseif ($status === 0) {
+                                                    echo "Rejected";
+                                                }
                                                 echo '</td>';
                                                 echo '<tr>';
                                                 $count++;
                                             }
                                         } else {
-                                            echo '<td colspan="7">No duty information available</td>';
+                                            echo '<td colspan="8">No duty information available</td>';
                                         }
                                     } catch (PDOException $ex) {
                                         die("Error in executing duty select query" . $ex->getMessage());

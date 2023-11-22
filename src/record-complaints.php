@@ -509,6 +509,12 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
         </div-->
         
     </div>
+    <footer class="py-5 mt-5" style="background-color: #101D6B;">
+        <div class="container text-light text-center">
+            <p class="display-5 mb-3">Sri Lanka Police</p>
+            <small class="text-white-50">&copy; Copyright. All right reserved</small>
+        </div>
+    </footer>
 
     <!-- FILL PEOPLE DETAILS BASED ON NIC -->
     <script type="text/javascript">
