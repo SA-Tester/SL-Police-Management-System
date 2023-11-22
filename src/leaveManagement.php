@@ -246,8 +246,8 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && $_S
                                                 <label for="reason_desc">Reason Description </label>
                                             </div>
                                             <div class="col-75">
-                                                <input type="text" id="reason_desc" name="reason_desc"
-                                                    value="<?php echo $employee->reason ?>" readonly />
+                                                <input type="text" id="reason_desc" name="reason_desc" style="height:auto;"
+                                                    value="<?php echo $employee->reason ?>" readonly></textarea>
                                             </div>
                                         </div>
                                         <div class="row">
