@@ -133,14 +133,13 @@ $dataComplaint = $dataFetcherComplaint->getComplaintData();
                     <th>NIC</th>
                     <th>Name</th>
                     <th>Complaint ID</th>
-                    <th>Role-In-Case<br>(Plantit/Victim/Suspect)</th>
+                    <th>Role-In-Case</th>
                     <th>Complaint Type</th>
                    
-                    <th>Fine<br>(OR N/A)</th>
-                    <th>Fine Deadline<br>Date/(N/A)</th>
-                    <th>Next Coming Date</th>
-                    <th>Next Coming Date Update</th>
-
+                    <th>Fine</th>
+                    <th>Fine Deadline</th>
+                    <th>Next Court Date</th>
+                    <th>Update Court Date</th>
                 </tr>
             </thead>
             <tbody>
@@ -161,7 +160,7 @@ $dataComplaint = $dataFetcherComplaint->getComplaintData();
                         <td><?php echo isset($dataFineData[0]['fine_amount']) ? $dataFineData[0]['fine_amount'] : 'N/A'; ?></td>
                         <td><?php echo isset($dataFineData[0]['temp_license_end_date']) ? $dataFineData[0]['temp_license_end_date'] : 'N/A'; ?></td>
                         <td><?php echo isset($courtOrderData[0]['next_court_date']) ? $courtOrderData[0]['next_court_date'] : 'N/A'; ?></td>
-                        <td><a href="../src/updateNewDate.php?nic=<?php echo $nic; ?>">Update Date</a></td>
+                        <td><a href="../src/new-court-date.php?nic=<?php echo $nic; ?>&comp_id=<?php echo $roleInCaseData[0]['complaint_id']; ?>">Update Date</a></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -171,7 +170,7 @@ $dataComplaint = $dataFetcherComplaint->getComplaintData();
                     <form method="post" action="send-email.php">
                     <button type="submit" class="btn btn-primary" name="submit">Send emails</button>
                 </form>
-                        <form action="update-button-data-people.php" method="post">
+                        <form action="update-court-dates.php" method="post">
                         <button type="submit" class="btn btn-secondary" name="updateButton" id="updateButton">Update Data</button>
                         </form>
                     </div>

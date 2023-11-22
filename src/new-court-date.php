@@ -9,31 +9,72 @@ $dbcon = new DbConnector();
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $nic = ($_POST['nic']);
+    $comp_id = ($_POST['comp_id']);
     $name = ($_POST['name']);
     $nextCourtDate = ($_POST['next_court_date']);
 
     try {
         $conn = $dbcon->getConnection();
-        $query = "UPDATE court_order SET next_court_date=? WHERE `court_order`.`nic` = ?";
+        $query1 = "SELECT next_court_date FROM court_order WHERE complaint_id=? AND nic=?";
+        $pstmt1 = $conn->prepare($query1);
+        $pstmt1->bindValue(1, $comp_id);
+        $pstmt1->bindValue(2, $nic);
+        $pstmt1->execute();
 
-        $pstmt = $conn->prepare($query);
-        $pstmt->bindValue(1, $nextCourtDate);
-        $pstmt->bindValue(2, $nic);
+        if($pstmt1->rowCount() > 0){
+            // The case is being already discussed in the court. Should update the next date.
+            $previous = $pstmt1->fetch(PDO::FETCH_ASSOC);
+            $prev_court_date = $previous["next_court_date"];
 
-        $pstmt->execute();
-        if ($pstmt->rowCount() > 0) {
-            header("Location: view-people.php");
-            exit;
-        } else {
-            // If user didn't do any changes but clicked the update button.
-            header("Location: view-people.php");
-            exit;
+            $query2 = "UPDATE court_order SET previous_court_date=? WHERE nic=? AND complaint_id=?";
+            $pstmt2 = $conn->prepare($query2);
+            //$pstmt2->bindValue(1, strval($nextCourtDate));
+            $pstmt2->bindValue(1, strval($prev_court_date));
+            $pstmt2->bindValue(2, $nic);
+            $pstmt2->bindValue(3, $comp_id);
+            $pstmt2->execute();
+
+            $query4 = "UPDATE court_order SET next_court_date=? WHERE nic=? AND complaint_id=?";
+            $pstmt4 = $conn->prepare($query4);
+            $pstmt4->bindValue(1, strval($nextCourtDate));
+            $pstmt4->bindValue(2, $nic);
+            $pstmt4->bindValue(3, $comp_id);
+            $pstmt4->execute();
+
+            if ($pstmt2->rowCount() > 0 && $pstmt4->rowCount() > 0) {
+                header("Location: view-people.php");
+                exit;
+            } else {
+                // If user didn't do any changes but clicked the update button.
+                header("Location: view-people.php");
+                exit;
+            }
         }
+        else{
+            // New Court order. Should Insert the data.
+            $query3= "INSERT INTO court_order (complaint_id, nic, next_court_date) VALUES(?, ?, ?)";
+            $pstmt3 = $conn->prepare($query3);
+            $pstmt3->bindValue(1, $comp_id);
+            $pstmt3->bindValue(2, $nic);
+            $pstmt3->bindValue(3, $nextCourtDate);
+
+            $pstmt3->execute();
+            if ($pstmt3->rowCount() > 0) {
+                header("Location: view-people.php");
+                exit;
+            } else {
+                // If user didn't do any changes but clicked the update button.
+                header("Location: view-people.php");
+                exit;
+            }
+        }
+
     } catch (PDOException $exc) {
         echo $exc->getMessage();
     }
 } else {
     $nic = ($_GET["nic"]);
+    $comp_id = ($_GET['comp_id']);
 
     try {
         $conn = $dbcon->getConnection();
@@ -51,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <html>
 
     <head>
-        <title>Update next court Date</title>
+        <title>Next Court Date</title>
         <link rel="icon" type="image/png" href="../assets/logo.png" />
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,6 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <p style="color: darkblue;" class="m-0 fw-bold ">Update next court Date</p>
                 </div>
                 <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="POST">
+                    <input type="hidden" name="comp_id" value="<?php echo $comp_id ?>">
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
