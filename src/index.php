@@ -178,6 +178,14 @@
         <br>
         <div class="row justify-content-center">
             <div class="col-md-6 col-lg-4">
+                <div class="card border-0"><a href="checkDuty.php" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/New employee.png" alt="Card Image"></a>
+                    <br>
+                    <div class="card-body text-center">
+                        <h5><a href="checkDuty.php" style="color:darkblue" class="disabled common-link">Check Duty Assignment</a></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-4">
                 <div class="card border-0"><a href="new-employee.php" class="disabled admin-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/New employee.png" alt="Card Image"></a>
                     <br>
                     <div class="card-body text-center">
@@ -211,18 +219,18 @@
         <br>
         <div class="row justify-content-center">
             <div class=" col-md-6 col-lg-4">
-                <div class="card border-0"><a href="#" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
+                <div class="card border-0"><a href="update-personal-details.php" class="disabled all-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
                     <br>
                     <div class="card-body text-center">
-                        <h5><a href="#" style="color:darkblue" class="disabled common-link">Update Personal Details</a></h5>
+                        <h5><a href="update-personal-details.php" style="color:darkblue" class="disabled all-link">Update Personal Details</a></h5>
                     </div>
                 </div>
             </div>
             <div class="col-md-6 col-lg-4">
-                <div class="card border-0"><a href="fp1.php" class="disabled common-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
+                <div class="card border-0"><a href="fp1.php" class="disabled all-link"><img class="card-img-top zoomUp" style="width:25%" src="../assets/complaint handeling.png" alt="Card Image"></a>
                     <br>
                     <div class="card-body text-center">
-                        <h5><a href="fp1.php" style="color:darkblue" class="disabled common-link">Change Password</a></h5>
+                        <h5><a href="fp1.php" style="color:darkblue" class="disabled all-link">Change Password</a></h5>
                     </div>
                 </div>
             </div>
@@ -263,23 +271,23 @@
         });
 
         function enableAdminLinks() {
-            document.querySelectorAll('.admin-link, .common-link, .external-officer-link, .accountant-officer-link').forEach(link => {
+            document.querySelectorAll('.admin-link, .common-link, .external-officer-link, .accountant-officer-link, .all-link').forEach(link => {
                 link.classList.remove('disabled');
             });
         }
 
         function enableUserLinks() {
-            document.querySelectorAll('.common-link').forEach(link => {
+            document.querySelectorAll('.common-link, .all-link').forEach(link => {
                 link.classList.remove('disabled');
             });
         }
         function enableExternalOfficerLinks() {
-            document.querySelectorAll('.external-officer-link').forEach(link => {
+            document.querySelectorAll('.external-officer-link, .all-link').forEach(link => {
                 link.classList.remove('disabled');
             });
         }
         function enableAccountantOfficerLinks() {
-            document.querySelectorAll('.accountant-officer-link').forEach(link => {
+            document.querySelectorAll('.accountant-officer-link, .all-link, .common-link').forEach(link => {
                 link.classList.remove('disabled');
             });
         }
@@ -297,7 +305,6 @@
             enableAccountantOfficerLinks();
         }
         else if (userRole === "external_ officer") {
-            enableUserLinks();
             enableExternalOfficerLinks();
         }
     </script>
