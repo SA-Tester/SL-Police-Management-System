@@ -239,7 +239,7 @@ if (isset($_POST["generateReport"], $_POST["comp_id"]) && !empty($_POST["comp_id
         $pdf->writeHTML($html, true, false, false, false, ''); 
     }
 
-    $y = 165;
+    $y = 175;
     if($photos != null){
         for($i=0; $i < sizeof($photos); $i++){
 

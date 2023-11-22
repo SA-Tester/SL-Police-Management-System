@@ -15,7 +15,8 @@ try {
     $sql = "SELECT d.empID, d.duty_type, d.duty_cause, d.start, d.end, l.district , l.city 
     FROM duty d
     JOIN location l ON d.location_id = l.location_id
-    WHERE d.duty_type = 'General'";
+    WHERE d.duty_type = 'General'
+    ORDER BY d.start DESC";
 
     
     $stmt = $con->query($sql);
