@@ -132,13 +132,15 @@ $dataComplaint = $dataFetcherComplaint->getComplaintData();
                 <tr>
                     <th>NIC</th>
                     <th>Name</th>
-                    <th>Com_ID</th>
+                    <th>Complaint ID</th>
                     <th>Role-In-Case<br>(Plantit/Victim/Suspect)</th>
-                    <th>Com_Type</th>
+                    <th>Complaint Type</th>
                    
                     <th>Fine<br>(OR N/A)</th>
-                    <th>Fine Deadline<br>Date/N/A</th>
+                    <th>Fine Deadline<br>Date/(N/A)</th>
                     <th>Next Coming Date</th>
+                    <th>Next Coming Date Update</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -159,6 +161,7 @@ $dataComplaint = $dataFetcherComplaint->getComplaintData();
                         <td><?php echo isset($dataFineData[0]['fine_amount']) ? $dataFineData[0]['fine_amount'] : 'N/A'; ?></td>
                         <td><?php echo isset($dataFineData[0]['temp_license_end_date']) ? $dataFineData[0]['temp_license_end_date'] : 'N/A'; ?></td>
                         <td><?php echo isset($courtOrderData[0]['next_court_date']) ? $courtOrderData[0]['next_court_date'] : 'N/A'; ?></td>
+                        <td><a href="../src/updateNewDate.php?nic=<?php echo $nic; ?>">Update Date</a></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
