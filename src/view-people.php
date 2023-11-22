@@ -9,6 +9,9 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
     $dbcon = new DBConnector();
     $con = $dbcon->getConnection();
 
+
+
+
 require_once 'fetch-people-data.php';
 
 // Create an instance of DataFetcher
@@ -119,7 +122,7 @@ $dataComplaint = $dataFetcherComplaint->getComplaintData();
                             <div class="col-sm-8 text-right">
                                 <!-- Search input moved to the right -->
                                 <div class="search-button">
-                                    <input type="text" class="form-control" id="searchInput" placeholder="Search">
+                                    <input type="text" class="form-control" id="searchInput" placeholder="Search by Complaint Type">
                                     <button class="btn btn-secondary" type="button" id="searchButton">Search</button>
                                 </div>
                             </div>
@@ -129,13 +132,13 @@ $dataComplaint = $dataFetcherComplaint->getComplaintData();
                 <tr>
                     <th>NIC</th>
                     <th>Name</th>
-                    <th>Complaint ID</th>
-                    <th>Role-In-Case</th>
-                    <th>Complaint Type</th>
+                    <th>Com_ID</th>
+                    <th>Role-In-Case<br>(Plantit/Victim/Suspect)</th>
+                    <th>Com_Type</th>
                    
-                    <th>Fine Information</th>
-                    <th>Fine Deadline</th>
-                    <th>Next Court Date</th>
+                    <th>Fine<br>(OR N/A)</th>
+                    <th>Fine Deadline<br>Date/N/A</th>
+                    <th>Next Coming Date</th>
                 </tr>
             </thead>
             <tbody>
