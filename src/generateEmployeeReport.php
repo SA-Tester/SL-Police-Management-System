@@ -224,6 +224,12 @@ if (isset($_SESSION['user_id'], $_SESSION['role'], $_SESSION['username']) && $_S
 
 
         <style>
+            * {
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+            }
+
             .form-container {
                 height: 550px;
                 background-color: #101D6B;
@@ -258,6 +264,12 @@ if (isset($_SESSION['user_id'], $_SESSION['role'], $_SESSION['username']) && $_S
             h4 {
                 font-size: 1.5rem !important;
                 font-weight: 700;
+            }
+
+            @media only screen and (max-width:750px) {
+                form {
+                    width: 90% !important;
+                }
             }
         </style>
 

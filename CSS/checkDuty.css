@@ -1,5 +1,5 @@
 .heading{
-    padding-top: 80px;
+    padding-top: 90px;
 }
 .date{
     display: inline;
@@ -7,8 +7,8 @@
     font-weight: bold;  
 }
 #avalability-table .thead-edit th {
-    color: white;
-    background: #101D6B;
+    color: #101D6B;
+    background: lavender;
     border-bottom: none;
 }
 
@@ -33,7 +33,28 @@ td:last-child {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 }
+.custom-btn {
+    color: #101D6B;
+    background-color: transparent;
+    border: 2px solid #101D6B;
+}
 
+.custom-btn:hover {
+    background-color: #101D6B;
+    color: #fff;
+}
+.custom-btn-submit{
+    width:70px;
+    color:#fff;
+    height: 35px;
+    border:none;
+    background: #101D6B;
+}
+.custom-btn-submit:hover{
+    color:#101D6B;
+    background: white;
+    border: 1px solid #101D6B;
+}
 footer {
     margin-top: -1px;
     padding-bottom: 0;
