@@ -24,6 +24,16 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
     <link rel="icon" type="image/png" href="../assets/logo.png">
 
     <style>
+        .btn {
+            background-color: #101D6B;
+            color: #fff;
+        }
+
+        .btn:hover {
+            background-color: #101D6B;
+            color: #ffffff;
+        }
+
         .traffic{
             display: none;
         }
@@ -365,9 +375,9 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
 
                     <div class="row">
                         <div class="col-sm">
-                            <input type="submit" name="add" value="Add New" class="btn-primary mb-4 w-25">
-                            <input type="submit" name="update" value="Update" class="btn-warning mb-4 w-25">
-                            <input type="reset" name="reset" value="Reset" class="btn-dark mb-4 w-25">
+                            <input type="submit" name="add" value="Add New" class="btn mb-4 w-25">
+                            <input type="submit" name="update" value="Update" class="btn mb-4 w-25">
+                            <input type="reset" name="reset" value="Reset" class="btn mb-4 w-25">
                         </div>
                     </div>
                     

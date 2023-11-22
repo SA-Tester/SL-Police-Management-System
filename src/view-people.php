@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-
 require_once "./classes/class-db-connector.php";
 
 use classes\DBConnector;
@@ -9,9 +8,6 @@ use classes\DBConnector;
 if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])) {
     $dbcon = new DBConnector();
     $con = $dbcon->getConnection();
-
-
-
 
     require_once 'fetch-people-data.php';
 
@@ -28,7 +24,6 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])) {
     $dataPeople = $dataFetcherPeople->getPeopleData();
     $dataComplaint = $dataFetcherComplaint->getComplaintData();
 
-
 ?>
     <!DOCTYPE html>
     <html>
@@ -40,6 +35,16 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])) {
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <style>
+            .btn {
+                background-color: #101D6B;
+                color: #fff;
+            }
+
+            .btn:hover {
+                background-color: #101D6B;
+                color: #ffffff;
+            }
+
             .container {
                 margin-top: 40px;
             }
@@ -98,8 +103,6 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])) {
         ?>
         <!---------------------------------------------------->
 
-
-
         <div class="container">
 
             <table class="table table-bordered">
@@ -109,7 +112,7 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])) {
                             <div class="row">
                                 <div class="col-sm-4">
                                     <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdown2" name="sortby" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <button class="btn dropdown-toggle" type="button" id="dropdown2" name="sortby" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Sort By
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdown2">
@@ -124,7 +127,7 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])) {
                                     <!-- Search input moved to the right -->
                                     <div class="search-button">
                                         <input type="text" class="form-control" id="searchInput" placeholder="Search by Complaint Type">
-                                        <button class="btn btn-secondary" type="button" id="searchButton">Search</button>
+                                        <button class="btn" type="button" id="searchButton">Search</button>
                                     </div>
                                 </div>
                             </div>
@@ -147,20 +150,20 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])) {
 
                     <?php foreach ($dataPeople as $index => $row) : ?>
                         <?php
-                        $nic = isset($row['nic']) ? $row['nic'] : 'N/A';
+                        $nic = isset($row['nic']) ? $row['nic'] : 'None';
                         $roleInCaseData = $dataFetcherRoleInCase->getRoleInCaseData($nic);
                         $courtOrderData = $dataFetcherCourtOrder->getCourtOrderData($nic);
                         $dataFineData = $dataFetcherFine->getFineData($nic);
                         ?>
                         <tr>
                             <td><?php echo $nic; ?></td>
-                            <td><?php echo isset($row['name']) ? $row['name'] : 'N/A'; ?></td>
-                            <td><?php echo isset($roleInCaseData[0]['complaint_id']) ? $roleInCaseData[0]['complaint_id'] : 'N/A'; ?></td>
-                            <td><?php echo isset($roleInCaseData[0]['role_in_case']) ? $roleInCaseData[0]['role_in_case'] : 'N/A'; ?></td>
-                            <td><?php echo isset($dataComplaint[$index]['complaint_type']) ? $dataComplaint[$index]['complaint_type'] : 'N/A'; ?></td>
-                            <td><?php echo isset($dataFineData[0]['fine_amount']) ? $dataFineData[0]['fine_amount'] : 'N/A'; ?></td>
-                            <td><?php echo isset($dataFineData[0]['temp_license_end_date']) ? $dataFineData[0]['temp_license_end_date'] : 'N/A'; ?></td>
-                            <td><?php echo isset($courtOrderData[0]['next_court_date']) ? $courtOrderData[0]['next_court_date'] : 'N/A'; ?></td>
+                            <td><?php echo isset($row['name']) ? $row['name'] : 'None'; ?></td>
+                            <td><?php echo isset($roleInCaseData[0]['complaint_id']) ? $roleInCaseData[0]['complaint_id'] : 'None'; ?></td>
+                            <td><?php echo isset($roleInCaseData[0]['role_in_case']) ? $roleInCaseData[0]['role_in_case'] : 'None'; ?></td>
+                            <td><?php echo isset($dataComplaint[$index]['complaint_type']) ? $dataComplaint[$index]['complaint_type'] : 'None'; ?></td>
+                            <td><?php echo isset($dataFineData[0]['fine_amount']) ? $dataFineData[0]['fine_amount'] : 'None'; ?></td>
+                            <td><?php echo isset($dataFineData[0]['temp_license_end_date']) ? $dataFineData[0]['temp_license_end_date'] : 'None'; ?></td>
+                            <td><?php echo isset($courtOrderData[0]['next_court_date']) ? $courtOrderData[0]['next_court_date'] : 'None'; ?></td>
                             <td><a href="../src/new-court-date.php?nic=<?php echo $nic; ?>&comp_id=<?php echo $roleInCaseData[0]['complaint_id']; ?>">Update Date</a></td>
                         </tr>
                     <?php endforeach; ?>
@@ -169,19 +172,18 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])) {
                     <td colspan="9">
                         <div class="btn-group">
                             <form method="post" action="send-email.php">
-                                <button type="submit" class="btn btn-primary" name="submit">Send emails</button>
+                                <button type="submit" class="btn" name="submit">Send Emails</button>
                             </form>
                             <!--form action="update-court-dates.php" method="post">
                                 <button type="submit" class="btn btn-secondary" name="updateButton" id="updateButton">Update Data</button>
                             </form-->
+                            <button class="btn ml-4" id="generateReportButton">Generate Report</button>
                         </div>
                     </td>
                 </tr>
                 </tfoot>
             </table>
         </div>
-
-        <button class="btn btn-success" id="generateReportButton">Generate Report</button>
 
         <footer class="py-5 mt-5" style="background-color: #101D6B;">
             <div class="container text-light text-center">
