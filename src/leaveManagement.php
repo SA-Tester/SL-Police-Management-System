@@ -11,7 +11,7 @@ $dbcon = new DBConnector();
 $con = $dbcon->getConnection();
 
 if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && $_SESSION["role"] == "admin") {
-?>
+    ?>
 
     <!DOCTYPE html>
     <html lang="en">
@@ -54,14 +54,15 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && $_S
                                     <tr>
                                         <th>No.</th>
                                         <th>EmpID</th>
+                                        <th>Name</th>
                                         <th>Start Date</th>
-                                        <th>Duration (Days)</th>
+                                        <th>Duration</th>
                                         <th>Edit</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $query1 = "SELECT * FROM leaves";
+                                    $query1 = "SELECT leaves.*, employee.first_name, employee.last_name FROM leaves, employee where leaves.empID = employee.empID";
                                     $pstmt1 = $con->prepare($query1);
                                     $pstmt1->execute();
                                     $rs = $pstmt1->fetchAll(PDO::FETCH_OBJ);
@@ -72,7 +73,11 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && $_S
                                             $leaveObject = new Leave(NULL, $employee->leave_start, $employee->leave_end, NULL, NULL, NULL);
                                             $leaveObject->setCon($con);
                                             $duration = $leaveObject->durationCal();
-
+                                            if($duration == 1){
+                                                $str = " day";
+                                            } else{
+                                                $str = " days";
+                                            }
                                             ?>
                                             <tr>
                                                 <td>
@@ -81,11 +86,15 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && $_S
                                                 <td>
                                                     <?php echo $empID ?>
                                                 </td>
+                                                </td>
+                                                <td>
+                                                    <?php echo $employee->first_name . " " . $employee->last_name; ?>
+                                                </td>
                                                 <td>
                                                     <?php echo $employee->leave_start; ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $duration ?>
+                                                    <?php echo $duration . $str?>
                                                 </td>
                                                 <td><a href="leaveManagement.php?empID=<?php echo $empID ?>">View</a></td>
                                             </tr>
@@ -107,14 +116,15 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && $_S
                                     <tr>
                                         <th>No.</th>
                                         <th>EmpID</th>
+                                        <th>Name</th>
                                         <th>Start Date</th>
                                         <th>End Date</th>
-                                        <th>Duration (Days)</th>
+                                        <th>Duration</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                    $query4 = "SELECT * FROM leaves";
+                                    $query4 = "SELECT leaves.*, employee.first_name, employee.last_name FROM leaves, employee where leaves.empID = employee.empID";
                                     $pstmt4 = $con->prepare($query4);
                                     $pstmt4->execute();
                                     $rs = $pstmt4->fetchAll(PDO::FETCH_OBJ);
@@ -124,6 +134,11 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && $_S
                                         $leaveObject->setCon($con);
                                         if ($leaveObject->checkLeaveThisMonth() && $employee->status == 1) {
                                             $duration = $leaveObject->durationCal();
+                                            if($duration == 1){
+                                                $str = " day";
+                                            } else{
+                                                $str = " days";
+                                            }
                                             ?>
                                             <tr>
                                                 <td>
@@ -133,13 +148,16 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && $_S
                                                     <?php echo $employee->empID; ?>
                                                 </td>
                                                 <td>
+                                                    <?php echo $employee->first_name . " " . $employee->last_name; ?>
+                                                </td>
+                                                <td>
                                                     <?php echo $employee->leave_start ?>
                                                 </td>
                                                 <td>
                                                     <?php echo $employee->leave_end ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $duration ?>
+                                                    <?php echo $duration . $str?>
                                                 </td>
                                             </tr>
                                             <?php
@@ -171,7 +189,7 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && $_S
                         <?php
                         if (isset($_GET["empID"])) {
                             $empID = $_GET["empID"];
-                            $query2 = "SELECT * FROM leaves";
+                            $query2 = "SELECT leaves.*, employee.first_name, employee.last_name FROM leaves, employee where leaves.empID = employee.empID";
                             $pstmt2 = $con->prepare($query2);
                             $pstmt2->execute();
                             $rs = $pstmt2->fetchAll(PDO::FETCH_OBJ);
@@ -186,6 +204,14 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && $_S
                                             </div>
                                             <div class="col-75">
                                                 <input type="text" id="emp_id" name="emp_id" value="<?php echo $empID ?>" readonly />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-25">
+                                                <label for="fullname">Name</label>
+                                            </div>
+                                            <div class="col-75">
+                                                <input type="text" id="fullname" name="fullname" value="<?php echo $employee->first_name . " " . $employee->last_name;?>" readonly />
                                             </div>
                                         </div>
                                         <div class="row">
@@ -251,7 +277,7 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && $_S
                                         <th>No.</th>
                                         <th>Start Date</th>
                                         <th>End Date</th>
-                                        <th>Duration (Days)</th>
+                                        <th>Duration</th>
                                         <th>Reason</th>
                                     </tr>
                                 </thead>
@@ -269,6 +295,11 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && $_S
                                                 $leaveObject = new Leave(NULL, $employee->leave_start, $employee->leave_end, NULL, NULL, NULL);
                                                 $leaveObject->setCon($con);
                                                 $duration = $leaveObject->durationCal();
+                                                if($duration == 1){
+                                                    $str = " day";
+                                                } else{
+                                                    $str = " days";
+                                                }
                                                 ?>
                                                 <tr>
                                                     <td>
@@ -281,7 +312,7 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && $_S
                                                         <?php echo $employee->leave_end ?>
                                                     </td>
                                                     <td>
-                                                        <?php echo $duration ?>
+                                                        <?php echo $duration . $str?>
                                                     </td>
                                                     <td>
                                                         <?php echo $employee->reason_type ?>

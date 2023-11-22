@@ -73,8 +73,8 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && ($_
                         <tr>
                             <th>#</th>
                             <th>EmpID</th>
+                            <th>Name</th>
                             <th>Rank</th>
-                            <th>Email</th>
                             <th>Base Salary</th>
                             <th>Service Years</th>
                             <th>Barter</th>
@@ -87,7 +87,7 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && ($_
                         <?php
                         try {
                             $con = $dbcon->getConnection();
-                            $query = "SELECT salary.*, employee.email, employee.rank FROM salary, employee where salary.empID = employee.empID";
+                            $query = "SELECT salary.*, employee.first_name, employee.last_name, employee.rank FROM salary, employee where salary.empID = employee.empID";
                             $pstmt = $con->prepare($query);
                             $pstmt->execute();
                             $rs = $pstmt->fetchAll(PDO::FETCH_OBJ);
@@ -103,10 +103,10 @@ if (isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"]) && ($_
                                         <?php echo $employee->empID; ?>
                                     </td>
                                     <td>
-                                        <?php echo $employee->rank; ?>
+                                        <?php echo $employee->first_name." ".$employee->last_name; ?>
                                     </td>
                                     <td>
-                                        <?php echo $employee->email; ?>
+                                        <?php echo $employee->rank; ?>
                                     </td>
                                     <td>
                                         <?php echo $employee->base_salary; ?>
