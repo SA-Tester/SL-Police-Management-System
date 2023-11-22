@@ -17,13 +17,22 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
     <style>
+        .btn {
+            background-color: #101D6B;
+            color: #fff;
+        }
+
+        .btn:hover {
+            background-color: #101D6B;
+            color: #ffffff;
+        }
+        
         .container {
             margin-top: 40px;
         }
 
         .thead {
-            background-color: rgb(141, 141, 237);
-
+            background-color: lavender;
         }
 
         .navbar {
@@ -105,8 +114,8 @@
                         </select>
                     </div>
 
-                    <button type="submit" class="btn btn-primary" id="assign-btn" >Assign</button>
-                    <button type="button" class="btn btn-secondary" id="remove-btn">Remove</button>
+                    <button type="submit" class="btn" id="assign-btn" >Assign</button>
+                    <button type="button" class="btn" id="remove-btn">Remove</button>
                 </form>
             </div>
             <div class="col-md-6">
@@ -119,9 +128,7 @@
                             <th>Duty Start Time</th>
                             <th>Duty End Time</th>
                             <th>Duty Place</th>
-                            <th> Remove Duty</th>
-                           
-
+                            <th>Remove Duty</th>
                         </tr>
                     </thead>
                     <tbody id="employeeTableBody">

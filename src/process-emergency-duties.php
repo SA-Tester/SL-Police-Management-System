@@ -4,7 +4,7 @@ require_once "./classes/class-db-connector.php";
 require_once "./classes/class-duties.php";
 require_once "./classes/class-location.php";
 require_once "./classes/class-employee.php";
-require "./ultramsg-api/config.php";
+require_once "./ultramsg-api/config.php";
 
 use classes\DBConnector;
 use classes\Duties;

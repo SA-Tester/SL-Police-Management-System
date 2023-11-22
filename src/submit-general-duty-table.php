@@ -2,8 +2,12 @@
 
 require_once './classes/class-db-connector.php';
 require_once './classes/class-duties.php';
+require_once './classes/class-employee.php';
+require_once './ultramsg-api/config.php';
+
 use classes\DBConnector;
 use classes\Duties;
+use classes\Employee;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Ensure that the data is received correctly
@@ -37,7 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // empID already exists, handle the situation accordingly
             $response = array("status" => "error", "message" => "Employee ID already exists");
             echo json_encode($response);
-        } else {
+        } 
+        else {
             // empID is unique, proceed with the insertion
             $sql = "INSERT INTO duty (empID, duty_type, duty_cause, start, end, location_id) 
                     VALUES (:empID, :duty_type, :duty_cause, :start, :end, :location_id)";
@@ -54,8 +59,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // Execute the prepared statement
             $stmt->execute();
 
+            $empObj = new Employee("", "", "", "", "", "", "", "", "", "", "", "", "", "", "");
+            $empObj->setEmpID($empID);
+            $empObj->initEmployee();
+            $empName = $empObj->getName();
+            $emp_tel = "94". ltrim($empObj->getTelephone(), "0");
+            $startInfo = explode("T", $start);
+            $endInfo = explode("T", $end);
+            $empRank = $empObj->getRank();
+
+            $msg = "Dear $empRank $empName,
+                    \nYou are assigned for a general duty for a $duty_cause
+                    \non $startInfo[0] from $startInfo[1] 
+                    \nto $endInfo[0], $endInfo[1].
+                    \nPlease attend to the above mentioned duty.
+                    \nThank you.
+                    \n-Sri Lanka Police Department-";
+
+            //Send Message to Employee
+            sendMessage($emp_tel, $msg);
+
             // Return a success response
             $response = array("status" => "success");
+
             echo json_encode($response);
         }
     } catch (PDOException $e) {
@@ -89,17 +115,11 @@ try {
         // Return an error response
         $response = array("status" => "error", "message" => "An error occurred while adding duty.");
     }
-
     echo json_encode($response);
+
 } catch (PDOException $e) {
     // If there is an error, return an error response
     $response = array("status" => "error", "message" => "Database error: " . $e->getMessage());
     echo json_encode($response);
 }
-
-
-
-
-
-
 ?>

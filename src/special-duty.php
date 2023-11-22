@@ -147,15 +147,16 @@ $dbcon = new DBConnector();
                                 <tr>
                                     <th>Delete</th>
                                     <th>Employee ID</th>
-                                    <th>Duty type</th>
-                                    <th>Duty cause</th>
+                                    <th>Duty Cause</th>
+                                    <th>Duty Start</th>
+                                    <th>Duty End</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                 try {
                                     $con = $dbcon->getConnection();
-                                    $query = "SELECT * FROM duty WHERE `duty`.`duty_type` = 'Special'";
+                                    $query = "SELECT * FROM duty WHERE `duty`.`duty_type` = 'Special' ORDER BY start DESC";
                                     $pstmt = $con->prepare($query);
                                     $pstmt->execute();
                                     $rs = $pstmt->fetchAll(PDO::FETCH_OBJ);
@@ -164,8 +165,9 @@ $dbcon = new DBConnector();
                                         <tr>
                                             <td><a href="../src/deleteSpecialDuty.php?empID=<?php echo $user->empID; ?>">Delete</a></td>
                                             <td><?php echo $user->empID; ?></td>
-                                            <td><?php echo $user->duty_type; ?></td>
                                             <td><?php echo $user->duty_cause; ?></td>
+                                            <td><?php echo $user->start; ?></td>
+                                            <td><?php echo $user->end; ?></td>
                                         </tr>
                                 <?php
                                     }
@@ -178,7 +180,7 @@ $dbcon = new DBConnector();
                     </div>
 
                 </div>
-                <form method="post" action="Special-sendEmail.php">
+                <form method="post" action="special-send-email.php">
                     <button type="submit" class="btn btn-primary" name="submit">Send emails</button>
                 </form>
             </div>

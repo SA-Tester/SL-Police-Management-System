@@ -98,7 +98,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                 </div>
             </div>
 
-            <div class="col-md-9 col-sm-2">
+            <div class="col-md-9 col-sm-2" style = "background-color: lavender;">
                 <div class="tab-content" id="v-pills-tabContent">
                     <div class="tab-pane fade show active" id="link1" role="tabpanel" aria-labelledby="v-pills-link1-tab">
                         <fieldset class="form-group border p-4 w-100">
@@ -171,7 +171,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                         </fieldset>
                     </div>
 
-                    <div class="tab-pane fade" id="link2" role="tabpanel" aria-labelledby="v-pills-link2-tab">
+                    <div class="tab-pane fade" id="link2" role="tabpanel" aria-labelledby="v-pills-link2-tab" style = "background-color: lavender;">
                         <div class="row">
                             <div class="col" name="peopleCol" id="peopleCol">
                                 <table class="table table-responsive mt-4 w-100" name="peopleTable" id="peopleTable">
@@ -223,7 +223,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                         </div>
                     </div>
 
-                    <div class="tab-pane fade" id="link3" role="tabpanel" aria-labelledby="v-pills-link3-tab">
+                    <div class="tab-pane fade" id="link3" role="tabpanel" aria-labelledby="v-pills-link3-tab" style = "background-color: lavender;">
                         <div class="row">
                             <div class="col" name="witnessCol" id="witnessCol">
                                 <table class="table table-responsive mt-4" name="witnessTable" id="witnessTable">
@@ -254,7 +254,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                         </div>
                     </div>
 
-                    <div class="tab-pane fade" id="link4" role="tabpanel" aria-labelledby="v-pills-link4-tab">
+                    <div class="tab-pane fade" id="link4" role="tabpanel" aria-labelledby="v-pills-link4-tab" style = "background-color: lavender;">
                         <div class="row">
                                 <div class="col" name="fingerprintCol" id="fingerprintCol">
                                     <form method="POST" action="scripts/fill-complaint-study.php" enctype="multipart/form-data">
@@ -277,7 +277,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                             </div>
                         </div>
 
-                    <div class="tab-pane fade" id="link5" role="tabpanel" aria-labelledby="v-pills-link5-tab">
+                    <div class="tab-pane fade" id="link5" role="tabpanel" aria-labelledby="v-pills-link5-tab" style = "background-color: lavender;">
                         <div class="row">
                             <div class="col" name="photoCol" id="photoCol">
                                 <form method="POST" action="scripts/fill-complaint-study.php" enctype="multipart/form-data">
@@ -300,7 +300,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                         </div>
                     </div>
 
-                    <div class="tab-pane fade" id="link6" role="tabpanel" aria-labelledby="v-pills-link6-tab">
+                    <div class="tab-pane fade" id="link6" role="tabpanel" aria-labelledby="v-pills-link6-tab" style = "background-color: lavender;">
                         <div class="row">
                             <div class="col" name="courtMedicalCol" id="courtMedicalCol">
                                 <form method="POST" action="scripts/fill-complaint-study.php" enctype="multipart/form-data">
@@ -323,7 +323,7 @@ if(isset($_SESSION["user_id"], $_SESSION["role"], $_SESSION["username"])){
                         </div>
                     </div>
 
-                    <div class="tab-pane fade" id="link7" role="tabpanel" aria-labelledby="v-pills-link7-tab">
+                    <div class="tab-pane fade" id="link7" role="tabpanel" aria-labelledby="v-pills-link7-tab" style = "background-color: lavender;">
                         <div class="row">
                             <div class="col" name="accidentCol" id="accidentCol">
                                 <form method="POST" action="scripts/fill-complaint-study.php" enctype="multipart/form-data">
