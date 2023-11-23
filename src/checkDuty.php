@@ -288,9 +288,9 @@ function showAlert($message)
                                                 echo '</td>';
                                                 echo '<td data-title="Duty Status">';
                                                 $status = $employee_row["status"];
-                                                if ($status === 1) {
+                                                if ($status == '1') {
                                                     echo "Accepted";
-                                                } elseif ($status === 0) {
+                                                } elseif ($status == '0') {
                                                     echo "Rejected";
                                                 }
                                                 echo '</td>';
