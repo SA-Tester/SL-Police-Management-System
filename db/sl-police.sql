@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 07, 2023 at 04:13 PM
+-- Generation Time: Nov 23, 2023 at 04:52 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -67,16 +67,20 @@ CREATE TABLE `court_order` (
   `complaint_id` int(11) NOT NULL,
   `nic` varchar(15) NOT NULL,
   `next_court_date` date NOT NULL,
-  `previous_court_dates` varchar(300) NOT NULL
+  `previous_court_date` varchar(300) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `court_order`
 --
 
-INSERT INTO `court_order` (`complaint_id`, `nic`, `next_court_date`, `previous_court_dates`) VALUES
-(1, '198044377789', '2023-08-15', ''),
-(1, '199078675523', '2023-08-30', '');
+INSERT INTO `court_order` (`complaint_id`, `nic`, `next_court_date`, `previous_court_date`) VALUES
+(1, '198044377789', '2023-11-24', '2023-11-24'),
+(1, '199078675523', '2023-08-30', ''),
+(26, '197089678833', '2023-11-27', '2023-11-24'),
+(29, '198234355534', '2023-11-28', '2023-11-28'),
+(25, '199578678900', '2023-11-28', NULL),
+(2, '199078675523', '2023-11-22', NULL);
 
 -- --------------------------------------------------------
 
@@ -99,17 +103,47 @@ CREATE TABLE `duty` (
 --
 
 INSERT INTO `duty` (`id`, `empID`, `duty_type`, `duty_cause`, `start`, `end`, `location_id`) VALUES
-(1, 'EMP0001', 'General', NULL, '2023-07-18 06:30:00', '2023-07-18 17:30:00', 3),
 (2, 'EMP0002', 'Special', 'Special Office Request', '2023-07-23 06:00:00', '2023-07-24 06:00:00', NULL),
 (4, 'EMP0002', 'Emergency', 'Robbery', '2023-07-21 12:00:00', '2023-07-21 17:00:00', NULL),
-(7, 'EMP0001', 'General', 'Traffic', '2023-09-04 08:10:00', '2023-09-04 15:10:00', 2),
 (8, 'EMP0004', 'Special', 'Religious Function', '2023-09-13 21:46:00', '2023-09-19 21:46:00', 3),
 (10, 'EMP0002', 'General', 'Office Duty', '2023-09-04 08:00:00', '2023-09-04 10:00:00', 2),
 (11, 'EMP0004', 'Special', 'Special Parade Request', '2023-09-12 07:00:00', '2023-09-14 07:00:00', 3),
-(36, 'EMP0001', 'General', 'Office Duty', '2023-11-06 12:00:00', '2023-11-06 13:00:00', 3),
-(37, 'EMP0001', 'Emergency', 'Crime', '2023-11-06 13:00:00', '2023-11-06 15:00:00', 77),
-(38, 'EMP0001', 'Special', 'Civil Unrest', '2023-11-06 15:00:00', '2023-11-07 15:00:00', 3),
-(39, 'EMP0002', 'General', 'Investigation', '2023-11-06 14:45:00', '2023-11-06 18:00:00', 13);
+(53, 'EMP0002', 'General', 'Office Duty', '2023-11-23 08:00:00', '2023-11-23 08:30:00', 3),
+(56, 'EMP0004', 'General', 'Night Duty', '2023-11-23 18:00:00', '2023-11-23 02:41:00', 13),
+(60, 'EMP0001', 'General', 'Investigation', '2023-11-23 07:00:00', '2023-11-23 14:00:00', 3),
+(61, 'EMP0001', 'Special', 'Religious Function', '2023-11-25 08:00:00', '2023-11-29 08:00:00', 3),
+(62, 'EMP0004', 'Emergency', 'Accident', '2023-11-23 02:41:00', '2023-11-23 08:00:00', 99),
+(63, 'EMP0002', 'Emergency', 'Robbery', '2023-11-23 08:30:00', '2023-11-24 18:30:00', 100);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `duty_feedback`
+--
+
+CREATE TABLE `duty_feedback` (
+  `duty_id` int(11) NOT NULL,
+  `status` tinyint(1) DEFAULT 2,
+  `feedback` varchar(255) DEFAULT 'N/A'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `duty_feedback`
+--
+
+INSERT INTO `duty_feedback` (`duty_id`, `status`, `feedback`) VALUES
+(1, 0, 'N/A'),
+(2, 1, 'Accepted. Confirming the availability for the entire duration of the duty.\n'),
+(4, 1, 'N/A'),
+(7, 1, 'Managed the duty efficiently despite adverse weather conditions.'),
+(8, 1, 'Effectively managed the crowd during the religious event.'),
+(10, 0, 'N/A'),
+(11, 0, 'N/A'),
+(36, 1, 'N/A'),
+(37, 1, 'Efficient handling of the initial stages of the incident.'),
+(38, 1, 'N/A'),
+(39, 1, 'Conducted a comprehensive investigation into the matter'),
+(40, 0, 'N/A');
 
 -- --------------------------------------------------------
 
@@ -138,11 +172,13 @@ CREATE TABLE `employee` (
 --
 
 INSERT INTO `employee` (`empID`, `first_name`, `last_name`, `dob`, `email`, `tel_no`, `address`, `nic`, `gender`, `appointment_date`, `marital_status`, `rank`, `retired_status`) VALUES
-('EMP0001', 'Sisira', 'Fernando', '1973-02-12', 'siattanayake@gmail.com', '0716778898', '34/1 A, King Street, Passara Rd, Badulla', '197312400034', 'Male', '1993-04-26', 'Married', 'IP', 0),
-('EMP0002', 'Nayanamali', 'Jeewanthi', '1975-10-20', 'njeewanthi@gmail.com', '0744423111', 'No 5, Flower Rd, Hali Ela', '197558600011', 'Female', '1997-01-06', 'Married', 'WPC', 0),
+('EMP0001', 'Sisira', 'Fernando', '1973-02-02', 'siattanayake@gmail.com', '0777296279', '34/1 A, King Street, Passara Rd, Badulla', '197312400034', 'Male', '1993-04-26', 'Married', 'IP', 0),
+('EMP0002', 'Nayanamali', 'Jeewanthi', '1975-10-20', 'njeewanthi@gmail.com', '0701497334', 'No 11, Flower Rd, Hali Ela', '197558600011', 'Female', '1997-01-06', 'Married', 'WPC', 0),
 ('EMP0003', 'Saman', 'Krishnakumar', '1960-06-20', 'cst20076@std.uwu.ac.lk', '0768907867', '15/23 C, Kolonna Rd, Meegahakiula\r\n', '196022300089', 'Male', '1980-03-10', 'Unmarried', 'ASP', 1),
-('EMP0004', 'Gimhani', 'Sandeepani', '1997-05-03', 'cst20043@std.uwu.ac.lk', '0778978675', 'No 5, ABC Rd, Ratnapura', '19978978666534', 'Female', '2021-06-05', 'Married', 'PC', 0),
-('EMP0005', 'Bodhika ', 'Nishadhi ', '1980-09-03', 'cst20097@std.uwu.ac.lk', '0786756555', 'ABCd', '19607867555', 'Female', '1980-03-01', 'Married', 'IP', 1);
+('EMP0004', 'Gimhani', 'Sandeepani', '1997-05-03', 'cst20043@std.uwu.ac.lk', '0701284679', 'No 5, ABC Rd, Ratnapura', '19978978666534', 'Female', '2021-06-05', 'Married', 'PC', 0),
+('EMP0005', 'Bodhika ', 'Nishadhi ', '1980-09-03', 'cst20097@std.uwu.ac.lk', '0786756555', 'ABCd', '19607867555', 'Female', '1980-03-01', 'Married', 'IP', 1),
+('EMP0006', 'Nayomi', 'Kodithuwakku', '1996-11-01', 'cst20004@std.uwu.ac.lk', '0777296279', 'No 13/A, Independence Road, Badulla', '199678732212', 'Female', '2023-01-01', 'Unmarried', 'WPC', 0),
+('EMP0007', 'Kasunika', 'Ratnayake', '1990-10-12', 'cst20002@std.uwu.ac.lk', '0701497334', 'No 19, Raja Mawatha, Badulla', '199089786678', 'Female', '2018-06-14', 'Married', 'IP', 0);
 
 -- --------------------------------------------------------
 
@@ -222,11 +258,23 @@ CREATE TABLE `leaves` (
 --
 
 INSERT INTO `leaves` (`leaveID`, `empID`, `leave_start`, `leave_end`, `reason_type`, `reason`, `medical`, `status`) VALUES
-(1, 'EMP0001', '2023-07-25', '2023-07-27', 'Personal', 'Will be going out of town for a personal matter.', NULL, 2),
-(2, 'EMP0002', '2023-07-16', '2023-07-17', 'Health', 'Medical clinic', '../uploads/medicals/EMP0002.pdf', 2),
-(3, 'EMP0002', '2023-09-07', '2023-09-10', 'Personal', 'To go home', 'Algorithms Roadmap.png', 2),
-(4, 'EMP0002', '2023-09-13', '2023-09-17', 'Health', 'Sick', 'Algorithms Roadmap.png', 2),
-(5, 'EMP0001', '2023-09-08', '2023-09-11', 'Personal', 'To attend my child&#39;s new school admission procedures', 'Algorithms Roadmap.png', 2);
+(1, 'EMP0001', '2023-07-25', '2023-07-27', 'Personal', 'Will be going out of town for a personal matter.', NULL, 1),
+(2, 'EMP0002', '2023-07-16', '2023-07-17', 'Health', 'Medical clinic', '../uploads/medicals/EMP0002.pdf', 0),
+(4, 'EMP0003', '2023-07-21', '2023-07-26', 'Personal', 'To attend a wedding ceremony.', NULL, 1),
+(5, 'EMP0001', '2023-08-02', '2023-08-07', 'Vacation', 'Monthly vacation. ', '', 1),
+(9, 'EMP0001', '2023-08-21', '2023-08-23', 'Personal', 'Visit my parent', NULL, 0),
+(10, 'EMP0001', '2023-08-28', '2023-08-30', 'Personal', 'Visit my parent', NULL, 1),
+(11, 'EMP0003', '2023-09-05', '2023-09-10', 'Vacation', 'Monthly Vacation.', NULL, 1),
+(57, 'EMP0002', '2023-10-27', '2023-11-01', 'Vacation', 'Monthly vacation', '', 1),
+(58, 'EMP0005', '2023-09-12', '2023-09-13', 'Personal', 'Will be going out of town for a personal matter.', '', 1),
+(59, 'EMP0003', '2023-09-15', '2023-09-16', 'Personal', 'Attend for parent meeting.', '', 0),
+(60, 'EMP0002', '2023-10-16', '2023-10-17', 'Health', 'Recovering from recent illness.', '', 1),
+(61, 'EMP0003', '2023-10-19', '2023-10-20', 'Personal', 'Will be going out of town for a personal matter.', NULL, 1),
+(62, 'EMP0005', '2023-10-20', '2023-10-25', 'Vacation', 'Monthly vacation.', NULL, 1),
+(63, 'EMP0001', '2023-11-24', '2023-11-26', 'Personal', 'Moving to a new residence and requiring time for relocation tasks.', '', 2),
+(64, 'EMP0003', '2023-11-24', '2023-11-27', 'Health', 'Recovering from a short-term illness and needing time to rest and recuperate.', '1698236630.jpeg', 2),
+(65, 'EMP0005', '2023-11-29', '2023-12-04', 'Vacation', 'Requesting monthly vacation.', '', 2),
+(66, 'EMP0002', '2023-11-25', '2023-11-28', 'Vacation', 'For personal reasons I may need a 3 day vacation.', '', 1);
 
 -- --------------------------------------------------------
 
@@ -263,7 +311,24 @@ INSERT INTO `location` (`location_id`, `location_name`, `district`, `city`, `lat
 (74, 'Crime Scene', 'Badulla', 'Arawakumbura', 7.08739, 81.1996),
 (75, 'Crime Scene', 'Badulla', 'Kahataruppa', 6.98189, 81.0763),
 (76, 'Crime Scene', 'Monaragala', 'Nilgala', 7.19334, 81.3964),
-(77, 'Crime Scene', 'Badulla', 'Lunuwatta', 6.95572, 80.9194);
+(77, 'Crime Scene', 'Badulla', 'Lunuwatta', 6.95572, 80.9194),
+(78, 'Crime Scene', 'Badulla', 'Liyangahawela', 6.81189, 81.0299),
+(79, 'Crime Scene', 'Badulla', 'Aluttaramma', 6.9934, 81.055),
+(80, 'Crime Scene', 'Badulla', 'Central Camp', 6.9934, 81.055),
+(84, 'Crime Scene', 'Badulla', 'Atakiriya', 6.98189, 81.0763),
+(85, 'Crime Scene', 'Badulla', 'Kahataruppa', 6.98189, 81.0763),
+(86, 'Crime Scene', 'Badulla', 'Kahataruppa', 6.98189, 81.0763),
+(87, 'Crime Scene', 'Badulla', 'Kendagolla', 6.99276, 81.1085),
+(88, 'Crime Scene', 'Badulla', 'Koslanda', 6.74312, 81.0178),
+(89, 'Crime Scene', 'Monaragala', 'Obbegoda', 6.92507, 81.3541),
+(90, 'Crime Scene', 'Badulla', 'Dikkapitiya', 6.89369, 80.9374),
+(91, 'Crime Scene', 'Badulla', 'Haldummulla', 6.76892, 80.8927),
+(93, 'Crime Scene', 'Badulla', 'Hopton', 6.98823, 81.1975),
+(96, 'Crime Scene', 'Badulla', 'Diganatenna', 6.85589, 80.9653),
+(97, 'Crime Scene', 'Badulla', 'Gawarawela', 6.90285, 81.0713),
+(98, 'Crime Scene', 'Badulla', 'Ella', 6.8667, 81.0466),
+(99, 'Crime Scene', 'Badulla', 'Gurutalawa', 6.84351, 80.9),
+(100, 'Crime Scene', 'Monaragala', 'Marawa', 6.80901, 81.3812);
 
 -- --------------------------------------------------------
 
@@ -283,11 +348,13 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`empID`, `username`, `password`, `role`) VALUES
-('EMP0001', 'U0001', '$2y$10$R/CFWJmz6EzGLmNoqbMTVOu9TRiQIyTOekggnSFpWFA.DT2RYsRVi', 'accountant_officer'),
+('EMP0001', 'U0001', '$2y$10$0CeHfFaKLmxKqRekAGUyguvGbeILYZxu2FJ6oilSB9TKMR45lPUL6', 'accountant_officer'),
 ('EMP0002', 'A0003', '$2y$10$5BeGZ8eWpQ9KVBCUS2G4hehZn8grMHnLjx5XGTl0gwRl0lBEKNbSq', 'admin'),
 ('EMP0003', 'U0003', '$2y$10$Ihqden1I7OSy6/fYz9ngie/aFDoLroRjNH3hnP3r01kDzmhliakpi', 'user'),
 ('EMP0004', 'gimhani', '$2y$10$gWd70I49j/STaZHqcTCydewxORLXuCQIzA9ANGab0ACi4Oek6PIN.', 'external_ officer'),
-('EMP0005', 'bodhika', '$2y$10$NFdZ7L3V4cOJmIl91Vxh3.WjpLOiqtiX/4LvNlHHMNG8ub3kKgZ6S', 'user');
+('EMP0005', 'bodhika', '$2y$10$NFdZ7L3V4cOJmIl91Vxh3.WjpLOiqtiX/4LvNlHHMNG8ub3kKgZ6S', 'user'),
+('EMP0006', 'nayomi', '$2y$10$m02/hem8KUPCLP0Mzq6AO.d66zlm2MRZziAyizUJYXHIivqKXm74O', 'user'),
+('EMP0007', 'kasunika', '$2y$10$UYYCjy4LBZ0SyEtSLYcMt.UDEH1rgbVeykZnenvHl4XsMa3enGG.6', 'user');
 
 -- --------------------------------------------------------
 
@@ -308,9 +375,8 @@ CREATE TABLE `people` (
 --
 
 INSERT INTO `people` (`nic`, `name`, `address`, `contact`, `email`) VALUES
-('197089678833', 'K. Priyantha', 'No 12/5, Malwatte Rd, Pitamaruwa ', '0782323211', ''),
-('197567342345', 'A.B Rodrigo', 'No 5, Raja Mawatha, Dambana, Badulla.', '0771223345', ''),
-('197578678890', 'A. Lopez', '14, ABC Rd, Kadana', '0789988765', ''),
+('197089678833', 'K. Priyantha', 'No 12/5, Malwatte Rd, Pitamaruwa ', '0782323211', 'siattanayake@gmail.com'),
+('197345231111', 'A.K Kumari', 'No 12/5, Malwatte Rd, Pitamaruwa', '0712312222', ''),
 ('197789234564', 'A. A Kamalan', 'No 1A, Malwatte Rd, Arawa', '0765654332', 'kamalana@gmail.com'),
 ('197867466678', 'C.K Sandamali', 'No 34/1, Passara Rd, Badulla', '0788978666', 'ksandamali@gmail.com'),
 ('197867567889', 'A.B Herath', 'No 13, Old Cross Street, Badulla', '0712345234', ''),
@@ -319,8 +385,6 @@ INSERT INTO `people` (`nic`, `name`, `address`, `contact`, `email`) VALUES
 ('198234355534', 'L.L Marasinghe', '1/B, Badulla Rd, Kalupahana.', '0764545667', 'marasinghe@senaholdings.lk'),
 ('198567342212', 'J.K Murugan', 'No 12, Pansalwatte Road, Baduluoya', '0556778774', ''),
 ('199078675523', 'M.N.N Karunaratne', 'No 8/1 C, Polwatte Road, Lunugala', '0759997788', 'mayanthakaru@yahoo.net'),
-('199123341234', 'A. Kumara', 'No 5/1 C, Polwatte Road, Lunugala', '0712312222', ''),
-('199389782290', 'Thilini Kumarasiri', 'No 34, Sring Vally Mw, Badulla', '0778978777', 'thilinikumarasiri@gmail.com'),
 ('199578678900', 'J M Jayaratne', 'No 4, Passara Road, Arawa', '0782323222', 'jayaratne95@gmail.com'),
 ('199845299989', 'K.G Samanthi', 'No 17, Marabedda Road, Badulla', '0775645333', ''),
 ('199923100023', 'K. Kumari Dharmaratne', 'No 22, Udayaya Road, Spirng Valley', '0712233231', '');
@@ -381,7 +445,8 @@ INSERT INTO `salary` (`empID`, `base_salary`, `service_years`, `bartar_amount`, 
 ('EMP0001', 30000, 30, 20000, 60000, NULL),
 ('EMP0002', 35000, 26, 12000, 61000, NULL),
 ('EMP0003', 35000, 43, NULL, NULL, 28000),
-('EMP0004', 20000, 2, 12000, 22000, NULL);
+('EMP0004', 20000, 2, 12000, 22000, NULL),
+('EMP0006', 23000, 0, 12000, 23000, NULL);
 
 --
 -- Indexes for dumped tables
@@ -409,6 +474,12 @@ ALTER TABLE `duty`
   ADD PRIMARY KEY (`id`),
   ADD KEY `empID` (`empID`),
   ADD KEY `location_id` (`location_id`);
+
+--
+-- Indexes for table `duty_feedback`
+--
+ALTER TABLE `duty_feedback`
+  ADD PRIMARY KEY (`duty_id`);
 
 --
 -- Indexes for table `employee`
@@ -476,25 +547,25 @@ ALTER TABLE `salary`
 -- AUTO_INCREMENT for table `complaint`
 --
 ALTER TABLE `complaint`
-  MODIFY `complaint_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `complaint_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `duty`
 --
 ALTER TABLE `duty`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `leaves`
 --
 ALTER TABLE `leaves`
-  MODIFY `leaveID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `leaveID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `location`
 --
 ALTER TABLE `location`
-  MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=78;
+  MODIFY `location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- Constraints for dumped tables
