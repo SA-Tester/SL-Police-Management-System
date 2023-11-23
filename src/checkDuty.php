@@ -257,7 +257,8 @@ function showAlert($message)
                                     try {
                                         $hquery = "SELECT
                                         d.id,d.duty_type,d.duty_cause,d.start,d.end,l.district,l.city,dc.status FROM duty d
-                                    LEFT JOIN location l ON l.location_id = d.location_id LEFT JOIN duty_feedback dc ON dc.duty_id = d.id WHERE d.empID = ?;";
+                                    LEFT JOIN location l ON l.location_id = d.location_id LEFT JOIN duty_feedback dc ON dc.duty_id = d.id WHERE d.empID = ?
+                                    ORDER BY d.start DESC;";
                                         $hpstmt = $con->prepare($hquery);
                                         $hpstmt->bindValue(1, $employee_id);
                                         $hpstmt->execute();
