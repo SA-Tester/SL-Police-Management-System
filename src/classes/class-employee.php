@@ -178,7 +178,9 @@ class Employee
         $subject = "Important: Change Your Temporary Password for SRI LANKA POLICE STATIONS MANAGEMENT SYSTEM Account";
         $body = "<p>Dear $this->first_name,</p>
                  <p>Welcome to our SRI LANKA POLICE STATIONS MANAGEMENT SYSTEM! We're thrilled to have you on board.</p>
-                   <h2>This is your Temporary Password : $this->password</h2>                
+                    <p>These are your credentials: </p>
+                   <h2>Username : $this->username</h2> 
+                   <h2>Password : $this->password</h2>                
                    <p>Your account has been created, and to ensure your security, we have assigned you a temporary password for your initial login. However, it's crucial to change this password to a unique one that only you know. You can change Your Password using Forgot Password option.</p>
                    <p>Best regards,<br>Admin Branch</p>";
                    
