@@ -21,3 +21,4 @@
 <h3>Technologies Used</h3>
 <p><h4>Front-End: </h4>HTML5, CSS3, JavaScript, Bootstrap5</p>
 <p><h4>Back-End: </h4>PHP8, MySQL, NASA-WorldWind</p>
+<p><h4>APIs: Javascript Voice Recorder API, UltraMsg WhatsApp API</h4></p>
