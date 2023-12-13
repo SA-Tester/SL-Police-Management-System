@@ -1,21 +1,23 @@
 <?php
 
-require_once($_SERVER['DOCUMENT_ROOT']."/sl-police/src/classes/class-db-connector.php");
-require_once($_SERVER['DOCUMENT_ROOT'] . "/sl-police/src/pdf-library/TCPDF-main/tcpdf.php");
-require_once($_SERVER['DOCUMENT_ROOT'] . "/sl-police/src/scripts/fill-complaint-study.php");
+require_once("../classes/class-db-connector.php");
+require_once("../pdf-library/TCPDF-main/tcpdf.php");
+require_once("./fill-complaint-study.php");
 
 use classes\DBConnector;
 
 // Extend the TCPDF class to create custom Header and Footer
-class CaseReportPDF extends TCPDF {
+class CaseReportPDF extends TCPDF
+{
     public $complaint_id;
 
     //Page header
-    public function Header() {
+    public function Header()
+    {
         // Logo
         $image_file = "../../assets/logo.png";
         $this->Image($image_file, 10, 5, 15, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
-        
+
         // Set font and Title
         $this->SetFont('helvetica', 'B', 20);
         $this->Cell(0, 20, 'Sri Lanka Police Department', 0, 2, 'C', 0, '', 0, false, 'M', 'B');
@@ -26,15 +28,16 @@ class CaseReportPDF extends TCPDF {
     }
 
     // Page footer
-    public function Footer() {
+    public function Footer()
+    {
         // Position at 15 mm from bottom
         $this->SetY(-15);
-        
+
         // Set font
         $this->SetFont('helvetica', 'I', 8);
-        
+
         // Page number
-        $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+        $this->Cell(0, 10, 'Page ' . $this->getAliasNumPage() . '/' . $this->getAliasNbPages(), 0, false, 'C', 0, '', 0, false, 'T', 'M');
     }
 }
 
@@ -149,8 +152,8 @@ if (isset($_POST["generateReport"], $_POST["comp_id"]) && !empty($_POST["comp_id
         EOD;
 
     $pdf->writeHTML($summaryTbl, true, false, false, false, '');
-    
-    if($peopleAssociated != null){
+
+    if ($peopleAssociated != null) {
         $peopleTbl = <<<EOD
         <br>
         <table border="1" cellpadding="5">
@@ -163,8 +166,8 @@ if (isset($_POST["generateReport"], $_POST["comp_id"]) && !empty($_POST["comp_id
                 <th>Email</th>
             </tr>
         EOD;
-        
-        for ($i=0; $i < sizeof($peopleAssociated); $i++){
+
+        for ($i = 0; $i < sizeof($peopleAssociated); $i++) {
             $ric = $peopleAssociated[$i]["role_in_case"];
             $nic = $peopleAssociated[$i]["nic"];
             $name = $peopleAssociated[$i]["name"];
@@ -190,19 +193,18 @@ if (isset($_POST["generateReport"], $_POST["comp_id"]) && !empty($_POST["comp_id
 
                 <h1>Witness Descriptions</h1>
                 EOD;
-        
+
         $pdf->writeHTML($peopleTbl, true, false, false, false, '');
-    }
-    else{
+    } else {
         $html = <<<EOD
                 <p>None</p>
                 <h1>Witness Descriptions</h1>
                 EOD;
 
-        $pdf->writeHTML($html, true, false, false, false, ''); 
+        $pdf->writeHTML($html, true, false, false, false, '');
     }
 
-    if($witnessDescriptions != null){
+    if ($witnessDescriptions != null) {
         $witnessTable = <<<EOD
                 <table border="1" cellpadding="5">
                     <tr style="text-align: center; font-weight: bold;">
@@ -211,7 +213,7 @@ if (isset($_POST["generateReport"], $_POST["comp_id"]) && !empty($_POST["comp_id
                     </tr>
                 EOD;
 
-        for ($i=0; $i < sizeof($witnessDescriptions); $i++){
+        for ($i = 0; $i < sizeof($witnessDescriptions); $i++) {
             $nic = $witnessDescriptions[$i]["nic"];
             $desc = $witnessDescriptions[$i]["witness_description"];
 
@@ -228,22 +230,21 @@ if (isset($_POST["generateReport"], $_POST["comp_id"]) && !empty($_POST["comp_id
                 <h1>Photos</h1>
                 EOD;
 
-        $pdf->writeHTML($witnessTable, true, false, false, false, ''); 
-    }
-    else{
+        $pdf->writeHTML($witnessTable, true, false, false, false, '');
+    } else {
         $html = <<<EOD
                 <p>None</p>
                 <h1>Photos</h1>
                 EOD;
 
-        $pdf->writeHTML($html, true, false, false, false, ''); 
+        $pdf->writeHTML($html, true, false, false, false, '');
     }
 
     $y = 175;
-    if($photos != null){
-        for($i=0; $i < sizeof($photos); $i++){
+    if ($photos != null) {
+        for ($i = 0; $i < sizeof($photos); $i++) {
 
-            $path = $_SERVER['DOCUMENT_ROOT']. "sl-police/" . $photos[$i][0];
+            $path = $_SERVER['DOCUMENT_ROOT'] . "sl-police/" . $photos[$i][0];
 
             $data = explode(".", $path);
             $extension = end($data);
@@ -253,20 +254,19 @@ if (isset($_POST["generateReport"], $_POST["comp_id"]) && !empty($_POST["comp_id
         }
         $pdf->setY($y + 3);
         $pdf->writeHTML("<h1>Fingerprints</h1>", true, false, false, false, '');
-    }
-    else{
+    } else {
         $html = <<<EOD
         <p>None</p>
         <h1>Fingerprints</h1>
         EOD;
-        
+
         $pdf->writeHTML($html, true, false, false, false, '');
     }
 
-    if($fingerprints != null){
-        for($i=0; $i < sizeof($fingerprints); $i++){
+    if ($fingerprints != null) {
+        for ($i = 0; $i < sizeof($fingerprints); $i++) {
 
-            $path = $_SERVER['DOCUMENT_ROOT']. "sl-police/" . $fingerprints[$i][0];
+            $path = $_SERVER['DOCUMENT_ROOT'] . "sl-police/" . $fingerprints[$i][0];
 
             $data = explode(".", $path);
             $extension = end($data);
@@ -276,8 +276,7 @@ if (isset($_POST["generateReport"], $_POST["comp_id"]) && !empty($_POST["comp_id
         }
         $pdf->setY($y + 3);
         $pdf->writeHTML("<h1>Court Medical Reports</h1>", true, false, false, false, '');
-    }
-    else{
+    } else {
         $html = <<<EOD
         <p>None</p>
         <h1>Court Medical Reports</h1>
@@ -286,10 +285,10 @@ if (isset($_POST["generateReport"], $_POST["comp_id"]) && !empty($_POST["comp_id
         $pdf->writeHTML($html, true, false, false, false, '');
     }
 
-    if($courtMedicals != null){
-        for($i=0; $i < sizeof($courtMedicals); $i++){
+    if ($courtMedicals != null) {
+        for ($i = 0; $i < sizeof($courtMedicals); $i++) {
 
-            $path = $_SERVER['DOCUMENT_ROOT']. "sl-police/" . $courtMedicals[$i][0];
+            $path = $_SERVER['DOCUMENT_ROOT'] . "sl-police/" . $courtMedicals[$i][0];
 
             $data = explode(".", $path);
             $extension = end($data);
@@ -299,8 +298,7 @@ if (isset($_POST["generateReport"], $_POST["comp_id"]) && !empty($_POST["comp_id
         }
         $pdf->setY($y + 3);
         $pdf->writeHTML("<h1>Accident Charts</h1>", true, false, false, false, '');
-    }
-    else{
+    } else {
         $html = <<<EOD
         <p>None</p>
         <h1>Accident Charts</h1>
@@ -309,10 +307,10 @@ if (isset($_POST["generateReport"], $_POST["comp_id"]) && !empty($_POST["comp_id
         $pdf->writeHTML($html, true, false, false, false, '');
     }
 
-    if($accidentCharts != null){
-        for($i=0; $i < sizeof($accidentCharts); $i++){
+    if ($accidentCharts != null) {
+        for ($i = 0; $i < sizeof($accidentCharts); $i++) {
 
-            $path = $_SERVER['DOCUMENT_ROOT']. "sl-police/" . $accidentCharts[$i][0];
+            $path = $_SERVER['DOCUMENT_ROOT'] . "sl-police/" . $accidentCharts[$i][0];
 
             $data = explode(".", $path);
             $extension = end($data);
@@ -322,8 +320,7 @@ if (isset($_POST["generateReport"], $_POST["comp_id"]) && !empty($_POST["comp_id
         }
         $pdf->setY($y);
         $pdf->writeHTML("<hr width='100'>", true, false, false, false, '');
-    }
-    else{
+    } else {
         $html = <<<EOD
         <p>None</p>
         <hr width='100'>
@@ -333,11 +330,10 @@ if (isset($_POST["generateReport"], $_POST["comp_id"]) && !empty($_POST["comp_id
     }
 
     // To avoid "Content is already written error"
-    ob_end_clean(); 
+    ob_end_clean();
 
     // Close and output PDF document 
     $pdf->Output("Report of Complaint $complaint_id.pdf", 'I');
-
 } else {
     header("Location: ../complaint-study.php?status=false&msg=Report Generation Failed");
 }
